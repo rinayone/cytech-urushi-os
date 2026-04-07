@@ -5,101 +5,151 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyTech Urushi OS - Login</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: 'Noto Sans JP', 'Lato', sans-serif;
+  font-family: 'Lato', 'Noto Sans JP', sans-serif;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e8f5e9 0%, #f5f5f0 40%, #e0f2f1 100%);
+  background: #000000;
+  overflow: hidden;
+  position: relative;
 }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('bg.jpg') center / cover no-repeat;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .login-card {
-  background: #fff;
-  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
   padding: 48px 40px;
-  width: 400px;
+  width: 420px;
   max-width: 90vw;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow:
+    inset 0px 0px 30px rgba(255, 255, 255, 0.3),
+    inset -1px -2px 2px rgba(255, 255, 255, 0.1),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3);
   text-align: center;
 }
+
+.logo-img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
+
 .login-card h1 {
+  font-family: 'Lato', sans-serif;
   font-size: 24px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #ffffff;
   margin-bottom: 4px;
   letter-spacing: 0.5px;
 }
+
 .login-card .subtitle {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 32px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 36px;
 }
+
 .login-card .field {
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
+
 .login-card label {
   display: block;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
   font-size: 13px;
-  color: #555;
-  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
 }
+
 .login-card input[type="password"] {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
   font-size: 15px;
-  font-family: inherit;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
   outline: none;
   transition: border-color 0.2s;
 }
-.login-card input[type="password"]:focus {
-  border-color: #0d9668;
+
+.login-card input[type="password"]::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
+
+.login-card input[type="password"]:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 .login-card button {
   width: 100%;
-  padding: 12px;
-  background: #1a1a2e;
-  color: #fff;
+  padding: 14px;
+  background: linear-gradient(135deg, #953ec3 0%, #0f4bab 100%);
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 100px;
   font-size: 15px;
-  font-family: inherit;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.login-card button:hover {
-  background: #2a2a3e;
-}
-.error-msg {
-  color: #d32f2f;
-  font-size: 13px;
-  margin-top: 12px;
-  min-height: 20px;
-}
-.logo-mark {
-  width: 48px;
-  height: 48px;
-  background: #0d9668;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.login-card button:hover {
+  opacity: 0.9;
+}
+
+.login-card button:active {
+  opacity: 0.8;
+}
+
+.error-msg {
+  color: #f7513b;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  margin-top: 14px;
+  min-height: 20px;
 }
 </style>
 </head>
 <body>
 <div class="login-card">
-  <div class="logo-mark">CU</div>
+  <img src="logo.png" alt="CyTech Urushi OS" class="logo-img">
   <h1>CyTech Urushi OS</h1>
   <p class="subtitle">Platform Access</p>
   <div class="field">

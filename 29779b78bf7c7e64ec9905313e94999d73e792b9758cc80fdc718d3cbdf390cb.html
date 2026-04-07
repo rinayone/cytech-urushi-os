@@ -5,172 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyTech Urushi OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
 body {
   font-family: 'Noto Sans JP', 'Lato', sans-serif;
-  background: #f5f5f0;
-  color: #1a1a2e;
+  background: #000;
+  color: #fff;
   font-size: 14px;
   line-height: 1.6;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('bg.jpg') center/cover no-repeat fixed;
+  opacity: 0.85;
+  z-index: -1;
+}
+
+/* ===== TYPOGRAPHY (Figma) ===== */
+.h1 { font-family: 'Lato', sans-serif; font-weight: 900; font-size: 88px; line-height: 1; }
+.h2 { font-family: 'Lato', sans-serif; font-weight: 400; font-size: 80px; line-height: 1.2; }
+.h3 { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.2; }
+.h4 { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.5; }
+.eyebrow { font-family: 'Lato', sans-serif; font-weight: 900; font-size: 32px; line-height: 1.6; }
+.body-lead { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; font-size: 24px; line-height: 1.5; }
+.body-default-lg { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; font-size: 16px; line-height: 1.6; }
+.body-default-sm { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; font-size: 14px; line-height: 1.5; }
+.caption { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 12px; line-height: 1.5; }
+.time-value-lg { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 40px; }
+.step-label-text { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 20px; }
+.step-number { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 48px; }
+
+/* ===== GLASS EFFECTS ===== */
+.glass-1 {
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+}
+.glass-2 {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+}
+.glass-3 {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
 }
 
 /* ===== HEADER ===== */
 .header {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 48px;
-  background: #fff;
-  border-bottom: 1px solid #e0e0dc;
+  position: fixed; top: 20px; left: 20px; right: 20px;
+  height: 64px;
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   padding: 0 20px;
   z-index: 100;
+  gap: 12px;
 }
 .header-logo {
-  font-weight: 700;
-  font-size: 15px;
-  color: #1a1a2e;
-  white-space: nowrap;
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
 }
-.header-logo .mark {
-  width: 28px; height: 28px;
-  background: #0d9668;
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 11px; font-weight: 700;
+.header-logo img {
+  height: 28px;
+  width: auto;
 }
-.header-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  padding: 0 24px;
-}
-.header-search {
-  width: 360px;
-  max-width: 100%;
-  position: relative;
-}
-.header-search input {
-  width: 100%;
-  padding: 6px 12px 6px 32px;
-  border: 1px solid #e0e0dc;
-  border-radius: 6px;
-  font-size: 13px;
-  font-family: inherit;
-  background: #f5f5f0;
-  outline: none;
-}
-.header-search input:focus { border-color: #0d9668; }
-.header-search::before {
-  content: '🔍';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  white-space: nowrap;
-}
-.notif-btn {
-  background: none; border: none; font-size: 13px; cursor: pointer; color: #555;
-  position: relative;
-}
-.notif-btn .dot {
-  width: 6px; height: 6px;
-  background: #e53935;
-  border-radius: 50%;
-  position: absolute;
-  top: -2px; right: -4px;
-}
-.user-area {
-  display: flex; align-items: center; gap: 8px; cursor: pointer;
-}
-.avatar {
-  width: 30px; height: 30px;
-  background: #0d9668;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 11px; font-weight: 700;
-}
-.user-name { font-size: 13px; color: #555; }
-
-/* ===== SIDEBAR ===== */
-.sidebar {
-  position: fixed;
-  top: 48px; left: 0; bottom: 0;
-  width: 200px;
-  background: #fff;
-  border-right: 1px solid #e0e0dc;
-  overflow-y: auto;
-  padding: 16px 0;
-  z-index: 90;
-}
-.sidebar-section {
-  margin-bottom: 8px;
-}
-.sidebar-section-title {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: #999;
-  padding: 8px 16px 4px;
-  letter-spacing: 1px;
-  font-weight: 700;
-}
-.sidebar-item {
+.header-nav {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  color: #555;
+  flex: 1;
+}
+.btn-learn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: linear-gradient(to right, #f7513b, #f13884);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
   cursor: pointer;
-  border-left: 3px solid transparent;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.btn-learn:hover { opacity: 0.9; }
+.btn-learn img { width: 18px; height: 18px; filter: brightness(10); }
+.nav-icon-btn {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.nav-icon-btn:hover { background: rgba(255,255,255,0.15); }
+.nav-icon-btn img { width: 20px; height: 20px; filter: brightness(10); }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.header-menu-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.header-menu-btn:hover { background: rgba(255,255,255,0.08); }
+.btn-mypage {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: linear-gradient(to right, #0f4bab, #34e0ff);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.btn-mypage:hover { opacity: 0.9; }
+.btn-mypage img { width: 18px; height: 18px; filter: brightness(10); }
+
+/* ===== NAV DROPDOWN ===== */
+.nav-dropdown {
+  display: none;
+  position: fixed;
+  top: 94px;
+  left: 20px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 16px 8px;
+  z-index: 99;
+  min-width: 220px;
+}
+.nav-dropdown.open { display: block; }
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  border-radius: 12px;
   transition: all 0.15s;
   text-decoration: none;
 }
-.sidebar-item:hover {
-  background: #f5f5f0;
+.nav-dropdown-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.nav-dropdown-item.active { color: #fff; background: rgba(255,255,255,0.1); font-weight: 700; }
+.nav-dropdown-item .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  flex-shrink: 0;
 }
-.sidebar-item.active {
-  color: #0d9668;
-  border-left-color: #0d9668;
-  background: #f0faf5;
-  font-weight: 500;
+.nav-dropdown-item.active .dot {
+  background: linear-gradient(to right, #f7513b, #f13884);
 }
-.sidebar-item .icon {
-  width: 18px; height: 18px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
-}
-.sidebar-item.active .icon::after {
-  content: '';
-  width: 6px; height: 6px;
-  background: #0d9668;
-  border-radius: 50%;
-}
-.sidebar-item:not(.active) .icon::after {
-  content: '';
-  width: 6px; height: 6px;
-  background: #ccc;
-  border-radius: 50%;
+.nav-dropdown-section {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 12px 16px 4px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
 }
 
 /* ===== MAIN CONTENT ===== */
 .main {
-  margin-left: 200px;
-  margin-top: 48px;
-  height: calc(100vh - 48px);
+  margin-top: 104px;
+  min-height: calc(100vh - 104px);
+  padding: 0 20px 40px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   overflow-y: auto;
-  padding: 24px 32px;
 }
 
 /* ===== PAGE VISIBILITY ===== */
@@ -179,10 +228,14 @@ body {
 
 /* ===== CARDS ===== */
 .card {
-  background: #fff;
-  border: 1px solid #e0e0dc;
-  border-radius: 8px;
-  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 24px;
+  border: none;
+  color: #fff;
 }
 
 /* ===== BUTTONS ===== */
@@ -190,46 +243,64 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-family: inherit;
-  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
   cursor: pointer;
   border: none;
-  transition: all 0.15s;
+  transition: all 0.2s;
+  color: #fff;
 }
-.btn-green { background: #0d9668; color: #fff; }
-.btn-green:hover { background: #0b7d56; }
-.btn-outline { background: #fff; color: #555; border: 1px solid #d0d0d0; }
-.btn-outline:hover { background: #f5f5f0; }
-.btn-dark { background: #1a1a2e; color: #fff; }
-.btn-dark:hover { background: #2a2a3e; }
+.btn-green {
+  background: linear-gradient(to right, #f7513b, #f13884);
+  color: #fff;
+}
+.btn-green:hover { opacity: 0.9; }
+.btn-outline {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.12); }
+.btn-dark {
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+  color: #fff;
+}
+.btn-dark:hover { opacity: 0.9; }
+.btn-secondary {
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+  color: #fff;
+}
 
 /* ===== BADGE ===== */
 .badge {
   display: inline-block;
-  padding: 2px 10px;
-  border-radius: 4px;
-  font-size: 11px;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.5px;
+  font-family: 'Lato', sans-serif;
+  line-height: 1.5;
 }
-.badge-green { background: #e8f5e9; color: #0d9668; }
-.badge-blue { background: #e3f2fd; color: #1565c0; }
-.badge-orange { background: #fff3e0; color: #e65100; }
+.badge-green { background: #fff; color: #000; }
+.badge-blue { background: #fff; color: #000; }
+.badge-orange { background: #fff; color: #000; }
 
 /* ===== PROGRESS BAR ===== */
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #eee;
+  background: rgba(255,255,255,0.1);
   border-radius: 4px;
   overflow: hidden;
 }
 .progress-bar .fill {
   height: 100%;
-  background: #0d9668;
+  background: linear-gradient(to right, #f7513b, #f13884);
   border-radius: 4px;
   transition: width 0.4s;
 }
@@ -237,55 +308,101 @@ body {
 /* ===== TAB BAR ===== */
 .tab-bar {
   display: flex;
-  gap: 0;
-  border-bottom: 1px solid #e0e0dc;
+  gap: 4px;
   margin-bottom: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  padding: 4px;
+  width: fit-content;
 }
 .tab-item {
   padding: 8px 20px;
   font-size: 13px;
-  color: #888;
+  color: rgba(255,255,255,0.6);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-radius: 100px;
   transition: all 0.15s;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  border: none;
 }
-.tab-item:hover { color: #1a1a2e; }
-.tab-item.active { color: #0d9668; border-bottom-color: #0d9668; font-weight: 500; }
+.tab-item:hover { color: #fff; }
+.tab-item.active {
+  color: #fff;
+  background: rgba(255,255,255,0.15);
+  font-weight: 700;
+}
 
 /* ===== TUTORIAL PAGE ===== */
 .step-bar {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 4px;
   margin-bottom: 24px;
 }
 .step-segment {
   flex: 1;
-  height: 4px;
-  background: #e0e0dc;
-  border-radius: 2px;
+  height: 6px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
 }
-.step-segment + .step-segment { margin-left: 4px; }
-.step-segment.done { background: #0d9668; }
+.step-segment.done {
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+}
 .tutorial-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
-.tutorial-header .step-label { font-size: 13px; color: #888; }
-.tutorial-header .skip { font-size: 13px; color: #0d9668; cursor: pointer; text-decoration: none; }
+.tutorial-header .step-label {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+.tutorial-header .skip {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.tutorial-header .skip:hover { color: #fff; }
 .tutorial-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
 }
-.tut-left-title { color: #0d9668; font-size: 12px; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; }
-.tut-left h2 { font-size: 22px; margin-bottom: 12px; }
-.tut-left p { color: #666; font-size: 13px; margin-bottom: 16px; line-height: 1.7; }
+.tut-left-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+.tut-left h2 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.tut-left p {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
 .kaname-card {
-  background: #f5f5f0;
-  border-radius: 8px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 16px;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -293,206 +410,421 @@ body {
 }
 .kaname-avatar {
   width: 40px; height: 40px;
-  background: #0d9668;
+  background: linear-gradient(to right, #953ec3, #0f4bab);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-weight: 700; font-size: 16px;
   flex-shrink: 0;
 }
 .form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; font-weight: 500; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
 .form-group input, .form-group select {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 13px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  font-size: 14px;
   font-family: inherit;
   outline: none;
-  background: #fff;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  backdrop-filter: blur(10px);
 }
-.form-group input:focus, .form-group select:focus { border-color: #0d9668; }
+.form-group input::placeholder { color: rgba(255,255,255,0.35); }
+.form-group input:focus, .form-group select:focus {
+  border-color: rgba(255,255,255,0.4);
+}
+.form-group select option { background: #1a1a2e; color: #fff; }
 .kaname-box {
-  border: 1.5px solid #0d9668;
-  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
-  background: #f0faf5;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
 }
-.kaname-box-title { font-size: 13px; font-weight: 700; color: #0d9668; margin-bottom: 8px; }
-.kaname-box p { font-size: 12px; color: #555; margin-bottom: 4px; }
+.kaname-box-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 8px;
+}
+.kaname-box p { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px; }
+.kaname-box p strong { color: #fff; }
 .curriculum-preview { margin-bottom: 16px; }
-.curriculum-preview h4 { font-size: 13px; margin-bottom: 8px; }
-.cp-item { margin-bottom: 10px; }
-.cp-item .cp-name { font-size: 12px; color: #555; margin-bottom: 2px; }
-.tut-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px; }
+.curriculum-preview h4 { font-size: 14px; margin-bottom: 10px; font-weight: 700; }
+.cp-item { margin-bottom: 12px; }
+.cp-item .cp-name { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px; }
+.tut-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
 
 /* ===== DASHBOARD ===== */
-.kaname-banner {
-  background: linear-gradient(135deg, #e8f5e9 0%, #f0faf5 100%);
-  border: 1px solid #c8e6c9;
-  border-radius: 8px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
   margin-bottom: 24px;
 }
-.kaname-banner p { font-size: 13px; color: #333; flex: 1; }
-.kaname-banner a { color: #0d9668; font-weight: 500; white-space: nowrap; text-decoration: none; }
+.hero-next {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero-next .next-label {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+.hero-next .next-step {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 4px;
+}
+.hero-next .hero-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.hero-next .hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-size: 16px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  width: fit-content;
+  transition: opacity 0.2s;
+}
+.hero-next .hero-cta:hover { opacity: 0.9; }
+.hero-next .hero-cta img { width: 20px; height: 20px; filter: brightness(10); }
+.goal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.goal-card .goal-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+.kaname-banner {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.kaname-banner p { font-size: 14px; color: rgba(255,255,255,0.8); flex: 1; }
+.kaname-banner a {
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 8px 20px;
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+  border-radius: 100px;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+.kaname-banner a:hover { opacity: 0.9; }
 .stat-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 24px;
   margin-bottom: 24px;
 }
 .stat-card {
-  background: #fff;
-  border: 1px solid #e0e0dc;
-  border-radius: 8px;
-  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 24px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
 }
-.stat-card .label { font-size: 12px; color: #888; margin-bottom: 4px; }
-.stat-card .value { font-size: 32px; font-weight: 700; color: #1a1a2e; font-family: 'Lato', sans-serif; }
-.stat-card .sub { font-size: 12px; color: #888; margin-top: 4px; }
+.stat-card .label {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+.stat-card .value {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  color: #fff;
+}
+.stat-card .sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+}
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 24px;
   margin-bottom: 24px;
 }
-.skill-bar-item { margin-bottom: 12px; }
+.skill-bar-item { margin-bottom: 14px; }
 .skill-bar-item .skill-label {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  margin-bottom: 4px;
-  color: #555;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.7);
 }
 .next-action-list { list-style: none; }
 .next-action-list li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  padding: 8px 0;
-  font-size: 13px;
-  color: #555;
-  border-bottom: 1px solid #f0f0ec;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .next-action-list li .dot {
   width: 8px; height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 6px;
+  margin-top: 7px;
 }
-.news-section h3 { font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-.news-section h3 a { font-size: 12px; color: #0d9668; text-decoration: none; }
+.news-section { margin-top: 0; }
+.news-section h3 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.news-section h3 a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.news-section h3 a:hover { color: #fff; }
 .news-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0ec;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .news-list-item .news-body { flex: 1; }
-.news-list-item .news-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
-.news-list-item .news-desc { font-size: 12px; color: #888; }
-.news-list-item .news-date { font-size: 12px; color: #aaa; white-space: nowrap; }
+.news-list-item .news-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.news-list-item .news-desc { font-size: 13px; color: rgba(255,255,255,0.5); }
+.news-list-item .news-date {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+
+/* ===== LESSON RESERVATION BAR ===== */
+.reservation-bar {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 100px;
+  padding: 12px 12px 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.reservation-bar span {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+.reservation-bar .btn {
+  padding: 10px 24px;
+}
 
 /* ===== NEWS PAGE ===== */
 .news-page-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 16px 0;
-  border-bottom: 1px solid #f0f0ec;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .news-page-item .news-body { flex: 1; }
-.news-page-item .news-body .title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-.news-page-item .news-body .desc { font-size: 12px; color: #888; line-height: 1.5; }
-.news-page-item .news-date { font-size: 12px; color: #aaa; white-space: nowrap; margin-top: 2px; }
-.load-more { text-align: center; padding: 16px; }
+.news-page-item .news-body .title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+.news-page-item .news-body .desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.news-page-item .news-date {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.load-more { text-align: center; padding: 24px; }
 
 /* ===== LEARNING PORTAL ===== */
 .portal-search {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .portal-search input {
   flex: 1;
-  padding: 8px 14px;
-  border: 1px solid #e0e0dc;
-  border-radius: 6px;
-  font-size: 13px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  font-size: 14px;
   font-family: inherit;
   outline: none;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  backdrop-filter: blur(10px);
 }
-.portal-search input:focus { border-color: #0d9668; }
+.portal-search input::placeholder { color: rgba(255,255,255,0.35); }
+.portal-search input:focus { border-color: rgba(255,255,255,0.4); }
 .info-banner {
-  background: #f0faf5;
-  border: 1px solid #c8e6c9;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 13px;
-  color: #333;
-  margin-bottom: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 24px;
+  border: none;
 }
-.info-banner strong { color: #0d9668; }
+.info-banner strong { color: #fff; }
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   margin-bottom: 24px;
 }
 .course-card {
-  background: #fff;
-  border: 1px solid #e0e0dc;
-  border-radius: 8px;
-  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 24px;
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
 }
-.course-card .org { font-size: 11px; color: #888; margin-bottom: 2px; }
-.course-card .title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-.course-card .desc { font-size: 12px; color: #888; margin-bottom: 12px; }
-.course-card .progress-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-.course-card .progress-row span { font-size: 12px; color: #888; white-space: nowrap; }
+.course-card .step-num {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: rgba(255,255,255,0.15);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.course-card .org { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.course-card .title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.course-card .desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.course-card .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.course-card .progress-row span { font-size: 13px; color: rgba(255,255,255,0.6); white-space: nowrap; }
 .tag-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag-pill {
-  padding: 6px 16px;
-  border: 1px solid #e0e0dc;
-  border-radius: 20px;
-  font-size: 12px;
-  color: #555;
+  padding: 8px 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
   cursor: pointer;
-  background: #fff;
+  background: rgba(255,255,255,0.03);
   transition: all 0.15s;
+  backdrop-filter: blur(10px);
 }
-.tag-pill:hover { border-color: #0d9668; color: #0d9668; }
+.tag-pill:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
 
 /* ===== LESSON PAGE ===== */
 .lesson-layout {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 360px;
   gap: 24px;
-  height: calc(100vh - 48px - 48px);
+  min-height: calc(100vh - 160px);
 }
 .lesson-main { overflow-y: auto; }
-.breadcrumb { font-size: 12px; color: #888; margin-bottom: 12px; }
-.breadcrumb a { color: #0d9668; text-decoration: none; }
-.lesson-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
-.lesson-content p { font-size: 14px; color: #444; margin-bottom: 12px; line-height: 1.8; }
+.breadcrumb {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+}
+.breadcrumb a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: #fff; }
+.lesson-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.lesson-content p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+.lesson-content code {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #34e0ff;
+}
 .code-editor {
-  background: #1e1e2e;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
+  background: rgba(0,0,0,0.4);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 20px 0;
   overflow-x: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0px 0px 20px rgba(255,255,255,0.05);
 }
 .code-editor pre {
   font-family: 'Courier New', monospace;
   font-size: 13px;
   color: #cdd6f4;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: pre;
 }
 .code-editor .kw { color: #cba6f7; }
@@ -501,62 +833,84 @@ body {
 .code-editor .attr { color: #f9e2af; }
 .code-editor .comment { color: #6c7086; }
 .lesson-sidebar {
-  background: #fff;
-  border: 1px solid #e0e0dc;
-  border-radius: 8px;
-  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 24px;
   overflow-y: auto;
+  border: none;
+  color: #fff;
 }
 .unit-progress { margin-bottom: 20px; }
-.unit-progress .up-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-.unit-progress .up-sub { font-size: 12px; color: #888; margin-bottom: 12px; }
+.unit-progress .up-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.unit-progress .up-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
 .page-list { list-style: none; }
 .page-list li {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 0;
-  font-size: 13px;
-  color: #555;
-  border-bottom: 1px solid #f0f0ec;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.page-list li .check { color: #0d9668; font-size: 14px; }
-.page-list li.current { color: #0d9668; font-weight: 500; }
+.page-list li .check { font-size: 14px; }
+.page-list li.current { color: #fff; font-weight: 500; }
 .kaname-chat {
-  margin-top: 16px;
-  border-top: 1px solid #e0e0dc;
-  padding-top: 16px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
 }
-.kaname-chat .chat-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.kaname-chat .chat-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .kaname-chat .chat-input-wrap {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 .kaname-chat input {
   flex: 1;
-  padding: 8px 10px;
-  border: 1px solid #e0e0dc;
-  border-radius: 6px;
-  font-size: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  font-size: 13px;
   font-family: inherit;
   outline: none;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
 }
-.kaname-chat input:focus { border-color: #0d9668; }
+.kaname-chat input::placeholder { color: rgba(255,255,255,0.35); }
+.kaname-chat input:focus { border-color: rgba(255,255,255,0.4); }
 .kaname-chat button {
-  padding: 8px 12px;
-  background: #0d9668;
+  padding: 10px 16px;
+  background: linear-gradient(to right, #953ec3, #0f4bab);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
+  transition: opacity 0.2s;
 }
+.kaname-chat button:hover { opacity: 0.9; }
 
 /* ===== MY PAGE ===== */
 .mypage-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 .profile-section {
   display: flex;
@@ -566,70 +920,157 @@ body {
 }
 .large-avatar {
   width: 72px; height: 72px;
-  background: #0d9668;
+  background: linear-gradient(to right, #0f4bab, #34e0ff);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-size: 24px; font-weight: 700;
   flex-shrink: 0;
 }
-.profile-info .name { font-size: 20px; font-weight: 700; }
-.profile-info .email { font-size: 13px; color: #888; }
-.profile-info .regdate { font-size: 12px; color: #aaa; margin-top: 2px; }
-.skill-summary-bars { margin-top: 12px; }
+.profile-info .name {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+}
+.profile-info .email { font-size: 14px; color: rgba(255,255,255,0.5); }
+.profile-info .regdate { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.skill-summary-bars { margin-top: 16px; }
 .badge-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .badge-item {
-  padding: 6px 14px;
-  background: #e8f5e9;
-  color: #0d9668;
-  border-radius: 20px;
+  padding: 6px 16px;
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+  color: #fff;
+  border-radius: 100px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
 }
 .history-list { list-style: none; }
 .history-list li {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 0;
-  font-size: 13px;
-  color: #555;
-  border-bottom: 1px solid #f0f0ec;
+  gap: 10px;
+  padding: 12px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.history-list li .time { font-size: 11px; color: #aaa; margin-left: auto; white-space: nowrap; }
+.history-list li .time {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  margin-left: auto;
+  white-space: nowrap;
+}
 .settings-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0ec;
-  font-size: 13px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 14px;
 }
-.settings-item span { color: #888; }
+.settings-item span { color: rgba(255,255,255,0.5); }
 .toggle {
-  width: 36px; height: 20px;
-  background: #ccc;
-  border-radius: 10px;
+  width: 44px; height: 24px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
   position: relative;
   cursor: pointer;
   transition: background 0.2s;
 }
-.toggle.on { background: #0d9668; }
+.toggle.on {
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+}
 .toggle::after {
   content: '';
-  width: 16px; height: 16px;
+  width: 18px; height: 18px;
   background: #fff;
   border-radius: 50%;
   position: absolute;
-  top: 2px; left: 2px;
+  top: 3px; left: 3px;
   transition: left 0.2s;
 }
-.toggle.on::after { left: 18px; }
+.toggle.on::after { left: 23px; }
 
 /* ===== SECTION TITLES ===== */
 .section-title {
-  font-size: 16px;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
+  font-size: 18px;
   margin-bottom: 16px;
+  color: #fff;
+}
+
+/* ===== CHAT FAB ===== */
+.chat-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 129px;
+  height: 129px;
+  background: #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  z-index: 90;
+  border: none;
+  transition: transform 0.2s;
+}
+.chat-fab:hover { transform: scale(1.05); }
+.chat-fab img { width: 36px; height: 36px; }
+.chat-fab span {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  background: linear-gradient(to right, #f7513b, #f13884);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 32px;
+  margin: 40px 20px 20px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.footer-logo img { height: 24px; margin-bottom: 12px; }
+.footer-address { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: #fff; }
+.footer-copy {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 /* ===== UTILITY ===== */
@@ -638,9 +1079,21 @@ body {
 .mb-16 { margin-bottom: 16px; }
 .mb-20 { margin-bottom: 20px; }
 .mb-24 { margin-bottom: 24px; }
-.text-green { color: #0d9668; }
+.text-green { color: #34e0ff; }
 .text-sm { font-size: 12px; }
-.text-muted { color: #888; }
+.text-muted { color: rgba(255,255,255,0.4); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero-section { grid-template-columns: 1fr; }
+  .hero-next .hero-title { font-size: 36px; }
+  .stat-cards { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .course-grid { grid-template-columns: 1fr; }
+  .tutorial-layout { grid-template-columns: 1fr; }
+  .lesson-layout { grid-template-columns: 1fr; }
+  .mypage-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -648,63 +1101,56 @@ body {
 <!-- ===== HEADER ===== -->
 <header class="header">
   <div class="header-logo">
-    <div class="mark">CU</div>
-    CyTech Urushi OS
+    <img src="logo.png" alt="CyTech">
   </div>
-  <div class="header-center">
-    <div class="header-search">
-      <input type="text" placeholder="検索...">
-    </div>
+  <div class="header-nav">
+    <button class="btn-learn" onclick="showPage('portal')">
+      <img src="menu-book.png" alt="">学習する
+    </button>
+    <button class="nav-icon-btn" id="menuToggle" onclick="toggleNav()">☰</button>
   </div>
   <div class="header-right">
-    <button class="notif-btn">通知 ▲<span class="dot"></span></button>
-    <div class="user-area">
-      <div class="avatar">NS</div>
-      <span class="user-name">N.Sさん ▾</span>
-    </div>
+    <button class="header-menu-btn" onclick="showPage('news')">お知らせ</button>
+    <button class="btn-mypage" onclick="showPage('mypage')">
+      <img src="person-icon.png" alt="">My Page
+    </button>
   </div>
 </header>
 
-<!-- ===== SIDEBAR ===== -->
-<nav class="sidebar">
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">メニュー</div>
-    <div class="sidebar-item active" data-page="dashboard">
-      <span class="icon"></span>ダッシュボード
-    </div>
-    <div class="sidebar-item" data-page="news">
-      <span class="icon"></span>お知らせ
-    </div>
-    <div class="sidebar-item" data-page="portal">
-      <span class="icon"></span>学習ポータル
-    </div>
-    <div class="sidebar-item" data-page="mypage">
-      <span class="icon"></span>Myページ
-    </div>
+<!-- ===== NAV DROPDOWN ===== -->
+<nav class="nav-dropdown" id="navDropdown">
+  <div class="nav-dropdown-section">メニュー</div>
+  <div class="nav-dropdown-item active" data-page="dashboard">
+    <span class="dot"></span>ダッシュボード
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">学習</div>
-    <div class="sidebar-item" data-page="portal">
-      <span class="icon"></span>カリキュラム一覧
-    </div>
-    <div class="sidebar-item" data-page="lesson">
-      <span class="icon"></span>受講中コース
-    </div>
-    <div class="sidebar-item" data-page="portal">
-      <span class="icon"></span>修了済みコース
-    </div>
+  <div class="nav-dropdown-item" data-page="news">
+    <span class="dot"></span>お知らせ
   </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">キャリア</div>
-    <div class="sidebar-item" data-page="dashboard">
-      <span class="icon"></span>マッチング
-    </div>
-    <div class="sidebar-item" data-page="dashboard">
-      <span class="icon"></span>選考状況
-    </div>
-    <div class="sidebar-item" data-page="mypage">
-      <span class="icon"></span>ポートフォリオ
-    </div>
+  <div class="nav-dropdown-item" data-page="portal">
+    <span class="dot"></span>学習ポータル
+  </div>
+  <div class="nav-dropdown-item" data-page="mypage">
+    <span class="dot"></span>Myページ
+  </div>
+  <div class="nav-dropdown-section">学習</div>
+  <div class="nav-dropdown-item" data-page="portal">
+    <span class="dot"></span>カリキュラム一覧
+  </div>
+  <div class="nav-dropdown-item" data-page="lesson">
+    <span class="dot"></span>受講中コース
+  </div>
+  <div class="nav-dropdown-item" data-page="portal">
+    <span class="dot"></span>修了済みコース
+  </div>
+  <div class="nav-dropdown-section">キャリア</div>
+  <div class="nav-dropdown-item" data-page="dashboard">
+    <span class="dot"></span>マッチング
+  </div>
+  <div class="nav-dropdown-item" data-page="dashboard">
+    <span class="dot"></span>選考状況
+  </div>
+  <div class="nav-dropdown-item" data-page="mypage">
+    <span class="dot"></span>ポートフォリオ
   </div>
 </nav>
 
@@ -733,8 +1179,8 @@ body {
         <div class="kaname-card">
           <div class="kaname-avatar">K</div>
           <div>
-            <div style="font-weight:700;font-size:13px;margin-bottom:2px;">目標逆算エンジンのイメージ図</div>
-            <div style="font-size:12px;color:#888;">KANAME が目標企業の要件を分析し、あなたに必要なスキルと学習ステップを可視化します。</div>
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px;">目標逆算エンジンのイメージ図</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.5);">KANAME が目標企業の要件を分析し、あなたに必要なスキルと学習ステップを可視化します。</div>
           </div>
         </div>
       </div>
@@ -792,20 +1238,39 @@ body {
 
   <!-- PAGE: DASHBOARD -->
   <div class="page" id="page-dashboard">
-    <div class="kaname-banner">
-      <div class="kaname-avatar">K</div>
-      <p>おはようございます、N.Sさん。HTML基礎 Unit5 の続きから始めると今週の目標を達成できます。</p>
-      <a href="#" onclick="showPage('lesson'); return false;">今すぐ学習を開始 →</a>
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-next">
+        <div class="next-label">Next</div>
+        <div class="next-step">STEP 5</div>
+        <div class="hero-title">HTML基礎<br>Unit5</div>
+        <button class="hero-cta" onclick="showPage('lesson')">
+          <img src="play-arrow.png" alt="">Lesson Start
+        </button>
+      </div>
+      <div class="goal-card card">
+        <div class="goal-title">目標 / Goal</div>
+        <div class="kaname-card" style="margin-bottom:12px;">
+          <div class="kaname-avatar">K</div>
+          <div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.8);">おはようございます、N.Sさん。HTML基礎 Unit5 の続きから始めると今週の目標を達成できます。</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);">残り37日 / 目標3ヶ月</div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="fill" style="width:63%"></div></div>
+      </div>
     </div>
+
+    <!-- Stat Cards -->
     <div class="stat-cards">
       <div class="stat-card">
         <div class="label">学習進捗</div>
-        <div class="value">63<span style="font-size:18px">%</span></div>
+        <div class="value">63<span style="font-size:20px">%</span></div>
         <div class="sub">残り37日 / 目標3ヶ月</div>
       </div>
       <div class="stat-card">
         <div class="label">次の面接まで</div>
-        <div class="value">4<span style="font-size:18px">日</span></div>
+        <div class="value">4<span style="font-size:20px">日</span></div>
         <div class="sub">◯◯社 一次面接</div>
       </div>
       <div class="stat-card">
@@ -814,6 +1279,14 @@ body {
         <div class="sub">HTML / CSS / JS 入門</div>
       </div>
     </div>
+
+    <!-- Reservation Bar -->
+    <div class="reservation-bar">
+      <span>次のレッスン予約を確認</span>
+      <button class="btn btn-green" onclick="showPage('lesson')">今すぐ学習を開始 →</button>
+    </div>
+
+    <!-- Two Column -->
     <div class="two-col">
       <div class="card">
         <div class="section-title">スキル別学習進捗</div>
@@ -837,115 +1310,121 @@ body {
       <div class="card">
         <div class="section-title">ネクストアクション</div>
         <ul class="next-action-list">
-          <li><span class="dot" style="background:#0d9668"></span>HTML基礎 Unit5 を完了する</li>
-          <li><span class="dot" style="background:#1565c0"></span>JavaScript 入門コースを開始する</li>
-          <li><span class="dot" style="background:#e65100"></span>◯◯社の面接準備（4日後）</li>
-          <li><span class="dot" style="background:#888"></span>ポートフォリオに成果物を追加する</li>
+          <li><span class="dot" style="background:#f7513b"></span>HTML基礎 Unit5 を完了する</li>
+          <li><span class="dot" style="background:#0f4bab"></span>JavaScript 入門コースを開始する</li>
+          <li><span class="dot" style="background:#f13884"></span>◯◯社の面接準備（4日後）</li>
+          <li><span class="dot" style="background:rgba(255,255,255,0.3)"></span>ポートフォリオに成果物を追加する</li>
         </ul>
       </div>
     </div>
-    <div class="news-section">
-      <h3>お知らせ <a href="#" onclick="showPage('news'); return false;">すべて見る →</a></h3>
-      <div class="news-list-item">
-        <span class="badge badge-green">UPDATE</span>
-        <div class="news-body">
-          <div class="news-title">React入門コースが追加されました</div>
-          <div class="news-desc">新しいフロントエンドコースが学習ポータルに追加されました。</div>
+
+    <!-- News -->
+    <div class="card">
+      <div class="news-section">
+        <h3>お知らせ <a href="#" onclick="showPage('news'); return false;">すべて見る →</a></h3>
+        <div class="news-list-item">
+          <span class="badge badge-green">UPDATE</span>
+          <div class="news-body">
+            <div class="news-title">React入門コースが追加されました</div>
+            <div class="news-desc">新しいフロントエンドコースが学習ポータルに追加されました。</div>
+          </div>
+          <div class="news-date">2025.06.01</div>
         </div>
-        <div class="news-date">2025.06.01</div>
-      </div>
-      <div class="news-list-item">
-        <span class="badge badge-orange">合格</span>
-        <div class="news-body">
-          <div class="news-title">N.Sさんが◯◯企業へ合格しました！</div>
-          <div class="news-desc">おめでとうございます！面接結果が届いています。</div>
+        <div class="news-list-item">
+          <span class="badge badge-orange">合格</span>
+          <div class="news-body">
+            <div class="news-title">N.Sさんが◯◯企業へ合格しました！</div>
+            <div class="news-desc">おめでとうございます！面接結果が届いています。</div>
+          </div>
+          <div class="news-date">2025.05.25</div>
         </div>
-        <div class="news-date">2025.05.25</div>
-      </div>
-      <div class="news-list-item">
-        <span class="badge badge-blue">企業</span>
-        <div class="news-body">
-          <div class="news-title">◯◯社が新カリキュラム「DX基礎」を公開</div>
-          <div class="news-desc">デジタルトランスフォーメーションの基礎コースが公開されました。</div>
+        <div class="news-list-item">
+          <span class="badge badge-blue">企業</span>
+          <div class="news-body">
+            <div class="news-title">◯◯社が新カリキュラム「DX基礎」を公開</div>
+            <div class="news-desc">デジタルトランスフォーメーションの基礎コースが公開されました。</div>
+          </div>
+          <div class="news-date">2025.05.28</div>
         </div>
-        <div class="news-date">2025.05.28</div>
       </div>
     </div>
   </div>
 
   <!-- PAGE: NEWS -->
   <div class="page" id="page-news">
-    <h2 class="section-title" style="font-size:20px;margin-bottom:16px;">お知らせ</h2>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">お知らせ</h2>
     <div class="tab-bar">
       <div class="tab-item active">すべて</div>
       <div class="tab-item">更新情報</div>
       <div class="tab-item">企業情報</div>
       <div class="tab-item">合格・成果</div>
     </div>
-    <div class="news-page-item">
-      <span class="badge badge-green">UPDATE</span>
-      <div class="news-body">
-        <div class="title">React入門コースが追加されました</div>
-        <div class="desc">新しいフロントエンドフレームワークのコースが学習ポータルに追加されました。React Hooks を中心に、モダンなフロントエンド開発を学べます。</div>
+    <div class="card">
+      <div class="news-page-item">
+        <span class="badge badge-green">UPDATE</span>
+        <div class="news-body">
+          <div class="title">React入門コースが追加されました</div>
+          <div class="desc">新しいフロントエンドフレームワークのコースが学習ポータルに追加されました。React Hooks を中心に、モダンなフロントエンド開発を学べます。</div>
+        </div>
+        <div class="news-date">2025.06.01</div>
       </div>
-      <div class="news-date">2025.06.01</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-orange">合格</span>
-      <div class="news-body">
-        <div class="title">N.Sさんが◯◯企業へ合格しました！</div>
-        <div class="desc">おめでとうございます！Webエンジニアポジションでの合格通知が届いています。詳細を確認してください。</div>
+      <div class="news-page-item">
+        <span class="badge badge-orange">合格</span>
+        <div class="news-body">
+          <div class="title">N.Sさんが◯◯企業へ合格しました！</div>
+          <div class="desc">おめでとうございます！Webエンジニアポジションでの合格通知が届いています。詳細を確認してください。</div>
+        </div>
+        <div class="news-date">2025.05.25</div>
       </div>
-      <div class="news-date">2025.05.25</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-blue">企業</span>
-      <div class="news-body">
-        <div class="title">◯◯社が新カリキュラム「DX基礎」を公開</div>
-        <div class="desc">デジタルトランスフォーメーションの基礎を学べる新コースが公開されました。業務改善やデータ活用の基本を習得できます。</div>
+      <div class="news-page-item">
+        <span class="badge badge-blue">企業</span>
+        <div class="news-body">
+          <div class="title">◯◯社が新カリキュラム「DX基礎」を公開</div>
+          <div class="desc">デジタルトランスフォーメーションの基礎を学べる新コースが公開されました。業務改善やデータ活用の基本を習得できます。</div>
+        </div>
+        <div class="news-date">2025.05.28</div>
       </div>
-      <div class="news-date">2025.05.28</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-green">UPDATE</span>
-      <div class="news-body">
-        <div class="title">Python データ分析コースの内容が更新されました</div>
-        <div class="desc">pandas 2.0 に対応した新しい演習問題が追加されました。最新のライブラリバージョンで学習できます。</div>
+      <div class="news-page-item">
+        <span class="badge badge-green">UPDATE</span>
+        <div class="news-body">
+          <div class="title">Python データ分析コースの内容が更新されました</div>
+          <div class="desc">pandas 2.0 に対応した新しい演習問題が追加されました。最新のライブラリバージョンで学習できます。</div>
+        </div>
+        <div class="news-date">2025.05.20</div>
       </div>
-      <div class="news-date">2025.05.20</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-blue">企業</span>
-      <div class="news-body">
-        <div class="title">△△株式会社がエンジニア採用を開始</div>
-        <div class="desc">Pythonを活用したデータ分析ポジションの募集が開始されました。マッチングページから詳細を確認できます。</div>
+      <div class="news-page-item">
+        <span class="badge badge-blue">企業</span>
+        <div class="news-body">
+          <div class="title">△△株式会社がエンジニア採用を開始</div>
+          <div class="desc">Pythonを活用したデータ分析ポジションの募集が開始されました。マッチングページから詳細を確認できます。</div>
+        </div>
+        <div class="news-date">2025.05.18</div>
       </div>
-      <div class="news-date">2025.05.18</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-orange">合格</span>
-      <div class="news-body">
-        <div class="title">HTML/CSS 基礎コースの修了証が発行されました</div>
-        <div class="desc">おめでとうございます！コース修了証をMyページからダウンロードできます。</div>
+      <div class="news-page-item">
+        <span class="badge badge-orange">合格</span>
+        <div class="news-body">
+          <div class="title">HTML/CSS 基礎コースの修了証が発行されました</div>
+          <div class="desc">おめでとうございます！コース修了証をMyページからダウンロードできます。</div>
+        </div>
+        <div class="news-date">2025.05.15</div>
       </div>
-      <div class="news-date">2025.05.15</div>
-    </div>
-    <div class="news-page-item">
-      <span class="badge badge-green">UPDATE</span>
-      <div class="news-body">
-        <div class="title">システムメンテナンスのお知らせ</div>
-        <div class="desc">2025年5月10日 2:00-4:00 にシステムメンテナンスを実施します。ご不便をおかけしますがご了承ください。</div>
+      <div class="news-page-item">
+        <span class="badge badge-green">UPDATE</span>
+        <div class="news-body">
+          <div class="title">システムメンテナンスのお知らせ</div>
+          <div class="desc">2025年5月10日 2:00-4:00 にシステムメンテナンスを実施します。ご不便をおかけしますがご了承ください。</div>
+        </div>
+        <div class="news-date">2025.05.08</div>
       </div>
-      <div class="news-date">2025.05.08</div>
-    </div>
-    <div class="load-more">
-      <button class="btn btn-outline">さらに読み込む</button>
+      <div class="load-more">
+        <button class="btn btn-outline">さらに読み込む</button>
+      </div>
     </div>
   </div>
 
   <!-- PAGE: LEARNING PORTAL -->
   <div class="page" id="page-portal">
-    <h2 class="section-title" style="font-size:20px;margin-bottom:16px;">学習ポータル</h2>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">学習ポータル</h2>
     <div class="portal-search">
       <input type="text" placeholder="カリキュラムを検索...">
       <button class="btn btn-outline">絞り込み ▾</button>
@@ -962,6 +1441,7 @@ body {
     <div class="section-title">受講中・おすすめカリキュラム</div>
     <div class="course-grid mb-24">
       <div class="course-card">
+        <div class="step-num">01</div>
         <div class="org">◯◯株式会社</div>
         <div class="title">Webエンジニア基礎コース</div>
         <div class="desc">HTML/CSS/JavaScript 全20単元</div>
@@ -972,6 +1452,7 @@ body {
         <button class="btn btn-green" onclick="showPage('lesson')">続ける →</button>
       </div>
       <div class="course-card">
+        <div class="step-num">02</div>
         <div class="org">△△株式会社</div>
         <div class="title">Pythonデータ分析コース</div>
         <div class="desc">Python/pandas/可視化 全15単元</div>
@@ -982,6 +1463,7 @@ body {
         <button class="btn btn-green">始める →</button>
       </div>
       <div class="course-card">
+        <div class="step-num">03</div>
         <div class="org">KANAMEのおすすめ</div>
         <div class="title">React入門コース</div>
         <div class="desc">React/Hooks 全10単元</div>
@@ -992,6 +1474,7 @@ body {
         <button class="btn btn-green">始める →</button>
       </div>
       <div class="course-card">
+        <div class="step-num">04</div>
         <div class="org">KANAMEのおすすめ</div>
         <div class="title">SQL基礎コース</div>
         <div class="desc">SQL/データベース設計 全8単元</div>
@@ -1011,7 +1494,7 @@ body {
       <span class="tag-pill">UI/UXデザイン</span>
       <span class="tag-pill">セキュリティ</span>
       <span class="tag-pill">マネジメント</span>
-      <span class="tag-pill" style="color:#0d9668;border-color:#0d9668;">すべて表示→</span>
+      <span class="tag-pill" style="color:#34e0ff;border-color:rgba(52,224,255,0.4);">すべて表示→</span>
     </div>
   </div>
 
@@ -1068,11 +1551,11 @@ body {
           <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
         </div>
         <ul class="page-list">
-          <li><span class="check">✓</span> 1. CSSレイアウトの概要</li>
-          <li><span class="check">✓</span> 2. displayプロパティ</li>
-          <li class="current"><span class="check" style="color:#0d9668">▸</span> 3. フレックスボックスの基本</li>
-          <li><span class="check" style="color:#ccc">○</span> 4. グリッドレイアウト</li>
-          <li><span class="check" style="color:#ccc">○</span> 5. レスポンシブデザイン</li>
+          <li><span class="check" style="color:#a6e3a1">&#10003;</span> 1. CSSレイアウトの概要</li>
+          <li><span class="check" style="color:#a6e3a1">&#10003;</span> 2. displayプロパティ</li>
+          <li class="current"><span class="check" style="color:#34e0ff">&#9656;</span> 3. フレックスボックスの基本</li>
+          <li><span class="check" style="color:rgba(255,255,255,0.25)">&#9675;</span> 4. グリッドレイアウト</li>
+          <li><span class="check" style="color:rgba(255,255,255,0.25)">&#9675;</span> 5. レスポンシブデザイン</li>
         </ul>
         <div class="kaname-chat">
           <div class="chat-title">
@@ -1090,8 +1573,8 @@ body {
 
   <!-- PAGE: MY PAGE -->
   <div class="page" id="page-mypage">
-    <h2 class="section-title" style="font-size:20px;margin-bottom:20px;">Myページ</h2>
-    <div class="card mb-20">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:24px;">Myページ</h2>
+    <div class="card mb-24">
       <div class="profile-section">
         <div class="large-avatar">NS</div>
         <div class="profile-info">
@@ -1136,34 +1619,34 @@ body {
         <div class="section-title">学習履歴</div>
         <ul class="history-list">
           <li>
-            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            <span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>
             HTML基礎 Unit4 を修了
             <span class="time">2025.05.30</span>
           </li>
           <li>
-            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            <span class="dot" style="width:8px;height:8px;background:#f13884;border-radius:50%;flex-shrink:0;"></span>
             CSS基礎 全Unit修了 — バッジ獲得
             <span class="time">2025.05.22</span>
           </li>
           <li>
-            <span class="dot" style="width:8px;height:8px;background:#1565c0;border-radius:50%;flex-shrink:0;"></span>
+            <span class="dot" style="width:8px;height:8px;background:#0f4bab;border-radius:50%;flex-shrink:0;"></span>
             JavaScript入門 Unit1 開始
             <span class="time">2025.05.20</span>
           </li>
           <li>
-            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            <span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>
             HTML基礎 Unit3 を修了
             <span class="time">2025.05.15</span>
           </li>
           <li>
-            <span class="dot" style="width:8px;height:8px;background:#e65100;border-radius:50%;flex-shrink:0;"></span>
+            <span class="dot" style="width:8px;height:8px;background:#953ec3;border-radius:50%;flex-shrink:0;"></span>
             ◯◯社 書類選考 通過
             <span class="time">2025.05.10</span>
           </li>
         </ul>
       </div>
     </div>
-    <div class="card" style="margin-top:20px;">
+    <div class="card" style="margin-top:24px;">
       <div class="section-title">アカウント設定</div>
       <div class="settings-item">
         <div>メール通知</div>
@@ -1179,12 +1662,38 @@ body {
       </div>
       <div class="settings-item">
         <div>パスワード変更</div>
-        <button class="btn btn-outline" style="padding:4px 12px;font-size:12px;">変更</button>
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">変更</button>
       </div>
     </div>
   </div>
 
 </main>
+
+<!-- ===== CHAT FAB ===== -->
+<button class="chat-fab" onclick="alert('チャット機能')">
+  <img src="chat-icon.png" alt="Chat">
+  <span>チャットで質問</span>
+</button>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo"><img src="logo.png" alt="CyTech"></div>
+      <div class="footer-address">
+        CyTech株式会社<br>
+        東京都渋谷区XX-XX-XX
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">利用規約</a>
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">ヘルプ</a>
+    </div>
+  </div>
+  <div class="footer-copy">&copy; 2025 CyTech Inc. All rights reserved.</div>
+</footer>
 
 <script>
 // ===== SPA NAVIGATION =====
@@ -1193,10 +1702,13 @@ function showPage(pageId) {
   const target = document.getElementById('page-' + pageId);
   if (target) target.classList.add('active');
 
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-  const sidebarItem = document.querySelector('.sidebar-item[data-page="' + pageId + '"]');
-  if (sidebarItem) sidebarItem.classList.add('active');
+  // Update nav dropdown active state
+  document.querySelectorAll('.nav-dropdown-item').forEach(item => item.classList.remove('active'));
+  const navItem = document.querySelector('.nav-dropdown-item[data-page="' + pageId + '"]');
+  if (navItem) navItem.classList.add('active');
+
+  // Close dropdown on navigate
+  document.getElementById('navDropdown').classList.remove('open');
 
   // Store last page
   if (pageId !== 'tutorial') {
@@ -1204,8 +1716,22 @@ function showPage(pageId) {
   }
 }
 
-// Sidebar click handlers
-document.querySelectorAll('.sidebar-item').forEach(item => {
+// Nav dropdown toggle
+function toggleNav() {
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('navDropdown');
+  const menuBtn = document.getElementById('menuToggle');
+  if (!dropdown.contains(e.target) && !menuBtn.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// Nav dropdown click handlers
+document.querySelectorAll('.nav-dropdown-item').forEach(item => {
   item.addEventListener('click', () => {
     const page = item.getAttribute('data-page');
     if (page) showPage(page);
