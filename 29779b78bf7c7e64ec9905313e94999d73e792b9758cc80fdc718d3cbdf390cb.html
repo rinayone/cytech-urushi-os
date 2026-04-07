@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Sans JP', 'Lato', sans-serif;
+  background: #f5f5f0;
+  color: #1a1a2e;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px;
+  background: #fff;
+  border-bottom: 1px solid #e0e0dc;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+.header-logo {
+  font-weight: 700;
+  font-size: 15px;
+  color: #1a1a2e;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+.header-logo .mark {
+  width: 28px; height: 28px;
+  background: #0d9668;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 11px; font-weight: 700;
+}
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 24px;
+}
+.header-search {
+  width: 360px;
+  max-width: 100%;
+  position: relative;
+}
+.header-search input {
+  width: 100%;
+  padding: 6px 12px 6px 32px;
+  border: 1px solid #e0e0dc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #f5f5f0;
+  outline: none;
+}
+.header-search input:focus { border-color: #0d9668; }
+.header-search::before {
+  content: '🔍';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
+}
+.notif-btn {
+  background: none; border: none; font-size: 13px; cursor: pointer; color: #555;
+  position: relative;
+}
+.notif-btn .dot {
+  width: 6px; height: 6px;
+  background: #e53935;
+  border-radius: 50%;
+  position: absolute;
+  top: -2px; right: -4px;
+}
+.user-area {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.avatar {
+  width: 30px; height: 30px;
+  background: #0d9668;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 11px; font-weight: 700;
+}
+.user-name { font-size: 13px; color: #555; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: fixed;
+  top: 48px; left: 0; bottom: 0;
+  width: 200px;
+  background: #fff;
+  border-right: 1px solid #e0e0dc;
+  overflow-y: auto;
+  padding: 16px 0;
+  z-index: 90;
+}
+.sidebar-section {
+  margin-bottom: 8px;
+}
+.sidebar-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #999;
+  padding: 8px 16px 4px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.sidebar-item:hover {
+  background: #f5f5f0;
+}
+.sidebar-item.active {
+  color: #0d9668;
+  border-left-color: #0d9668;
+  background: #f0faf5;
+  font-weight: 500;
+}
+.sidebar-item .icon {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.sidebar-item.active .icon::after {
+  content: '';
+  width: 6px; height: 6px;
+  background: #0d9668;
+  border-radius: 50%;
+}
+.sidebar-item:not(.active) .icon::after {
+  content: '';
+  width: 6px; height: 6px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+  margin-left: 200px;
+  margin-top: 48px;
+  height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 24px 32px;
+}
+
+/* ===== PAGE VISIBILITY ===== */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== CARDS ===== */
+.card {
+  background: #fff;
+  border: 1px solid #e0e0dc;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+.btn-green { background: #0d9668; color: #fff; }
+.btn-green:hover { background: #0b7d56; }
+.btn-outline { background: #fff; color: #555; border: 1px solid #d0d0d0; }
+.btn-outline:hover { background: #f5f5f0; }
+.btn-dark { background: #1a1a2e; color: #fff; }
+.btn-dark:hover { background: #2a2a3e; }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.badge-green { background: #e8f5e9; color: #0d9668; }
+.badge-blue { background: #e3f2fd; color: #1565c0; }
+.badge-orange { background: #fff3e0; color: #e65100; }
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar .fill {
+  height: 100%;
+  background: #0d9668;
+  border-radius: 4px;
+  transition: width 0.4s;
+}
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #e0e0dc;
+  margin-bottom: 20px;
+}
+.tab-item {
+  padding: 8px 20px;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tab-item:hover { color: #1a1a2e; }
+.tab-item.active { color: #0d9668; border-bottom-color: #0d9668; font-weight: 500; }
+
+/* ===== TUTORIAL PAGE ===== */
+.step-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.step-segment {
+  flex: 1;
+  height: 4px;
+  background: #e0e0dc;
+  border-radius: 2px;
+}
+.step-segment + .step-segment { margin-left: 4px; }
+.step-segment.done { background: #0d9668; }
+.tutorial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.tutorial-header .step-label { font-size: 13px; color: #888; }
+.tutorial-header .skip { font-size: 13px; color: #0d9668; cursor: pointer; text-decoration: none; }
+.tutorial-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.tut-left-title { color: #0d9668; font-size: 12px; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; }
+.tut-left h2 { font-size: 22px; margin-bottom: 12px; }
+.tut-left p { color: #666; font-size: 13px; margin-bottom: 16px; line-height: 1.7; }
+.kaname-card {
+  background: #f5f5f0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.kaname-avatar {
+  width: 40px; height: 40px;
+  background: #0d9668;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+  flex-shrink: 0;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; font-weight: 500; }
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+}
+.form-group input:focus, .form-group select:focus { border-color: #0d9668; }
+.kaname-box {
+  border: 1.5px solid #0d9668;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #f0faf5;
+}
+.kaname-box-title { font-size: 13px; font-weight: 700; color: #0d9668; margin-bottom: 8px; }
+.kaname-box p { font-size: 12px; color: #555; margin-bottom: 4px; }
+.curriculum-preview { margin-bottom: 16px; }
+.curriculum-preview h4 { font-size: 13px; margin-bottom: 8px; }
+.cp-item { margin-bottom: 10px; }
+.cp-item .cp-name { font-size: 12px; color: #555; margin-bottom: 2px; }
+.tut-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px; }
+
+/* ===== DASHBOARD ===== */
+.kaname-banner {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f0faf5 100%);
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.kaname-banner p { font-size: 13px; color: #333; flex: 1; }
+.kaname-banner a { color: #0d9668; font-weight: 500; white-space: nowrap; text-decoration: none; }
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid #e0e0dc;
+  border-radius: 8px;
+  padding: 20px;
+}
+.stat-card .label { font-size: 12px; color: #888; margin-bottom: 4px; }
+.stat-card .value { font-size: 32px; font-weight: 700; color: #1a1a2e; font-family: 'Lato', sans-serif; }
+.stat-card .sub { font-size: 12px; color: #888; margin-top: 4px; }
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.skill-bar-item { margin-bottom: 12px; }
+.skill-bar-item .skill-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #555;
+}
+.next-action-list { list-style: none; }
+.next-action-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #f0f0ec;
+}
+.next-action-list li .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.news-section h3 { font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.news-section h3 a { font-size: 12px; color: #0d9668; text-decoration: none; }
+.news-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0ec;
+}
+.news-list-item .news-body { flex: 1; }
+.news-list-item .news-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.news-list-item .news-desc { font-size: 12px; color: #888; }
+.news-list-item .news-date { font-size: 12px; color: #aaa; white-space: nowrap; }
+
+/* ===== NEWS PAGE ===== */
+.news-page-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0ec;
+}
+.news-page-item .news-body { flex: 1; }
+.news-page-item .news-body .title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.news-page-item .news-body .desc { font-size: 12px; color: #888; line-height: 1.5; }
+.news-page-item .news-date { font-size: 12px; color: #aaa; white-space: nowrap; margin-top: 2px; }
+.load-more { text-align: center; padding: 16px; }
+
+/* ===== LEARNING PORTAL ===== */
+.portal-search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.portal-search input {
+  flex: 1;
+  padding: 8px 14px;
+  border: 1px solid #e0e0dc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.portal-search input:focus { border-color: #0d9668; }
+.info-banner {
+  background: #f0faf5;
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.info-banner strong { color: #0d9668; }
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.course-card {
+  background: #fff;
+  border: 1px solid #e0e0dc;
+  border-radius: 8px;
+  padding: 20px;
+}
+.course-card .org { font-size: 11px; color: #888; margin-bottom: 2px; }
+.course-card .title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.course-card .desc { font-size: 12px; color: #888; margin-bottom: 12px; }
+.course-card .progress-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.course-card .progress-row span { font-size: 12px; color: #888; white-space: nowrap; }
+.tag-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-pill {
+  padding: 6px 16px;
+  border: 1px solid #e0e0dc;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.15s;
+}
+.tag-pill:hover { border-color: #0d9668; color: #0d9668; }
+
+/* ===== LESSON PAGE ===== */
+.lesson-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  height: calc(100vh - 48px - 48px);
+}
+.lesson-main { overflow-y: auto; }
+.breadcrumb { font-size: 12px; color: #888; margin-bottom: 12px; }
+.breadcrumb a { color: #0d9668; text-decoration: none; }
+.lesson-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.lesson-content p { font-size: 14px; color: #444; margin-bottom: 12px; line-height: 1.8; }
+.code-editor {
+  background: #1e1e2e;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.code-editor pre {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #cdd6f4;
+  line-height: 1.6;
+  white-space: pre;
+}
+.code-editor .kw { color: #cba6f7; }
+.code-editor .str { color: #a6e3a1; }
+.code-editor .tag { color: #89b4fa; }
+.code-editor .attr { color: #f9e2af; }
+.code-editor .comment { color: #6c7086; }
+.lesson-sidebar {
+  background: #fff;
+  border: 1px solid #e0e0dc;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-y: auto;
+}
+.unit-progress { margin-bottom: 20px; }
+.unit-progress .up-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.unit-progress .up-sub { font-size: 12px; color: #888; margin-bottom: 12px; }
+.page-list { list-style: none; }
+.page-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #f0f0ec;
+}
+.page-list li .check { color: #0d9668; font-size: 14px; }
+.page-list li.current { color: #0d9668; font-weight: 500; }
+.kaname-chat {
+  margin-top: 16px;
+  border-top: 1px solid #e0e0dc;
+  padding-top: 16px;
+}
+.kaname-chat .chat-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.kaname-chat .chat-input-wrap {
+  display: flex;
+  gap: 6px;
+}
+.kaname-chat input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #e0e0dc;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+.kaname-chat input:focus { border-color: #0d9668; }
+.kaname-chat button {
+  padding: 8px 12px;
+  background: #0d9668;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ===== MY PAGE ===== */
+.mypage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 4px;
+}
+.large-avatar {
+  width: 72px; height: 72px;
+  background: #0d9668;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 24px; font-weight: 700;
+  flex-shrink: 0;
+}
+.profile-info .name { font-size: 20px; font-weight: 700; }
+.profile-info .email { font-size: 13px; color: #888; }
+.profile-info .regdate { font-size: 12px; color: #aaa; margin-top: 2px; }
+.skill-summary-bars { margin-top: 12px; }
+.badge-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.badge-item {
+  padding: 6px 14px;
+  background: #e8f5e9;
+  color: #0d9668;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.history-list { list-style: none; }
+.history-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #f0f0ec;
+}
+.history-list li .time { font-size: 11px; color: #aaa; margin-left: auto; white-space: nowrap; }
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0ec;
+  font-size: 13px;
+}
+.settings-item span { color: #888; }
+.toggle {
+  width: 36px; height: 20px;
+  background: #ccc;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle.on { background: #0d9668; }
+.toggle::after {
+  content: '';
+  width: 16px; height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px; left: 2px;
+  transition: left 0.2s;
+}
+.toggle.on::after { left: 18px; }
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ===== UTILITY ===== */
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.text-green { color: #0d9668; }
+.text-sm { font-size: 12px; }
+.text-muted { color: #888; }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-logo">
+    <div class="mark">CU</div>
+    CyTech Urushi OS
+  </div>
+  <div class="header-center">
+    <div class="header-search">
+      <input type="text" placeholder="検索...">
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="notif-btn">通知 ▲<span class="dot"></span></button>
+    <div class="user-area">
+      <div class="avatar">NS</div>
+      <span class="user-name">N.Sさん ▾</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">メニュー</div>
+    <div class="sidebar-item active" data-page="dashboard">
+      <span class="icon"></span>ダッシュボード
+    </div>
+    <div class="sidebar-item" data-page="news">
+      <span class="icon"></span>お知らせ
+    </div>
+    <div class="sidebar-item" data-page="portal">
+      <span class="icon"></span>学習ポータル
+    </div>
+    <div class="sidebar-item" data-page="mypage">
+      <span class="icon"></span>Myページ
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">学習</div>
+    <div class="sidebar-item" data-page="portal">
+      <span class="icon"></span>カリキュラム一覧
+    </div>
+    <div class="sidebar-item" data-page="lesson">
+      <span class="icon"></span>受講中コース
+    </div>
+    <div class="sidebar-item" data-page="portal">
+      <span class="icon"></span>修了済みコース
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">キャリア</div>
+    <div class="sidebar-item" data-page="dashboard">
+      <span class="icon"></span>マッチング
+    </div>
+    <div class="sidebar-item" data-page="dashboard">
+      <span class="icon"></span>選考状況
+    </div>
+    <div class="sidebar-item" data-page="mypage">
+      <span class="icon"></span>ポートフォリオ
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main">
+
+  <!-- PAGE: TUTORIAL -->
+  <div class="page" id="page-tutorial">
+    <div class="step-bar">
+      <div class="step-segment done"></div>
+      <div class="step-segment"></div>
+      <div class="step-segment"></div>
+    </div>
+    <div class="tutorial-header">
+      <span class="step-label">STEP 1 / 3</span>
+      <a href="#" class="skip" onclick="showPage('dashboard'); return false;">スキップ</a>
+    </div>
+    <div class="tutorial-layout">
+      <div class="tut-left">
+        <div class="tut-left-title">STEP 1 — 目標設定</div>
+        <h2>目標企業・職種を設定しよう</h2>
+        <p>
+          CyTech Urushi OS の KANAME AI エンジンが、あなたの目標から逆算して最適な学習カリキュラムを提案します。
+          まず希望する企業と職種を入力してください。目標に必要なスキルギャップを自動分析し、効率的な学習プランを生成します。
+        </p>
+        <div class="kaname-card">
+          <div class="kaname-avatar">K</div>
+          <div>
+            <div style="font-weight:700;font-size:13px;margin-bottom:2px;">目標逆算エンジンのイメージ図</div>
+            <div style="font-size:12px;color:#888;">KANAME が目標企業の要件を分析し、あなたに必要なスキルと学習ステップを可視化します。</div>
+          </div>
+        </div>
+      </div>
+      <div class="tut-right">
+        <div class="card">
+          <div class="form-group">
+            <label>希望企業名（任意）</label>
+            <input type="text" placeholder="例：○○株式会社">
+          </div>
+          <div class="form-group">
+            <label>希望職種</label>
+            <select>
+              <option>Webエンジニア</option>
+              <option>データサイエンティスト</option>
+              <option>UIデザイナー</option>
+              <option>インフラエンジニア</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>希望就業時期</label>
+            <select>
+              <option>3ヶ月以内</option>
+              <option>6ヶ月以内</option>
+              <option>1年以内</option>
+            </select>
+          </div>
+          <div class="kaname-box">
+            <div class="kaname-box-title">KANAME の提案</div>
+            <p>推奨学習期間：<strong>3ヶ月</strong></p>
+            <p>スキルギャップ：HTML/CSS, JavaScript, Git の基礎習得が必要です</p>
+          </div>
+          <div class="curriculum-preview">
+            <h4>カリキュラムプレビュー（3コース）</h4>
+            <div class="cp-item">
+              <div class="cp-name">HTML/CSS 基礎</div>
+              <div class="progress-bar"><div class="fill" style="width:0%"></div></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-name">JavaScript 入門</div>
+              <div class="progress-bar"><div class="fill" style="width:0%"></div></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-name">Git/GitHub 入門</div>
+              <div class="progress-bar"><div class="fill" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div class="tut-actions">
+            <button class="btn btn-outline">戻る</button>
+            <button class="btn btn-green" onclick="showPage('dashboard')">次へ →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: DASHBOARD -->
+  <div class="page" id="page-dashboard">
+    <div class="kaname-banner">
+      <div class="kaname-avatar">K</div>
+      <p>おはようございます、N.Sさん。HTML基礎 Unit5 の続きから始めると今週の目標を達成できます。</p>
+      <a href="#" onclick="showPage('lesson'); return false;">今すぐ学習を開始 →</a>
+    </div>
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="label">学習進捗</div>
+        <div class="value">63<span style="font-size:18px">%</span></div>
+        <div class="sub">残り37日 / 目標3ヶ月</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">次の面接まで</div>
+        <div class="value">4<span style="font-size:18px">日</span></div>
+        <div class="sub">◯◯社 一次面接</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">獲得バッジ</div>
+        <div class="value">3</div>
+        <div class="sub">HTML / CSS / JS 入門</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="section-title">スキル別学習進捗</div>
+        <div class="skill-bar-item">
+          <div class="skill-label"><span>HTML/CSS</span><span>80%</span></div>
+          <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-label"><span>JavaScript</span><span>60%</span></div>
+          <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-label"><span>Python</span><span>30%</span></div>
+          <div class="progress-bar"><div class="fill" style="width:30%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-label"><span>Git/GitHub</span><span>45%</span></div>
+          <div class="progress-bar"><div class="fill" style="width:45%"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title">ネクストアクション</div>
+        <ul class="next-action-list">
+          <li><span class="dot" style="background:#0d9668"></span>HTML基礎 Unit5 を完了する</li>
+          <li><span class="dot" style="background:#1565c0"></span>JavaScript 入門コースを開始する</li>
+          <li><span class="dot" style="background:#e65100"></span>◯◯社の面接準備（4日後）</li>
+          <li><span class="dot" style="background:#888"></span>ポートフォリオに成果物を追加する</li>
+        </ul>
+      </div>
+    </div>
+    <div class="news-section">
+      <h3>お知らせ <a href="#" onclick="showPage('news'); return false;">すべて見る →</a></h3>
+      <div class="news-list-item">
+        <span class="badge badge-green">UPDATE</span>
+        <div class="news-body">
+          <div class="news-title">React入門コースが追加されました</div>
+          <div class="news-desc">新しいフロントエンドコースが学習ポータルに追加されました。</div>
+        </div>
+        <div class="news-date">2025.06.01</div>
+      </div>
+      <div class="news-list-item">
+        <span class="badge badge-orange">合格</span>
+        <div class="news-body">
+          <div class="news-title">N.Sさんが◯◯企業へ合格しました！</div>
+          <div class="news-desc">おめでとうございます！面接結果が届いています。</div>
+        </div>
+        <div class="news-date">2025.05.25</div>
+      </div>
+      <div class="news-list-item">
+        <span class="badge badge-blue">企業</span>
+        <div class="news-body">
+          <div class="news-title">◯◯社が新カリキュラム「DX基礎」を公開</div>
+          <div class="news-desc">デジタルトランスフォーメーションの基礎コースが公開されました。</div>
+        </div>
+        <div class="news-date">2025.05.28</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: NEWS -->
+  <div class="page" id="page-news">
+    <h2 class="section-title" style="font-size:20px;margin-bottom:16px;">お知らせ</h2>
+    <div class="tab-bar">
+      <div class="tab-item active">すべて</div>
+      <div class="tab-item">更新情報</div>
+      <div class="tab-item">企業情報</div>
+      <div class="tab-item">合格・成果</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-green">UPDATE</span>
+      <div class="news-body">
+        <div class="title">React入門コースが追加されました</div>
+        <div class="desc">新しいフロントエンドフレームワークのコースが学習ポータルに追加されました。React Hooks を中心に、モダンなフロントエンド開発を学べます。</div>
+      </div>
+      <div class="news-date">2025.06.01</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-orange">合格</span>
+      <div class="news-body">
+        <div class="title">N.Sさんが◯◯企業へ合格しました！</div>
+        <div class="desc">おめでとうございます！Webエンジニアポジションでの合格通知が届いています。詳細を確認してください。</div>
+      </div>
+      <div class="news-date">2025.05.25</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-blue">企業</span>
+      <div class="news-body">
+        <div class="title">◯◯社が新カリキュラム「DX基礎」を公開</div>
+        <div class="desc">デジタルトランスフォーメーションの基礎を学べる新コースが公開されました。業務改善やデータ活用の基本を習得できます。</div>
+      </div>
+      <div class="news-date">2025.05.28</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-green">UPDATE</span>
+      <div class="news-body">
+        <div class="title">Python データ分析コースの内容が更新されました</div>
+        <div class="desc">pandas 2.0 に対応した新しい演習問題が追加されました。最新のライブラリバージョンで学習できます。</div>
+      </div>
+      <div class="news-date">2025.05.20</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-blue">企業</span>
+      <div class="news-body">
+        <div class="title">△△株式会社がエンジニア採用を開始</div>
+        <div class="desc">Pythonを活用したデータ分析ポジションの募集が開始されました。マッチングページから詳細を確認できます。</div>
+      </div>
+      <div class="news-date">2025.05.18</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-orange">合格</span>
+      <div class="news-body">
+        <div class="title">HTML/CSS 基礎コースの修了証が発行されました</div>
+        <div class="desc">おめでとうございます！コース修了証をMyページからダウンロードできます。</div>
+      </div>
+      <div class="news-date">2025.05.15</div>
+    </div>
+    <div class="news-page-item">
+      <span class="badge badge-green">UPDATE</span>
+      <div class="news-body">
+        <div class="title">システムメンテナンスのお知らせ</div>
+        <div class="desc">2025年5月10日 2:00-4:00 にシステムメンテナンスを実施します。ご不便をおかけしますがご了承ください。</div>
+      </div>
+      <div class="news-date">2025.05.08</div>
+    </div>
+    <div class="load-more">
+      <button class="btn btn-outline">さらに読み込む</button>
+    </div>
+  </div>
+
+  <!-- PAGE: LEARNING PORTAL -->
+  <div class="page" id="page-portal">
+    <h2 class="section-title" style="font-size:20px;margin-bottom:16px;">学習ポータル</h2>
+    <div class="portal-search">
+      <input type="text" placeholder="カリキュラムを検索...">
+      <button class="btn btn-outline">絞り込み ▾</button>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item active">企業別</div>
+      <div class="tab-item">スキル別</div>
+      <div class="tab-item">おすすめ</div>
+      <div class="tab-item">すべて</div>
+    </div>
+    <div class="info-banner">
+      <strong>ポータビリティ：</strong>このコースはB社・C社の要件を 78% 充足しています
+    </div>
+    <div class="section-title">受講中・おすすめカリキュラム</div>
+    <div class="course-grid mb-24">
+      <div class="course-card">
+        <div class="org">◯◯株式会社</div>
+        <div class="title">Webエンジニア基礎コース</div>
+        <div class="desc">HTML/CSS/JavaScript 全20単元</div>
+        <div class="progress-row">
+          <div class="progress-bar" style="flex:1"><div class="fill" style="width:63%"></div></div>
+          <span>63%</span>
+        </div>
+        <button class="btn btn-green" onclick="showPage('lesson')">続ける →</button>
+      </div>
+      <div class="course-card">
+        <div class="org">△△株式会社</div>
+        <div class="title">Pythonデータ分析コース</div>
+        <div class="desc">Python/pandas/可視化 全15単元</div>
+        <div class="progress-row">
+          <div class="progress-bar" style="flex:1"><div class="fill" style="width:0%"></div></div>
+          <span>未開始</span>
+        </div>
+        <button class="btn btn-green">始める →</button>
+      </div>
+      <div class="course-card">
+        <div class="org">KANAMEのおすすめ</div>
+        <div class="title">React入門コース</div>
+        <div class="desc">React/Hooks 全10単元</div>
+        <div class="progress-row">
+          <div class="progress-bar" style="flex:1"><div class="fill" style="width:0%"></div></div>
+          <span>未開始</span>
+        </div>
+        <button class="btn btn-green">始める →</button>
+      </div>
+      <div class="course-card">
+        <div class="org">KANAMEのおすすめ</div>
+        <div class="title">SQL基礎コース</div>
+        <div class="desc">SQL/データベース設計 全8単元</div>
+        <div class="progress-row">
+          <div class="progress-bar" style="flex:1"><div class="fill" style="width:0%"></div></div>
+          <span>未開始</span>
+        </div>
+        <button class="btn btn-green">始める →</button>
+      </div>
+    </div>
+    <div class="section-title">スキル別で探す</div>
+    <div class="tag-pills">
+      <span class="tag-pill">フロントエンド</span>
+      <span class="tag-pill">バックエンド</span>
+      <span class="tag-pill">データ分析</span>
+      <span class="tag-pill">インフラ</span>
+      <span class="tag-pill">UI/UXデザイン</span>
+      <span class="tag-pill">セキュリティ</span>
+      <span class="tag-pill">マネジメント</span>
+      <span class="tag-pill" style="color:#0d9668;border-color:#0d9668;">すべて表示→</span>
+    </div>
+  </div>
+
+  <!-- PAGE: LESSON -->
+  <div class="page" id="page-lesson">
+    <div class="lesson-layout">
+      <div class="lesson-main">
+        <div class="breadcrumb">
+          <a href="#" onclick="showPage('portal'); return false;">HTML基礎コース</a> &gt; Unit5 &gt; ページ3
+        </div>
+        <h2 class="lesson-title">フレックスボックスの基本</h2>
+        <div class="lesson-content">
+          <p>
+            Flexbox（フレキシブルボックス）は、CSSのレイアウトモジュールの一つです。コンテナ内の要素を柔軟に配置・整列するための仕組みで、
+            従来の float や position によるレイアウトよりも直感的にレスポンシブなデザインを実現できます。
+          </p>
+          <p>
+            Flexbox を使うには、親要素（Flexコンテナ）に <code>display: flex;</code> を指定します。
+            子要素（Flexアイテム）は自動的にフレックスアイテムとなり、コンテナの中で柔軟に配置されます。
+          </p>
+          <div class="code-editor">
+<pre><span class="comment">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"container"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"item"</span><span class="tag">&gt;</span>Item 1<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"item"</span><span class="tag">&gt;</span>Item 2<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"item"</span><span class="tag">&gt;</span>Item 3<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- CSS --&gt;</span>
+<span class="tag">.container</span> {
+  <span class="kw">display</span>: <span class="str">flex</span>;
+  <span class="kw">justify-content</span>: <span class="str">space-between</span>;
+  <span class="kw">align-items</span>: <span class="str">center</span>;
+  <span class="kw">gap</span>: <span class="str">16px</span>;
+}
+
+<span class="tag">.item</span> {
+  <span class="kw">flex</span>: <span class="str">1</span>;
+  <span class="kw">padding</span>: <span class="str">20px</span>;
+  <span class="kw">background</span>: <span class="str">#f0f0f0</span>;
+  <span class="kw">border-radius</span>: <span class="str">8px</span>;
+}</pre>
+          </div>
+          <button class="btn btn-dark">実行</button>
+          <p style="margin-top:16px;">
+            <code>justify-content</code> は主軸方向（デフォルトは横方向）の配置を制御し、<code>align-items</code> は交差軸方向（デフォルトは縦方向）の配置を制御します。
+          </p>
+        </div>
+      </div>
+      <div class="lesson-sidebar">
+        <div class="unit-progress">
+          <div class="up-title">Unit 5 — レイアウト基礎</div>
+          <div class="up-sub">ページ 3 / 5</div>
+          <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
+        </div>
+        <ul class="page-list">
+          <li><span class="check">✓</span> 1. CSSレイアウトの概要</li>
+          <li><span class="check">✓</span> 2. displayプロパティ</li>
+          <li class="current"><span class="check" style="color:#0d9668">▸</span> 3. フレックスボックスの基本</li>
+          <li><span class="check" style="color:#ccc">○</span> 4. グリッドレイアウト</li>
+          <li><span class="check" style="color:#ccc">○</span> 5. レスポンシブデザイン</li>
+        </ul>
+        <div class="kaname-chat">
+          <div class="chat-title">
+            <div class="kaname-avatar" style="width:24px;height:24px;font-size:10px;">K</div>
+            KANAME に質問
+          </div>
+          <div class="chat-input-wrap">
+            <input type="text" placeholder="質問を入力...">
+            <button>送信</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: MY PAGE -->
+  <div class="page" id="page-mypage">
+    <h2 class="section-title" style="font-size:20px;margin-bottom:20px;">Myページ</h2>
+    <div class="card mb-20">
+      <div class="profile-section">
+        <div class="large-avatar">NS</div>
+        <div class="profile-info">
+          <div class="name">N.S</div>
+          <div class="email">n.s@example.com</div>
+          <div class="regdate">登録日：2025.03.01</div>
+        </div>
+        <button class="btn btn-outline" style="margin-left:auto;">プロフィール編集</button>
+      </div>
+    </div>
+    <div class="mypage-grid">
+      <div class="card">
+        <div class="section-title">スキルサマリー</div>
+        <div class="skill-summary-bars">
+          <div class="skill-bar-item">
+            <div class="skill-label"><span>HTML/CSS</span><span>80%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-label"><span>JavaScript</span><span>60%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:60%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-label"><span>Python</span><span>30%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:30%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-label"><span>Git/GitHub</span><span>45%</span></div>
+            <div class="progress-bar"><div class="fill" style="width:45%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="text-sm text-muted mb-8">取得バッジ</div>
+          <div class="badge-list">
+            <span class="badge-item">HTML 基礎</span>
+            <span class="badge-item">CSS 基礎</span>
+            <span class="badge-item">JS 入門</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title">学習履歴</div>
+        <ul class="history-list">
+          <li>
+            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            HTML基礎 Unit4 を修了
+            <span class="time">2025.05.30</span>
+          </li>
+          <li>
+            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            CSS基礎 全Unit修了 — バッジ獲得
+            <span class="time">2025.05.22</span>
+          </li>
+          <li>
+            <span class="dot" style="width:8px;height:8px;background:#1565c0;border-radius:50%;flex-shrink:0;"></span>
+            JavaScript入門 Unit1 開始
+            <span class="time">2025.05.20</span>
+          </li>
+          <li>
+            <span class="dot" style="width:8px;height:8px;background:#0d9668;border-radius:50%;flex-shrink:0;"></span>
+            HTML基礎 Unit3 を修了
+            <span class="time">2025.05.15</span>
+          </li>
+          <li>
+            <span class="dot" style="width:8px;height:8px;background:#e65100;border-radius:50%;flex-shrink:0;"></span>
+            ◯◯社 書類選考 通過
+            <span class="time">2025.05.10</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title">アカウント設定</div>
+      <div class="settings-item">
+        <div>メール通知</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div>プッシュ通知</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div>言語</div>
+        <span>日本語</span>
+      </div>
+      <div class="settings-item">
+        <div>パスワード変更</div>
+        <button class="btn btn-outline" style="padding:4px 12px;font-size:12px;">変更</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ===== SPA NAVIGATION =====
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Update sidebar active state
+  document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+  const sidebarItem = document.querySelector('.sidebar-item[data-page="' + pageId + '"]');
+  if (sidebarItem) sidebarItem.classList.add('active');
+
+  // Store last page
+  if (pageId !== 'tutorial') {
+    localStorage.setItem('cytech-last-page', pageId);
+  }
+}
+
+// Sidebar click handlers
+document.querySelectorAll('.sidebar-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const page = item.getAttribute('data-page');
+    if (page) showPage(page);
+  });
+});
+
+// Tab bar click handlers
+document.querySelectorAll('.tab-bar').forEach(bar => {
+  bar.querySelectorAll('.tab-item').forEach(tab => {
+    tab.addEventListener('click', () => {
+      bar.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+});
+
+// ===== INIT =====
+(function() {
+  const visited = localStorage.getItem('cytech-visited');
+  if (!visited) {
+    localStorage.setItem('cytech-visited', 'true');
+    showPage('tutorial');
+  } else {
+    const lastPage = localStorage.getItem('cytech-last-page') || 'dashboard';
+    showPage(lastPage);
+  }
+})();
+</script>
+</body>
+</html>
