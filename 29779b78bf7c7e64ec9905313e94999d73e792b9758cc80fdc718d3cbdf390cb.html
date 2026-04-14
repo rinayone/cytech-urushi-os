@@ -1315,6 +1315,188 @@ body::before {
 }
 .toggle.on::after { left: 23px; }
 
+/* ===== HOME PAGE ===== */
+.home-hero {
+  text-align: center;
+  padding: 60px 0 40px;
+}
+.home-hero .home-logo {
+  width: 72px; height: 72px;
+  margin: 0 auto 20px;
+  object-fit: contain;
+}
+.home-hero h1 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+.home-hero p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+}
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.portal-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 2px solid transparent;
+}
+.portal-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.15);
+}
+.portal-card .portal-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+  color: #fff;
+}
+.portal-card .portal-icon.icon-seeker { background: linear-gradient(135deg, #f7513b, #f13884); }
+.portal-card .portal-icon.icon-enterprise { background: linear-gradient(135deg, #953ec3, #0f4bab); }
+.portal-card .portal-icon.icon-tng { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
+.portal-card h3 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.portal-card p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+.portal-card .portal-pages {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 12px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ===== PORTAL HEADER ===== */
+.header-home-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.header-home-btn:hover { background: rgba(255,255,255,0.15); }
+body.in-portal .header-home-btn { display: inline-flex; }
+body.in-home .header-nav,
+body.in-home .header-right { visibility: hidden; }
+.portal-label {
+  display: none;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+  white-space: nowrap;
+}
+body.in-portal .portal-label { display: block; }
+
+/* ===== ADMIN PAGES SHARED ===== */
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.admin-stat-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+.admin-stat-card .adm-value {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+}
+.admin-stat-card .adm-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+}
+.admin-table td {
+  padding: 14px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.admin-table td:first-child { font-weight: 500; }
+.status-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.status-dot.green { background: #a6e3a1; }
+.status-dot.blue { background: #34e0ff; }
+.status-dot.yellow { background: #f9e2af; }
+.status-dot.red { background: #f7513b; }
+.admin-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.param-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px;
+}
+.param-row .param-name { color: rgba(255,255,255,0.7); }
+.param-row .param-val {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: #34e0ff;
+}
+
 /* ===== SECTION TITLES ===== */
 .section-title {
   font-family: 'Lato', sans-serif;
@@ -1416,6 +1598,9 @@ body::before {
   .tutorial-layout { grid-template-columns: 1fr; }
   .lesson-layout { grid-template-columns: 1fr; }
   .mypage-grid { grid-template-columns: 1fr; }
+  .portal-grid { grid-template-columns: 1fr; }
+  .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-two-col { grid-template-columns: 1fr; }
   .company-card { grid-template-columns: 1fr; }
   .company-match { text-align: left; }
   .selection-summary { grid-template-columns: repeat(2, 1fr); }
@@ -1432,12 +1617,14 @@ body::before {
     <img src="logo.png" alt="CyTech">
   </div>
   <div class="header-nav">
-    <button class="btn-learn" onclick="showPage('portal')">
+    <button class="header-home-btn" onclick="switchPortal('home')">← HOME</button>
+    <span class="portal-label" id="portalLabel"></span>
+    <button class="btn-learn" id="headerLearn" onclick="showPage('portal')">
       <img src="menu-book.png" alt="">学習する
     </button>
     <button class="nav-icon-btn" id="menuToggle" onclick="toggleNav()">☰</button>
   </div>
-  <div class="header-right">
+  <div class="header-right" id="headerRight">
     <button class="header-menu-btn" onclick="showPage('news')">お知らせ</button>
     <button class="btn-mypage" onclick="showPage('mypage')">
       <img src="person-icon.png" alt="">My Page
@@ -1484,6 +1671,35 @@ body::before {
 
 <!-- ===== MAIN CONTENT ===== -->
 <main class="main">
+
+  <!-- PAGE: HOME -->
+  <div class="page" id="page-home">
+    <div class="home-hero">
+      <img src="logo.png" alt="CyTech Urushi OS" class="home-logo">
+      <h1>CyTech Urushi OS</h1>
+      <p>ポータルを選択してください</p>
+    </div>
+    <div class="portal-grid">
+      <div class="portal-card" onclick="switchPortal('seeker')">
+        <div class="portal-icon icon-seeker">&#9998;</div>
+        <h3>求職者ポータル</h3>
+        <p>学習カリキュラムの受講、スキル習得、企業マッチング、選考管理</p>
+        <div class="portal-pages">7 PAGES</div>
+      </div>
+      <div class="portal-card" onclick="switchPortal('enterprise')">
+        <div class="portal-icon icon-enterprise">&#9881;</div>
+        <h3>企業管理者ポータル</h3>
+        <p>カリキュラム作成・管理、人材検索、スキル要件定義、採用分析</p>
+        <div class="portal-pages">5 PAGES</div>
+      </div>
+      <div class="portal-card" onclick="switchPortal('tng')">
+        <div class="portal-icon icon-tng">&#9878;</div>
+        <h3>TNG管理者ポータル</h3>
+        <p>プラットフォーム統括管理、AIエンジン調整、企業・アカウント管理</p>
+        <div class="portal-pages">5 PAGES</div>
+      </div>
+    </div>
+  </div>
 
   <!-- PAGE: TUTORIAL -->
   <div class="page" id="page-tutorial">
@@ -2232,6 +2448,370 @@ body::before {
     </div>
   </div>
 
+  <!-- ==================== -->
+  <!-- ENTERPRISE ADMIN PAGES -->
+  <!-- ==================== -->
+
+  <!-- PAGE: MC-01 企業ダッシュボード -->
+  <div class="page" id="page-mc-dashboard">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">企業ダッシュボード</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">24</div>
+        <div class="adm-label">受講者数</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">5</div>
+        <div class="adm-label">公開カリキュラム</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">3</div>
+        <div class="adm-label">内定者</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">78<span style="font-size:16px">%</span></div>
+        <div class="adm-label">平均マッチ率</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">受講者 学習進捗</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>N.S</span><span>63%</span></div><div class="progress-bar"><div class="fill" style="width:63%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>T.K</span><span>85%</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>M.Y</span><span>42%</span></div><div class="progress-bar"><div class="fill" style="width:42%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>A.H</span><span>91%</span></div><div class="progress-bar"><div class="fill" style="width:91%"></div></div></div>
+      </div>
+      <div class="card">
+        <div class="section-title">最新アクティビティ</div>
+        <ul class="history-list">
+          <li><span class="dot" style="width:8px;height:8px;background:#a6e3a1;border-radius:50%;flex-shrink:0;"></span>T.K — Webエンジニア基礎コース修了<span class="time">2025.06.02</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#34e0ff;border-radius:50%;flex-shrink:0;"></span>N.S — 一次面接予定（6/8）<span class="time">2025.06.01</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f9e2af;border-radius:50%;flex-shrink:0;"></span>M.Y — JavaScript Unit3 開始<span class="time">2025.05.30</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>A.H — 最終面接 合格<span class="time">2025.05.28</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: MC-02 カリキュラム生成・管理 -->
+  <div class="page" id="page-mc-curriculum">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">KANAME：カリキュラム生成・管理</h2>
+    <div class="info-banner">
+      <strong>KANAME AI</strong> が企業の技能要件に基づき、最適なカリキュラムを自動生成します。
+    </div>
+    <div class="card mb-24">
+      <div class="section-title">公開中カリキュラム</div>
+      <table class="admin-table">
+        <thead><tr><th>カリキュラム名</th><th>単元数</th><th>受講者</th><th>完了率</th><th>状態</th></tr></thead>
+        <tbody>
+          <tr><td>Webエンジニア基礎コース</td><td>20</td><td>12名</td><td>68%</td><td><span class="status-dot green"></span>公開中</td></tr>
+          <tr><td>Pythonデータ分析コース</td><td>15</td><td>8名</td><td>35%</td><td><span class="status-dot green"></span>公開中</td></tr>
+          <tr><td>DX基礎コース</td><td>10</td><td>4名</td><td>12%</td><td><span class="status-dot green"></span>公開中</td></tr>
+          <tr><td>React実践コース</td><td>12</td><td>—</td><td>—</td><td><span class="status-dot yellow"></span>準備中</td></tr>
+          <tr><td>AWS基礎コース</td><td>8</td><td>—</td><td>—</td><td><span class="status-dot yellow"></span>下書き</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-green">＋ 新規カリキュラムを生成</button>
+  </div>
+
+  <!-- PAGE: MC-03 スキルプライム / 管理 -->
+  <div class="page" id="page-mc-skillprime">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">スキルプライム / 管理</h2>
+    <div class="info-banner">
+      採用に必要なスキル要件を定義し、求職者のスキルプロフィールとマッチングさせます。
+    </div>
+    <div class="card mb-24">
+      <div class="section-title">定義済みスキル要件</div>
+      <table class="admin-table">
+        <thead><tr><th>ポジション</th><th>必須スキル</th><th>候補者数</th><th>充足率</th></tr></thead>
+        <tbody>
+          <tr><td>Webエンジニア</td><td>HTML/CSS, JavaScript, React, Git</td><td>8名</td><td>72%</td></tr>
+          <tr><td>データアナリスト</td><td>Python, pandas, SQL, 統計</td><td>5名</td><td>58%</td></tr>
+          <tr><td>フルスタック</td><td>JavaScript, Node.js, AWS, DB設計</td><td>3名</td><td>45%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="section-title">スキルマップ</div>
+      <div class="skill-bar-item"><div class="skill-label"><span>HTML/CSS</span><span>候補者: 15名</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-label"><span>JavaScript</span><span>候補者: 12名</span></div><div class="progress-bar"><div class="fill" style="width:70%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-label"><span>Python</span><span>候補者: 8名</span></div><div class="progress-bar"><div class="fill" style="width:50%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-label"><span>React</span><span>候補者: 5名</span></div><div class="progress-bar"><div class="fill" style="width:30%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-label"><span>AWS</span><span>候補者: 3名</span></div><div class="progress-bar"><div class="fill" style="width:18%"></div></div></div>
+    </div>
+  </div>
+
+  <!-- PAGE: MC-04 人材管理 -->
+  <div class="page" id="page-mc-hr">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">人材管理</h2>
+    <div class="matching-search-bar" style="margin-bottom:20px;">
+      <input type="text" placeholder="候補者名・スキルで検索...">
+      <button class="btn btn-outline">検索</button>
+    </div>
+    <div class="tab-bar" style="margin-bottom:20px;">
+      <div class="tab-item active">全候補者</div>
+      <div class="tab-item">選考中</div>
+      <div class="tab-item">内定</div>
+      <div class="tab-item">入社済み</div>
+    </div>
+    <div class="card">
+      <table class="admin-table">
+        <thead><tr><th>氏名</th><th>希望職種</th><th>マッチ度</th><th>学習進捗</th><th>選考ステータス</th></tr></thead>
+        <tbody>
+          <tr><td>N.S</td><td>Webエンジニア</td><td>78%</td><td>63%</td><td><span class="status-dot blue"></span>一次面接</td></tr>
+          <tr><td>T.K</td><td>Webエンジニア</td><td>92%</td><td>85%</td><td><span class="status-dot green"></span>内定</td></tr>
+          <tr><td>M.Y</td><td>データアナリスト</td><td>55%</td><td>42%</td><td><span class="status-dot yellow"></span>書類選考</td></tr>
+          <tr><td>A.H</td><td>フルスタック</td><td>88%</td><td>91%</td><td><span class="status-dot green"></span>入社済み</td></tr>
+          <tr><td>K.I</td><td>Webエンジニア</td><td>65%</td><td>38%</td><td><span class="status-dot yellow"></span>エントリー</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE: MC-05 分析レポート -->
+  <div class="page" id="page-mc-analytics">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">分析レポート</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">4.2<span style="font-size:16px">x</span></div>
+        <div class="adm-label">採用ROI</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">67<span style="font-size:16px">%</span></div>
+        <div class="adm-label">歩留まり率</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">45<span style="font-size:16px">日</span></div>
+        <div class="adm-label">平均採用期間</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">¥320<span style="font-size:16px">K</span></div>
+        <div class="adm-label">助成金見込み</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">カリキュラム別修了率</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>Webエンジニア基礎</span><span>68%</span></div><div class="progress-bar"><div class="fill" style="width:68%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>Python分析</span><span>35%</span></div><div class="progress-bar"><div class="fill" style="width:35%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>DX基礎</span><span>12%</span></div><div class="progress-bar"><div class="fill" style="width:12%"></div></div></div>
+      </div>
+      <div class="card">
+        <div class="section-title">選考パイプライン</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>エントリー → 書類通過</span><span>80%</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>書類通過 → 一次面接通過</span><span>60%</span></div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>一次面接 → 最終面接通過</span><span>50%</span></div><div class="progress-bar"><div class="fill" style="width:50%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>最終面接 → 内定承諾</span><span>85%</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <button class="btn btn-outline">レポートをダウンロード</button>
+    </div>
+  </div>
+
+  <!-- ==================== -->
+  <!-- TNG ADMIN PAGES -->
+  <!-- ==================== -->
+
+  <!-- PAGE: TNG-01 ダッシュボード -->
+  <div class="page" id="page-tng-dashboard">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">TNG ダッシュボード</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">1,247</div>
+        <div class="adm-label">アクティブユーザー</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">86</div>
+        <div class="adm-label">登録企業数</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">342</div>
+        <div class="adm-label">公開コース</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">99.8<span style="font-size:16px">%</span></div>
+        <div class="adm-label">稼働率</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">システムステータス</div>
+        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>API サーバー</span><span class="param-val">正常</span></div>
+        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>KANAME エンジン</span><span class="param-val">正常</span></div>
+        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>データベース</span><span class="param-val">正常</span></div>
+        <div class="param-row"><span class="param-name"><span class="status-dot yellow"></span>CDN キャッシュ</span><span class="param-val">再構築中</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title">直近のプラットフォームイベント</div>
+        <ul class="history-list">
+          <li><span class="dot" style="width:8px;height:8px;background:#a6e3a1;border-radius:50%;flex-shrink:0;"></span>KANAME v3.2 デプロイ完了<span class="time">2025.06.01</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#34e0ff;border-radius:50%;flex-shrink:0;"></span>新規企業5社 オンボーディング<span class="time">2025.05.30</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f9e2af;border-radius:50%;flex-shrink:0;"></span>月次レポート自動送信 完了<span class="time">2025.05.28</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>セキュリティパッチ適用<span class="time">2025.05.25</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: TNG-02 AIエンジン調整 -->
+  <div class="page" id="page-tng-engine">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">KANAME：AIエンジン調整</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">v3.2</div>
+        <div class="adm-label">現行バージョン</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">94<span style="font-size:16px">%</span></div>
+        <div class="adm-label">応答精度</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">1.2<span style="font-size:16px">s</span></div>
+        <div class="adm-label">平均応答時間</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">15.8<span style="font-size:16px">K</span></div>
+        <div class="adm-label">日次リクエスト</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">エンジンパラメータ</div>
+        <div class="param-row"><span class="param-name">学習推薦モデル</span><span class="param-val">collaborative-v3</span></div>
+        <div class="param-row"><span class="param-name">スキルギャップ分析</span><span class="param-val">enabled</span></div>
+        <div class="param-row"><span class="param-name">カリキュラム自動生成</span><span class="param-val">enabled</span></div>
+        <div class="param-row"><span class="param-name">メンター応答モード</span><span class="param-val">adaptive</span></div>
+        <div class="param-row"><span class="param-name">Temperature</span><span class="param-val">0.7</span></div>
+        <div class="param-row"><span class="param-name">コンテキスト上限</span><span class="param-val">8,192 tokens</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title">応答品質モニタリング</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>学習質問 正答率</span><span>96%</span></div><div class="progress-bar"><div class="fill" style="width:96%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>カリキュラム適合度</span><span>89%</span></div><div class="progress-bar"><div class="fill" style="width:89%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>ユーザー満足度</span><span>92%</span></div><div class="progress-bar"><div class="fill" style="width:92%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>マッチング精度</span><span>87%</span></div><div class="progress-bar"><div class="fill" style="width:87%"></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="btn btn-green">パラメータを更新</button>
+      <button class="btn btn-outline">モデル更新履歴</button>
+    </div>
+  </div>
+
+  <!-- PAGE: TNG-03 企業・アカウント統括管理 -->
+  <div class="page" id="page-tng-accounts">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">企業・アカウント統括管理</h2>
+    <div class="matching-search-bar" style="margin-bottom:20px;">
+      <input type="text" placeholder="企業名・アカウントIDで検索...">
+      <button class="btn btn-outline">検索</button>
+    </div>
+    <div class="tab-bar" style="margin-bottom:20px;">
+      <div class="tab-item active">全企業</div>
+      <div class="tab-item">アクティブ</div>
+      <div class="tab-item">トライアル</div>
+      <div class="tab-item">停止中</div>
+    </div>
+    <div class="card">
+      <table class="admin-table">
+        <thead><tr><th>企業名</th><th>プラン</th><th>受講者数</th><th>コース数</th><th>契約状態</th></tr></thead>
+        <tbody>
+          <tr><td>◯◯株式会社</td><td>エンタープライズ</td><td>24名</td><td>5</td><td><span class="status-dot green"></span>アクティブ</td></tr>
+          <tr><td>△△株式会社</td><td>スタンダード</td><td>12名</td><td>3</td><td><span class="status-dot green"></span>アクティブ</td></tr>
+          <tr><td>□□テクノロジーズ</td><td>エンタープライズ</td><td>35名</td><td>8</td><td><span class="status-dot green"></span>アクティブ</td></tr>
+          <tr><td>◇◇ソリューションズ</td><td>トライアル</td><td>5名</td><td>1</td><td><span class="status-dot yellow"></span>トライアル</td></tr>
+          <tr><td>▽▽コーポレーション</td><td>スタンダード</td><td>—</td><td>—</td><td><span class="status-dot red"></span>停止中</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE: TNG-04 人材管理 -->
+  <div class="page" id="page-tng-hr">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">人材管理（全プラットフォーム）</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">1,247</div>
+        <div class="adm-label">登録求職者</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">832</div>
+        <div class="adm-label">学習アクティブ</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">215</div>
+        <div class="adm-label">マッチング成立</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">156</div>
+        <div class="adm-label">内定・入社</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">スキル分布</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>フロントエンド</span><span>38%</span></div><div class="progress-bar"><div class="fill" style="width:38%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>バックエンド</span><span>25%</span></div><div class="progress-bar"><div class="fill" style="width:25%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>データ分析</span><span>18%</span></div><div class="progress-bar"><div class="fill" style="width:18%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>インフラ</span><span>12%</span></div><div class="progress-bar"><div class="fill" style="width:12%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>その他</span><span>7%</span></div><div class="progress-bar"><div class="fill" style="width:7%"></div></div></div>
+      </div>
+      <div class="card">
+        <div class="section-title">月別マッチング推移</div>
+        <div class="param-row"><span class="param-name">2025年6月</span><span class="param-val">28件</span></div>
+        <div class="param-row"><span class="param-name">2025年5月</span><span class="param-val">35件</span></div>
+        <div class="param-row"><span class="param-name">2025年4月</span><span class="param-val">22件</span></div>
+        <div class="param-row"><span class="param-name">2025年3月</span><span class="param-val">18件</span></div>
+        <div class="param-row"><span class="param-name">2025年2月</span><span class="param-val">15件</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: TNG-05 分析レポート -->
+  <div class="page" id="page-tng-analytics">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">分析レポート（プラットフォーム全体）</h2>
+    <div class="admin-stat-grid">
+      <div class="admin-stat-card">
+        <div class="adm-value">92<span style="font-size:16px">%</span></div>
+        <div class="adm-label">学習継続率</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">73<span style="font-size:16px">%</span></div>
+        <div class="adm-label">コース修了率</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">68<span style="font-size:16px">%</span></div>
+        <div class="adm-label">就職決定率</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-value">4.6</div>
+        <div class="adm-label">NPS スコア</div>
+      </div>
+    </div>
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">企業別 採用実績</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>◯◯株式会社</span><span>12名</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>□□テクノロジーズ</span><span>9名</span></div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>△△株式会社</span><span>6名</span></div><div class="progress-bar"><div class="fill" style="width:40%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>◇◇ソリューションズ</span><span>3名</span></div><div class="progress-bar"><div class="fill" style="width:20%"></div></div></div>
+      </div>
+      <div class="card">
+        <div class="section-title">KPI サマリー</div>
+        <div class="param-row"><span class="param-name">MAU（月間アクティブ）</span><span class="param-val">832</span></div>
+        <div class="param-row"><span class="param-name">DAU（日間アクティブ）</span><span class="param-val">312</span></div>
+        <div class="param-row"><span class="param-name">平均セッション時間</span><span class="param-val">42分</span></div>
+        <div class="param-row"><span class="param-name">KANAME 利用率</span><span class="param-val">78%</span></div>
+        <div class="param-row"><span class="param-name">MRR</span><span class="param-val">¥4.2M</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="btn btn-outline">月次レポート生成</button>
+      <button class="btn btn-outline">CSVエクスポート</button>
+    </div>
+  </div>
+
 </main>
 
 <!-- ===== CHAT FAB ===== -->
@@ -2261,22 +2841,128 @@ body::before {
 </footer>
 
 <script>
+// ===== PORTAL DEFINITIONS =====
+var portalNavConfig = {
+  seeker: {
+    label: '求職者ポータル',
+    defaultPage: 'dashboard',
+    headerRight: '<button class="header-menu-btn" onclick="showPage(\'news\')">お知らせ</button><button class="btn-mypage" onclick="showPage(\'mypage\')"><img src="person-icon.png" alt="">My Page</button>',
+    showLearn: true,
+    nav: [
+      { section: 'メニュー' },
+      { page: 'dashboard', label: 'ダッシュボード' },
+      { page: 'news', label: 'お知らせ' },
+      { page: 'portal', label: '学習ポータル' },
+      { page: 'mypage', label: 'Myページ' },
+      { section: '学習' },
+      { page: 'portal', label: 'カリキュラム一覧' },
+      { page: 'lesson', label: '受講中コース' },
+      { page: 'portal', label: '修了済みコース' },
+      { section: 'キャリア' },
+      { page: 'matching', label: 'マッチング' },
+      { page: 'selection', label: '選考状況' },
+      { page: 'mypage', label: 'ポートフォリオ' }
+    ]
+  },
+  enterprise: {
+    label: '企業管理者ポータル',
+    defaultPage: 'mc-dashboard',
+    headerRight: '',
+    showLearn: false,
+    nav: [
+      { section: '管理メニュー' },
+      { page: 'mc-dashboard', label: 'ダッシュボード' },
+      { page: 'mc-curriculum', label: 'カリキュラム管理' },
+      { page: 'mc-skillprime', label: 'スキルプライム' },
+      { page: 'mc-hr', label: '人材管理' },
+      { page: 'mc-analytics', label: '分析レポート' }
+    ]
+  },
+  tng: {
+    label: 'TNG管理者ポータル',
+    defaultPage: 'tng-dashboard',
+    headerRight: '',
+    showLearn: false,
+    nav: [
+      { section: '統括管理' },
+      { page: 'tng-dashboard', label: 'ダッシュボード' },
+      { page: 'tng-engine', label: 'AIエンジン調整' },
+      { page: 'tng-accounts', label: 'アカウント管理' },
+      { page: 'tng-hr', label: '人材管理' },
+      { page: 'tng-analytics', label: '分析レポート' }
+    ]
+  }
+};
+
+var currentPortal = null;
+
+// ===== PORTAL SWITCHING =====
+function switchPortal(portalId) {
+  var dropdown = document.getElementById('navDropdown');
+  var headerRight = document.getElementById('headerRight');
+  var headerLearn = document.getElementById('headerLearn');
+  var portalLabel = document.getElementById('portalLabel');
+
+  if (portalId === 'home') {
+    document.body.className = 'in-home';
+    currentPortal = null;
+    dropdown.innerHTML = '';
+    headerRight.innerHTML = '';
+    headerLearn.style.display = 'none';
+    portalLabel.textContent = '';
+    showPage('home');
+    localStorage.removeItem('cytech-last-portal');
+    return;
+  }
+
+  var config = portalNavConfig[portalId];
+  if (!config) return;
+
+  currentPortal = portalId;
+  document.body.className = 'in-portal';
+  portalLabel.textContent = config.label;
+  headerRight.innerHTML = config.headerRight;
+  headerLearn.style.display = config.showLearn ? '' : 'none';
+
+  // Build nav dropdown
+  var html = '';
+  config.nav.forEach(function(item) {
+    if (item.section) {
+      html += '<div class="nav-dropdown-section">' + item.section + '</div>';
+    } else {
+      html += '<div class="nav-dropdown-item" data-page="' + item.page + '"><span class="dot"></span>' + item.label + '</div>';
+    }
+  });
+  dropdown.innerHTML = html;
+
+  // Re-attach nav click handlers
+  dropdown.querySelectorAll('.nav-dropdown-item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var page = el.getAttribute('data-page');
+      if (page) showPage(page);
+    });
+  });
+
+  localStorage.setItem('cytech-last-portal', portalId);
+  showPage(config.defaultPage);
+}
+
 // ===== SPA NAVIGATION =====
 function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const target = document.getElementById('page-' + pageId);
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById('page-' + pageId);
   if (target) target.classList.add('active');
 
   // Update nav dropdown active state
-  document.querySelectorAll('.nav-dropdown-item').forEach(item => item.classList.remove('active'));
-  const navItem = document.querySelector('.nav-dropdown-item[data-page="' + pageId + '"]');
+  document.querySelectorAll('.nav-dropdown-item').forEach(function(item) { item.classList.remove('active'); });
+  var navItem = document.querySelector('.nav-dropdown-item[data-page="' + pageId + '"]');
   if (navItem) navItem.classList.add('active');
 
-  // Close dropdown on navigate
+  // Close dropdown
   document.getElementById('navDropdown').classList.remove('open');
 
   // Store last page
-  if (pageId !== 'tutorial') {
+  if (pageId !== 'tutorial' && pageId !== 'home') {
     localStorage.setItem('cytech-last-page', pageId);
   }
 }
@@ -2288,26 +2974,18 @@ function toggleNav() {
 
 // Close dropdown when clicking outside
 document.addEventListener('click', function(e) {
-  const dropdown = document.getElementById('navDropdown');
-  const menuBtn = document.getElementById('menuToggle');
+  var dropdown = document.getElementById('navDropdown');
+  var menuBtn = document.getElementById('menuToggle');
   if (!dropdown.contains(e.target) && !menuBtn.contains(e.target)) {
     dropdown.classList.remove('open');
   }
 });
 
-// Nav dropdown click handlers
-document.querySelectorAll('.nav-dropdown-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const page = item.getAttribute('data-page');
-    if (page) showPage(page);
-  });
-});
-
 // Tab bar click handlers
-document.querySelectorAll('.tab-bar').forEach(bar => {
-  bar.querySelectorAll('.tab-item').forEach(tab => {
-    tab.addEventListener('click', () => {
-      bar.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+document.querySelectorAll('.tab-bar').forEach(function(bar) {
+  bar.querySelectorAll('.tab-item').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      bar.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
       tab.classList.add('active');
     });
   });
@@ -2408,14 +3086,8 @@ document.querySelectorAll('.filter-section').forEach(function(section) {
 
 // ===== INIT =====
 (function() {
-  const visited = localStorage.getItem('cytech-visited');
-  if (!visited) {
-    localStorage.setItem('cytech-visited', 'true');
-    showPage('tutorial');
-  } else {
-    const lastPage = localStorage.getItem('cytech-last-page') || 'dashboard';
-    showPage(lastPage);
-  }
+  // Always start at HOME
+  switchPortal('home');
 })();
 </script>
 </body>
