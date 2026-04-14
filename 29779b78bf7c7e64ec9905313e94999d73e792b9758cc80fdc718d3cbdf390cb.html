@@ -1701,6 +1701,24 @@ body.in-portal .portal-label { display: block; }
     </div>
   </div>
 
+  <!-- PAGE: LOGIN PREVIEW (P-01) -->
+  <div class="page" id="page-login-preview">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:8px;">ログイン画面（P-01）</h2>
+    <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px;">実際のログイン画面のプレビューです。</p>
+    <div style="max-width:460px;margin:0 auto;">
+      <div class="card" style="text-align:center;padding:48px 40px;">
+        <img src="logo.png" alt="CyTech Urushi OS" style="width:64px;height:64px;object-fit:contain;margin-bottom:20px;">
+        <h3 style="font-family:'Lato',sans-serif;font-weight:700;font-size:24px;margin-bottom:4px;">CyTech Urushi OS</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:36px;">Platform Access</p>
+        <div style="text-align:left;margin-bottom:24px;">
+          <label style="display:block;font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;font-weight:500;">パスワード</label>
+          <div style="width:100%;padding:12px 20px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.2);border-radius:100px;font-size:15px;color:rgba(255,255,255,0.4);">パスワードを入力</div>
+        </div>
+        <div style="width:100%;padding:14px;background:linear-gradient(135deg,#953ec3 0%,#0f4bab 100%);color:#fff;border-radius:100px;font-size:15px;font-family:'Lato',sans-serif;font-weight:700;text-align:center;">ログイン</div>
+      </div>
+    </div>
+  </div>
+
   <!-- PAGE: TUTORIAL -->
   <div class="page" id="page-tutorial">
     <div class="step-bar">
@@ -2849,6 +2867,9 @@ var portalNavConfig = {
     headerRight: '<button class="header-menu-btn" onclick="showPage(\'news\')">お知らせ</button><button class="btn-mypage" onclick="showPage(\'mypage\')"><img src="person-icon.png" alt="">My Page</button>',
     showLearn: true,
     nav: [
+      { section: 'はじめに' },
+      { page: 'login-preview', label: 'ログイン画面（P-01）' },
+      { page: 'tutorial', label: 'チュートリアル（P-01-1）' },
       { section: 'メニュー' },
       { page: 'dashboard', label: 'ダッシュボード' },
       { page: 'news', label: 'お知らせ' },
