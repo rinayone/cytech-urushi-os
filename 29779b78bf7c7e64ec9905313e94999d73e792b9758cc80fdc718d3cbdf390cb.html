@@ -1514,37 +1514,14 @@ body.in-portal .portal-label { display: block; }
   z-index: 50;
   overflow-y: auto;
 }
-body.portal-enterprise .mc-sidebar,
-body.portal-tng .tng-sidebar { display: block; }
-body.portal-enterprise .main,
-body.portal-tng .main {
+body.portal-enterprise .mc-sidebar { display: block; }
+body.portal-enterprise .main {
   margin-left: 240px;
   max-width: calc(1280px - 220px);
 }
-body.portal-enterprise .footer,
-body.portal-tng .footer {
+body.portal-enterprise .footer {
   margin-left: 240px;
   max-width: calc(1280px - 220px);
-}
-.tng-sidebar {
-  display: none;
-  position: fixed;
-  top: 104px;
-  left: 20px;
-  width: 200px;
-  bottom: 20px;
-  background: rgba(0,0,0,0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-  border-radius: 20px;
-  padding: 20px 12px;
-  z-index: 50;
-  overflow-y: auto;
-}
-.tng-sidebar .mc-nav-item,
-.tng-sidebar .mc-nav-section {
-  /* reuse mc-sidebar styles */
 }
 .mc-sidebar .mc-nav-item {
   display: flex;
@@ -1896,12 +1873,9 @@ body.portal-tng .footer {
   .tutorial-layout { grid-template-columns: 1fr; }
   .lesson-layout { grid-template-columns: 1fr; }
   .mypage-grid { grid-template-columns: 1fr; }
-  body.portal-enterprise .mc-sidebar,
-  body.portal-tng .tng-sidebar { display: none; }
-  body.portal-enterprise .main,
-  body.portal-tng .main { margin-left: auto; max-width: 1280px; }
-  body.portal-enterprise .footer,
-  body.portal-tng .footer { margin-left: auto; max-width: 1280px; }
+  body.portal-enterprise .mc-sidebar { display: none; }
+  body.portal-enterprise .main { margin-left: auto; max-width: 1280px; }
+  body.portal-enterprise .footer { margin-left: auto; max-width: 1280px; }
   .portal-grid { grid-template-columns: 1fr; }
   .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-two-col { grid-template-columns: 1fr; }
@@ -1949,20 +1923,6 @@ body.portal-tng .footer {
   <div class="mc-nav-item" data-mc-page="mc-analytics"><span class="nav-dot"></span>分析レポート</div>
   <div class="mc-nav-section">設定</div>
   <div class="mc-nav-item" data-mc-page="mc-dashboard"><span class="nav-dot"></span>アカウント設定</div>
-</aside>
-
-<!-- ===== TNG SIDEBAR ===== -->
-<aside class="tng-sidebar" id="tngSidebar">
-  <div class="mc-nav-section">全体管理</div>
-  <div class="mc-nav-item active" data-tng-page="tng-dashboard"><span class="nav-dot"></span>ダッシュボード</div>
-  <div class="mc-nav-item" data-tng-page="tng-accounts"><span class="nav-dot"></span>企業アカウント統括</div>
-  <div class="mc-nav-item" data-tng-page="tng-hr"><span class="nav-dot"></span>人材管理</div>
-  <div class="mc-nav-section">AIエンジン</div>
-  <div class="mc-nav-item" data-tng-page="tng-engine"><span class="nav-dot"></span>KANAME調整</div>
-  <div class="mc-nav-item" data-tng-page="tng-dashboard"><span class="nav-dot"></span>アラート・ログ</div>
-  <div class="mc-nav-section">分析・レポート</div>
-  <div class="mc-nav-item" data-tng-page="tng-analytics"><span class="nav-dot"></span>分析レポート</div>
-  <div class="mc-nav-item" data-tng-page="tng-analytics"><span class="nav-dot"></span>KPIエクスポート</div>
 </aside>
 
 <!-- ===== NAV DROPDOWN ===== -->
@@ -3671,9 +3631,8 @@ function showPage(pageId) {
   // Close dropdown
   document.getElementById('navDropdown').classList.remove('open');
 
-  // Update sidebar active states
+  // Update enterprise sidebar active state
   updateMcSidebar(pageId);
-  updateTngSidebar(pageId);
 
   // Store last page
   if (pageId !== 'tutorial' && pageId !== 'home') {
@@ -3734,22 +3693,6 @@ function updateMcSidebar(pageId) {
 document.querySelectorAll('.mc-nav-item').forEach(function(item) {
   item.addEventListener('click', function() {
     var page = item.getAttribute('data-mc-page');
-    if (page) showPage(page);
-  });
-});
-
-// ===== TNG SIDEBAR =====
-function updateTngSidebar(pageId) {
-  document.querySelectorAll('[data-tng-page]').forEach(function(item) {
-    item.classList.remove('active');
-    if (pageId && item.getAttribute('data-tng-page') === pageId) {
-      item.classList.add('active');
-    }
-  });
-}
-document.querySelectorAll('[data-tng-page]').forEach(function(item) {
-  item.addEventListener('click', function() {
-    var page = item.getAttribute('data-tng-page');
     if (page) showPage(page);
   });
 });
