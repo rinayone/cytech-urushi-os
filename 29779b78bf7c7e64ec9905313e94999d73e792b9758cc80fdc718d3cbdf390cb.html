@@ -1497,6 +1497,69 @@ body.in-portal .portal-label { display: block; }
   color: #34e0ff;
 }
 
+/* ===== ENTERPRISE SIDEBAR ===== */
+.mc-sidebar {
+  display: none;
+  position: fixed;
+  top: 104px;
+  left: 20px;
+  width: 200px;
+  bottom: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 20px 12px;
+  z-index: 50;
+  overflow-y: auto;
+}
+body.portal-enterprise .mc-sidebar { display: block; }
+body.portal-enterprise .main {
+  margin-left: 240px;
+  max-width: calc(1280px - 220px);
+}
+body.portal-enterprise .footer {
+  margin-left: 240px;
+  max-width: calc(1280px - 220px);
+}
+.mc-sidebar .mc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
+.mc-sidebar .mc-nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.mc-sidebar .mc-nav-item.active {
+  color: #fff;
+  font-weight: 700;
+  background: rgba(255,255,255,0.08);
+}
+.mc-sidebar .mc-nav-item .nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+.mc-sidebar .mc-nav-item.active .nav-dot {
+  background: linear-gradient(to right, #953ec3, #0f4bab);
+}
+.mc-sidebar .mc-nav-section {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  padding: 14px 14px 4px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+}
+
 /* ===== ALERT BANNER ===== */
 .alert-banner {
   background: rgba(249,226,175,0.12);
@@ -1810,6 +1873,9 @@ body.in-portal .portal-label { display: block; }
   .tutorial-layout { grid-template-columns: 1fr; }
   .lesson-layout { grid-template-columns: 1fr; }
   .mypage-grid { grid-template-columns: 1fr; }
+  body.portal-enterprise .mc-sidebar { display: none; }
+  body.portal-enterprise .main { margin-left: auto; max-width: 1280px; }
+  body.portal-enterprise .footer { margin-left: auto; max-width: 1280px; }
   .portal-grid { grid-template-columns: 1fr; }
   .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-two-col { grid-template-columns: 1fr; }
@@ -1846,6 +1912,18 @@ body.in-portal .portal-label { display: block; }
     </button>
   </div>
 </header>
+
+<!-- ===== ENTERPRISE SIDEBAR ===== -->
+<aside class="mc-sidebar" id="mcSidebar">
+  <div class="mc-nav-item active" data-mc-page="mc-dashboard"><span class="nav-dot"></span>ダッシュボード</div>
+  <div class="mc-nav-item" data-mc-page="mc-curriculum"><span class="nav-dot"></span>カリキュラム生成・管理</div>
+  <div class="mc-nav-item" data-mc-page="mc-skillprime"><span class="nav-dot"></span>スキルプライム設定</div>
+  <div class="mc-nav-section">運用</div>
+  <div class="mc-nav-item" data-mc-page="mc-hr"><span class="nav-dot"></span>人材管理</div>
+  <div class="mc-nav-item" data-mc-page="mc-analytics"><span class="nav-dot"></span>分析レポート</div>
+  <div class="mc-nav-section">設定</div>
+  <div class="mc-nav-item" data-mc-page="mc-dashboard"><span class="nav-dot"></span>アカウント設定</div>
+</aside>
 
 <!-- ===== NAV DROPDOWN ===== -->
 <nav class="nav-dropdown" id="navDropdown">
@@ -3364,6 +3442,7 @@ function switchPortal(portalId) {
   if (portalId === 'home') {
     document.body.className = 'in-home';
     currentPortal = null;
+    updateMcSidebar(null);
     dropdown.innerHTML = '';
     headerRight.innerHTML = '';
     headerLearn.style.display = 'none';
@@ -3377,7 +3456,7 @@ function switchPortal(portalId) {
   if (!config) return;
 
   currentPortal = portalId;
-  document.body.className = 'in-portal';
+  document.body.className = 'in-portal portal-' + portalId;
   portalLabel.textContent = config.label;
   headerRight.innerHTML = config.headerRight;
   headerLearn.style.display = config.showLearn ? '' : 'none';
@@ -3419,6 +3498,9 @@ function showPage(pageId) {
   // Close dropdown
   document.getElementById('navDropdown').classList.remove('open');
 
+  // Update enterprise sidebar active state
+  updateMcSidebar(pageId);
+
   // Store last page
   if (pageId !== 'tutorial' && pageId !== 'home') {
     localStorage.setItem('cytech-last-page', pageId);
@@ -3446,6 +3528,22 @@ document.querySelectorAll('.tab-bar').forEach(function(bar) {
       bar.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
       tab.classList.add('active');
     });
+  });
+});
+
+// ===== ENTERPRISE SIDEBAR =====
+function updateMcSidebar(pageId) {
+  document.querySelectorAll('.mc-nav-item').forEach(function(item) {
+    item.classList.remove('active');
+    if (pageId && item.getAttribute('data-mc-page') === pageId) {
+      item.classList.add('active');
+    }
+  });
+}
+document.querySelectorAll('.mc-nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var page = item.getAttribute('data-mc-page');
+    if (page) showPage(page);
   });
 });
 
