@@ -1497,6 +1497,218 @@ body.in-portal .portal-label { display: block; }
   color: #34e0ff;
 }
 
+/* ===== ALERT BANNER ===== */
+.alert-banner {
+  background: rgba(249,226,175,0.12);
+  border: 1px solid rgba(249,226,175,0.3);
+  border-radius: 16px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #f9e2af;
+}
+.alert-banner .alert-icon { font-size: 18px; flex-shrink: 0; }
+.alert-banner .alert-text { flex: 1; }
+.alert-banner .alert-action {
+  padding: 6px 16px;
+  background: rgba(249,226,175,0.2);
+  border: 1px solid rgba(249,226,175,0.4);
+  border-radius: 100px;
+  color: #f9e2af;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.alert-banner .alert-action:hover { background: rgba(249,226,175,0.35); }
+
+/* ===== FILE UPLOAD AREA ===== */
+.upload-area {
+  border: 2px dashed rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.upload-area:hover { border-color: rgba(255,255,255,0.35); }
+.upload-area .upload-label { font-size: 13px; color: rgba(255,255,255,0.3); margin-top: 8px; }
+
+/* ===== GATE TOGGLE ===== */
+.gate-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+.gate-control .gate-info { flex: 1; }
+.gate-control .gate-label {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.gate-control .gate-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== MODE CARDS ===== */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.mode-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-card:hover { border-color: rgba(255,255,255,0.15); }
+.mode-card.active { border-color: #34e0ff; }
+.mode-card .mode-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.mode-card .mode-item {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  padding: 3px 0;
+}
+.mode-card .mode-score {
+  font-size: 12px;
+  color: #34e0ff;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+/* ===== CHECKLIST ===== */
+.checklist { list-style: none; margin-bottom: 24px; }
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.checklist li .check-icon {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  background: rgba(166,227,161,0.2);
+  color: #a6e3a1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ===== CANDIDATE CARD ===== */
+.candidate-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+.candidate-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f4bab, #34e0ff);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff; font-size: 16px;
+  flex-shrink: 0;
+}
+.candidate-name { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+.candidate-meta { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+.candidate-skills { display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.candidate-skills .cs-item { font-size: 12px; color: rgba(255,255,255,0.6); }
+.candidate-skills .cs-item strong { color: #fff; }
+.candidate-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.candidate-tags .c-tag {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+}
+.candidate-tags .c-tag.highlight { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.candidate-score {
+  text-align: center;
+  flex-shrink: 0;
+}
+.candidate-score .cs-value {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: #34e0ff;
+}
+.candidate-score .cs-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ===== BAR CHART (CSS) ===== */
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-bottom: 8px; }
+.bar-chart .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.bar-chart .bar {
+  width: 100%;
+  background: linear-gradient(to top, #0f4bab, #34e0ff);
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+}
+.bar-chart .bar-label { font-size: 10px; color: rgba(255,255,255,0.4); }
+.bar-chart-horiz .bh-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-chart-horiz .bh-label { font-size: 12px; color: rgba(255,255,255,0.5); width: 60px; text-align: right; flex-shrink: 0; }
+.bar-chart-horiz .bh-bar { flex: 1; height: 18px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.bar-chart-horiz .bh-bar .bh-fill { height: 100%; background: linear-gradient(to right, #953ec3, #0f4bab); border-radius: 4px; }
+.bar-chart-horiz .bh-val { font-size: 12px; color: rgba(255,255,255,0.5); width: 30px; flex-shrink: 0; }
+
+/* ===== CURRICULUM LIST (MC-02) ===== */
+.curriculum-list-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.05);
+}
+.curriculum-list-item .cli-info { flex: 1; }
+.curriculum-list-item .cli-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+.curriculum-list-item .cli-meta { font-size: 12px; color: rgba(255,255,255,0.4); }
+.curriculum-list-item .cli-actions { display: flex; gap: 8px; }
+.curriculum-list-item.generating { border-color: rgba(249,226,175,0.3); background: rgba(249,226,175,0.05); }
+
 /* ===== SECTION TITLES ===== */
 .section-title {
   font-family: 'Lato', sans-serif;
@@ -1601,6 +1813,9 @@ body.in-portal .portal-label { display: block; }
   .portal-grid { grid-template-columns: 1fr; }
   .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-two-col { grid-template-columns: 1fr; }
+  .mode-grid { grid-template-columns: repeat(2, 1fr); }
+  .candidate-card { grid-template-columns: 1fr; }
+  .candidate-score { text-align: left; }
   .company-card { grid-template-columns: 1fr; }
   .company-match { text-align: left; }
   .selection-summary { grid-template-columns: repeat(2, 1fr); }
@@ -2473,158 +2688,380 @@ body.in-portal .portal-label { display: block; }
   <!-- PAGE: MC-01 企業ダッシュボード -->
   <div class="page" id="page-mc-dashboard">
     <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">企業ダッシュボード</h2>
+
+    <!-- フォローアップアラート -->
+    <div class="alert-banner">
+      <span class="alert-icon">&#9888;</span>
+      <span class="alert-text"><strong>フォローアップアラート：</strong>面談リスク 3名 — AIが学習停止を検知し、優先フォロー対象を選定しています。</span>
+      <button class="alert-action" onclick="showPage('mc-hr')">対象者を確認 →</button>
+    </div>
+
+    <!-- 統計カード -->
     <div class="admin-stat-grid">
       <div class="admin-stat-card">
-        <div class="adm-value">24</div>
-        <div class="adm-label">受講者数</div>
+        <div class="adm-value">64<span style="font-size:16px">%</span></div>
+        <div class="adm-label">全体学習進捗（平均）</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">5</div>
-        <div class="adm-label">公開カリキュラム</div>
+        <div class="adm-value">78<span style="font-size:16px">点</span></div>
+        <div class="adm-label">月内テストスコア（平均）</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">3</div>
-        <div class="adm-label">内定者</div>
+        <div class="adm-value" style="color:#f9e2af;">3<span style="font-size:16px">名</span></div>
+        <div class="adm-label">離脱/スキル不足判定</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">78<span style="font-size:16px">%</span></div>
-        <div class="adm-label">平均マッチ率</div>
+        <div class="adm-value">12<span style="font-size:16px">件</span></div>
+        <div class="adm-label">Score出力（状況）</div>
       </div>
     </div>
+
+    <!-- 社員一覧 + Sprint業務状況 -->
     <div class="admin-two-col">
       <div class="card">
-        <div class="section-title">受講者 学習進捗</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>N.S</span><span>63%</span></div><div class="progress-bar"><div class="fill" style="width:63%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>T.K</span><span>85%</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>M.Y</span><span>42%</span></div><div class="progress-bar"><div class="fill" style="width:42%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>A.H</span><span>91%</span></div><div class="progress-bar"><div class="fill" style="width:91%"></div></div></div>
+        <div class="section-title">社員一覧（学習状況）<a href="#" onclick="showPage('mc-hr'); return false;" style="font-size:13px;color:rgba(255,255,255,0.4);float:right;text-decoration:none;">人材管理 →</a></div>
+        <table class="admin-table">
+          <thead><tr><th>氏名</th><th>進捗</th><th></th><th>ステータス</th></tr></thead>
+          <tbody>
+            <tr><td>佐藤 一郎</td><td>82%</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:82%"></div></div></td><td><span class="status-dot green"></span>順調</td></tr>
+            <tr><td>鈴木 花子</td><td>64%</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:64%"></div></div></td><td><span class="status-dot blue"></span>進行中</td></tr>
+            <tr><td>田中 美穂</td><td>38%</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:38%"></div></div></td><td><span class="status-dot yellow"></span>要注意</td></tr>
+            <tr><td>中田 真美</td><td>55%</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:55%"></div></div></td><td><span class="status-dot blue"></span>進行中</td></tr>
+          </tbody>
+        </table>
       </div>
       <div class="card">
-        <div class="section-title">最新アクティビティ</div>
+        <div class="section-title">Sprint 業務状況</div>
+        <div style="display:flex;gap:12px;margin-bottom:16px;">
+          <div style="flex:1;text-align:center;padding:12px;background:rgba(247,81,59,0.1);border-radius:12px;">
+            <div style="font-size:24px;font-weight:700;color:#f7513b;">12件</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);">未対応</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:12px;background:rgba(166,227,161,0.1);border-radius:12px;">
+            <div style="font-size:24px;font-weight:700;color:#a6e3a1;">3件</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);">完了</div>
+          </div>
+        </div>
         <ul class="history-list">
-          <li><span class="dot" style="width:8px;height:8px;background:#a6e3a1;border-radius:50%;flex-shrink:0;"></span>T.K — Webエンジニア基礎コース修了<span class="time">2025.06.02</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#34e0ff;border-radius:50%;flex-shrink:0;"></span>N.S — 一次面接予定（6/8）<span class="time">2025.06.01</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#f9e2af;border-radius:50%;flex-shrink:0;"></span>M.Y — JavaScript Unit3 開始<span class="time">2025.05.30</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>A.H — 最終面接 合格<span class="time">2025.05.28</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>佐藤 一郎 — 要フォロー<span class="time">対応待ち</span></li>
+          <li><span class="dot" style="width:8px;height:8px;background:#f9e2af;border-radius:50%;flex-shrink:0;"></span>田中 美穂 — 20日更新なし<span class="time">要確認</span></li>
         </ul>
+      </div>
+    </div>
+
+    <!-- News + 権限設定 -->
+    <div class="admin-two-col">
+      <div class="card">
+        <div class="section-title">Newsアップデート <a href="#" onclick="showPage('news'); return false;" style="font-size:13px;color:rgba(255,255,255,0.4);float:right;text-decoration:none;">すべて見る →</a></div>
+        <div class="news-list-item" style="cursor:pointer;" onclick="switchPortal('seeker'); showPage('news');">
+          <span class="badge badge-green">UPDATE</span>
+          <div class="news-body"><div class="news-title">React入門コースが追加されました</div></div>
+          <div class="news-date">2025.06.01</div>
+        </div>
+        <div class="news-list-item" style="cursor:pointer;" onclick="switchPortal('seeker'); showPage('news');">
+          <span class="badge badge-orange">合格</span>
+          <div class="news-body"><div class="news-title">DX基礎コースの受講者が30名を突破しました</div></div>
+          <div class="news-date">2025.05.28</div>
+        </div>
+        <div class="news-list-item" style="cursor:pointer;" onclick="switchPortal('seeker'); showPage('news');">
+          <span class="badge badge-green">UPDATE</span>
+          <div class="news-body"><div class="news-title">KANAMEエンジンv3.2がリリースされました</div></div>
+          <div class="news-date">2025.05.20</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title">権限設定（アカウント管理）</div>
+        <table class="admin-table">
+          <thead><tr><th>氏名</th><th>役割</th></tr></thead>
+          <tbody>
+            <tr><td>田中 太郎</td><td><span class="badge badge-green" style="font-size:11px;">管理者</span></td></tr>
+            <tr><td>佐藤 花子</td><td><span class="badge badge-blue" style="font-size:11px;">マネージャー</span></td></tr>
+            <tr><td>山田 花子</td><td><span class="badge badge-blue" style="font-size:11px;">推薦者</span></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <!-- PAGE: MC-02 カリキュラム生成・管理 -->
   <div class="page" id="page-mc-curriculum">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">KANAME：カリキュラム生成・管理</h2>
-    <div class="info-banner">
-      <strong>KANAME AI</strong> が企業の技能要件に基づき、最適なカリキュラムを自動生成します。
-    </div>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">カリキュラム生成・管理</h2>
+
+    <!-- KANAME AI生成セクション -->
     <div class="card mb-24">
-      <div class="section-title">公開中カリキュラム</div>
-      <table class="admin-table">
-        <thead><tr><th>カリキュラム名</th><th>単元数</th><th>受講者</th><th>完了率</th><th>状態</th></tr></thead>
-        <tbody>
-          <tr><td>Webエンジニア基礎コース</td><td>20</td><td>12名</td><td>68%</td><td><span class="status-dot green"></span>公開中</td></tr>
-          <tr><td>Pythonデータ分析コース</td><td>15</td><td>8名</td><td>35%</td><td><span class="status-dot green"></span>公開中</td></tr>
-          <tr><td>DX基礎コース</td><td>10</td><td>4名</td><td>12%</td><td><span class="status-dot green"></span>公開中</td></tr>
-          <tr><td>React実践コース</td><td>12</td><td>—</td><td>—</td><td><span class="status-dot yellow"></span>準備中</td></tr>
-          <tr><td>AWS基礎コース</td><td>8</td><td>—</td><td>—</td><td><span class="status-dot yellow"></span>下書き</td></tr>
-        </tbody>
-      </table>
+      <div class="kaname-card" style="margin-bottom:20px;">
+        <div class="kaname-avatar">K</div>
+        <div><strong>KANAME 提案：</strong>自社資料をアップロードしてAIカリキュラムを生成</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;">
+        <div>
+          <div class="upload-area">
+            PDF・Word・動画等をドラッグ&amp;ドロップ
+            <div class="upload-label">pdf / word / pptx / mp4 対応</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group"><label>件名（課題名）</label><input type="text" placeholder="例：新卒向けDX基礎研修"></div>
+            <div class="form-group"><label>講座目標</label><input type="text" placeholder="例：DXの基本概念を理解する"></div>
+            <div class="form-group"><label>難易度</label><select><option>入門</option><option>基礎</option><option>実践</option></select></div>
+            <div class="form-group"><label>言語設定 / 対象</label><select><option>新卒（全講座）</option><option>中途（全講座）</option><option>全社員</option></select></div>
+          </div>
+          <button class="btn btn-green" style="margin-top:8px;">カリキュラムを生成 →</button>
+        </div>
+        <div>
+          <button class="btn btn-dark" style="width:100%;margin-bottom:12px;">資料をアップロード</button>
+          <div class="form-group"><label>カスタム指示</label><textarea style="width:100%;height:100px;padding:10px 14px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;font-size:13px;font-family:inherit;outline:none;background:rgba(255,255,255,0.05);color:#fff;resize:vertical;" placeholder="AIへの追加指示を入力..."></textarea></div>
+        </div>
+      </div>
     </div>
-    <button class="btn btn-green">＋ 新規カリキュラムを生成</button>
+
+    <!-- カリキュラム一覧 -->
+    <div class="section-title">カリキュラム一覧</div>
+    <div class="curriculum-list-item">
+      <div class="cli-info">
+        <div class="cli-name">DX基礎コース（新卒向け）</div>
+        <div class="cli-meta">作成者: 田中太郎 | 全10講座 | 2025.05.01 | 4名が受講中</div>
+      </div>
+      <div class="cli-actions">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;">プレビュー</button>
+        <button class="btn btn-dark" style="padding:6px 14px;font-size:12px;">編集</button>
+      </div>
+    </div>
+    <div class="curriculum-list-item">
+      <div class="cli-info">
+        <div class="cli-name">業務強化コース（中途向け）</div>
+        <div class="cli-meta">作成者: 佐藤花子 | 全8講座 | 2025.06.03 | 8名が受講中</div>
+      </div>
+      <div class="cli-actions">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;">プレビュー</button>
+        <button class="btn btn-dark" style="padding:6px 14px;font-size:12px;">編集</button>
+      </div>
+    </div>
+    <div class="curriculum-list-item generating">
+      <div class="cli-info">
+        <div class="cli-name" style="color:#f9e2af;">情シス向け セキュリティ基礎</div>
+        <div class="cli-meta">作成者: 山田花子 | AIメンターとの質問フロー・評価指標のレビュー中</div>
+      </div>
+      <div class="cli-actions">
+        <span style="font-size:12px;color:#f9e2af;font-weight:700;padding:6px 14px;">生成中...</span>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;">プレビュー</button>
+      </div>
+    </div>
   </div>
 
-  <!-- PAGE: MC-03 スキルプライム / 管理 -->
+  <!-- PAGE: MC-03 スキルプライム / 採用試験ゲート設定 -->
   <div class="page" id="page-mc-skillprime">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">スキルプライム / 管理</h2>
-    <div class="info-banner">
-      採用に必要なスキル要件を定義し、求職者のスキルプロフィールとマッチングさせます。
+    <h2 class="section-title" style="font-size:24px;margin-bottom:8px;">スキルプライム / 採用試験ゲート設定</h2>
+    <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px;">必須カリキュラム完了・合格、所定テストスコア合格等の条件を設定し、採用プロセスへの進行を制御します。</p>
+
+    <!-- ゲートON/OFF -->
+    <div class="gate-control">
+      <div class="gate-info">
+        <div class="gate-label"><span style="display:inline-block;padding:2px 10px;background:#a6e3a1;color:#000;border-radius:100px;font-size:11px;margin-right:8px;">ゲート ON</span>採用試験ゲート制御</div>
+        <div class="gate-desc">現在の設定：「Webエンジニア基礎コース」完了 + カリキュラムスコア 75以上 + 応募書類チェック完了</div>
+      </div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
     </div>
-    <div class="card mb-24">
-      <div class="section-title">定義済みスキル要件</div>
-      <table class="admin-table">
-        <thead><tr><th>ポジション</th><th>必須スキル</th><th>候補者数</th><th>充足率</th></tr></thead>
-        <tbody>
-          <tr><td>Webエンジニア</td><td>HTML/CSS, JavaScript, React, Git</td><td>8名</td><td>72%</td></tr>
-          <tr><td>データアナリスト</td><td>Python, pandas, SQL, 統計</td><td>5名</td><td>58%</td></tr>
-          <tr><td>フルスタック</td><td>JavaScript, Node.js, AWS, DB設計</td><td>3名</td><td>45%</td></tr>
-        </tbody>
-      </table>
+
+    <!-- 採用モード別 -->
+    <div class="section-title">採用モード別 スキルプライム設定</div>
+    <div class="mode-grid">
+      <div class="mode-card active">
+        <div class="mode-title">新卒向けモード</div>
+        <div class="mode-item">必須: HTML/CSS入門</div>
+        <div class="mode-item">必須: JavaScript基礎</div>
+        <div class="mode-score">基本スコア: 65点以上</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-title">中途採用向けモード</div>
+        <div class="mode-item">必須: 実務経験相当コース</div>
+        <div class="mode-item">必須: ポートフォリオ提出</div>
+        <div class="mode-score">基本スコア: 75点以上</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-title">大量採用モード</div>
+        <div class="mode-item">必須: 基礎コース1つ以上</div>
+        <div class="mode-item">書類チェック: 簡易</div>
+        <div class="mode-score">基本スコア: 55点以上</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-title">情シス向けモード</div>
+        <div class="mode-item">必須: セキュリティ基礎</div>
+        <div class="mode-item">必須: インフラ入門</div>
+        <div class="mode-score">基本スコア: 70点以上</div>
+      </div>
     </div>
-    <div class="card">
-      <div class="section-title">スキルマップ</div>
-      <div class="skill-bar-item"><div class="skill-label"><span>HTML/CSS</span><span>候補者: 15名</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
-      <div class="skill-bar-item"><div class="skill-label"><span>JavaScript</span><span>候補者: 12名</span></div><div class="progress-bar"><div class="fill" style="width:70%"></div></div></div>
-      <div class="skill-bar-item"><div class="skill-label"><span>Python</span><span>候補者: 8名</span></div><div class="progress-bar"><div class="fill" style="width:50%"></div></div></div>
-      <div class="skill-bar-item"><div class="skill-label"><span>React</span><span>候補者: 5名</span></div><div class="progress-bar"><div class="fill" style="width:30%"></div></div></div>
-      <div class="skill-bar-item"><div class="skill-label"><span>AWS</span><span>候補者: 3名</span></div><div class="progress-bar"><div class="fill" style="width:18%"></div></div></div>
-    </div>
+
+    <!-- 最終チェック項目 -->
+    <div class="section-title" style="color:#f7513b;">最終チェック項目</div>
+    <ul class="checklist">
+      <li><span class="check-icon">&#10003;</span>必須カリキュラムが75%以上達成されている</li>
+      <li><span class="check-icon">&#10003;</span>最終テストスコアが設定値以上（65点以上）</li>
+      <li><span class="check-icon">&#10003;</span>カリキュラムステータスで「合格」ステータスである</li>
+      <li><span class="check-icon">&#10003;</span>ポートフォリオ確認がメール通知されている（0/1名）</li>
+    </ul>
+
+    <!-- 公開ボタン -->
+    <button class="btn btn-green" style="width:100%;padding:16px;font-size:16px;">設定を保存して公開する</button>
   </div>
 
-  <!-- PAGE: MC-04 人材管理 -->
+  <!-- PAGE: MC-04 人材検索・スカウト -->
   <div class="page" id="page-mc-hr">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">人材管理</h2>
-    <div class="matching-search-bar" style="margin-bottom:20px;">
-      <input type="text" placeholder="候補者名・スキルで検索...">
-      <button class="btn btn-outline">検索</button>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">人材検索・スカウト</h2>
+
+    <!-- タグフィルター -->
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+      <div class="filter-section" style="margin-bottom:0;">
+        <span class="filter-chip active">フロントエンド</span>
+        <span class="filter-chip">HTML/CSS 70%以上</span>
+        <span class="filter-chip">バックエンド</span>
+        <span class="filter-chip">在学中</span>
+      </div>
+      <button class="btn btn-dark" style="margin-left:auto;white-space:nowrap;">KANAME自動推薦</button>
     </div>
-    <div class="tab-bar" style="margin-bottom:20px;">
-      <div class="tab-item active">全候補者</div>
-      <div class="tab-item">選考中</div>
-      <div class="tab-item">内定</div>
-      <div class="tab-item">入社済み</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px;">検索結果 / 23名（KANAME推薦スコア順）</p>
+
+    <!-- 候補者カード -->
+    <div class="candidate-card">
+      <div class="candidate-avatar">NS</div>
+      <div>
+        <div class="candidate-name">N.Sさん（20代）キャリアチェンジ希望</div>
+        <div class="candidate-meta">学習進捗: 63% | 土日・正社員 4ヶ月 | メンター対話: 12回</div>
+        <div class="candidate-skills">
+          <span class="cs-item"><strong>HTML/CSS</strong> 80%</span>
+          <span class="cs-item"><strong>JavaScript</strong> 65%</span>
+        </div>
+        <div class="candidate-tags">
+          <span class="c-tag highlight">HTML/CSS達成</span>
+          <span class="c-tag">正社員希望</span>
+          <span class="c-tag">キャリアチェンジ</span>
+        </div>
+      </div>
+      <div class="candidate-score">
+        <div class="cs-value">92</div>
+        <div class="cs-label">マッチスコア</div>
+        <button class="btn btn-green" style="padding:6px 16px;font-size:12px;margin-top:8px;">スカウトを送る</button>
+      </div>
     </div>
-    <div class="card">
-      <table class="admin-table">
-        <thead><tr><th>氏名</th><th>希望職種</th><th>マッチ度</th><th>学習進捗</th><th>選考ステータス</th></tr></thead>
-        <tbody>
-          <tr><td>N.S</td><td>Webエンジニア</td><td>78%</td><td>63%</td><td><span class="status-dot blue"></span>一次面接</td></tr>
-          <tr><td>T.K</td><td>Webエンジニア</td><td>92%</td><td>85%</td><td><span class="status-dot green"></span>内定</td></tr>
-          <tr><td>M.Y</td><td>データアナリスト</td><td>55%</td><td>42%</td><td><span class="status-dot yellow"></span>書類選考</td></tr>
-          <tr><td>A.H</td><td>フルスタック</td><td>88%</td><td>91%</td><td><span class="status-dot green"></span>入社済み</td></tr>
-          <tr><td>K.I</td><td>Webエンジニア</td><td>65%</td><td>38%</td><td><span class="status-dot yellow"></span>エントリー</td></tr>
-        </tbody>
-      </table>
+
+    <div class="candidate-card">
+      <div class="candidate-avatar" style="background:linear-gradient(135deg,#953ec3,#0f4bab);">AK</div>
+      <div>
+        <div class="candidate-name">A.Kさん（30代）データ系志望</div>
+        <div class="candidate-meta">学習進捗: 48% | 平日・契約 3ヶ月 | メンター対話: 8回</div>
+        <div class="candidate-skills">
+          <span class="cs-item"><strong>Python</strong> 55%</span>
+          <span class="cs-item"><strong>SQL</strong> 40%</span>
+        </div>
+        <div class="candidate-tags">
+          <span class="c-tag">データ分析</span>
+          <span class="c-tag">契約社員可</span>
+          <span class="c-tag">30代</span>
+        </div>
+      </div>
+      <div class="candidate-score">
+        <div class="cs-value">88</div>
+        <div class="cs-label">マッチスコア</div>
+        <button class="btn btn-green" style="padding:6px 16px;font-size:12px;margin-top:8px;">スカウトを送る</button>
+      </div>
+    </div>
+
+    <div class="candidate-card">
+      <div class="candidate-avatar" style="background:linear-gradient(135deg,#f7513b,#f13884);">TM</div>
+      <div>
+        <div class="candidate-name">T.Mさん（20代）フルスタック希望</div>
+        <div class="candidate-meta">学習進捗: 71% | 土日・正社員 4ヶ月 | メンター対話: 4回</div>
+        <div class="candidate-skills">
+          <span class="cs-item"><strong>JavaScript</strong> 70%</span>
+          <span class="cs-item"><strong>React</strong> 45%</span>
+        </div>
+        <div class="candidate-tags">
+          <span class="c-tag highlight">JavaScript達成</span>
+          <span class="c-tag">正社員希望</span>
+          <span class="c-tag">フルスタック</span>
+        </div>
+      </div>
+      <div class="candidate-score">
+        <div class="cs-value">85</div>
+        <div class="cs-label">マッチスコア</div>
+        <button class="btn btn-green" style="padding:6px 16px;font-size:12px;margin-top:8px;">スカウトを送る</button>
+      </div>
     </div>
   </div>
 
   <!-- PAGE: MC-05 分析レポート -->
   <div class="page" id="page-mc-analytics">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">分析レポート</h2>
-    <div class="admin-stat-grid">
-      <div class="admin-stat-card">
-        <div class="adm-value">4.2<span style="font-size:16px">x</span></div>
-        <div class="adm-label">採用ROI</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">67<span style="font-size:16px">%</span></div>
-        <div class="adm-label">歩留まり率</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">45<span style="font-size:16px">日</span></div>
-        <div class="adm-label">平均採用期間</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">¥320<span style="font-size:16px">K</span></div>
-        <div class="adm-label">助成金見込み</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h2 class="section-title" style="font-size:24px;margin-bottom:0;">分析レポート</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">CSVエクスポート</button>
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">PDF出力</button>
       </div>
     </div>
+
+    <!-- 統計カード -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div class="admin-stat-card">
+        <div class="adm-label" style="margin-bottom:8px;">全体学習 平均進捗</div>
+        <div class="adm-value">64<span style="font-size:16px">%</span></div>
+        <div style="font-size:12px;color:#a6e3a1;margin-top:4px;">前月比 +5%</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="adm-label" style="margin-bottom:8px;">テスト正答率（平均）</div>
+        <div class="adm-value">78<span style="font-size:16px">点</span></div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">2025年6月実績</div>
+      </div>
+    </div>
+
+    <!-- グラフ -->
     <div class="admin-two-col">
       <div class="card">
-        <div class="section-title">カリキュラム別修了率</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>Webエンジニア基礎</span><span>68%</span></div><div class="progress-bar"><div class="fill" style="width:68%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>Python分析</span><span>35%</span></div><div class="progress-bar"><div class="fill" style="width:35%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>DX基礎</span><span>12%</span></div><div class="progress-bar"><div class="fill" style="width:12%"></div></div></div>
+        <div class="section-title">月別 学習進捗推移</div>
+        <div class="bar-chart">
+          <div class="bar-col"><div class="bar" style="height:35%"></div><div class="bar-label">1月</div></div>
+          <div class="bar-col"><div class="bar" style="height:42%"></div><div class="bar-label">2月</div></div>
+          <div class="bar-col"><div class="bar" style="height:48%"></div><div class="bar-label">3月</div></div>
+          <div class="bar-col"><div class="bar" style="height:55%"></div><div class="bar-label">4月</div></div>
+          <div class="bar-col"><div class="bar" style="height:60%"></div><div class="bar-label">5月</div></div>
+          <div class="bar-col"><div class="bar" style="height:64%"></div><div class="bar-label">6月</div></div>
+        </div>
       </div>
       <div class="card">
-        <div class="section-title">選考パイプライン</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>エントリー → 書類通過</span><span>80%</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>書類通過 → 一次面接通過</span><span>60%</span></div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>一次面接 → 最終面接通過</span><span>50%</span></div><div class="progress-bar"><div class="fill" style="width:50%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>最終面接 → 内定承諾</span><span>85%</span></div><div class="progress-bar"><div class="fill" style="width:85%"></div></div></div>
+        <div class="section-title">テスト正答率分布</div>
+        <div class="bar-chart-horiz">
+          <div class="bh-row"><span class="bh-label">90-100</span><div class="bh-bar"><div class="bh-fill" style="width:15%"></div></div><span class="bh-val">3名</span></div>
+          <div class="bh-row"><span class="bh-label">80-89</span><div class="bh-bar"><div class="bh-fill" style="width:35%"></div></div><span class="bh-val">7名</span></div>
+          <div class="bh-row"><span class="bh-label">70-79</span><div class="bh-bar"><div class="bh-fill" style="width:45%"></div></div><span class="bh-val">9名</span></div>
+          <div class="bh-row"><span class="bh-label">60-69</span><div class="bh-bar"><div class="bh-fill" style="width:20%"></div></div><span class="bh-val">4名</span></div>
+          <div class="bh-row"><span class="bh-label">~59</span><div class="bh-bar"><div class="bh-fill" style="width:5%"></div></div><span class="bh-val">1名</span></div>
+        </div>
       </div>
     </div>
-    <div style="text-align:right;">
-      <button class="btn btn-outline">レポートをダウンロード</button>
+
+    <!-- 助成金シュミレーター -->
+    <div class="card" style="margin-top:24px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <span style="display:inline-block;padding:3px 10px;background:rgba(249,226,175,0.2);color:#f9e2af;border-radius:100px;font-size:11px;font-weight:700;">助成金シュミレーター</span>
+        <span class="section-title" style="margin-bottom:0;">人材開発支援助成金 受給額・コスト計算</span>
+      </div>
+      <div class="admin-stat-grid">
+        <div class="admin-stat-card">
+          <div class="adm-value" style="font-size:20px;">¥540,000</div>
+          <div class="adm-label">推定 助成金対象額</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="adm-value" style="font-size:20px;">¥2,160,000</div>
+          <div class="adm-label">研修にかかるコスト</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="adm-value" style="font-size:20px;">¥1,620,000</div>
+          <div class="adm-label">実質 自己負担額</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="adm-value" style="font-size:20px;">25<span style="font-size:14px">%</span></div>
+          <div class="adm-label">助成金カバー率</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;">※ 人材開発支援助成金（所定訓練コース）に基づく概算です。詳細は管轄の労働局にお問い合わせください。</p>
     </div>
   </div>
 
