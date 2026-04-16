@@ -1514,14 +1514,37 @@ body.in-portal .portal-label { display: block; }
   z-index: 50;
   overflow-y: auto;
 }
-body.portal-enterprise .mc-sidebar { display: block; }
-body.portal-enterprise .main {
+body.portal-enterprise .mc-sidebar,
+body.portal-tng .tng-sidebar { display: block; }
+body.portal-enterprise .main,
+body.portal-tng .main {
   margin-left: 240px;
   max-width: calc(1280px - 220px);
 }
-body.portal-enterprise .footer {
+body.portal-enterprise .footer,
+body.portal-tng .footer {
   margin-left: 240px;
   max-width: calc(1280px - 220px);
+}
+.tng-sidebar {
+  display: none;
+  position: fixed;
+  top: 104px;
+  left: 20px;
+  width: 200px;
+  bottom: 20px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 20px 12px;
+  z-index: 50;
+  overflow-y: auto;
+}
+.tng-sidebar .mc-nav-item,
+.tng-sidebar .mc-nav-section {
+  /* reuse mc-sidebar styles */
 }
 .mc-sidebar .mc-nav-item {
   display: flex;
@@ -1873,9 +1896,12 @@ body.portal-enterprise .footer {
   .tutorial-layout { grid-template-columns: 1fr; }
   .lesson-layout { grid-template-columns: 1fr; }
   .mypage-grid { grid-template-columns: 1fr; }
-  body.portal-enterprise .mc-sidebar { display: none; }
-  body.portal-enterprise .main { margin-left: auto; max-width: 1280px; }
-  body.portal-enterprise .footer { margin-left: auto; max-width: 1280px; }
+  body.portal-enterprise .mc-sidebar,
+  body.portal-tng .tng-sidebar { display: none; }
+  body.portal-enterprise .main,
+  body.portal-tng .main { margin-left: auto; max-width: 1280px; }
+  body.portal-enterprise .footer,
+  body.portal-tng .footer { margin-left: auto; max-width: 1280px; }
   .portal-grid { grid-template-columns: 1fr; }
   .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-two-col { grid-template-columns: 1fr; }
@@ -1923,6 +1949,20 @@ body.portal-enterprise .footer {
   <div class="mc-nav-item" data-mc-page="mc-analytics"><span class="nav-dot"></span>分析レポート</div>
   <div class="mc-nav-section">設定</div>
   <div class="mc-nav-item" data-mc-page="mc-dashboard"><span class="nav-dot"></span>アカウント設定</div>
+</aside>
+
+<!-- ===== TNG SIDEBAR ===== -->
+<aside class="tng-sidebar" id="tngSidebar">
+  <div class="mc-nav-section">全体管理</div>
+  <div class="mc-nav-item active" data-tng-page="tng-dashboard"><span class="nav-dot"></span>ダッシュボード</div>
+  <div class="mc-nav-item" data-tng-page="tng-accounts"><span class="nav-dot"></span>企業アカウント統括</div>
+  <div class="mc-nav-item" data-tng-page="tng-hr"><span class="nav-dot"></span>人材管理</div>
+  <div class="mc-nav-section">AIエンジン</div>
+  <div class="mc-nav-item" data-tng-page="tng-engine"><span class="nav-dot"></span>KANAME調整</div>
+  <div class="mc-nav-item" data-tng-page="tng-dashboard"><span class="nav-dot"></span>アラート・ログ</div>
+  <div class="mc-nav-section">分析・レポート</div>
+  <div class="mc-nav-item" data-tng-page="tng-analytics"><span class="nav-dot"></span>分析レポート</div>
+  <div class="mc-nav-item" data-tng-page="tng-analytics"><span class="nav-dot"></span>KPIエクスポート</div>
 </aside>
 
 <!-- ===== NAV DROPDOWN ===== -->
@@ -3193,196 +3233,288 @@ body.portal-enterprise .footer {
     <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">TNG ダッシュボード</h2>
     <div class="admin-stat-grid">
       <div class="admin-stat-card">
-        <div class="adm-value">1,247</div>
-        <div class="adm-label">アクティブユーザー</div>
+        <div class="adm-value">47</div>
+        <div class="adm-label">導入企業数</div>
+        <div style="font-size:11px;color:#a6e3a1;margin-top:4px;">▲ 3 今月</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">86</div>
-        <div class="adm-label">登録企業数</div>
+        <div class="adm-value">2,341</div>
+        <div class="adm-label">総登録ユーザー数</div>
+        <div style="font-size:11px;color:#a6e3a1;margin-top:4px;">▲ 128 今月</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">342</div>
-        <div class="adm-label">公開コース</div>
+        <div class="adm-value">18.4<span style="font-size:16px">K</span></div>
+        <div class="adm-label">AIリクエスト数/日</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">KANAME 稼働率 99.8%</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">99.8<span style="font-size:16px">%</span></div>
-        <div class="adm-label">稼働率</div>
+        <div class="adm-value">34</div>
+        <div class="adm-label">今月の内定成立</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">プラットフォーム経由</div>
       </div>
     </div>
+
     <div class="admin-two-col">
+      <!-- 導入企業一覧 -->
       <div class="card">
-        <div class="section-title">システムステータス</div>
-        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>API サーバー</span><span class="param-val">正常</span></div>
-        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>KANAME エンジン</span><span class="param-val">正常</span></div>
-        <div class="param-row"><span class="param-name"><span class="status-dot green"></span>データベース</span><span class="param-val">正常</span></div>
-        <div class="param-row"><span class="param-name"><span class="status-dot yellow"></span>CDN キャッシュ</span><span class="param-val">再構築中</span></div>
+        <div class="section-title">導入企業一覧（上位）<a href="#" onclick="showPage('tng-accounts'); return false;" style="font-size:13px;color:rgba(255,255,255,0.4);float:right;text-decoration:none;">全企業管理 →</a></div>
+        <table class="admin-table">
+          <thead><tr><th>企業名</th><th>プラン</th><th>ユーザー</th><th>利用率</th><th>ステータス</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>◯◯株式会社</td><td><span class="badge badge-green" style="font-size:10px;">Enterprise</span></td><td>89名</td><td><div class="progress-bar" style="width:80px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:82%"></div></div> 82%</td><td><span class="status-dot green"></span>稼働中</td><td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px;">詳細</button></td></tr>
+            <tr><td>△△株式会社</td><td><span class="badge badge-blue" style="font-size:10px;">Standard</span></td><td>34名</td><td><div class="progress-bar" style="width:80px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:65%"></div></div> 65%</td><td><span class="status-dot green"></span>稼働中</td><td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px;">詳細</button></td></tr>
+            <tr><td>□□株式会社</td><td><span class="badge badge-orange" style="font-size:10px;">Trial</span></td><td>12名</td><td><div class="progress-bar" style="width:80px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:41%"></div></div> 41%</td><td><span style="color:#f9e2af;font-size:12px;">体験中（残3日）</span></td><td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px;">詳細</button></td></tr>
+            <tr><td>▲▲合同会社</td><td><span class="badge badge-blue" style="font-size:10px;">Standard</span></td><td>21名</td><td><div class="progress-bar" style="width:80px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:73%"></div></div> 73%</td><td><span class="status-dot green"></span>稼働中</td><td><button class="btn btn-outline" style="padding:4px 12px;font-size:11px;">詳細</button></td></tr>
+          </tbody>
+        </table>
       </div>
+      <!-- システム健全性 -->
       <div class="card">
-        <div class="section-title">直近のプラットフォームイベント</div>
-        <ul class="history-list">
-          <li><span class="dot" style="width:8px;height:8px;background:#a6e3a1;border-radius:50%;flex-shrink:0;"></span>KANAME v3.2 デプロイ完了<span class="time">2025.06.01</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#34e0ff;border-radius:50%;flex-shrink:0;"></span>新規企業5社 オンボーディング<span class="time">2025.05.30</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#f9e2af;border-radius:50%;flex-shrink:0;"></span>月次レポート自動送信 完了<span class="time">2025.05.28</span></li>
-          <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>セキュリティパッチ適用<span class="time">2025.05.25</span></li>
-        </ul>
+        <div class="section-title">システム健全性 <span style="font-size:13px;color:rgba(255,255,255,0.4);float:right;">詳細ログ →</span></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>KANAME 応答速度</span><span>0.8s</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>AIエンジン稼働率</span><span>99.8%</span></div><div class="progress-bar"><div class="fill" style="width:99.8%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>エラーレート</span><span style="color:#a6e3a1;">0.2%</span></div><div class="progress-bar"><div class="fill" style="width:2%;background:#a6e3a1;"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>API使用量</span><span>62%</span></div><div class="progress-bar"><div class="fill" style="width:62%"></div></div></div>
       </div>
+    </div>
+
+    <!-- プラットフォームアラート -->
+    <div class="card">
+      <div class="section-title">プラットフォームアラート <span style="font-size:13px;color:rgba(255,255,255,0.4);float:right;cursor:pointer;">すべて確認 →</span></div>
+      <ul class="history-list">
+        <li><span class="dot" style="width:8px;height:8px;background:#f7513b;border-radius:50%;flex-shrink:0;"></span>□□株式会社 — Trial期限が3日後に到来。プラン移行の案内メールを送信してください。</li>
+        <li><span class="dot" style="width:8px;height:8px;background:#34e0ff;border-radius:50%;flex-shrink:0;"></span>KANAME プロンプトv2.3 のテスト完了。本番適用の承認をお願いします。</li>
+        <li><span class="dot" style="width:8px;height:8px;background:#a6e3a1;border-radius:50%;flex-shrink:0;"></span>今月の内定成立数が先月比 +18% — 月次レポートの自動生成が完了しました。</li>
+      </ul>
     </div>
   </div>
 
   <!-- PAGE: TNG-02 AIエンジン調整 -->
   <div class="page" id="page-tng-engine">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">KANAME：AIエンジン調整</h2>
-    <div class="admin-stat-grid">
-      <div class="admin-stat-card">
-        <div class="adm-value">v3.2</div>
-        <div class="adm-label">現行バージョン</div>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">KANAME 調整（AIエンジン管理）</h2>
+    <div style="display:grid;grid-template-columns:180px 1fr 280px;gap:20px;">
+      <!-- モード選択 -->
+      <div class="card" style="padding:16px;">
+        <div class="section-title" style="font-size:13px;">モード選択</div>
+        <div style="padding:8px 12px;background:rgba(255,255,255,0.1);border-radius:10px;font-size:13px;font-weight:700;margin-bottom:6px;cursor:pointer;">業務用応答</div>
+        <div style="padding:8px 12px;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:6px;cursor:pointer;border-radius:10px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">用途自動判別</div>
+        <div style="padding:8px 12px;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:12px;cursor:pointer;border-radius:10px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">カスタムモード</div>
+        <input type="text" placeholder="新規モード名..." style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;font-size:12px;background:rgba(255,255,255,0.05);color:#fff;outline:none;">
       </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">94<span style="font-size:16px">%</span></div>
-        <div class="adm-label">応答精度</div>
+      <!-- プロンプトエディタ -->
+      <div class="card" style="padding:20px;">
+        <div class="section-title" style="font-size:13px;">プロンプトテンプレート（業務向けモード）</div>
+        <textarea style="width:100%;height:200px;padding:14px;border:1px solid rgba(255,255,255,0.15);border-radius:12px;font-size:13px;font-family:'Noto Sans JP',sans-serif;background:rgba(255,255,255,0.05);color:#fff;outline:none;resize:vertical;line-height:1.8;">あなたは研究知識豊富の学習支援メンター「KANAME」です。
+【対学員出力設計仕様】
+・不安や悩みに共感したうえで回答する
+・学習の理解度を確認し、必要に応じて補足する
+・5問目のテストにおいて、6点中4点以上の正答率を算出する
+・回答のアドバイスとして、自主的にゲートを保持する</textarea>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:12px;">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Temperature</span>
+          <input type="range" min="0" max="100" value="70" style="flex:1;accent-color:#34e0ff;">
+          <span style="font-size:13px;font-weight:700;color:#34e0ff;">0.7</span>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-green" style="padding:8px 20px;font-size:13px;">テスト実行</button>
+          <button class="btn btn-dark" style="padding:8px 20px;font-size:13px;">保存</button>
+          <button class="btn btn-outline" style="padding:8px 20px;font-size:13px;">元に戻す</button>
+        </div>
       </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">1.2<span style="font-size:16px">s</span></div>
-        <div class="adm-label">平均応答時間</div>
+      <!-- プレビュー -->
+      <div class="card" style="padding:16px;">
+        <div class="section-title" style="font-size:13px;">生成プレビュー・検証</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:12px;">
+          <div style="margin-bottom:8px;"><strong style="color:#fff;">HTMLレポート</strong><br>CSS「ボックスモデル」要素の理解テスト</div>
+          <div style="margin-bottom:8px;"><strong style="color:#fff;">対話もなく、</strong>HTML/CSSの構造理解、インライン・ブロック要素…</div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:6px;">Unit-1 CSS基本構造</div>
+          <button class="btn btn-dark" style="padding:6px 14px;font-size:11px;width:100%;">開始</button>
+        </div>
       </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">15.8<span style="font-size:16px">K</span></div>
-        <div class="adm-label">日次リクエスト</div>
-      </div>
-    </div>
-    <div class="admin-two-col">
-      <div class="card">
-        <div class="section-title">エンジンパラメータ</div>
-        <div class="param-row"><span class="param-name">学習推薦モデル</span><span class="param-val">collaborative-v3</span></div>
-        <div class="param-row"><span class="param-name">スキルギャップ分析</span><span class="param-val">enabled</span></div>
-        <div class="param-row"><span class="param-name">カリキュラム自動生成</span><span class="param-val">enabled</span></div>
-        <div class="param-row"><span class="param-name">メンター応答モード</span><span class="param-val">adaptive</span></div>
-        <div class="param-row"><span class="param-name">Temperature</span><span class="param-val">0.7</span></div>
-        <div class="param-row"><span class="param-name">コンテキスト上限</span><span class="param-val">8,192 tokens</span></div>
-      </div>
-      <div class="card">
-        <div class="section-title">応答品質モニタリング</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>学習質問 正答率</span><span>96%</span></div><div class="progress-bar"><div class="fill" style="width:96%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>カリキュラム適合度</span><span>89%</span></div><div class="progress-bar"><div class="fill" style="width:89%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>ユーザー満足度</span><span>92%</span></div><div class="progress-bar"><div class="fill" style="width:92%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>マッチング精度</span><span>87%</span></div><div class="progress-bar"><div class="fill" style="width:87%"></div></div></div>
-      </div>
-    </div>
-    <div style="display:flex;gap:12px;">
-      <button class="btn btn-green">パラメータを更新</button>
-      <button class="btn btn-outline">モデル更新履歴</button>
     </div>
   </div>
 
-  <!-- PAGE: TNG-03 企業・アカウント統括管理 -->
+  <!-- PAGE: TNG-03 企業アカウント統括管理 -->
   <div class="page" id="page-tng-accounts">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">企業・アカウント統括管理</h2>
-    <div class="matching-search-bar" style="margin-bottom:20px;">
-      <input type="text" placeholder="企業名・アカウントIDで検索...">
-      <button class="btn btn-outline">検索</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h2 class="section-title" style="font-size:24px;margin-bottom:0;">企業アカウント統括管理（47社）</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">アカウント統合ログ</button>
+        <button class="btn btn-green" style="padding:6px 16px;font-size:12px;">+ 企業を追加</button>
+      </div>
     </div>
-    <div class="tab-bar" style="margin-bottom:20px;">
-      <div class="tab-item active">全企業</div>
-      <div class="tab-item">アクティブ</div>
-      <div class="tab-item">トライアル</div>
-      <div class="tab-item">停止中</div>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+      <div class="matching-search-bar" style="margin-bottom:0;flex:1;">
+        <input type="text" placeholder="企業名・担当者で検索...">
+      </div>
+      <div class="tab-bar" style="margin-bottom:0;">
+        <div class="tab-item active">すべて</div>
+        <div class="tab-item">Enterprise</div>
+        <div class="tab-item">Standard</div>
+        <div class="tab-item">Trial</div>
+        <div class="tab-item">一時停止中</div>
+      </div>
     </div>
-    <div class="card">
+    <div class="card mb-24">
       <table class="admin-table">
-        <thead><tr><th>企業名</th><th>プラン</th><th>受講者数</th><th>コース数</th><th>契約状態</th></tr></thead>
+        <thead><tr><th>企業名</th><th>プラン</th><th>ユーザー</th><th>利用率</th><th>ステータス</th><th>契約期限</th><th>担当者</th><th>操作</th></tr></thead>
         <tbody>
-          <tr><td>◯◯株式会社</td><td>エンタープライズ</td><td>24名</td><td>5</td><td><span class="status-dot green"></span>アクティブ</td></tr>
-          <tr><td>△△株式会社</td><td>スタンダード</td><td>12名</td><td>3</td><td><span class="status-dot green"></span>アクティブ</td></tr>
-          <tr><td>□□テクノロジーズ</td><td>エンタープライズ</td><td>35名</td><td>8</td><td><span class="status-dot green"></span>アクティブ</td></tr>
-          <tr><td>◇◇ソリューションズ</td><td>トライアル</td><td>5名</td><td>1</td><td><span class="status-dot yellow"></span>トライアル</td></tr>
-          <tr><td>▽▽コーポレーション</td><td>スタンダード</td><td>—</td><td>—</td><td><span class="status-dot red"></span>停止中</td></tr>
+          <tr><td>◯◯株式会社</td><td><span class="badge badge-green" style="font-size:10px;">Enterprise</span></td><td>89名</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:82%"></div></div> 82%</td><td><span class="status-dot green"></span>稼働中</td><td>2026.03.31</td><td>田中 様</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">詳細</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">設定変更</button></td></tr>
+          <tr><td>△△株式会社</td><td><span class="badge badge-blue" style="font-size:10px;">Standard</span></td><td>34名</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:65%"></div></div> 65%</td><td><span class="status-dot green"></span>稼働中</td><td>2025.12.31</td><td>山本 様</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">詳細</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">設定変更</button></td></tr>
+          <tr><td>□□株式会社</td><td><span class="badge badge-orange" style="font-size:10px;">Trial</span></td><td>12名</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:41%"></div></div> 41%</td><td><span style="color:#f9e2af;font-size:12px;">体験中（残3日）</span></td><td style="color:#f9e2af;">2025.06.09</td><td>佐藤 様</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">詳細</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;background:linear-gradient(to right,#f7513b,#f13884);">プラン案内</button></td></tr>
+          <tr><td>▲▲合同会社</td><td><span class="badge badge-blue" style="font-size:10px;">Standard</span></td><td>21名</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:73%"></div></div> 73%</td><td><span class="status-dot green"></span>稼働中</td><td>2025.09.30</td><td>鈴木 様</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">詳細</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">設定変更</button></td></tr>
         </tbody>
       </table>
+    </div>
+    <!-- 企業詳細セクション -->
+    <div class="card">
+      <div class="section-title">◯◯株式会社 — アカウント詳細 <a href="#" style="font-size:13px;color:rgba(255,255,255,0.4);float:right;text-decoration:none;">編集 →</a></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">契約ユーザー上限</div><div style="font-weight:700;">100名</div></div>
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">有効化機能</div><div style="font-weight:700;">全機能</div></div>
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">採用試験ゲート</div><div style="font-weight:700;color:#a6e3a1;">ON</div></div>
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">AIカリキュラム生成</div><div style="font-weight:700;color:#a6e3a1;">有効</div></div>
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">スカウト機能</div><div style="font-weight:700;color:#a6e3a1;">有効</div></div>
+        <div style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">アカウント統合ログ</div><div style="font-weight:700;color:#34e0ff;">記録中</div></div>
+      </div>
     </div>
   </div>
 
   <!-- PAGE: TNG-04 人材管理 -->
   <div class="page" id="page-tng-hr">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">人材管理（全プラットフォーム）</h2>
-    <div class="admin-stat-grid">
-      <div class="admin-stat-card">
-        <div class="adm-value">1,247</div>
-        <div class="adm-label">登録求職者</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">832</div>
-        <div class="adm-label">学習アクティブ</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">215</div>
-        <div class="adm-label">マッチング成立</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="adm-value">156</div>
-        <div class="adm-label">内定・入社</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h2 class="section-title" style="font-size:24px;margin-bottom:0;">人材管理（全プラットフォーム）</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">権限設定</button>
+        <button class="btn btn-green" style="padding:6px 16px;font-size:12px;">+ アカウント発行</button>
       </div>
     </div>
-    <div class="admin-two-col">
-      <div class="card">
-        <div class="section-title">スキル分布</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>フロントエンド</span><span>38%</span></div><div class="progress-bar"><div class="fill" style="width:38%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>バックエンド</span><span>25%</span></div><div class="progress-bar"><div class="fill" style="width:25%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>データ分析</span><span>18%</span></div><div class="progress-bar"><div class="fill" style="width:18%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>インフラ</span><span>12%</span></div><div class="progress-bar"><div class="fill" style="width:12%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>その他</span><span>7%</span></div><div class="progress-bar"><div class="fill" style="width:7%"></div></div></div>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+      <div class="matching-search-bar" style="margin-bottom:0;flex:1;">
+        <input type="text" placeholder="社員名・ユーザーIDで検索...">
       </div>
-      <div class="card">
-        <div class="section-title">月別マッチング推移</div>
-        <div class="param-row"><span class="param-name">2025年6月</span><span class="param-val">28件</span></div>
-        <div class="param-row"><span class="param-name">2025年5月</span><span class="param-val">35件</span></div>
-        <div class="param-row"><span class="param-name">2025年4月</span><span class="param-val">22件</span></div>
-        <div class="param-row"><span class="param-name">2025年3月</span><span class="param-val">18件</span></div>
-        <div class="param-row"><span class="param-name">2025年2月</span><span class="param-val">15件</span></div>
+      <div class="tab-bar" style="margin-bottom:0;">
+        <div class="tab-item active">全ユーザー</div>
+        <div class="tab-item">管理者</div>
+        <div class="tab-item">マネージャー</div>
+        <div class="tab-item">一般ユーザー</div>
+        <div class="tab-item">スキルマップ表示</div>
+      </div>
+    </div>
+    <div class="card mb-24">
+      <table class="admin-table">
+        <thead><tr><th>氏名</th><th>企業</th><th>部署</th><th>権限</th><th>学習進捗</th><th>テストスコア</th><th>最終ログイン</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td><strong>佐藤 一郎</strong></td><td>◯◯株式会社</td><td>営業部</td><td>一般</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:32%"></div></div> 32%</td><td>52点</td><td style="color:rgba(255,255,255,0.4);">7日前</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">スキルマップ</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">権限変更</button></td></tr>
+          <tr><td><strong>山田 花子</strong></td><td>◯◯株式会社</td><td>開発部</td><td><span style="padding:2px 8px;background:rgba(149,62,195,0.2);color:#cba6f7;border-radius:100px;font-size:11px;font-weight:700;">マネージャー</span></td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:74%"></div></div> 74%</td><td>79点</td><td style="color:rgba(255,255,255,0.4);">2日前</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">スキルマップ</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">権限変更</button></td></tr>
+          <tr><td><strong>田中 管理者</strong></td><td>◯◯株式会社</td><td>情シス</td><td><span style="padding:2px 8px;background:rgba(149,62,195,0.2);color:#cba6f7;border-radius:100px;font-size:11px;font-weight:700;">管理者</span></td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:91%"></div></div> 91%</td><td>94点</td><td style="color:rgba(255,255,255,0.4);">今日</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">スキルマップ</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">権限変更</button></td></tr>
+          <tr><td><strong>鈴木 次郎</strong></td><td>△△株式会社</td><td>CS部</td><td>一般</td><td><div class="progress-bar" style="width:60px;display:inline-block;vertical-align:middle;"><div class="fill" style="width:60%"></div></div> 60%</td><td>71点</td><td style="color:rgba(255,255,255,0.4);">昨日</td><td><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;margin-right:4px;">スキルマップ</button><button class="btn btn-dark" style="padding:3px 10px;font-size:11px;">権限変更</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- スキルマップ -->
+    <div class="card">
+      <div class="section-title">個別スキルマップ（選択中ユーザーの詳細）<span style="font-size:13px;color:rgba(255,255,255,0.4);float:right;">全員表示 →</span></div>
+      <div class="admin-two-col" style="margin-bottom:0;">
+        <div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:12px;">佐藤 一郎（営業部 / ◯◯株式会社）</div>
+          <div class="skill-bar-item"><div class="skill-label"><span>DX基礎</span><span>32%</span></div><div class="progress-bar"><div class="fill" style="width:32%"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-label"><span>ビジネスIT</span><span>20%</span></div><div class="progress-bar"><div class="fill" style="width:20%"></div></div></div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:12px;">山田 花子（開発部 / ◯◯株式会社）</div>
+          <div class="skill-bar-item"><div class="skill-label"><span>HTML/CSS</span><span>80%</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-label"><span>JavaScript</span><span>60%</span></div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
+          <div class="skill-bar-item"><div class="skill-label"><span>Python</span><span>45%</span></div><div class="progress-bar"><div class="fill" style="width:45%"></div></div></div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- PAGE: TNG-05 分析レポート -->
   <div class="page" id="page-tng-analytics">
-    <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">分析レポート（プラットフォーム全体）</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h2 class="section-title" style="font-size:24px;margin-bottom:0;">分析レポート（プラットフォーム全体）</h2>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-size:12px;color:rgba(255,255,255,0.4);padding:6px 14px;border:1px solid rgba(255,255,255,0.15);border-radius:100px;">2025年6月（今月）</span>
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">CSVエクスポート</button>
+        <button class="btn btn-outline" style="padding:6px 16px;font-size:12px;">PDF出力</button>
+      </div>
+    </div>
     <div class="admin-stat-grid">
       <div class="admin-stat-card">
-        <div class="adm-value">92<span style="font-size:16px">%</span></div>
-        <div class="adm-label">学習継続率</div>
+        <div class="adm-value">128</div>
+        <div class="adm-label">新規ユーザー登録</div>
+        <div style="font-size:11px;color:#a6e3a1;margin-top:4px;">▲ 22% 先月比</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">73<span style="font-size:16px">%</span></div>
-        <div class="adm-label">コース修了率</div>
+        <div class="adm-value">34</div>
+        <div class="adm-label">プラットフォーム経由内定</div>
+        <div style="font-size:11px;color:#a6e3a1;margin-top:4px;">▲ 18% 先月比</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">68<span style="font-size:16px">%</span></div>
-        <div class="adm-label">就職決定率</div>
+        <div class="adm-value">71<span style="font-size:16px">%</span></div>
+        <div class="adm-label">学習継続率（30日）</div>
+        <div style="font-size:11px;color:#a6e3a1;margin-top:4px;">▲ 4pt 先月比</div>
       </div>
       <div class="admin-stat-card">
-        <div class="adm-value">4.6</div>
-        <div class="adm-label">NPS スコア</div>
+        <div class="adm-value">38<span style="font-size:16px">%</span></div>
+        <div class="adm-label">平均採用コスト削減</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">従来比（導入企業平均）</div>
       </div>
     </div>
+
     <div class="admin-two-col">
+      <!-- 月別ユーザー推移 -->
       <div class="card">
-        <div class="section-title">企業別 採用実績</div>
-        <div class="skill-bar-item"><div class="skill-label"><span>◯◯株式会社</span><span>12名</span></div><div class="progress-bar"><div class="fill" style="width:80%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>□□テクノロジーズ</span><span>9名</span></div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>△△株式会社</span><span>6名</span></div><div class="progress-bar"><div class="fill" style="width:40%"></div></div></div>
-        <div class="skill-bar-item"><div class="skill-label"><span>◇◇ソリューションズ</span><span>3名</span></div><div class="progress-bar"><div class="fill" style="width:20%"></div></div></div>
+        <div class="section-title">月別ユーザー推移・内定数</div>
+        <div class="bar-chart" style="height:140px;">
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:40%;flex:1;"></div><div class="bar" style="height:15%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">1月</div></div>
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:50%;flex:1;"></div><div class="bar" style="height:20%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">2月</div></div>
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:55%;flex:1;"></div><div class="bar" style="height:22%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">3月</div></div>
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:65%;flex:1;"></div><div class="bar" style="height:28%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">4月</div></div>
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:75%;flex:1;"></div><div class="bar" style="height:32%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">5月</div></div>
+          <div class="bar-col"><div style="display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;"><div class="bar" style="height:85%;flex:1;"></div><div class="bar" style="height:35%;flex:1;background:linear-gradient(to top,#953ec3,#cba6f7);"></div></div><div class="bar-label">6月</div></div>
+        </div>
+        <div style="display:flex;gap:16px;font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;">
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:linear-gradient(to right,#0f4bab,#34e0ff);margin-right:4px;vertical-align:middle;"></span>新規登録者</span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:linear-gradient(to right,#953ec3,#cba6f7);margin-right:4px;vertical-align:middle;"></span>内定成立</span>
+        </div>
       </div>
+      <!-- 企業別利用率ランキング -->
       <div class="card">
-        <div class="section-title">KPI サマリー</div>
-        <div class="param-row"><span class="param-name">MAU（月間アクティブ）</span><span class="param-val">832</span></div>
-        <div class="param-row"><span class="param-name">DAU（日間アクティブ）</span><span class="param-val">312</span></div>
-        <div class="param-row"><span class="param-name">平均セッション時間</span><span class="param-val">42分</span></div>
-        <div class="param-row"><span class="param-name">KANAME 利用率</span><span class="param-val">78%</span></div>
-        <div class="param-row"><span class="param-name">MRR</span><span class="param-val">¥4.2M</span></div>
+        <div class="section-title">企業別利用率ランキング</div>
+        <div class="skill-bar-item"><div class="skill-label"><span>1. ◯◯株式会社</span><span>82%</span></div><div class="progress-bar"><div class="fill" style="width:82%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>2. ▲▲合同会社</span><span>73%</span></div><div class="progress-bar"><div class="fill" style="width:73%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>3. △△株式会社</span><span>65%</span></div><div class="progress-bar"><div class="fill" style="width:65%"></div></div></div>
+        <div class="skill-bar-item"><div class="skill-label"><span>4. □□株式会社</span><span>41%</span></div><div class="progress-bar"><div class="fill" style="width:41%"></div></div></div>
       </div>
     </div>
-    <div style="display:flex;gap:12px;">
-      <button class="btn btn-outline">月次レポート生成</button>
-      <button class="btn btn-outline">CSVエクスポート</button>
+
+    <div class="admin-two-col">
+      <!-- 採用ファネル -->
+      <div class="card">
+        <div class="section-title">採用ファネル（全企業合算）</div>
+        <div class="bar-chart-horiz">
+          <div class="bh-row"><span class="bh-label">応募</span><div class="bh-bar"><div class="bh-fill" style="width:100%"></div></div><span class="bh-val" style="width:50px;">2,341名</span></div>
+          <div class="bh-row"><span class="bh-label">書類通過</span><div class="bh-bar"><div class="bh-fill" style="width:68%"></div></div><span class="bh-val" style="width:50px;">1,592名</span></div>
+          <div class="bh-row"><span class="bh-label">一次面接</span><div class="bh-bar"><div class="bh-fill" style="width:38%"></div></div><span class="bh-val" style="width:50px;">890名</span></div>
+          <div class="bh-row"><span class="bh-label">最終面接</span><div class="bh-bar"><div class="bh-fill" style="width:18%"></div></div><span class="bh-val" style="width:50px;">421名</span></div>
+          <div class="bh-row"><span class="bh-label">内定</span><div class="bh-bar"><div class="bh-fill" style="width:7%;background:linear-gradient(to right,#a6e3a1,#34e0ff);"></div></div><span class="bh-val" style="width:50px;">163名</span></div>
+        </div>
+      </div>
+      <!-- 定期レポート -->
+      <div class="card">
+        <div class="section-title">定期レポート自動生成</div>
+        <ul class="history-list">
+          <li><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:rgba(52,224,255,0.15);color:#34e0ff;font-size:10px;font-weight:700;flex-shrink:0;">月</span><div style="flex:1;"><div style="font-size:13px;font-weight:500;">月次プラットフォームレポート</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">2025.06.01 自動生成済</div></div><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;">DL</button></li>
+          <li><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:rgba(166,227,161,0.15);color:#a6e3a1;font-size:10px;font-weight:700;flex-shrink:0;">週</span><div style="flex:1;"><div style="font-size:13px;font-weight:500;">週次ユーザー動向レポート</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">2025.06.02 自動生成済</div></div><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;">DL</button></li>
+          <li><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:rgba(149,62,195,0.15);color:#cba6f7;font-size:10px;font-weight:700;flex-shrink:0;">AI</span><div style="flex:1;"><div style="font-size:13px;font-weight:500;">AIエンジン品質レポート</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">2025.06.01 自動生成済</div></div><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;">DL</button></li>
+          <li><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:rgba(247,81,59,0.15);color:#f7513b;font-size:10px;font-weight:700;flex-shrink:0;">企</span><div style="flex:1;"><div style="font-size:13px;font-weight:500;">採用効果測定レポート（企業別）</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">2025.06.01 自動生成済</div></div><button class="btn btn-outline" style="padding:3px 10px;font-size:11px;">DL</button></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -3539,8 +3671,9 @@ function showPage(pageId) {
   // Close dropdown
   document.getElementById('navDropdown').classList.remove('open');
 
-  // Update enterprise sidebar active state
+  // Update sidebar active states
   updateMcSidebar(pageId);
+  updateTngSidebar(pageId);
 
   // Store last page
   if (pageId !== 'tutorial' && pageId !== 'home') {
@@ -3601,6 +3734,22 @@ function updateMcSidebar(pageId) {
 document.querySelectorAll('.mc-nav-item').forEach(function(item) {
   item.addEventListener('click', function() {
     var page = item.getAttribute('data-mc-page');
+    if (page) showPage(page);
+  });
+});
+
+// ===== TNG SIDEBAR =====
+function updateTngSidebar(pageId) {
+  document.querySelectorAll('[data-tng-page]').forEach(function(item) {
+    item.classList.remove('active');
+    if (pageId && item.getAttribute('data-tng-page') === pageId) {
+      item.classList.add('active');
+    }
+  });
+}
+document.querySelectorAll('[data-tng-page]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var page = item.getAttribute('data-tng-page');
     if (page) showPage(page);
   });
 });
