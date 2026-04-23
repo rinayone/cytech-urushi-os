@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>背景C: パーティクル＋グラデーション</title>
+<style>
+* { margin: 0; padding: 0; }
+body { background: #050508; overflow: hidden; height: 100vh; }
+.label {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  font-family: sans-serif; font-size: 14px; color: rgba(255,255,255,0.5);
+  z-index: 100; text-align: center; letter-spacing: 1px;
+}
+.base-grad {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 30%, rgba(241,56,132,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 70% 70%, rgba(52,224,255,0.08) 0%, transparent 55%);
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--blur));
+  opacity: 0;
+  animation: particleDrift var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes particleDrift {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  20% { opacity: var(--op); }
+  50% { transform: translate(var(--dx), var(--dy)) scale(1.1); opacity: var(--op); }
+  80% { opacity: var(--op); }
+  100% { transform: translate(calc(var(--dx) * 1.5), calc(var(--dy) * 1.5)) scale(0.8); opacity: 0; }
+}
+/* Glass sample */
+.glass-sample {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; padding: 24px 28px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
+  color: #fff; font-family: sans-serif; font-size: 14px; line-height: 1.8;
+  z-index: 50;
+}
+</style>
+</head>
+<body>
+<div class="label">C: パーティクル＋グラデーション</div>
+<div class="base-grad"></div>
+
+<script>
+var colors = [
+  'rgba(241,56,132,0.25)',
+  'rgba(247,81,59,0.2)',
+  'rgba(248,238,26,0.15)',
+  'rgba(52,224,255,0.2)',
+  'rgba(149,62,195,0.2)',
+  'rgba(15,75,171,0.18)'
+];
+for (var i = 0; i < 18; i++) {
+  var p = document.createElement('div');
+  p.className = 'particle';
+  var size = 20 + Math.random() * 60;
+  p.style.width = size + 'px';
+  p.style.height = size + 'px';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.top = Math.random() * 100 + '%';
+  p.style.background = colors[Math.floor(Math.random() * colors.length)];
+  p.style.setProperty('--dur', (8 + Math.random() * 10) + 's');
+  p.style.setProperty('--delay', (Math.random() * 8) + 's');
+  p.style.setProperty('--dx', (-40 + Math.random() * 80) + 'px');
+  p.style.setProperty('--dy', (-40 + Math.random() * 80) + 'px');
+  p.style.setProperty('--blur', (8 + Math.random() * 16) + 'px');
+  p.style.setProperty('--op', (0.3 + Math.random() * 0.4).toFixed(2));
+  document.body.appendChild(p);
+}
+</script>
+
+<div class="glass-sample">
+  おかえり、佐藤さん。<br>前回はネットワーク基礎まで進みましたね。
+</div>
+</body>
+</html>
