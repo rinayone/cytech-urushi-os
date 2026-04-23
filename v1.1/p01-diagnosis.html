@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CyTech Urushi OS — 適性診断</title>
+<title>CyTech Urushi OS — はじめまして</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -11,15 +11,15 @@
 html, body { height: 100%; }
 body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; }
 
-/* Scene */
 .scene { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-/* KANAME orb (small, top) */
-.kaname-sm { position: relative; width: 64px; height: 64px; border-radius: 50%; margin-bottom: 20px; }
-.kaname-sm .orb-glow { position: absolute; inset: -12px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(14px); opacity: 0.5; animation: spin 10s linear infinite; }
-.kaname-sm .orb-body { position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(7px) saturate(1.3); animation: spin 7s linear infinite reverse; }
-.kaname-sm .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 28px; height: 14px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.kaname-sm .eye { width: 3px; height: 7px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+/* KANAME */
+.kaname-sm { position: relative; width: 80px; height: 80px; border-radius: 50%; margin-bottom: 24px; opacity: 0; transform: scale(0.3); transition: all 1s cubic-bezier(0.34,1.56,0.64,1) 0.3s; }
+.scene.started .kaname-sm { opacity: 1; transform: scale(1); }
+.kaname-sm .orb-glow { position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(18px); opacity: 0.5; animation: spin 10s linear infinite; }
+.kaname-sm .orb-body { position: absolute; inset: 4px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(9px) saturate(1.3); animation: spin 7s linear infinite reverse; }
+.kaname-sm .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 36px; height: 18px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.kaname-sm .eye { width: 4px; height: 9px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(255,255,255,0.8); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Card */
@@ -30,15 +30,27 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   box-shadow: inset 0 0 20px rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.4);
 }
 
-/* Step progress */
+/* Chat messages (KANAME greeting) */
+.greeting-msg {
+  font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.9);
+  margin-bottom: 12px;
+  opacity: 0; transform: translateY(8px);
+  transition: all 0.6s ease;
+}
+.greeting-msg.visible { opacity: 1; transform: translateY(0); }
+.greeting-msg strong { color: #fff; }
+.greeting-msg .hl { color: #34e0ff; font-weight: 700; }
+
+/* Step dots */
 .step-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 24px; }
 .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.1); transition: all 0.3s; }
 .step-dot.active { background: linear-gradient(135deg, #f7513b, #f13884); width: 24px; border-radius: 4px; }
 .step-dot.done { background: #34e0ff; }
 
 /* Question */
-.q-title { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-.q-text { font-size: 16px; font-weight: 700; line-height: 1.6; margin-bottom: 24px; }
+.q-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 8px; font-family: 'Lato', sans-serif; }
+.q-text { font-size: 15px; font-weight: 700; line-height: 1.6; margin-bottom: 20px; opacity: 0; transform: translateY(6px); transition: all 0.4s ease; }
+.q-text.visible { opacity: 1; transform: translateY(0); }
 
 /* Options */
 .options { display: flex; flex-direction: column; gap: 8px; }
@@ -48,7 +60,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   border-radius: 14px; color: #fff; font-size: 14px;
   cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif;
   position: relative; padding-left: 44px;
+  opacity: 0; transform: translateY(6px); transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s, border-color 0.2s;
 }
+.opt-btn.visible { opacity: 1; transform: translateY(0); }
 .opt-btn::before {
   content: ''; position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
   width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.25);
@@ -59,10 +73,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .opt-btn.selected { background: rgba(15,75,171,0.15); border-color: #0f4bab; }
 .opt-btn.selected::before { border-color: #34e0ff; background: #34e0ff; }
 
-/* Result section (hidden) */
-.result-section { display: none; }
-.result-section.show { display: block; }
+/* Sections */
+.section { display: none; }
+.section.active { display: block; }
 
+/* Result */
 .result-badge {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 20px; border-radius: 100px; margin-bottom: 16px;
@@ -75,7 +90,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .result-desc strong { color: #fff; }
 .result-desc .hl { color: #34e0ff; font-weight: 700; }
 
-/* Roadmap preview */
 .roadmap {
   background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
   border-radius: 14px; padding: 16px 20px; margin-bottom: 24px;
@@ -87,7 +101,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .roadmap-total { display: flex; justify-content: space-between; padding-top: 12px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 13px; font-weight: 700; }
 .roadmap-total .hl { color: #34e0ff; }
 
-/* CTA */
 .cta-btn {
   width: 100%; padding: 16px;
   background: linear-gradient(135deg, #f7513b, #f13884);
@@ -98,51 +111,50 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .cta-btn:hover { opacity: 0.9; }
 
 /* Transition */
-.trans-overlay {
-  position: fixed; inset: 0; z-index: 100; background: #050508;
-  opacity: 0; pointer-events: none; transition: opacity 0.5s;
-}
+.trans-overlay { position: fixed; inset: 0; z-index: 100; background: #050508; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
 .trans-overlay.active { opacity: 1; pointer-events: all; }
 
-@media (max-width: 500px) {
-  .diag-card { padding: 24px 20px; }
-  .q-text { font-size: 15px; }
-}
+@media (max-width: 500px) { .diag-card { padding: 24px 20px; } }
 </style>
 </head>
 <body>
 
-<div class="scene">
+<div class="scene" id="scene">
   <div class="kaname-sm">
     <div class="orb-glow"></div>
     <div class="orb-body"></div>
     <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
   </div>
 
-  <div class="diag-card" id="diagCard">
-    <!-- Step dots -->
-    <div class="step-dots" id="stepDots">
-      <div class="step-dot active"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
+  <div class="diag-card">
+    <!-- Greeting -->
+    <div class="section active" id="secGreeting">
+      <div class="greeting-msg" id="g1">はじめまして、<strong>佐藤さん</strong>。</div>
+      <div class="greeting-msg" id="g2">KANAMEです。あなたの学習パートナーになります。</div>
+      <div class="greeting-msg" id="g3">これから一緒に、<span class="hl">あなたに合った学び方</span>を見つけていきましょう。</div>
+      <div class="greeting-msg" id="g4">まず、簡単にあなたのことを教えてください。</div>
     </div>
 
-    <!-- Questions (shown one at a time) -->
-    <div id="questionArea">
-      <div class="q-title" id="qLabel">QUESTION 1 / 3</div>
+    <!-- Questions -->
+    <div class="section" id="secQuestion">
+      <div class="step-dots" id="stepDots">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="q-title" id="qLabel"></div>
       <div class="q-text" id="qText"></div>
       <div class="options" id="optionsArea"></div>
     </div>
 
-    <!-- Result (hidden initially) -->
-    <div class="result-section" id="resultSection">
+    <!-- Result -->
+    <div class="section" id="secResult">
       <div class="result-badge">&#9733; あなたにおすすめの職種</div>
       <div class="result-title">佐藤さんには<span style="color:#34e0ff;">情シス（社内IT）</span>が向いています。</div>
       <div class="result-desc">
         営業で培った<strong>コミュニケーション力</strong>と<strong>課題解決の姿勢</strong>は、社内のIT課題を解決する情シスで大きな武器になります。<br><br>
         技術は未経験でも、このカリキュラムを完了すれば<span class="hl">面接確約</span>です。
       </div>
-
       <div class="roadmap">
         <div class="roadmap-title">あなたの学習ロードマップ</div>
         <div class="roadmap-item"><span class="roadmap-num">1</span>IT基礎・ハードウェア<span class="roadmap-time">20h</span></div>
@@ -152,7 +164,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="roadmap-item"><span class="roadmap-num">5</span>総合演習・実技課題<span class="roadmap-time">10h</span></div>
         <div class="roadmap-total"><span>推定学習時間</span><span class="hl">合計 80時間</span></div>
       </div>
-
       <button class="cta-btn" onclick="goToAI()">KANAMEと始める →</button>
     </div>
   </div>
@@ -162,52 +173,47 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 <script>
 var questions = [
-  {
-    label: 'QUESTION 1 / 3',
-    text: '仕事で一番やりがいを感じるのは？',
-    options: [
-      '人の困りごとを解決したとき',
-      '数字や成果が目に見えて出たとき',
-      '新しい仕組みやアイデアを考えたとき',
-      'チームで何かを作り上げたとき'
-    ]
-  },
-  {
-    label: 'QUESTION 2 / 3',
-    text: 'ITに興味を持ったきっかけは？',
-    options: [
-      '会社のシステムやPCトラブルに触れて',
-      'プログラミングやWebサイトに興味があった',
-      'データ分析やAIのニュースを見て',
-      '特に理由はないが、将来性を感じて'
-    ]
-  },
-  {
-    label: 'QUESTION 3 / 3',
-    text: 'どんな働き方が理想ですか？',
-    options: [
-      '社内の人を支える縁の下の力持ち',
-      'モノを作って世の中に出したい',
-      'データを分析して意思決定を支えたい',
-      'まだ分からないので色々試したい'
-    ]
-  }
+  { label: 'QUESTION 1 / 3', text: '仕事で一番やりがいを感じるのは？', options: ['人の困りごとを解決したとき','数字や成果が目に見えて出たとき','新しい仕組みやアイデアを考えたとき','チームで何かを作り上げたとき'] },
+  { label: 'QUESTION 2 / 3', text: 'ITに興味を持ったきっかけは？', options: ['会社のシステムやPCトラブルに触れて','プログラミングやWebサイトに興味があった','データ分析やAIのニュースを見て','特に理由はないが、将来性を感じて'] },
+  { label: 'QUESTION 3 / 3', text: 'どんな働き方が理想ですか？', options: ['社内の人を支える縁の下の力持ち','モノを作って世の中に出したい','データを分析して意思決定を支えたい','まだ分からないので色々試したい'] }
 ];
-
 var currentQ = 0;
+
+// Greeting sequence
+window.addEventListener('load', function() {
+  setTimeout(function() { document.getElementById('scene').classList.add('started'); }, 200);
+  setTimeout(function() { document.getElementById('g1').classList.add('visible'); }, 800);
+  setTimeout(function() { document.getElementById('g2').classList.add('visible'); }, 1300);
+  setTimeout(function() { document.getElementById('g3').classList.add('visible'); }, 1800);
+  setTimeout(function() {
+    document.getElementById('g4').classList.add('visible');
+    // Auto transition to questions after greeting
+    setTimeout(function() { showSection('secQuestion'); renderQuestion(); }, 1200);
+  }, 2300);
+});
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+}
 
 function renderQuestion() {
   var q = questions[currentQ];
   document.getElementById('qLabel').textContent = q.label;
-  document.getElementById('qText').textContent = q.text;
+  var qText = document.getElementById('qText');
+  qText.textContent = q.text;
+  qText.classList.remove('visible');
+  requestAnimationFrame(function() { requestAnimationFrame(function() { qText.classList.add('visible'); }); });
+
   var area = document.getElementById('optionsArea');
   area.innerHTML = '';
-  q.options.forEach(function(opt) {
+  q.options.forEach(function(opt, i) {
     var btn = document.createElement('button');
     btn.className = 'opt-btn';
     btn.textContent = opt;
     btn.onclick = function() { selectOption(btn); };
     area.appendChild(btn);
+    setTimeout(function() { btn.classList.add('visible'); }, 100 + i * 80);
   });
   updateDots();
 }
@@ -215,39 +221,25 @@ function renderQuestion() {
 function selectOption(btn) {
   document.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
-
   setTimeout(function() {
     currentQ++;
-    if (currentQ < questions.length) {
-      renderQuestion();
-    } else {
-      showResult();
-    }
-  }, 400);
+    if (currentQ < questions.length) { renderQuestion(); }
+    else { showSection('secResult'); }
+  }, 350);
 }
 
 function updateDots() {
-  var dots = document.querySelectorAll('.step-dot');
-  dots.forEach(function(d, i) {
-    d.classList.remove('active', 'done');
+  document.querySelectorAll('.step-dot').forEach(function(d, i) {
+    d.classList.remove('active','done');
     if (i < currentQ) d.classList.add('done');
     else if (i === currentQ) d.classList.add('active');
   });
-}
-
-function showResult() {
-  document.getElementById('questionArea').style.display = 'none';
-  document.getElementById('stepDots').style.display = 'none';
-  document.getElementById('resultSection').classList.add('show');
 }
 
 function goToAI() {
   document.getElementById('transOverlay').classList.add('active');
   setTimeout(function() { window.location.href = 'p02-ai-dialogue.html'; }, 800);
 }
-
-// Init
-renderQuestion();
 </script>
 </body>
 </html>
