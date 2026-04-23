@@ -35,7 +35,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <body>
 
 <h1>CyTech Urushi OS v1.1 設計仕様書</h1>
-<p class="subtitle">作成日: 2026-04-23 / ステータス: 設計フェーズ / 対象: 求職者ポータル</p>
+<p class="subtitle">作成日: 2026-04-23 / 最終更新: 2026-04-23 / ステータス: 設計確定 / 対象: 求職者ポータル</p>
 
 <!-- ==================== -->
 <h2><span class="section-num">1.</span> エグゼクティブサマリー</h2>
@@ -182,7 +182,16 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>最重要KPI</td><td>—</td><td><strong>学習完遂率</strong></td></tr>
 </table>
 
-<h3>6.2 ユーザーフロー</h3>
+<h3>6.2 ナビゲーション設計</h3>
+<table>
+<tr><th style="width:160px;">要素</th><th>役割</th></tr>
+<tr><td><strong>メインハブ</strong></td><td>P-02 AI対話（ログイン後のファーストビュー。全遷移の起点）</td></tr>
+<tr><td><strong>ダッシュボード</strong></td><td>ウィジェット型。AIが学習状況に応じてウィジェットの優先順位を自動並替え＋ユーザーが表示/非表示・並び順をカスタマイズ可能</td></tr>
+<tr><td><strong>常時ヘッダー</strong></td><td>どの画面からでもAI対話・ダッシュボードに戻れる最低限の導線</td></tr>
+<tr><td><strong>設定パネル</strong></td><td>ヘッダー右上のアイコンからアクセスできる独立パネル（モーダル/ドロワー）。ページ数を増やさずどの画面からでもアクセス可能</td></tr>
+</table>
+
+<h3>6.3 ユーザーフロー</h3>
 <div class="flow-diagram">
 初回ユーザー:  ログイン → P-01 適性診断 → P-02 AI対話 → P-03 ダッシュボード / P-05 学習<br>
 学習中ユーザー: ログイン → P-02 AI対話（パーソナライズ提案）→ 学習 / 課題 / アクションへ<br>
@@ -190,19 +199,20 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 </div>
 
 <!-- ==================== -->
-<h2><span class="section-num">7.</span> v1.1 ページ構成（全9ページ）</h2>
+<h2><span class="section-num">7.</span> v1.1 ページ構成（全9ページ＋設定パネル）</h2>
 
 <table>
 <tr><th>ページ</th><th>名称</th><th>フェーズ</th><th>役割</th><th>v1対比</th></tr>
 <tr><td>P-01</td><td>適性診断</td><td>1. 点火</td><td>初回のみ。質問→適性職種提示→ロードマップ接続</td><td><span class="tag tag-changed">大幅変更</span></td></tr>
 <tr><td>P-02</td><td>AI対話</td><td>全フェーズ</td><td>全ユーザーのファーストビュー。パーソナライズ提案＋次のアクション動線</td><td><span class="tag tag-new">新設</span></td></tr>
-<tr><td>P-03</td><td>ダッシュボード</td><td>2. 実行</td><td>進捗・統計の俯瞰。AI伴走（躓き検知＋声がけ）</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-03</td><td>ダッシュボード</td><td>2. 実行</td><td>ウィジェット型。AIが自動構成＋ユーザーカスタマイズ可能</td><td><span class="tag tag-changed">変更</span></td></tr>
 <tr><td>P-04</td><td>カリキュラム検索</td><td>1. 点火</td><td>推定学習時間＋Skill Primeゲート＋「○○時間→面接確約」可視化</td><td><span class="tag tag-changed">変更</span></td></tr>
 <tr><td>P-05</td><td>学習実行</td><td>2. 実行</td><td>1セッション（One Thing at a Time）＋AIメンター即レス</td><td><span class="tag tag-changed">変更</span></td></tr>
 <tr><td>P-06</td><td>課題・テスト提出</td><td>3. 評価</td><td>実技課題→AI根拠付きフィードバック＋B1〜B5判定</td><td><span class="tag tag-new">新設</span></td></tr>
 <tr><td>P-07</td><td>ポートフォリオ</td><td>4. 証明</td><td>「嘘のつけない履歴書」＋スキルグラフ＋評価ログ蓄積</td><td><span class="tag tag-changed">変更</span></td></tr>
 <tr><td>P-08</td><td>選考管理</td><td>5. 選考</td><td>採用ロードマップ＋ゲート解除→エントリー可能化</td><td><span class="tag tag-changed">変更</span></td></tr>
-<tr><td>P-09</td><td>スカウト</td><td>5. 選考</td><td>企業がログ引用してスカウト。「選ぶ側にもなれる」体験</td><td><span class="tag tag-new">新設</span></td></tr>
+<tr><td>P-09</td><td>スカウト</td><td>5. 選考</td><td>企業がログ引用スカウト＋閲覧数＋評価ポイント＋推移グラフ</td><td><span class="tag tag-new">新設</span></td></tr>
+<tr><td>—</td><td>設定パネル</td><td>—</td><td>ヘッダーからアクセス。プロフィール・通知・パスワード等</td><td><span class="tag tag-new">独立化</span></td></tr>
 </table>
 
 <!-- ==================== -->
@@ -246,19 +256,36 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
   </ul>
 </li>
 </ul>
+<h4>状態別シナリオ（5パターン）</h4>
+<table>
+<tr><th>状態</th><th>AIの声がけ例</th><th>誘導先</th></tr>
+<tr><td><strong>初回（P-01直後）</strong></td><td>「早速カリキュラムを見てみましょう」</td><td>P-04</td></tr>
+<tr><td><strong>学習中（通常）</strong></td><td>「前回Unit5で手が止まっていましたね。営業の顧客分類に例えると…」</td><td>P-05</td></tr>
+<tr><td><strong>長期離脱</strong></td><td>「お久しぶりです。前回の課題、あと少しで完了です」</td><td>P-05 / P-06</td></tr>
+<tr><td><strong>課題不合格後</strong></td><td>「惜しかったです。ここを修正すればB1到達できます」</td><td>P-06</td></tr>
+<tr><td><strong>学習完了</strong></td><td>「Skill Prime達成！エントリー可能な企業が3社あります」</td><td>P-08 / P-09</td></tr>
+</table>
+<p><strong>※</strong> 離脱期間等のしきい値はユーザー側で変更可能</p>
 
-<h3>P-03 ダッシュボード</h3>
+<h3>P-03 ダッシュボード（ウィジェット型）</h3>
 <h4>目的</h4>
-<p>学習進捗・統計の俯瞰。AI対話の補完として「自分の現在地」を数値で確認できる画面。</p>
+<p>学習進捗・統計の俯瞰。AI対話の補完として「自分の現在地」を数値で確認できる画面。固定レイアウトではなくウィジェット型で構成。</p>
 <h4>LM原則</h4>
-<p>Compass / Reflect</p>
-<h4>主要要素</h4>
+<p>Compass / Reflect / Agency</p>
+<h4>設計方針</h4>
+<ul>
+<li><strong>AI自動構成：</strong> 学習状況に応じてウィジェットの優先順位を自動並替え（例：課題未提出なら「課題提出」ウィジェットを最上部に配置）</li>
+<li><strong>ユーザーカスタマイズ：</strong> ウィジェットの表示/非表示・並び順をユーザーが変更可能</li>
+</ul>
+<h4>ウィジェット候補</h4>
 <ul>
 <li>学習進捗（%）/ Skill Primeゲートまでの残り</li>
 <li>スキル別進捗バー</li>
 <li>次の面接・選考ステータス</li>
 <li>AI伴走メッセージ（躓き検知→声がけ）</li>
 <li>ネクストアクション一覧</li>
+<li>直近の学習履歴</li>
+<li>スカウト受信通知</li>
 </ul>
 
 <h3>P-04 カリキュラム検索</h3>
@@ -329,7 +356,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 
 <h3>P-09 スカウト</h3>
 <h4>目的</h4>
-<p>「選ぶ側にもなれる」体験。企業が学習ログを引用してスカウトする機能。</p>
+<p>「選ぶ側にもなれる」体験。企業が学習ログを引用してスカウトする機能。学習が進むほどスカウトが増える構造により、学習完遂率への動機付けにもなる。</p>
 <h4>LM原則</h4>
 <p>Skill Prime / Fair</p>
 <h4>主要要素</h4>
@@ -338,6 +365,9 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <li>企業が引用した学習ログ・課題修正プロセスの表示</li>
 <li>スカウトへの返信・辞退機能</li>
 <li>ポートフォリオ公開設定との連携</li>
+<li><strong>プロフィール閲覧数表示</strong>（スカウト前段階の指標。「あなたのプロフィールを閲覧した企業」）</li>
+<li><strong>評価ポイントの可視化</strong>（どの学習ログが企業に刺さったかを表示）</li>
+<li><strong>スカウト受信の推移グラフ</strong>（学習が進むほどスカウトが増えることを可視化）</li>
 </ul>
 
 <!-- ==================== -->
@@ -353,7 +383,8 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-06 課題・テスト</td><td>（なし）</td><td><strong>新設。</strong>AI評価＋B1〜B5判定</td></tr>
 <tr><td>P-07 ポートフォリオ</td><td>P-06 Myページ</td><td>設定ページ → キャリアポートフォリオ特化。スキルグラフ＋評価ログ</td></tr>
 <tr><td>P-08 選考管理</td><td>選考状況</td><td>ステータス表示のみ → ゲート解除ロジック＋採用ロードマップ</td></tr>
-<tr><td>P-09 スカウト</td><td>（なし）</td><td><strong>新設。</strong>企業からのログ引用スカウト</td></tr>
+<tr><td>P-09 スカウト</td><td>（なし）</td><td><strong>新設。</strong>企業からのログ引用スカウト＋閲覧数＋評価ポイント＋推移グラフ</td></tr>
+<tr><td>設定パネル</td><td>P-06 Myページ内の設定</td><td>Myページから独立。ヘッダーからアクセスするパネル形式に変更</td></tr>
 </table>
 
 <!-- ==================== -->
@@ -370,6 +401,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-07 ポートフォリオ</td><td>未着手</td><td></td></tr>
 <tr><td>P-08 選考管理</td><td>未着手</td><td></td></tr>
 <tr><td>P-09 スカウト</td><td>未着手</td><td></td></tr>
+<tr><td>設定パネル</td><td>未着手</td><td>ヘッダーからアクセス（独立）</td></tr>
 </table>
 
 <hr>
