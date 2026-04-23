@@ -134,13 +134,7 @@ var steps = [
       '<div class="ai-msg" data-delay="600">これから一緒に、あなたに合った学び方を見つけていきましょう。</div>' +
       '<div class="good-btns" data-delay="1000"><button class="good-btn" onclick="pressGood(this)">&#128077;</button><button class="good-btn" onclick="pressGood(this)">&#10024;</button><button class="good-btn" onclick="pressGood(this)">&#128170;</button></div>';
   },
-  // 1: Q1 (no back button)
-  function() {
-    return '<div class="ai-msg visible">目標にしている企業はありますか？</div>' +
-      '<input type="text" class="text-input" placeholder="例：◯◯株式会社（任意）">' +
-      '<div class="nav-row"><button class="nav-btn btn-next" style="margin-left:auto;" onclick="goStep(2,1)">次へ</button></div>';
-  },
-  // 2: Q2 (choices + free input field)
+  // 1: Q1 興味のある職種
   function() {
     return '<div class="ai-msg visible">興味のある職種はどれですか？</div>' +
       '<div class="choices">' +
@@ -150,9 +144,9 @@ var steps = [
         '<button class="choice-btn" onclick="selQ2(this)">インフラエンジニア</button>' +
       '</div>' +
       '<input type="text" class="text-input" placeholder="その他の職種を入力...">' +
-      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(3,1)">次へ</button></div>';
+      '<div class="nav-row"><button class="nav-btn btn-next" style="margin-left:auto;" onclick="goStep(2,1)">次へ</button></div>';
   },
-  // 3: Q3
+  // 2: Q2 希望就業時期
   function() {
     return '<div class="ai-msg visible">いつ頃までに転職したいですか？</div>' +
       '<div class="choices">' +
@@ -161,9 +155,9 @@ var steps = [
         '<button class="choice-btn" onclick="selQ3(this)">1年以内</button>' +
         '<button class="choice-btn" onclick="selQ3(this)">まだ決めていない</button>' +
       '</div>' +
-      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(2,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(4,1)">次へ</button></div>';
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(3,1)">次へ</button></div>';
   },
-  // 4: Result
+  // 3: Result
   function() {
     return '<div class="result-area">' +
       '<div class="result-badge">&#9733; KANAMEの分析結果</div>' +

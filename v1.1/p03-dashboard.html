@@ -137,6 +137,15 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ai-fab .fab-eye { width: 2px; height: 5px; background: #fff; border-radius: 1px; }
 .ai-fab .fab-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; font-weight: 500; background: linear-gradient(to right, #0f4bab, #34e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
+/* Portfolio popup */
+.portfolio-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(5,5,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); align-items:center; justify-content:center; }
+.portfolio-overlay.show { display:flex; }
+.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:560px; width:92%; max-height:85vh; overflow-y:auto; padding:28px; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
+.portfolio-overlay.show .portfolio-popup { opacity:1; transform:scale(1); }
+.pp-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.06); border:none; border-radius:8px; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.pp-section { margin-bottom:16px; }
+.pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-bottom:8px; }
+
 @media (max-width: 700px) {
   .widget-grid, .widget-grid-3 { grid-template-columns: 1fr; }
   .widget-full { grid-column: auto; }
@@ -193,7 +202,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
   <!-- Skills -->
   <div class="sec-title">スキル別進捗</div>
-  <div class="widget widget-full clickable" onclick="location.href='p07-portfolio.html'">
+  <div class="widget widget-full clickable" onclick="openPortfolio()">
     <div class="skill-row"><span class="skill-name">IT基礎</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
     <div class="skill-row"><span class="skill-name">ハードウェア</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
     <div class="skill-row"><span class="skill-name">OS基礎</span><div class="skill-track"><div class="skill-fill" style="width:85%;"></div></div><span class="skill-pct">85%</span></div>
@@ -204,7 +213,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   <!-- Competition + Selection -->
   <div class="sec-title">選考・ポジション</div>
   <div class="widget-grid">
-    <div class="widget clickable" onclick="location.href='p08-selection.html'">
+    <div class="widget clickable" onclick="location.href='p04-curriculum.html'">
       <div class="w-label">採用枠ポジション</div>
       <div class="w-value" style="color:#34e0ff;">上位 32<span style="font-size:16px;">%</span></div>
       <div class="w-sub">◯◯株式会社 情シス枠 — 応募者24名中</div>
@@ -214,7 +223,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <span class="position-label">100%</span>
       </div>
     </div>
-    <div class="widget clickable" onclick="location.href='p08-selection.html'">
+    <div class="widget clickable" onclick="location.href='p04-curriculum.html'">
       <div class="w-label">次の選考ステータス</div>
       <div class="w-value" style="font-size:16px;margin-top:4px;">Skill Prime 未達</div>
       <div class="w-sub">カリキュラム完了でエントリー可能に</div>
@@ -239,7 +248,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="streak-day">日</div>
       </div>
     </div>
-    <div class="widget clickable" onclick="location.href='p07-portfolio.html'">
+    <div class="widget clickable" onclick="openPortfolio()">
       <div class="w-label">レベル・バッジ</div>
       <div class="w-value" style="font-size:16px;">B1 Rookie <span style="font-size:12px;color:rgba(255,255,255,0.35);">進行中</span></div>
       <div class="badge-list">
@@ -272,12 +281,42 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 </main>
 
+<!-- Portfolio popup -->
+<div class="portfolio-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
+  <div class="portfolio-popup" style="position:relative;">
+    <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">SK</div>
+      <div><div style="font-size:18px;font-weight:700;">佐藤 健太</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">B1 Rookie / 97日経過</div></div>
+    </div>
+    <div class="pp-section"><div class="pp-label">スキルグラフ</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">HW基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">37%</span></div>
+    </div>
+    <div class="pp-section"><div class="pp-label">獲得バッジ</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎</span>
+        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎</span>
+        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
+      </div>
+    </div>
+    <div class="pp-section"><div class="pp-label">直近のAI評価</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;"><span style="color:#34e0ff;">&#10003;</span> Unit 4 — B1到達 / 正答率82%</div>
+    </div>
+    <button style="width:100%;padding:12px;background:linear-gradient(135deg,#f7513b,#f13884);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;" onclick="location.href='p07-portfolio.html'">ポートフォリオ全体を見る →</button>
+  </div>
+</div>
+
 <div class="ai-fab" id="aiFab" onclick="if(!this._dragged)location.href='p02-ai-dialogue.html'">
   <div class="fab-orb"><div class="fab-face"><div class="fab-eye"></div><div class="fab-eye"></div></div></div>
   <div class="fab-text">AIと対話する</div>
 </div>
 
 <script>
+function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
+function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
+
 (function(){
   var fab=document.getElementById('aiFab'),sx,sy,ox,oy,dragged;
   fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;dragged=false;fab._dragged=false;

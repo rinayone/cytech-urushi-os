@@ -85,13 +85,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 <header class="header">
   <img src="logo.png" alt="CyTech">
-  <span class="ht">カリキュラム検索</span>
+  <span class="ht">企業・選考</span>
   <div class="hr"><button class="hb hb-blue" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div>
 </header>
 
 <main class="main">
-  <h1 class="page-title">カリキュラム</h1>
-  <p class="page-sub">受講中のカリキュラムは1つのみ。検索・閲覧は自由です。</p>
+  <h1 class="page-title">企業・選考</h1>
+  <p class="page-sub">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</p>
 
   <!-- Active curriculum -->
   <div class="active-banner">
@@ -129,6 +129,31 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <div class="curr-card"><span class="curr-num">03</span><div class="curr-info"><div class="curr-name">ネットワーク基礎</div><div class="curr-desc">IP、DNS、ルーティング、セキュリティ</div></div><div class="curr-time"><div class="time-val">20h</div><div class="time-label" style="color:#f13884;">受講中</div></div></div>
     <div class="curr-card"><span class="curr-num">04</span><div class="curr-info"><div class="curr-name">セキュリティ入門</div><div class="curr-desc">脅威対策、認証、暗号化基礎</div></div><div class="curr-time"><div class="time-val">15h</div><div class="time-label">未開始</div></div></div>
     <div class="curr-card"><span class="curr-num">05</span><div class="curr-info"><div class="curr-name">総合演習・実技課題</div><div class="curr-desc">実務トラブル事例の解決</div></div><div class="curr-time"><div class="time-val">10h</div><div class="time-label">未開始</div></div></div>
+  </div>
+  <!-- 選考ステータス (from P-08) -->
+  <div class="sec-title">選考ステータス</div>
+  <div class="glass">
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:#fff;font-weight:700;"><span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:10px;">1</span>学習中</div>
+      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">2</span>達成</div>
+      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">3</span>エントリー</div>
+      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">4</span>面接</div>
+      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">5</span>内定</div>
+    </div>
+    <div style="padding:12px 0;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.4);">A</div>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">◯◯株式会社</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス — 社内IT管理</div></div>
+      <span style="padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
+    </div>
+    <div style="padding:12px 0;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.4);">B</div>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">△△株式会社</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス — DX推進</div></div>
+      <span style="padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
+    </div>
   </div>
 </main>
 
