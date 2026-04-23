@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — AI対話</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Sans JP', 'Lato', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* ===== IGNITE OVERLAY ===== */
+.ignite-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+.ignite-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Symbol */
+.ignite-symbol {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.ignite-symbol img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+/* Flame glow effect */
+.flame-glow {
+  position: absolute;
+  inset: -40px;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(247,81,59,0.8) 0%, rgba(241,56,132,0.5) 30%, rgba(149,62,195,0.3) 55%, rgba(52,224,255,0.1) 75%, transparent 100%);
+  transform: scale(0.2);
+  filter: blur(8px);
+}
+.flame-glow.ignited {
+  animation: flameIgnite 1.8s ease-out forwards;
+}
+@keyframes flameIgnite {
+  0% { opacity: 0; transform: scale(0.2); filter: blur(8px); }
+  15% { opacity: 1; transform: scale(1.2); filter: blur(4px); }
+  40% { opacity: 0.9; transform: scale(2.5); filter: blur(12px); }
+  100% { opacity: 0; transform: scale(8); filter: blur(40px); }
+}
+
+/* Spark particles */
+.spark-container {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+}
+.spark.ignited {
+  animation: sparkFly var(--duration) ease-out forwards;
+  animation-delay: var(--delay);
+}
+@keyframes sparkFly {
+  0% { opacity: 0; transform: translate(0, 0) scale(1); }
+  10% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+}
+
+/* Screen flash */
+.screen-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(247,81,59,0.15) 0%, transparent 70%);
+  opacity: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+.screen-flash.flash {
+  animation: screenFlash 1.2s ease-out forwards;
+}
+@keyframes screenFlash {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Start button */
+.ignite-start {
+  padding: 14px 48px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.ignite-start:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(247,81,59,0.4);
+}
+.ignite-start:active { transform: scale(0.98); }
+.ignite-start.pressed {
+  animation: btnPulse 0.3s ease;
+}
+@keyframes btnPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* CyTech text under symbol */
+.ignite-brand {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+/* ===== MAIN APP ===== */
+.app {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+.app.visible { opacity: 1; }
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('bg.jpg') center / cover no-repeat;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+/* Header */
+.header {
+  position: relative;
+  z-index: 10;
+  height: 64px;
+  margin: 20px 20px 0;
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+}
+.header img { height: 28px; }
+.header .header-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-right .settings-btn {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.header-right .settings-btn:hover { background: rgba(255,255,255,0.15); }
+.header-right .nav-btn {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.header-right .nav-btn:hover { background: rgba(255,255,255,0.15); }
+
+/* Chat area */
+.chat-area {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 20px;
+  overflow: hidden;
+}
+
+/* Messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+.msg {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.5s ease;
+}
+.msg.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.msg-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f7513b, #f13884, #953ec3, #0f4bab, #34e0ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.msg-content {
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 4px 20px 20px 20px;
+  padding: 16px 20px;
+  max-width: 520px;
+}
+.msg-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 6px;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.5px;
+}
+.msg-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.85);
+}
+.msg-text strong { color: #fff; }
+.msg-text .highlight {
+  color: #34e0ff;
+  font-weight: 700;
+}
+
+/* Typing indicator */
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 8px 0;
+}
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  animation: dotBounce 1.2s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s ease;
+}
+.action-buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.action-btn {
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  color: #fff;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.action-btn.primary {
+  background: linear-gradient(135deg, #f7513b, #f13884);
+}
+.action-btn.primary:hover { opacity: 0.9; transform: scale(1.02); }
+.action-btn.secondary {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.action-btn.secondary:hover { background: rgba(255,255,255,0.15); }
+
+/* Chat input */
+.chat-input-area {
+  position: relative;
+  z-index: 10;
+  padding: 0 20px 20px;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+.chat-input-wrap {
+  display: flex;
+  gap: 8px;
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  border-radius: 100px;
+  padding: 6px 6px 6px 20px;
+  align-items: center;
+}
+.chat-input-wrap input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+}
+.chat-input-wrap input::placeholder { color: rgba(255,255,255,0.3); }
+.chat-input-wrap button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.chat-input-wrap button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<!-- ===== IGNITE OVERLAY ===== -->
+<div class="ignite-overlay" id="igniteOverlay">
+  <div class="ignite-symbol" id="igniteSymbol">
+    <div class="flame-glow" id="flameGlow"></div>
+    <div class="spark-container" id="sparkContainer"></div>
+    <img src="logo.png" alt="CyTech">
+  </div>
+  <div class="ignite-brand">CyTech Urushi OS</div>
+  <button class="ignite-start" id="igniteBtn">始める</button>
+</div>
+
+<!-- Screen flash effect -->
+<div class="screen-flash" id="screenFlash"></div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app" id="app">
+  <!-- Header -->
+  <header class="header">
+    <img src="logo.png" alt="CyTech">
+    <span class="header-title">AI対話</span>
+    <div class="header-right">
+      <button class="nav-btn">ダッシュボード</button>
+      <button class="settings-btn">&#9881;</button>
+    </div>
+  </header>
+
+  <!-- Chat -->
+  <div class="chat-area">
+    <div class="messages" id="messages"></div>
+  </div>
+
+  <!-- Input -->
+  <div class="chat-input-area">
+    <div class="chat-input-wrap">
+      <input type="text" id="chatInput" placeholder="KANAMEに質問する...">
+      <button onclick="sendUserMessage()">送信</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== IGNITE SOUND (Web Audio API) =====
+function playIgniteSound() {
+  var ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Low thump
+  var osc1 = ctx.createOscillator();
+  var gain1 = ctx.createGain();
+  osc1.type = 'sine';
+  osc1.frequency.setValueAtTime(80, ctx.currentTime);
+  osc1.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.3);
+  gain1.gain.setValueAtTime(0.6, ctx.currentTime);
+  gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+  osc1.connect(gain1);
+  gain1.connect(ctx.destination);
+  osc1.start(ctx.currentTime);
+  osc1.stop(ctx.currentTime + 0.4);
+
+  // Noise burst (whoosh)
+  var bufferSize = ctx.sampleRate * 0.3;
+  var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  var data = buffer.getChannelData(0);
+  for (var i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 3);
+  }
+  var noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+  var noiseGain = ctx.createGain();
+  noiseGain.gain.setValueAtTime(0.3, ctx.currentTime);
+  noiseGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+  var noiseFilter = ctx.createBiquadFilter();
+  noiseFilter.type = 'bandpass';
+  noiseFilter.frequency.setValueAtTime(800, ctx.currentTime);
+  noiseFilter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+  noise.connect(noiseFilter);
+  noiseFilter.connect(noiseGain);
+  noiseGain.connect(ctx.destination);
+  noise.start(ctx.currentTime);
+
+  // Mid pop
+  var osc2 = ctx.createOscillator();
+  var gain2 = ctx.createGain();
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(200, ctx.currentTime);
+  osc2.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.15);
+  gain2.gain.setValueAtTime(0.4, ctx.currentTime);
+  gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+  osc2.connect(gain2);
+  gain2.connect(ctx.destination);
+  osc2.start(ctx.currentTime);
+  osc2.stop(ctx.currentTime + 0.2);
+}
+
+// ===== SPARK PARTICLES =====
+function createSparks() {
+  var container = document.getElementById('sparkContainer');
+  var colors = ['#f7513b', '#f13884', '#f8ee1a', '#953ec3', '#34e0ff', '#ff8a50'];
+  for (var i = 0; i < 24; i++) {
+    var spark = document.createElement('div');
+    spark.className = 'spark';
+    var angle = (Math.PI * 2 / 24) * i + (Math.random() - 0.5) * 0.5;
+    var dist = 60 + Math.random() * 80;
+    spark.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    spark.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    spark.style.setProperty('--duration', (0.6 + Math.random() * 0.6) + 's');
+    spark.style.setProperty('--delay', (Math.random() * 0.15) + 's');
+    spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+    container.appendChild(spark);
+  }
+}
+createSparks();
+
+// ===== IGNITE SEQUENCE =====
+document.getElementById('igniteBtn').addEventListener('click', function() {
+  var btn = this;
+  btn.classList.add('pressed');
+  btn.style.pointerEvents = 'none';
+
+  // Sound
+  playIgniteSound();
+
+  // Flame glow
+  document.getElementById('flameGlow').classList.add('ignited');
+
+  // Sparks
+  document.querySelectorAll('.spark').forEach(function(s) { s.classList.add('ignited'); });
+
+  // Screen flash
+  setTimeout(function() {
+    document.getElementById('screenFlash').classList.add('flash');
+  }, 100);
+
+  // Fade out overlay, show app
+  setTimeout(function() {
+    document.getElementById('igniteOverlay').classList.add('fade-out');
+    document.getElementById('app').classList.add('visible');
+  }, 1200);
+
+  // Start AI messages
+  setTimeout(function() {
+    startAIDialogue();
+  }, 1800);
+});
+
+// ===== AI DIALOGUE =====
+var messagesEl = document.getElementById('messages');
+
+function addMessage(name, text, delay) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      // Show typing indicator first
+      var typingMsg = document.createElement('div');
+      typingMsg.className = 'msg visible';
+      typingMsg.innerHTML = '<div class="msg-avatar">K</div><div class="msg-content"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+      messagesEl.appendChild(typingMsg);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      // Replace with actual message after typing delay
+      setTimeout(function() {
+        typingMsg.remove();
+        var msg = document.createElement('div');
+        msg.className = 'msg';
+        msg.innerHTML = '<div class="msg-avatar">K</div><div class="msg-content"><div class="msg-name">KANAME</div><div class="msg-text">' + text + '</div></div>';
+        messagesEl.appendChild(msg);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        // Animate in
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            msg.classList.add('visible');
+          });
+        });
+        resolve();
+      }, 800);
+    }, delay);
+  });
+}
+
+function showActions(actions, delay) {
+  setTimeout(function() {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'action-buttons';
+    actions.forEach(function(a) {
+      var btn = document.createElement('button');
+      btn.className = 'action-btn ' + (a.primary ? 'primary' : 'secondary');
+      btn.textContent = a.label;
+      wrapper.appendChild(btn);
+    });
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        wrapper.classList.add('visible');
+      });
+    });
+  }, delay);
+}
+
+function startAIDialogue() {
+  // Simulating "学習中ユーザー" scenario
+  addMessage('KANAME',
+    'おかえりなさい、<strong>佐藤さん</strong>。',
+    0
+  ).then(function() {
+    return addMessage('KANAME',
+      '前回の学習から<span class="highlight">3日</span>経っています。<br>情シス基礎コースの<strong>Unit 5 — ネットワーク基礎</strong>で手が止まっていましたね。',
+      600
+    );
+  }).then(function() {
+    return addMessage('KANAME',
+      'ネットワーク構成図の読み方は、佐藤さんの営業で使う<strong>顧客管理の組織図</strong>と似ています。「どこからどこへ情報が流れるか」を意識すると理解しやすいですよ。<br><br>あと<span class="highlight">12時間</span>の学習でSkill Prime達成です。ゴールは近いです。',
+      600
+    );
+  }).then(function() {
+    showActions([
+      { label: '学習を再開する', primary: true },
+      { label: 'カリキュラムを確認', primary: false },
+      { label: 'スキルグラフを見る', primary: false },
+      { label: 'ダッシュボードへ', primary: false }
+    ], 400);
+  });
+}
+
+// User message
+function sendUserMessage() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  var msg = document.createElement('div');
+  msg.className = 'msg visible';
+  msg.style.flexDirection = 'row-reverse';
+  msg.innerHTML = '<div class="msg-content" style="border-radius:20px 4px 20px 20px;background:rgba(149,62,195,0.15);"><div class="msg-text">' + text.replace(/</g, '&lt;') + '</div></div>';
+  messagesEl.appendChild(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  // AI response
+  addMessage('KANAME', 'なるほど、良い質問ですね。学習を進めながら一緒に考えていきましょう。', 800);
+}
+
+document.getElementById('chatInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') sendUserMessage();
+});
+</script>
+</body>
+</html>
