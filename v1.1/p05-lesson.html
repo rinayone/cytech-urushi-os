@@ -18,79 +18,75 @@ body {
 
 /* ===== BACKGROUND ===== */
 .bg-volcano {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
 }
 .bg-volcano img {
-  position: absolute;
-  top: 0; right: -10%;
-  height: 100%;
-  width: auto;
-  object-fit: cover;
-  opacity: 0.18;
+  position: absolute; top: 0; right: -10%;
+  height: 100%; width: auto; object-fit: cover; opacity: 0.18;
 }
-/* Fade over volcano so it doesn't compete with content */
 .bg-volcano::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: linear-gradient(to right, #050508 30%, transparent 60%, rgba(5,5,8,0.5) 100%);
 }
 
-/* ===== TOP BAR ===== */
-.top-bar {
-  position: fixed;
-  top: 16px; left: 16px; right: 16px;
-  height: 48px; z-index: 50;
+/* ===== HEADER ===== */
+.header {
+  position: fixed; top: 16px; left: 16px; right: 16px;
+  height: 52px; z-index: 50;
   display: flex; align-items: center;
-  padding: 0 16px; gap: 12px;
+  padding: 0 18px; gap: 10px;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  box-shadow: inset 0 0 16px rgba(255,255,255,0.06);
+  border-radius: 20px;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
 }
-.top-bar .back-btn {
-  background: none; border: none;
-  color: rgba(255,255,255,0.4);
-  font-size: 14px; cursor: pointer;
-  padding: 4px 8px;
-  transition: color 0.2s;
+.header img { height: 22px; }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .hr { margin-left: auto; }
+.hb-dash {
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #fff; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'Noto Sans JP', sans-serif;
 }
-.top-bar .back-btn:hover { color: #fff; }
-.top-bar .unit-name {
-  font-family: 'Lato', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: rgba(255,255,255,0.7);
+.hb-dash:hover { background: rgba(255,255,255,0.16); }
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-area {
+  position: fixed; top: 80px; left: 16px; right: 16px;
+  height: 36px; z-index: 40;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px;
 }
-.top-bar .step-count {
-  font-family: 'Lato', sans-serif;
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  margin-left: auto;
+.unit-label {
+  font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.5); white-space: nowrap;
+}
+.step-count {
+  font-family: 'Lato', sans-serif; font-size: 11px;
+  color: rgba(255,255,255,0.3); margin-left: auto; white-space: nowrap;
 }
 .progress-track {
-  width: 120px; height: 4px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 2px;
-  overflow: hidden;
+  flex: 1; height: 4px;
+  background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
 }
 .progress-fill {
   height: 100%;
   background: linear-gradient(to right, #f7513b, #f13884);
-  border-radius: 2px;
-  transition: width 0.4s ease;
+  border-radius: 2px; transition: width 0.4s ease;
 }
 
 /* ===== MAIN LAYOUT ===== */
 .lesson-layout {
   position: fixed;
-  top: 80px; bottom: 16px; left: 16px; right: 16px;
+  top: 124px; bottom: 16px; left: 16px; right: 16px;
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 16px;
+  grid-template-columns: 1fr 300px;
+  gap: 12px;
   z-index: 10;
 }
 
@@ -101,190 +97,155 @@ body {
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
   box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
+  padding: 28px;
+  display: flex; flex-direction: column;
   overflow-y: auto;
 }
-
 .step-label {
   font-family: 'Lato', sans-serif;
   font-size: 11px; font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  margin-bottom: 8px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-bottom: 8px;
 }
 .content-title {
   font-family: 'Lato', sans-serif;
-  font-size: 22px; font-weight: 700;
-  margin-bottom: 20px;
-  line-height: 1.4;
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 20px; line-height: 1.4;
 }
-.content-body {
-  flex: 1;
-}
+.content-body { flex: 1; }
 .content-body p {
-  font-size: 14px;
-  line-height: 2;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 16px;
+  font-size: 14px; line-height: 2;
+  color: rgba(255,255,255,0.8); margin-bottom: 16px;
 }
 .content-body strong { color: #fff; }
 .content-body .hl { color: #34e0ff; font-weight: 700; }
+
+/* Ignite */
+.ignite-box {
+  background: rgba(247,81,59,0.08);
+  border: 1px solid rgba(247,81,59,0.2);
+  border-radius: 12px; padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7;
+}
+.ignite-box .ig-icon { color: #f7513b; margin-right: 6px; }
 
 /* Diagram */
 .diagram {
   background: rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 24px;
-  margin: 20px 0;
-  text-align: center;
+  border-radius: 16px; padding: 24px; margin: 20px 0; text-align: center;
 }
 .diagram-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 8px;
-  font-size: 13px;
+  display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; font-size: 13px;
 }
-.diagram-node {
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 13px;
-}
+.diagram-node { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; }
 .diagram-node.server { background: rgba(241,56,132,0.2); border: 1px solid rgba(241,56,132,0.4); color: #f13884; }
 .diagram-node.router { background: rgba(52,224,255,0.15); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; }
 .diagram-node.device { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
-.diagram-arrow { color: rgba(255,255,255,0.25); font-size: 16px; }
-.diagram-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.3);
-  margin-top: 12px;
-}
-
-/* Ignite callout */
-.ignite-box {
-  background: rgba(247,81,59,0.08);
-  border: 1px solid rgba(247,81,59,0.2);
-  border-radius: 14px;
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.7;
-}
-.ignite-box .ignite-icon { color: #f7513b; margin-right: 6px; }
+.diagram-arrow { color: rgba(255,255,255,0.25); font-size: 14px; }
+.diagram-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 12px; }
 
 /* Next button */
 .next-area {
-  padding-top: 20px;
-  margin-top: auto;
+  padding-top: 16px; margin-top: auto;
+  display: flex; justify-content: flex-end;
 }
 .next-btn {
-  width: 100%;
-  padding: 16px;
+  padding: 12px 32px;
   background: linear-gradient(135deg, #f7513b, #f13884);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
+  color: #fff; border: none;
+  border-radius: 12px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
   font-family: 'Noto Sans JP', sans-serif;
 }
 .next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-/* ===== KANAME CHAT ===== */
-.kaname-panel {
+/* ===== RIGHT PANEL (目次 / KANAME切替) ===== */
+.right-panel {
+  display: flex; flex-direction: column;
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   box-shadow: inset 0 0 16px rgba(255,255,255,0.03);
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 
-.kaname-header {
-  padding: 16px 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  display: flex; align-items: center; gap: 10px;
+/* Tabs */
+.panel-tabs {
+  display: flex; border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.kaname-mini-orb {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
-  filter: blur(3px) saturate(1.2);
-  flex-shrink: 0;
-  position: relative;
+.panel-tab {
+  flex: 1; padding: 12px 0;
+  text-align: center;
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer; transition: all 0.2s;
+  border-bottom: 2px solid transparent;
 }
-.kaname-mini-orb::after {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  width: 16px; height: 8px;
-  background: rgba(8,8,35,0.7);
-  border-radius: 100px;
+.panel-tab.active {
+  color: #fff;
+  border-bottom-color: #f13884;
 }
-.kaname-header-name {
-  font-family: 'Lato', sans-serif;
-  font-size: 12px; font-weight: 700;
-  color: rgba(255,255,255,0.5);
-}
-.kaname-header-status {
-  font-size: 10px;
+.panel-tab:hover { color: rgba(255,255,255,0.6); }
+
+/* Panel content */
+.panel-content { flex: 1; overflow-y: auto; display: none; }
+.panel-content.active { display: flex; flex-direction: column; }
+
+/* 目次 */
+.toc { padding: 12px; flex: 1; }
+.toc-section {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
   color: rgba(255,255,255,0.25);
+  padding: 8px 8px 4px; margin-top: 4px;
 }
-
-.kaname-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.toc-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px; border-radius: 8px;
+  font-size: 12px; color: rgba(255,255,255,0.45);
+  cursor: pointer; transition: all 0.15s;
 }
+.toc-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+.toc-item.current { color: #fff; font-weight: 700; background: rgba(255,255,255,0.06); }
+.toc-item.done { color: rgba(166,227,161,0.7); }
+.toc-icon { font-size: 11px; width: 16px; text-align: center; flex-shrink: 0; }
 
+/* KANAME chat */
+.kaname-chat { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
 .k-msg {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 4px 14px 14px 14px;
-  padding: 12px 16px;
-  font-size: 13px;
-  line-height: 1.7;
+  border-radius: 4px 12px 12px 12px;
+  padding: 10px 14px;
+  font-size: 12px; line-height: 1.7;
   color: rgba(255,255,255,0.8);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: all 0.4s ease;
+  opacity: 0; transform: translateY(6px);
+  transition: all 0.3s ease;
 }
 .k-msg.visible { opacity: 1; transform: translateY(0); }
 .k-msg strong { color: #fff; }
 .k-msg .hl { color: #34e0ff; }
 
 .kaname-input {
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-top: 1px solid rgba(255,255,255,0.06);
   display: flex; gap: 6px;
 }
 .kaname-input input {
-  flex: 1;
-  padding: 8px 14px;
+  flex: 1; padding: 8px 12px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 100px;
-  color: #fff; font-size: 12px;
+  color: #fff; font-size: 11px;
   outline: none; font-family: inherit;
 }
 .kaname-input input::placeholder { color: rgba(255,255,255,0.2); }
 .kaname-input button {
-  padding: 8px 14px;
+  padding: 8px 12px;
   background: linear-gradient(135deg, #953ec3, #0f4bab);
   color: #fff; border: none; border-radius: 100px;
   font-size: 11px; font-weight: 700; cursor: pointer;
@@ -292,11 +253,8 @@ body {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .lesson-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
-  }
-  .kaname-panel { max-height: 240px; }
+  .lesson-layout { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .right-panel { max-height: 220px; }
   .content-area { padding: 20px; }
   .content-title { font-size: 18px; }
 }
@@ -304,40 +262,34 @@ body {
 </head>
 <body>
 
-<!-- Background Volcano -->
-<div class="bg-volcano">
-  <img src="volcano-bg.png" alt="">
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<!-- Header -->
+<header class="header">
+  <img src="logo.png" alt="CyTech">
+  <span class="ht">学習実行</span>
+  <div class="hr"><button class="hb-dash">ダッシュボードへ →</button></div>
+</header>
+
+<!-- Progress -->
+<div class="progress-bar-area">
+  <span class="unit-label">Unit 5 — ネットワーク基礎</span>
+  <div class="progress-track"><div class="progress-fill" style="width:37.5%"></div></div>
+  <span class="step-count">3 / 8</span>
 </div>
 
-<!-- Top Bar -->
-<div class="top-bar">
-  <button class="back-btn">←</button>
-  <span class="unit-name">Unit 5 — ネットワーク基礎</span>
-  <span class="step-count">STEP 3 / 8</span>
-  <div class="progress-track">
-    <div class="progress-fill" style="width:37.5%"></div>
-  </div>
-</div>
-
-<!-- Main Layout -->
+<!-- Main -->
 <div class="lesson-layout">
 
   <!-- Content -->
   <div class="content-area">
     <div class="step-label">STEP 3</div>
     <h2 class="content-title">ネットワーク構成図の読み方</h2>
-
     <div class="content-body">
-      <!-- Ignite -->
       <div class="ignite-box">
-        <span class="ignite-icon">&#9673;</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。
+        <span class="ig-icon">&#9673;</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。
       </div>
-
-      <p>
-        ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、ネットワークではサーバーからの情報がルーターを経由して各端末に届きます。
-      </p>
-
-      <!-- Diagram -->
+      <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、ネットワークではサーバーからの情報がルーターを経由して各端末に届きます。</p>
       <div class="diagram">
         <div class="diagram-row">
           <div class="diagram-node server">サーバー</div>
@@ -348,60 +300,82 @@ body {
         </div>
         <div class="diagram-row" style="margin-top:4px;">
           <span style="font-size:11px;color:rgba(255,255,255,0.25);">＝ 本社</span>
-          <span style="width:40px;"></span>
+          <span style="width:32px;"></span>
           <span style="font-size:11px;color:rgba(255,255,255,0.25);">＝ 支店</span>
-          <span style="width:40px;"></span>
+          <span style="width:32px;"></span>
           <span style="font-size:11px;color:rgba(255,255,255,0.25);">＝ 部署</span>
         </div>
         <div class="diagram-label">営業の組織図になぞらえたネットワーク構成</div>
       </div>
-
-      <p>
-        <span class="hl">サーバー</span>は「本社」にあたります。全体の情報を管理し、指示を出す役割です。<span class="hl">ルーター</span>は「支店」のように、情報を適切な場所に振り分けます。そして<strong>端末</strong>（PC・スマホ）は「各部署の担当者」です。
-      </p>
+      <p><span class="hl">サーバー</span>は「本社」にあたります。全体の情報を管理し、指示を出す役割です。<span class="hl">ルーター</span>は「支店」のように、情報を適切な場所に振り分けます。そして<strong>端末</strong>（PC・スマホ）は「各部署の担当者」です。</p>
     </div>
-
-    <!-- Next -->
     <div class="next-area">
       <button class="next-btn">次へ →</button>
     </div>
   </div>
 
-  <!-- KANAME Chat -->
-  <div class="kaname-panel">
-    <div class="kaname-header">
-      <div class="kaname-mini-orb"></div>
-      <div>
-        <div class="kaname-header-name">KANAME</div>
-        <div class="kaname-header-status">オンライン</div>
+  <!-- Right Panel: TOC / KANAME -->
+  <div class="right-panel">
+    <div class="panel-tabs">
+      <div class="panel-tab active" onclick="switchPanel('toc')">目次</div>
+      <div class="panel-tab" onclick="switchPanel('kaname')">KANAME</div>
+    </div>
+
+    <!-- TOC -->
+    <div class="panel-content active" id="panelToc">
+      <div class="toc">
+        <div class="toc-section">Unit 5 — ネットワーク基礎</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>1. ネットワークとは</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>2. IPアドレスの仕組み</div>
+        <div class="toc-item current"><span class="toc-icon">&#9656;</span>3. ネットワーク構成図</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>4. プロトコルの基本</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>5. DNSとドメイン</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>6. セキュリティ入門</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>7. 実務での活用</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>8. 課題・テスト</div>
+        <div class="toc-section">コース全体</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 1 — IT基礎</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 2 — ハードウェア</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 3 — ソフトウェア</div>
+        <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 4 — OS基礎</div>
+        <div class="toc-item current"><span class="toc-icon">&#9656;</span>Unit 5 — ネットワーク（受講中）</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 6 — データベース</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 7 — セキュリティ</div>
+        <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 8 — 総合演習</div>
       </div>
     </div>
-    <div class="kaname-messages" id="kMessages">
-      <div class="k-msg" id="km1">
-        そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。
+
+    <!-- KANAME -->
+    <div class="panel-content" id="panelKaname">
+      <div class="kaname-chat" id="kMessages">
+        <div class="k-msg" id="km1">そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。</div>
+        <div class="k-msg" id="km2">この図で<span class="hl">ルーターが何台あるか</span>を数えてみてください。それが「支店の数」にあたります。</div>
       </div>
-      <div class="k-msg" id="km2">
-        営業先の組織図で<strong>「本社→支店→部署」</strong>って流れがあるように、ネットワークも上から下に情報が流れます。
+      <div class="kaname-input">
+        <input type="text" id="kInput" placeholder="質問する...">
+        <button onclick="sendK()">送信</button>
       </div>
-      <div class="k-msg" id="km3">
-        この図を見て、<span class="hl">ルーターが何台あるか</span>を数えてみてください。それが「支店の数」にあたります。
-      </div>
-    </div>
-    <div class="kaname-input">
-      <input type="text" id="kInput" placeholder="質問する...">
-      <button onclick="sendK()">送信</button>
     </div>
   </div>
 
 </div>
 
 <script>
-// Sequential KANAME messages
-window.addEventListener('load', function() {
-  setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 800);
-  setTimeout(function() { document.getElementById('km2').classList.add('visible'); }, 2000);
-  setTimeout(function() { document.getElementById('km3').classList.add('visible'); }, 3500);
-});
+// Panel switch
+function switchPanel(id) {
+  document.querySelectorAll('.panel-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel-content').forEach(function(p) { p.classList.remove('active'); });
+  if (id === 'toc') {
+    document.querySelectorAll('.panel-tab')[0].classList.add('active');
+    document.getElementById('panelToc').classList.add('active');
+  } else {
+    document.querySelectorAll('.panel-tab')[1].classList.add('active');
+    document.getElementById('panelKaname').classList.add('active');
+    // Show messages
+    setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 200);
+    setTimeout(function() { document.getElementById('km2').classList.add('visible'); }, 600);
+  }
+}
 
 // Chat
 function sendK() {
@@ -409,36 +383,23 @@ function sendK() {
   var text = input.value.trim();
   if (!text) return;
   input.value = '';
-
   var area = document.getElementById('kMessages');
-
-  // User message
   var um = document.createElement('div');
   um.className = 'k-msg visible';
-  um.style.background = 'rgba(149,62,195,0.12)';
-  um.style.borderColor = 'rgba(149,62,195,0.2)';
-  um.style.borderRadius = '14px 4px 14px 14px';
-  um.style.marginLeft = '24px';
+  um.style.cssText = 'background:rgba(149,62,195,0.12);border-color:rgba(149,62,195,0.2);border-radius:12px 4px 12px 12px;margin-left:20px;';
   um.textContent = text;
   area.appendChild(um);
   area.scrollTop = area.scrollHeight;
-
-  // KANAME reply
   setTimeout(function() {
     var km = document.createElement('div');
     km.className = 'k-msg';
     km.innerHTML = 'いい質問ですね。営業に例えると、それは<strong>「取引先への配送ルート」</strong>に近い考え方です。';
     area.appendChild(km);
     area.scrollTop = area.scrollHeight;
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() { km.classList.add('visible'); });
-    });
-  }, 800);
+    requestAnimationFrame(function() { requestAnimationFrame(function() { km.classList.add('visible'); }); });
+  }, 600);
 }
-
-document.getElementById('kInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') sendK();
-});
+document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
 </script>
 </body>
 </html>
