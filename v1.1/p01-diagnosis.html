@@ -35,9 +35,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .msg-area { position: relative; z-index: 20; max-width: 440px; width: 90%; }
 
 /* Slide container */
-.slide-container { position: relative; min-height: 280px; }
-.slide-panel-inner { transition: opacity 0.3s ease; position: relative; }
-.slide-panel-inner.exiting { opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; right: 0; }
+.slide-container { position: relative; }
+.slide-panel-inner { transition: opacity 0.3s ease; }
+.slide-panel-inner.exiting { opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; right: 0; z-index: -1; }
 
 /* AI message */
 .ai-msg {
@@ -175,35 +175,33 @@ var steps = [
 ];
 
 function renderStep(step, dir) {
-  var old = container.querySelector('.slide-panel-inner');
+  var old = container.querySelector('.slide-panel-inner:not(.exiting)');
 
+  // Create new panel first
+  var div = document.createElement('div');
+  div.className = 'slide-panel-inner';
+  div.style.opacity = '0';
+  div.innerHTML = steps[step]();
+  container.appendChild(div);
+
+  // Fade in new
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() { div.style.opacity = '1'; });
+  });
+
+  // Fade out old (absolute positioned, won't affect layout)
   if (old) {
     old.classList.add('exiting');
-    setTimeout(function() {
-      if (old.parentNode) old.remove();
-      var div = document.createElement('div');
-      div.className = 'slide-panel-inner';
-      div.style.opacity = '0';
-      div.innerHTML = steps[step]();
-      container.appendChild(div);
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() { div.style.opacity = '1'; });
-      });
-      animateDelayed();
-    }, 280);
-  } else {
-    container.innerHTML = '<div class="slide-panel-inner">' + steps[step]() + '</div>';
-    animateDelayed();
+    setTimeout(function() { if (old.parentNode) old.remove(); }, 300);
   }
 
-  function animateDelayed() {
-    setTimeout(function() {
-      container.querySelectorAll('[data-delay]').forEach(function(m) {
-        var d = parseInt(m.getAttribute('data-delay'));
-        setTimeout(function() { m.classList.add('visible'); }, d);
-      });
-    }, 50);
-  }
+  // Animate delayed elements
+  setTimeout(function() {
+    div.querySelectorAll('[data-delay]').forEach(function(m) {
+      var d = parseInt(m.getAttribute('data-delay'));
+      setTimeout(function() { m.classList.add('visible'); }, d);
+    });
+  }, 50);
 
   currentStep = step;
 }
