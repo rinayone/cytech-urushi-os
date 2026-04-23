@@ -34,14 +34,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Message area */
 .msg-area { position: relative; z-index: 20; max-width: 440px; width: 90%; }
 
-/* Slide container for smooth transitions */
-.slide-container { position: relative; overflow: hidden; }
-.slide-panel-inner { transition: opacity 0.4s ease, transform 0.4s ease; }
-.slide-panel-inner.exit { opacity: 0; transform: translateX(-20px); position: absolute; inset: 0; }
-.slide-panel-inner.enter { opacity: 0; transform: translateX(20px); }
-.slide-panel-inner.enter-active { opacity: 1; transform: translateX(0); }
-.slide-panel-inner.exit-back { opacity: 0; transform: translateX(20px); position: absolute; inset: 0; }
-.slide-panel-inner.enter-back { opacity: 0; transform: translateX(-20px); }
+/* Slide container */
+.slide-container { position: relative; }
+.slide-panel-inner { transition: opacity 0.35s ease; }
+.slide-panel-inner.exiting { opacity: 0; pointer-events: none; position: absolute; inset: 0; }
 
 /* AI message */
 .ai-msg {
@@ -138,24 +134,23 @@ var steps = [
       '<div class="ai-msg" data-delay="600">これから一緒に、あなたに合った学び方を見つけていきましょう。</div>' +
       '<div class="good-btns" data-delay="1000"><button class="good-btn" onclick="pressGood(this)">&#128077;</button><button class="good-btn" onclick="pressGood(this)">&#10024;</button><button class="good-btn" onclick="pressGood(this)">&#128170;</button></div>';
   },
-  // 1: Q1
+  // 1: Q1 (no back button)
   function() {
     return '<div class="ai-msg visible">目標にしている企業はありますか？</div>' +
       '<input type="text" class="text-input" placeholder="例：◯◯株式会社（任意）">' +
-      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(0,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(2,1)">次へ</button></div>';
+      '<div class="nav-row"><button class="nav-btn btn-next" style="margin-left:auto;" onclick="goStep(2,1)">次へ</button></div>';
   },
-  // 2: Q2
+  // 2: Q2 (choices + free input field)
   function() {
     return '<div class="ai-msg visible">興味のある職種はどれですか？</div>' +
       '<div class="choices">' +
-        '<button class="choice-btn" onclick="selQ2(this,false)">情シス・社内IT</button>' +
-        '<button class="choice-btn" onclick="selQ2(this,false)">Webエンジニア</button>' +
-        '<button class="choice-btn" onclick="selQ2(this,false)">データ分析・DX推進</button>' +
-        '<button class="choice-btn" onclick="selQ2(this,false)">インフラエンジニア</button>' +
-        '<button class="choice-btn" onclick="selQ2(this,true)">その他（自分で入力）</button>' +
+        '<button class="choice-btn" onclick="selQ2(this)">情シス・社内IT</button>' +
+        '<button class="choice-btn" onclick="selQ2(this)">Webエンジニア</button>' +
+        '<button class="choice-btn" onclick="selQ2(this)">データ分析・DX推進</button>' +
+        '<button class="choice-btn" onclick="selQ2(this)">インフラエンジニア</button>' +
       '</div>' +
-      '<div class="other-wrap" id="otherWrap"><input type="text" class="text-input" placeholder="希望の職種を入力..."></div>' +
-      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" id="q2Next" onclick="goStep(3,1)">次へ</button></div>';
+      '<input type="text" class="text-input" placeholder="その他の職種を入力...">' +
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(3,1)">次へ</button></div>';
   },
   // 3: Q3
   function() {
@@ -187,32 +182,29 @@ var steps = [
 
 function renderStep(step, dir) {
   var old = container.querySelector('.slide-panel-inner');
-  var html = '<div class="slide-panel-inner enter' + (dir < 0 ? '-back' : '') + '">' + steps[step]() + '</div>';
 
   if (old) {
-    old.classList.add(dir > 0 ? 'exit' : 'exit-back');
-    container.insertAdjacentHTML('beforeend', html);
-    var newEl = container.querySelector('.enter, .enter-back');
-    requestAnimationFrame(function() { requestAnimationFrame(function() {
-      newEl.classList.remove('enter', 'enter-back');
-      newEl.classList.add('enter-active');
-    }); });
-    setTimeout(function() { if (old.parentNode) old.remove(); }, 400);
+    old.classList.add('exiting');
+    setTimeout(function() { if (old.parentNode) old.remove(); }, 350);
+    setTimeout(function() {
+      container.innerHTML = '<div class="slide-panel-inner" style="opacity:0;">' + steps[step]() + '</div>';
+      var newEl = container.querySelector('.slide-panel-inner');
+      requestAnimationFrame(function() { newEl.style.opacity = '1'; });
+      animateDelayed();
+    }, 300);
   } else {
-    container.innerHTML = '<div class="slide-panel-inner enter-active">' + steps[step]() + '</div>';
+    container.innerHTML = '<div class="slide-panel-inner">' + steps[step]() + '</div>';
+    animateDelayed();
   }
 
-  // Animate ai-msg with delays
-  setTimeout(function() {
-    container.querySelectorAll('.ai-msg[data-delay]').forEach(function(m) {
-      var d = parseInt(m.getAttribute('data-delay'));
-      setTimeout(function() { m.classList.add('visible'); }, d);
-    });
-    container.querySelectorAll('.good-btns[data-delay]').forEach(function(m) {
-      var d = parseInt(m.getAttribute('data-delay'));
-      setTimeout(function() { m.classList.add('visible'); }, d);
-    });
-  }, 50);
+  function animateDelayed() {
+    setTimeout(function() {
+      container.querySelectorAll('[data-delay]').forEach(function(m) {
+        var d = parseInt(m.getAttribute('data-delay'));
+        setTimeout(function() { m.classList.add('visible'); }, d);
+      });
+    }, 50);
+  }
 
   currentStep = step;
 }
@@ -226,14 +218,9 @@ function pressGood(btn) {
   setTimeout(function() { goStep(1, 1); }, 400);
 }
 
-function selQ2(btn, isOther) {
-  container.querySelectorAll('#slideContainer .choice-btn').forEach(function(b) { b.classList.remove('selected'); });
+function selQ2(btn) {
+  container.querySelectorAll('.choice-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
-  var ow = document.getElementById('otherWrap');
-  if (ow) {
-    if (isOther) { ow.classList.add('show'); ow.querySelector('input').focus(); }
-    else { ow.classList.remove('show'); }
-  }
 }
 
 function selQ3(btn) {

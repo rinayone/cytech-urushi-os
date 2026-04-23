@@ -55,6 +55,7 @@ body.panel-open .content-area { right: 328px; }
   display: inline-flex; align-items: center; gap: 8px;
   cursor: pointer; margin-bottom: 16px;
 }
+.ct-icon { transition: opacity 0.2s; }
 .ct-icon img { height: 20px; }
 
 .step-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
@@ -174,12 +175,6 @@ body.panel-open .slide-panel { transform: translateX(0); }
   body.panel-open .content-area { right: 16px; }
   .content-area { padding: 20px; }
 }
-/* Floating AI button */
-.ai-fab { position: fixed; bottom: 24px; right: 24px; z-index: 80; width: 80px; height: 80px; background: #fff; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.2s; user-select: none; touch-action: none; }
-.ai-fab:hover { transform: scale(1.05); }
-.ai-fab.dragging { background: rgba(255,255,255,0.63); box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.3); }
-.ai-fab .fab-orb { width: 28px; height: 28px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(2px) saturate(1.2); }
-.ai-fab .fab-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; font-weight: 500; background: linear-gradient(to right, #0f4bab, #34e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 </style>
 </head>
 <body>
@@ -307,10 +302,11 @@ port = <span class="num">80</span>
 </div>
 
 <script>
-// Header (hover)
+// Header (hover) + hide logo when open
 var hideTimer = null;
-function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); }
-function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); }, 400); }
+var ctIcon = document.querySelector('.ct-icon');
+function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); if(ctIcon) ctIcon.style.opacity='0'; }
+function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); if(ctIcon) ctIcon.style.opacity='1'; }, 400); }
 document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
 document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
 
@@ -376,12 +372,5 @@ function sendK() {
 document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
 </script>
 
-<div class="ai-fab" id="aiFab" onclick="if(!this._dragged)location.href='p02-ai-dialogue.html'">
-  <div class="fab-orb"></div>
-  <div class="fab-text">AIと対話する</div>
-</div>
-<script>
-(function(){var fab=document.getElementById('aiFab'),sx,sy,ox,oy,dragged;fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;dragged=false;fab._dragged=false;function move(e2){var dx=e2.clientX-sx,dy=e2.clientY-sy;if(Math.abs(dx)>4||Math.abs(dy)>4){dragged=true;fab._dragged=true;fab.classList.add('dragging');fab.style.position='fixed';fab.style.left=(ox+dx)+'px';fab.style.top=(oy+dy)+'px';fab.style.right='auto';fab.style.bottom='auto';}}function up(){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);fab.classList.remove('dragging');if(!dragged)fab._dragged=false;}document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);});})();
-</script>
 </body>
 </html>
