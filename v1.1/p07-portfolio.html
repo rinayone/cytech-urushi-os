@@ -128,11 +128,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   .profile-actions { margin-left: 0; }
   .stats-row { flex-direction: column; }
 }
-/* KANAME header icon */
-.kaname-hdr-btn { width: 36px; height: 36px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); cursor: pointer; position: relative; transition: all 0.2s; border: none; flex-shrink: 0; }
-.kaname-hdr-btn:hover { transform: scale(1.1); filter: blur(1px) saturate(1.4); }
-.kaname-hdr-btn .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
-.kaname-hdr-btn .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
+/* Logo ↔ KANAME swap */
+.logo-swap { position: relative; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+.logo-swap .logo-default { height: 22px; transition: opacity 0.2s; }
+.logo-swap .logo-kaname { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
+.logo-swap .logo-kaname .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
+.logo-swap .logo-kaname .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
+.logo-swap:hover .logo-default { opacity: 0; }
+.logo-swap:hover .logo-kaname { opacity: 1; }
 </style>
 </head>
 <body>
@@ -140,11 +143,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
 <header class="header">
-  <img src="logo.png" alt="CyTech">
+  <div class="logo-swap" onclick="location.href='p02-ai-dialogue.html'"><img src="logo.png" alt="CyTech" class="logo-default"><div class="logo-kaname"><div class="kh-face"><div class="kh-eye"></div><div class="kh-eye"></div></div></div></div>
   <span class="ht">ポートフォリオ</span>
   <div class="hr">
     <button class="hb" onclick="location.href='p03-dashboard.html'">ダッシュボード</button>
-    <button class="kaname-hdr-btn" onclick="location.href='p02-ai-dialogue.html'" title="AIと対話する"><div class="kh-face"><div class="kh-eye"></div><div class="kh-eye"></div></div></button>
   </div>
 </header>
 
