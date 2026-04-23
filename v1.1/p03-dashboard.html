@@ -8,138 +8,215 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; }
-body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow-x: hidden; overflow-y: auto; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
 @keyframes pageIn { to { opacity: 1; } }
 
 /* BG */
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.12; }
-.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, #050508 30%, transparent 60%, rgba(5,5,8,0.6) 100%); }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.4; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.9) 35%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,0.3) 100%); }
 
 /* Header */
 .header {
   position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50;
   display: flex; align-items: center; padding: 0 18px; gap: 10px;
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
 }
 .header img { height: 22px; }
 .header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
-.header .hr { margin-left: auto; display: flex; gap: 8px; }
-.hb { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; }
-.hb:hover { background: rgba(255,255,255,0.16); }
-.hb-primary { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; }
+.header .hr { margin-left: auto; }
+.kaname-hdr-btn { width: 36px; height: 36px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); cursor: pointer; position: relative; transition: all 0.2s; border: none; }
+.kaname-hdr-btn:hover { transform: scale(1.1); }
+.kaname-hdr-btn .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
+.kaname-hdr-btn .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
 
-/* Main */
-.main { position: relative; z-index: 10; max-width: 960px; margin: 0 auto; padding: 84px 20px 40px; }
-
-/* Section title */
-.sec-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; margin-top: 28px; }
-.sec-title:first-child { margin-top: 0; }
-
-/* Widget grid */
-.widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.widget-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-
-/* Widget card */
-.widget {
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-  box-shadow: inset 0 0 16px rgba(255,255,255,0.05);
-  padding: 20px; transition: all 0.2s;
+/* Main layout - game style */
+.game-layout {
+  position: fixed;
+  top: 84px; bottom: 16px; left: 16px; right: 16px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  z-index: 10;
 }
-.widget:hover { border-color: rgba(255,255,255,0.15); }
-.widget.clickable { cursor: pointer; }
-.widget.clickable:hover { transform: translateY(-2px); }
-.widget-full { grid-column: 1 / -1; }
 
-.w-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 8px; letter-spacing: 0.5px; }
-.w-value { font-family: 'Lato', sans-serif; font-size: 28px; font-weight: 700; line-height: 1; }
-.w-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; }
-.w-sub .hl { color: #34e0ff; font-weight: 700; }
+/* Left: Character panel */
+.char-panel {
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
 
-/* Progress bar */
-.w-progress { margin-top: 12px; }
-.w-progress-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
-.w-progress-fill { height: 100%; border-radius: 3px; }
-.w-progress-fill.blue { background: linear-gradient(to right, #0f4bab, #34e0ff); }
-.w-progress-fill.rainbow { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
-.w-progress-fill.full { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+/* KANAME character */
+.char-kaname {
+  position: relative;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.char-kaname .orb-glow { position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(20px); opacity: 0.5; animation: spin 10s linear infinite; }
+.char-kaname .orb-body { position: absolute; inset: 4px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(10px) saturate(1.3); animation: spin 7s linear infinite reverse; }
+.char-kaname .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 44px; height: 22px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.char-kaname .eye { width: 4px; height: 10px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Skill bars */
-.skill-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.skill-name { font-size: 12px; color: rgba(255,255,255,0.5); width: 100px; flex-shrink: 0; }
-.skill-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
-.skill-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #0f4bab, #34e0ff); }
-.skill-pct { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); width: 32px; text-align: right; }
+.char-name { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.char-meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
 
-/* KANAME message widget */
-.kaname-widget { display: flex; gap: 12px; align-items: flex-start; }
-.kaname-mini { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(2px) saturate(1.2); }
-.kaname-text { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.8); }
-.kaname-text strong { color: #fff; }
+/* Level badge */
+.level-badge {
+  padding: 6px 20px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15));
+  border: 1px solid rgba(52,224,255,0.3);
+  color: #34e0ff;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
 
-/* Action item */
-.action-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; color: rgba(255,255,255,0.7); }
-.action-item:last-child { border-bottom: none; }
-.action-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.action-time { margin-left: auto; font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); }
-
-/* Position widget */
-.position-bar { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-.position-track { flex: 1; height: 20px; background: rgba(255,255,255,0.04); border-radius: 4px; position: relative; overflow: hidden; }
-.position-marker { position: absolute; top: 0; bottom: 0; width: 3px; background: #f13884; border-radius: 2px; }
-.position-label { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
+/* Badges (equipment slots) */
+.badge-slots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.badge-slot {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  font-family: 'Lato', sans-serif;
+}
+.badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.06); }
 
 /* Streak */
-.streak-days { display: flex; gap: 4px; margin-top: 8px; }
-.streak-day { width: 20px; height: 20px; border-radius: 4px; background: rgba(255,255,255,0.04); font-family: 'Lato', sans-serif; font-size: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); }
+.streak-area { margin-top: auto; text-align: center; width: 100%; }
+.streak-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+.streak-val { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; }
+.streak-fire { color: #f7513b; }
+.streak-days { display: flex; gap: 3px; justify-content: center; margin-top: 6px; }
+.streak-day { width: 16px; height: 16px; border-radius: 3px; background: rgba(255,255,255,0.04); font-size: 7px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.15); }
 .streak-day.active { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
-.streak-day.today { border: 1px solid rgba(255,255,255,0.2); }
 
-/* Badge */
-.badge-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.badge-item { padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; }
-.badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
-.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.06); }
+/* Right: Stats panel */
+.stats-panel {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
 
-/* Scout notification */
-.scout-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; font-size: 13px; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); }
-.scout-item:last-child { border-bottom: none; }
-.scout-dot { width: 8px; height: 8px; border-radius: 50%; background: #34e0ff; flex-shrink: 0; }
-.scout-time { margin-left: auto; font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); }
+/* Progress bars (HP/MP style) */
+.main-bars { margin-bottom: 20px; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); width: 90px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 6px; position: relative; }
+.bar-fill.progress { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
+.bar-fill.gate { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+.bar-value { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); width: 48px; text-align: right; flex-shrink: 0; }
 
-/* CTA in widget */
-.w-cta {
-  display: inline-block; margin-top: 12px; padding: 10px 24px;
+/* Stats grid (STR/INT/DEX style) */
+.stats-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 10px; }
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.stat-name { font-size: 12px; color: rgba(255,255,255,0.5); flex: 1; }
+.stat-val { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 700; }
+.stat-val.complete { color: #34e0ff; }
+.stat-val.progress { color: #f8ee1a; }
+.stat-val.locked { color: rgba(255,255,255,0.15); }
+
+/* Next action (CTA) */
+.next-action {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.na-icon { font-size: 24px; }
+.na-text { flex: 1; }
+.na-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.na-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
+.na-btn {
+  padding: 10px 24px;
   background: linear-gradient(135deg, #f7513b, #f13884);
   color: #fff; border: none; border-radius: 12px;
   font-size: 13px; font-weight: 700; cursor: pointer;
-  font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; text-decoration: none;
+  font-family: 'Noto Sans JP', sans-serif;
+  white-space: nowrap; flex-shrink: 0;
 }
-.w-cta:hover { opacity: 0.9; }
+.na-btn:hover { opacity: 0.9; }
 
+/* Info row */
+.info-row {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+.info-card {
+  flex: 1;
+  padding: 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.info-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
+.info-val { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; }
+.info-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.hl { color: #34e0ff; }
 
 /* Portfolio popup */
 .portfolio-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(5,5,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); align-items:center; justify-content:center; }
 .portfolio-overlay.show { display:flex; }
-.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:560px; width:92%; max-height:85vh; overflow-y:auto; padding:28px; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
+.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:520px; width:92%; max-height:85vh; overflow-y:auto; padding:28px; position:relative; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
 .portfolio-overlay.show .portfolio-popup { opacity:1; transform:scale(1); }
 .pp-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.06); border:none; border-radius:8px; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.pp-section { margin-bottom:16px; }
-.pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-bottom:8px; }
+.pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin:16px 0 8px; }
 
 @media (max-width: 700px) {
-  .widget-grid, .widget-grid-3 { grid-template-columns: 1fr; }
-  .widget-full { grid-column: auto; }
+  .game-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .char-panel { flex-direction: row; gap: 16px; padding: 16px; }
+  .char-kaname { width: 64px; height: 64px; margin-bottom: 0; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .info-row { flex-direction: column; }
 }
-/* KANAME header icon */
-.kaname-hdr-btn { width: 36px; height: 36px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); cursor: pointer; position: relative; transition: all 0.2s; border: none; flex-shrink: 0; }
-.kaname-hdr-btn:hover { transform: scale(1.1); filter: blur(1px) saturate(1.4); }
-.kaname-hdr-btn .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
-.kaname-hdr-btn .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -154,162 +231,132 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   </div>
 </header>
 
-<main class="main">
-
-  <!-- KANAME message -->
-  <div class="widget widget-full" style="margin-bottom:12px;">
-    <div class="kaname-widget">
-      <div class="kaname-mini"></div>
-      <div class="kaname-text">おかえりなさい、<strong>佐藤さん</strong>。Unit 5のネットワーク基礎、前回はSTEP 3まで進みましたね。今日も<strong>続きから始めましょう</strong>。</div>
+<div class="game-layout">
+  <!-- Left: Character -->
+  <div class="char-panel">
+    <div class="char-kaname">
+      <div class="orb-glow"></div>
+      <div class="orb-body"></div>
+      <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
     </div>
-    <a href="p05-lesson.html" class="w-cta">学習を再開する →</a>
-  </div>
+    <div class="char-name">佐藤 健太</div>
+    <div class="char-meta">情シス志望 / 97日目</div>
+    <div class="level-badge">B1 Rookie</div>
 
-  <!-- Today's action -->
-  <div class="sec-title">今日のネクストアクション</div>
-  <div class="widget widget-full" style="margin-bottom:12px;">
-    <div class="action-item"><span class="action-dot" style="background:#f7513b;"></span>Unit 5 — STEP 3〜5を完了する<span class="action-time">推定 40分</span></div>
-    <div class="action-item"><span class="action-dot" style="background:#0f4bab;"></span>ネットワーク構成図の課題を提出<span class="action-time">推定 20分</span></div>
-    <div class="action-item"><span class="action-dot" style="background:rgba(255,255,255,0.15);"></span>復習クイズ（Unit 4の振り返り）<span class="action-time">推定 10分</span></div>
-  </div>
-
-  <!-- Progress + Skill Prime -->
-  <div class="sec-title">学習進捗</div>
-  <div class="widget-grid">
-    <div class="widget clickable" onclick="location.href='p05-lesson.html'">
-      <div class="w-label">カリキュラム全体</div>
-      <div class="w-value">52<span style="font-size:16px;">%</span></div>
-      <div class="w-sub">情シス基礎コース — 8 Unit中 4 Unit完了</div>
-      <div class="w-progress"><div class="w-progress-track"><div class="w-progress-fill rainbow" style="width:52%;"></div></div></div>
+    <!-- Badges (equipment) -->
+    <div class="badge-slots">
+      <div class="badge-slot badge-earned" title="IT基礎" onclick="openPortfolio()">IT</div>
+      <div class="badge-slot badge-earned" title="HW基礎" onclick="openPortfolio()">HW</div>
+      <div class="badge-slot badge-earned" title="OS基礎" onclick="openPortfolio()">OS</div>
+      <div class="badge-slot badge-locked" title="ネットワーク">NW</div>
+      <div class="badge-slot badge-locked" title="セキュリティ">SC</div>
+      <div class="badge-slot badge-locked" title="DB">DB</div>
+      <div class="badge-slot badge-locked" title="総合">EX</div>
+      <div class="badge-slot badge-locked" title="Skill Prime">SP</div>
     </div>
-    <div class="widget clickable" onclick="location.href='p04-curriculum.html'">
-      <div class="w-label">Skill Prime ゲートまで</div>
-      <div class="w-value">38<span style="font-size:16px;">h</span></div>
-      <div class="w-sub">推定残り学習時間 — <span class="hl">面接確約まであと少し</span></div>
-      <div class="w-progress"><div class="w-progress-track"><div class="w-progress-fill blue" style="width:52%;"></div></div></div>
-    </div>
-  </div>
 
-  <!-- Skills -->
-  <div class="sec-title">スキル別進捗</div>
-  <div class="widget widget-full clickable" onclick="openPortfolio()">
-    <div class="skill-row"><span class="skill-name">IT基礎</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
-    <div class="skill-row"><span class="skill-name">ハードウェア</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
-    <div class="skill-row"><span class="skill-name">OS基礎</span><div class="skill-track"><div class="skill-fill" style="width:85%;"></div></div><span class="skill-pct">85%</span></div>
-    <div class="skill-row"><span class="skill-name">ネットワーク</span><div class="skill-track"><div class="skill-fill" style="width:37%;"></div></div><span class="skill-pct">37%</span></div>
-    <div class="skill-row"><span class="skill-name">セキュリティ</span><div class="skill-track"><div class="skill-fill" style="width:0%;background:rgba(255,255,255,0.06);"></div></div><span class="skill-pct">0%</span></div>
-  </div>
-
-  <!-- Competition + Selection -->
-  <div class="sec-title">選考・ポジション</div>
-  <div class="widget-grid">
-    <div class="widget clickable" onclick="location.href='p04-curriculum.html'">
-      <div class="w-label">採用枠ポジション</div>
-      <div class="w-value" style="color:#34e0ff;">上位 32<span style="font-size:16px;">%</span></div>
-      <div class="w-sub">◯◯株式会社 情シス枠 — 応募者24名中</div>
-      <div class="position-bar">
-        <span class="position-label">0%</span>
-        <div class="position-track"><div class="position-marker" style="left:32%;"></div></div>
-        <span class="position-label">100%</span>
-      </div>
-    </div>
-    <div class="widget clickable" onclick="location.href='p04-curriculum.html'">
-      <div class="w-label">次の選考ステータス</div>
-      <div class="w-value" style="font-size:16px;margin-top:4px;">Skill Prime 未達</div>
-      <div class="w-sub">カリキュラム完了でエントリー可能に</div>
-      <div class="w-progress" style="margin-top:8px;"><div class="w-progress-track"><div class="w-progress-fill blue" style="width:52%;"></div></div></div>
-      <div class="w-sub" style="margin-top:4px;">進捗 52% / 100%</div>
-    </div>
-  </div>
-
-  <!-- Streak + Badge -->
-  <div class="sec-title">モチベーション</div>
-  <div class="widget-grid">
-    <div class="widget">
-      <div class="w-label">学習ストリーク</div>
-      <div class="w-value">5<span style="font-size:16px;">日連続</span></div>
+    <!-- Streak -->
+    <div class="streak-area">
+      <div class="streak-label">学習ストリーク</div>
+      <div class="streak-val"><span class="streak-fire">🔥</span> 5日</div>
       <div class="streak-days">
         <div class="streak-day active">月</div>
         <div class="streak-day active">火</div>
         <div class="streak-day active">水</div>
         <div class="streak-day active">木</div>
-        <div class="streak-day active today">金</div>
+        <div class="streak-day active">金</div>
         <div class="streak-day">土</div>
         <div class="streak-day">日</div>
       </div>
     </div>
-    <div class="widget clickable" onclick="openPortfolio()">
-      <div class="w-label">レベル・バッジ</div>
-      <div class="w-value" style="font-size:16px;">B1 Rookie <span style="font-size:12px;color:rgba(255,255,255,0.35);">進行中</span></div>
-      <div class="badge-list">
-        <span class="badge-item badge-earned">IT基礎</span>
-        <span class="badge-item badge-earned">HW基礎</span>
-        <span class="badge-item badge-earned">OS基礎</span>
-        <span class="badge-item badge-locked">ネットワーク</span>
-        <span class="badge-item badge-locked">セキュリティ</span>
+  </div>
+
+  <!-- Right: Stats -->
+  <div class="stats-panel">
+    <!-- Main progress bars -->
+    <div class="main-bars">
+      <div class="bar-row">
+        <span class="bar-label">カリキュラム</span>
+        <div class="bar-track"><div class="bar-fill progress" style="width:52%;"></div></div>
+        <span class="bar-value">52%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Skill Prime</span>
+        <div class="bar-track"><div class="bar-fill gate" style="width:52%;"></div></div>
+        <span class="bar-value">残38h</span>
+      </div>
+    </div>
+
+    <!-- Skills (stat grid) -->
+    <div class="stats-title">スキルステータス</div>
+    <div class="stats-grid">
+      <div class="stat-item"><span class="stat-name">IT基礎</span><span class="stat-val complete">B1</span></div>
+      <div class="stat-item"><span class="stat-name">HW基礎</span><span class="stat-val complete">B1</span></div>
+      <div class="stat-item"><span class="stat-name">OS基礎</span><span class="stat-val progress">85%</span></div>
+      <div class="stat-item"><span class="stat-name">ネットワーク</span><span class="stat-val progress">37%</span></div>
+      <div class="stat-item"><span class="stat-name">セキュリティ</span><span class="stat-val locked">—</span></div>
+      <div class="stat-item"><span class="stat-name">データベース</span><span class="stat-val locked">—</span></div>
+    </div>
+
+    <!-- Next action -->
+    <div class="next-action">
+      <div class="na-icon">📘</div>
+      <div class="na-text">
+        <div class="na-title">Unit 5 — ネットワーク基礎</div>
+        <div class="na-sub">STEP 3 から再開 / 推定40分</div>
+      </div>
+      <button class="na-btn" onclick="location.href='p05-lesson.html'">再開 →</button>
+    </div>
+
+    <!-- Bottom info -->
+    <div class="info-row">
+      <div class="info-card" onclick="location.href='p04-curriculum.html'">
+        <div class="info-val hl">80h</div>
+        <div class="info-label">総カリキュラム</div>
+      </div>
+      <div class="info-card" onclick="openPortfolio()">
+        <div class="info-val">82%</div>
+        <div class="info-label">平均正答率</div>
+      </div>
+      <div class="info-card" onclick="location.href='p04-curriculum.html'">
+        <div class="info-val">42h</div>
+        <div class="info-label">学習済み</div>
+      </div>
+      <div class="info-card" onclick="openPortfolio()">
+        <div class="info-val">12</div>
+        <div class="info-label">閲覧数</div>
       </div>
     </div>
   </div>
-
-  <!-- History + Scout -->
-  <div class="sec-title">アクティビティ</div>
-  <div class="widget-grid">
-    <div class="widget">
-      <div class="w-label">学習履歴</div>
-      <div class="action-item"><span class="action-dot" style="background:#34e0ff;"></span>Unit 5 STEP 3 完了<span class="action-time">昨日</span></div>
-      <div class="action-item"><span class="action-dot" style="background:#34e0ff;"></span>Unit 5 STEP 2 完了<span class="action-time">2日前</span></div>
-      <div class="action-item"><span class="action-dot" style="background:#34e0ff;"></span>Unit 4 課題提出 — B1判定<span class="action-time">3日前</span></div>
-      <div class="action-item"><span class="action-dot" style="background:#0f4bab;"></span>Unit 4 全STEP完了<span class="action-time">4日前</span></div>
-    </div>
-    <div class="widget clickable" onclick="location.href='p09-scout.html'">
-      <div class="w-label">スカウト通知</div>
-      <div class="scout-item"><span class="scout-dot"></span>◯◯株式会社があなたのプロフィールを閲覧しました<span class="scout-time">本日</span></div>
-      <div class="scout-item"><span class="scout-dot"></span>△△株式会社があなたの学習ログを確認しました<span class="scout-time">昨日</span></div>
-      <div class="w-sub" style="margin-top:8px;text-align:right;">プロフィール閲覧数: <span class="hl">12回</span>（今月）</div>
-    </div>
-  </div>
-
-</main>
+</div>
 
 <!-- Portfolio popup -->
 <div class="portfolio-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
-  <div class="portfolio-popup" style="position:relative;">
+  <div class="portfolio-popup">
     <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
       <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">SK</div>
       <div><div style="font-size:18px;font-weight:700;">佐藤 健太</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">B1 Rookie / 97日経過</div></div>
     </div>
-    <div class="pp-section"><div class="pp-label">スキルグラフ</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">HW基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">37%</span></div>
+    <div class="pp-label">スキルグラフ</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">HW基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">37%</span></div>
+    <div class="pp-label">獲得バッジ</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
     </div>
-    <div class="pp-section"><div class="pp-label">獲得バッジ</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎</span>
-        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎</span>
-        <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
-      </div>
-    </div>
-    <div class="pp-section"><div class="pp-label">直近のAI評価</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;"><span style="color:#34e0ff;">&#10003;</span> Unit 4 — B1到達 / 正答率82%</div>
-    </div>
-    <button style="width:100%;padding:12px;background:linear-gradient(135deg,#f7513b,#f13884);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;" onclick="location.href='p07-portfolio.html'">ポートフォリオ全体を見る →</button>
+    <div class="pp-label">直近のAI評価</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;"><span style="color:#34e0ff;">&#10003;</span> Unit 4 — B1到達 / 正答率82%</div>
+    <button style="width:100%;padding:12px;background:linear-gradient(135deg,#f7513b,#f13884);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:16px;" onclick="location.href='p07-portfolio.html'">ポートフォリオ全体を見る →</button>
   </div>
 </div>
 
 <script>
 function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
-
-(function(){
-  var fab=document.getElementById('aiFab'),sx,sy,ox,oy,dragged;
-  fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;dragged=false;fab._dragged=false;
-    function move(e2){var dx=e2.clientX-sx,dy=e2.clientY-sy;if(Math.abs(dx)>4||Math.abs(dy)>4){dragged=true;fab._dragged=true;fab.classList.add('dragging');fab.style.position='fixed';fab.style.left=(ox+dx)+'px';fab.style.top=(oy+dy)+'px';fab.style.right='auto';fab.style.bottom='auto';}}
-    function up(){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);fab.classList.remove('dragging');if(!dragged)fab._dragged=false;}
-    document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);
-  });
-})();
 </script>
 </body>
 </html>
