@@ -39,7 +39,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <script>
 (function() {
   // This timestamp is updated on each commit
-  var lastModified = '2026-04-23 12:30 JST';
+  var lastModified = '2026-04-23 14:00 JST';
   document.getElementById('lastUpdated').textContent = lastModified;
 })();
 </script>
@@ -336,36 +336,62 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 
 <h3>P-02 AI対話（ファーストビュー）</h3>
 <h4>目的</h4>
-<p>「家庭教師」のハブ。全ユーザーのログイン後のファーストビューとして、パーソナライズされた提案から次のアクションへ導く。</p>
+<p>「家庭教師」のハブ。家庭教師が「ピンポーン」と家に来て、会話の中から自然に復習・学習に入る体験。ユーザーは「勉強しなきゃ」と思う前に、気づいたら学習の中にいる。</p>
 <h4>LM原則</h4>
-<p>Compass / Agency（自分で選んで進む実感）</p>
-<h4>主要要素</h4>
+<p>Ignite / Compass / Recall</p>
+
+<h4>ビジュアル設計</h4>
 <ul>
-<li>AIメンターとの対話UI（チャット形式）</li>
-<li>前回行動に基づくパーソナライズメッセージ
-  <ul>
-  <li>例：「前回Unit5で手が止まっていましたね。CSSセレクターの部分を営業の顧客分類に例えると…」</li>
-  <li>例：「3日ぶりですね。前回の課題、あと少しで完了です」</li>
-  <li>例：「Skill Prime達成おめでとうございます！エントリー可能な企業が3社あります」</li>
-  </ul>
-</li>
-<li>アクションボタン群（状況に応じて動的に変化）
-  <ul>
-  <li>「学習を再開する」→ P-05</li>
-  <li>「課題を提出する」→ P-06</li>
-  <li>「スキルグラフを確認」→ P-07</li>
-  <li>「エントリー可能な企業を見る」→ P-08</li>
-  </ul>
-</li>
+<li><strong>背景：</strong> 黒（#050508）。背景装飾は今後検討</li>
+<li><strong>KANAME キャラクター：</strong> CyTechカラーのレインボーグラデーションオーブ（中央配置）。ダーク面＋白い目の顔</li>
+<li><strong>点火演出：</strong> ページ読込で自動発火。オーブがスケール0.2→1.0にポップ＋炎フラッシュ。スタートボタンなし・音声なし</li>
 </ul>
+
+<h4>UI構成</h4>
+<table>
+<tr><th>要素</th><th>役割</th><th>デザイン</th></tr>
+<tr><td><strong>AIメッセージ（3つ）</strong></td><td>挨拶→肯定→問いかけの順で順次表示</td><td>ガラスモーフィズムバブル（角丸・左上角は小さめ）</td></tr>
+<tr><td><strong>選択肢（3つ）</strong></td><td>1ラリーで学習画面へシームレス遷移</td><td>アウトラインボーダー＋左に丸インジケーター。AIバブルと明確に区別</td></tr>
+<tr><td><strong>チャットアイコン</strong></td><td>補助導線。必要な人だけ使う</td><td>右下に控えめなアイコン。タップで入力パネル展開</td></tr>
+<tr><td><strong>ヘッダー</strong></td><td>唯一の出口</td><td>「ダッシュボードへ →」ボタンのみ</td></tr>
+</table>
+
+<h4>1ラリーフロー（学習中ユーザーの例）</h4>
+<div class="callout">
+<div class="callout-title">メッセージ→選択肢→学習へシームレス遷移</div>
+<p style="margin-bottom:0;">
+<strong>KANAME①：</strong>「おかえり、佐藤さん。」<br>
+<strong>KANAME②：</strong>「前回はネットワーク基礎まで進みましたね。」<br>
+<strong>KANAME③：</strong>「営業先の組織図と同じ構造なんですが、この図だとどこが"本社"に当たると思います？」<br>
+<strong>選択肢：</strong> サーバーかな / ルーターだと思う / うーん、わからない<br>
+→ どれを選んでも「そうそう、いい感じです」→ <strong>Unit 5の中にいる</strong>
+</p>
+</div>
+
+<h4>文言のトーン</h4>
+<ul>
+<li><strong>常にポジティブ。</strong>離脱期間やネガティブな数字には触れない</li>
+<li>「前回はここまでできましたね」の肯定から入る（軽いさわり）</li>
+<li>「学習を再開する」→「続きから始める」（勉強感を消す）</li>
+<li>トーン：「先生に呼び出された」ではなく「友達がおかえりと言ってくれた」</li>
+</ul>
+
+<h4>動線設計</h4>
+<ul>
+<li><strong>出口は1本のみ。</strong>ユーザーを迷わせない</li>
+<li>CTAは1つ（状態に応じて内容が変わる）</li>
+<li>チャットアイコンは控えめに配置（メイン動線を邪魔しない）</li>
+<li>CTA ＞＞ チャットの優先度を視覚的に明確化</li>
+</ul>
+
 <h4>状態別シナリオ（5パターン）</h4>
 <table>
-<tr><th>状態</th><th>AIの声がけ例</th><th>誘導先</th></tr>
+<tr><th>状態</th><th>AIの声がけ（ポジティブ）</th><th>遷移先</th></tr>
 <tr><td><strong>初回（P-01直後）</strong></td><td>「早速カリキュラムを見てみましょう」</td><td>P-04</td></tr>
-<tr><td><strong>学習中（通常）</strong></td><td>「前回Unit5で手が止まっていましたね。営業の顧客分類に例えると…」</td><td>P-05</td></tr>
-<tr><td><strong>長期離脱</strong></td><td>「お久しぶりです。前回の課題、あと少しで完了です」</td><td>P-05 / P-06</td></tr>
+<tr><td><strong>学習中（通常）</strong></td><td>「おかえり。前回は○○まで進みましたね」＋復習の問いかけ</td><td>P-05（シームレス）</td></tr>
+<tr><td><strong>長期離脱</strong></td><td>「おかえり。前回の○○、あと少しで完了ですよ」</td><td>P-05（シームレス）</td></tr>
 <tr><td><strong>課題不合格後</strong></td><td>「惜しかったです。ここを修正すればB1到達できます」</td><td>P-06</td></tr>
-<tr><td><strong>学習完了</strong></td><td>「Skill Prime達成！エントリー可能な企業が3社あります」</td><td>P-08 / P-09</td></tr>
+<tr><td><strong>学習完了</strong></td><td>「Skill Prime達成！エントリー可能な企業があります」</td><td>P-08 / P-09</td></tr>
 </table>
 <p><strong>※</strong> 離脱期間等のしきい値はユーザー側で変更可能</p>
 
@@ -395,12 +421,18 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <p>「ロードマップ不在」の不安を解消。推定学習時間とゴールを可視化し、「届く」実感を与える。</p>
 <h4>LM原則</h4>
 <p>Alignment / Why</p>
+<h4>制約ルール</h4>
+<div class="callout">
+<div class="callout-title">カリキュラム同時受講制限</div>
+<p style="margin-bottom:0;"><strong>受講中にできるカリキュラムは1つのみ。</strong>学習中であっても他のカリキュラムの検索・閲覧は自由に行える。新しいカリキュラムを受講開始するには、現在のカリキュラムを完了するか中断する必要がある。</p>
+</div>
 <h4>主要要素</h4>
 <ul>
 <li>推定学習時間の表示（「あと○○時間で面接確約」）</li>
 <li>Skill Primeゲートと紐づくカリキュラム＋合格基準の可視化</li>
 <li>企業別の採用ロードマップ表示</li>
 <li>受講中 / おすすめ / スキル別のフィルター</li>
+<li>受講中カリキュラムの明示表示（1つのみアクティブ）</li>
 </ul>
 
 <h3>P-05 学習実行</h3>
@@ -495,9 +527,9 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <table>
 <tr><th>ページ</th><th>ステータス</th><th>備考</th></tr>
 <tr><td>P-01 適性診断</td><td>未着手</td><td></td></tr>
-<tr><td>P-02 AI対話</td><td>未着手</td><td></td></tr>
+<tr><td>P-02 AI対話</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p02-ai-dialogue.html</td></tr>
 <tr><td>P-03 ダッシュボード</td><td>未着手</td><td></td></tr>
-<tr><td>P-04 カリキュラム検索</td><td>未着手</td><td></td></tr>
+<tr><td>P-04 カリキュラム検索</td><td>未着手</td><td>受講中カリキュラムは1つのみ</td></tr>
 <tr><td>P-05 学習実行</td><td>未着手</td><td></td></tr>
 <tr><td>P-06 課題・テスト</td><td>未着手</td><td></td></tr>
 <tr><td>P-07 ポートフォリオ</td><td>未着手</td><td></td></tr>
@@ -507,7 +539,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 </table>
 
 <hr>
-<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 12:30 JST</p>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 14:00 JST</p>
 
 </body>
 </html>
