@@ -9,7 +9,8 @@
 body { background: #020206; overflow: hidden; height: 100vh; }
 
 /* ===== VOLCANO FLOW ===== */
-/* Layer 1 (deepest): dark base colors seeping through */
+
+/* Layer 1 (deepest): dark base */
 .volcano-layer-1 {
   position: fixed;
   inset: 0;
@@ -23,7 +24,7 @@ body { background: #020206; overflow: hidden; height: 100vh; }
   100% { transform: translateY(-12px) scale(1.03); }
 }
 
-/* Layer 2: mid-depth warm colors */
+/* Layer 2: mid-depth flowing ribbons */
 .volcano-layer-2 {
   position: fixed;
   inset: 0;
@@ -32,58 +33,62 @@ body { background: #020206; overflow: hidden; height: 100vh; }
 .volcano-layer-2 .flow {
   position: absolute;
   filter: blur(50px);
-  border-radius: 50% 40% 55% 45% / 45% 55% 40% 50%;
-  animation: flowMorph 15s ease-in-out infinite alternate;
+  animation: flowMorph var(--morph) ease-in-out infinite alternate;
 }
 @keyframes layer2 {
   0% { transform: translateY(0); }
   100% { transform: translateY(-8px); }
 }
 @keyframes flowMorph {
-  0%   { border-radius: 50% 40% 55% 45% / 45% 55% 40% 50%; }
-  50%  { border-radius: 40% 55% 45% 50% / 50% 40% 55% 45%; }
-  100% { border-radius: 55% 45% 50% 40% / 40% 50% 45% 55%; }
+  0%   { border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%; }
+  33%  { border-radius: 60% 40% 35% 65% / 40% 65% 30% 70%; }
+  66%  { border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%; }
+  100% { border-radius: 65% 35% 40% 60% / 35% 70% 40% 60%; }
 }
 
-/* Pink-red stream */
+/* Pink-red ribbon — tall flowing S */
 .flow-pink {
-  width: 350px; height: 500px;
+  width: 220px; height: 600px;
   background: linear-gradient(170deg, #f13884 0%, rgba(247,81,59,0.6) 50%, transparent 100%);
-  top: -5%; left: 40%;
+  top: -8%; left: 38%;
   opacity: 0.6;
-  animation-duration: 14s;
+  --morph: 14s;
+  border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%;
 }
 
-/* Orange-yellow stream */
+/* Orange-yellow ribbon — elongated diagonal */
 .flow-orange {
-  width: 280px; height: 450px;
+  width: 180px; height: 520px;
   background: linear-gradient(175deg, #f7513b 0%, rgba(248,238,26,0.5) 50%, transparent 100%);
-  top: 5%; left: 48%;
+  top: 2%; left: 46%;
   opacity: 0.55;
-  animation-duration: 16s;
+  --morph: 16s;
+  border-radius: 60% 40% 35% 65% / 40% 65% 30% 70%;
   animation-direction: alternate-reverse;
 }
 
-/* Cyan-blue stream */
+/* Cyan-blue ribbon — tall curve */
 .flow-cyan {
-  width: 320px; height: 520px;
+  width: 200px; height: 580px;
   background: linear-gradient(185deg, #34e0ff 0%, rgba(15,75,171,0.6) 50%, transparent 100%);
-  top: 15%; left: 52%;
+  top: 10%; left: 54%;
   opacity: 0.58;
-  animation-duration: 13s;
+  --morph: 13s;
+  border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%;
 }
 
-/* Purple undertow */
+/* Purple ribbon — sweeping undertow */
 .flow-purple {
-  width: 300px; height: 480px;
+  width: 240px; height: 550px;
   background: linear-gradient(190deg, #953ec3 0%, rgba(241,56,132,0.4) 50%, transparent 100%);
-  bottom: -5%; left: 44%;
+  bottom: -8%; left: 42%;
   opacity: 0.55;
-  animation-duration: 17s;
+  --morph: 17s;
+  border-radius: 65% 35% 40% 60% / 35% 70% 40% 60%;
   animation-direction: alternate-reverse;
 }
 
-/* Layer 3: surface — brighter, more defined streams */
+/* Layer 3: surface — sharper, thinner streams */
 .volcano-layer-3 {
   position: fixed;
   inset: 0;
@@ -92,7 +97,6 @@ body { background: #020206; overflow: hidden; height: 100vh; }
 .volcano-layer-3 .stream {
   position: absolute;
   filter: blur(35px);
-  border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;
   animation: streamFlow 12s ease-in-out infinite alternate;
 }
 @keyframes layer3 {
@@ -100,44 +104,33 @@ body { background: #020206; overflow: hidden; height: 100vh; }
   100% { transform: translateY(-5px) scale(1.02); }
 }
 @keyframes streamFlow {
-  0%   { border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%; transform: translateY(0) rotate(0deg); }
-  50%  { border-radius: 55% 45% 45% 55% / 45% 55% 50% 50%; transform: translateY(-10px) rotate(1deg); }
-  100% { border-radius: 50% 50% 55% 45% / 55% 50% 45% 50%; transform: translateY(5px) rotate(-1deg); }
+  0%   { border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%; transform: translateY(0) rotate(0deg); }
+  50%  { border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%; transform: translateY(-12px) rotate(2deg); }
+  100% { border-radius: 35% 65% 70% 30% / 65% 35% 70% 30%; transform: translateY(5px) rotate(-1deg); }
 }
 
+/* Hot stream — thin vertical ribbon */
 .stream-hot {
-  width: 180px; height: 400px;
-  background: linear-gradient(175deg, rgba(241,56,132,0.6), rgba(247,81,59,0.5) 40%, rgba(248,238,26,0.3) 70%, transparent);
-  top: 0%; left: 46%;
+  width: 120px; height: 450px;
+  background: linear-gradient(175deg, rgba(241,56,132,0.7), rgba(247,81,59,0.5) 40%, rgba(248,238,26,0.3) 75%, transparent);
+  top: -2%; left: 44%;
   opacity: 0.65;
+  border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%;
   animation-duration: 11s;
 }
 
+/* Cool stream — thin flowing curve */
 .stream-cool {
-  width: 160px; height: 380px;
-  background: linear-gradient(185deg, rgba(52,224,255,0.5), rgba(15,75,171,0.5) 40%, rgba(149,62,195,0.3) 70%, transparent);
-  top: 20%; left: 50%;
+  width: 110px; height: 430px;
+  background: linear-gradient(185deg, rgba(52,224,255,0.6), rgba(15,75,171,0.5) 40%, rgba(149,62,195,0.3) 75%, transparent);
+  top: 18%; left: 52%;
   opacity: 0.6;
+  border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%;
   animation-duration: 13s;
   animation-direction: alternate-reverse;
 }
 
-/* Urushi lacquer sheen — wet surface reflection */
-.urushi-sheen {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 25% at 50% 15%, rgba(255,255,255,0.025) 0%, transparent 50%),
-    radial-gradient(ellipse 40% 20% at 48% 85%, rgba(255,255,255,0.015) 0%, transparent 40%);
-  z-index: 2;
-  animation: sheen 20s ease-in-out infinite alternate;
-}
-@keyframes sheen {
-  0% { opacity: 1; }
-  100% { opacity: 0.6; transform: translateY(-8px); }
-}
-
-/* Darken edges — keep center readable */
+/* Darken edges */
 .vignette {
   position: fixed;
   inset: 0;
@@ -171,7 +164,6 @@ body { background: #020206; overflow: hidden; height: 100vh; }
 </head>
 <body>
 
-<!-- Volcano layers (deep → surface, like urushi coats) -->
 <div class="volcano-layer-1"></div>
 
 <div class="volcano-layer-2">
@@ -186,7 +178,6 @@ body { background: #020206; overflow: hidden; height: 100vh; }
   <div class="stream stream-cool"></div>
 </div>
 
-<div class="urushi-sheen"></div>
 <div class="vignette"></div>
 
 <div class="glass-sample">
