@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — ログイン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Sans JP', 'Lato', sans-serif;
+  background: #050508;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  opacity: 0; animation: pageIn 0.8s ease 0.1s forwards;
+}
+@keyframes pageIn { to { opacity: 1; } }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(5,5,8,0.7) 100%); }
+
+/* Card */
+.login-card {
+  position: relative; z-index: 2;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 48px 40px;
+  width: 400px; max-width: 90vw;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  text-align: center; color: #fff;
+}
+
+.logo { width: 56px; height: 56px; object-fit: contain; margin-bottom: 20px; }
+h1 { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 4px; letter-spacing: 0.5px; }
+.subtitle { font-family: 'Lato', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 36px; }
+
+.field { text-align: left; margin-bottom: 20px; }
+.field label { display: block; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+.field input {
+  width: 100%; padding: 12px 18px;
+  background: rgba(0,0,0,0.25);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  font-size: 14px; font-family: inherit; color: #fff; outline: none;
+  transition: border-color 0.2s;
+}
+.field input::placeholder { color: rgba(255,255,255,0.25); }
+.field input:focus { border-color: rgba(255,255,255,0.35); }
+
+.login-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; border: none; border-radius: 14px;
+  font-size: 15px; font-family: 'Lato', sans-serif; font-weight: 700;
+  cursor: pointer; transition: opacity 0.2s; letter-spacing: 0.5px;
+}
+.login-btn:hover { opacity: 0.9; }
+
+.error-msg { color: #f7513b; font-size: 12px; margin-top: 12px; min-height: 18px; }
+
+.trans-overlay { position: fixed; inset: 0; z-index: 100; background: #050508; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+.trans-overlay.active { opacity: 1; pointer-events: all; }
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<div class="login-card">
+  <img src="logo.png" alt="CyTech Urushi OS" class="logo">
+  <h1>CyTech Urushi OS</h1>
+  <p class="subtitle">Platform Access</p>
+  <div class="field">
+    <label for="email">メールアドレス</label>
+    <input type="email" id="email" placeholder="example@email.com" autocomplete="email">
+  </div>
+  <div class="field">
+    <label for="pw">パスワード</label>
+    <input type="password" id="pw" placeholder="パスワードを入力" autocomplete="current-password">
+  </div>
+  <button class="login-btn" id="loginBtn">ログイン</button>
+  <p class="error-msg" id="err"></p>
+</div>
+
+<div class="trans-overlay" id="transOverlay"></div>
+
+<script>
+function tryLogin() {
+  var email = document.getElementById('email').value;
+  var pw = document.getElementById('pw').value;
+  if (!email || !pw) { document.getElementById('err').textContent = 'メールアドレスとパスワードを入力してください'; return; }
+  // Demo: any input works
+  document.getElementById('err').textContent = '';
+  document.getElementById('transOverlay').classList.add('active');
+  setTimeout(function() { window.location.href = 'p01-diagnosis.html'; }, 800);
+}
+document.getElementById('loginBtn').addEventListener('click', tryLogin);
+document.getElementById('pw').addEventListener('keydown', function(e) { if (e.key === 'Enter') tryLogin(); });
+</script>
+</body>
+</html>

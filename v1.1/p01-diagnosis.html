@@ -177,31 +177,34 @@ var steps = [
 function renderStep(step, dir) {
   var old = container.querySelector('.slide-panel-inner:not(.exiting)');
 
-  // Create new panel first
-  var div = document.createElement('div');
-  div.className = 'slide-panel-inner';
-  div.style.opacity = '0';
-  div.innerHTML = steps[step]();
-  container.appendChild(div);
-
-  // Fade in new
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() { div.style.opacity = '1'; });
-  });
-
-  // Fade out old (absolute positioned, won't affect layout)
   if (old) {
+    // Fade out old first
     old.classList.add('exiting');
-    setTimeout(function() { if (old.parentNode) old.remove(); }, 300);
+    setTimeout(function() {
+      if (old.parentNode) old.remove();
+      // Then create and fade in new
+      insertNew(step);
+    }, 300);
+  } else {
+    insertNew(step);
   }
 
-  // Animate delayed elements
-  setTimeout(function() {
-    div.querySelectorAll('[data-delay]').forEach(function(m) {
-      var d = parseInt(m.getAttribute('data-delay'));
-      setTimeout(function() { m.classList.add('visible'); }, d);
+  function insertNew(s) {
+    var div = document.createElement('div');
+    div.className = 'slide-panel-inner';
+    div.style.opacity = '0';
+    div.innerHTML = steps[s]();
+    container.appendChild(div);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { div.style.opacity = '1'; });
     });
-  }, 50);
+    setTimeout(function() {
+      div.querySelectorAll('[data-delay]').forEach(function(m) {
+        var d = parseInt(m.getAttribute('data-delay'));
+        setTimeout(function() { m.classList.add('visible'); }, d);
+      });
+    }, 50);
+  }
 
   currentStep = step;
 }
