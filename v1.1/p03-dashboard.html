@@ -198,7 +198,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); }
 .bar-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; color: #fff; }
 .bar-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
-.bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
+.bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; max-width: 200px; }
 .bar-fill { height: 100%; border-radius: 5px; }
 .bar-fill.progress { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
 .bar-fill.gate { background: linear-gradient(to right, #0f4bab, #34e0ff); }
@@ -222,6 +222,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .stat-name { font-size: 12px; color: rgba(255,255,255,0.45); flex: 1; }
 .stat-val { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 900; }
+.stat-item .bar-mini { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; max-width: 60px; overflow: hidden; margin-top: 4px; }
+.stat-item .bar-mini-fill { height: 100%; border-radius: 2px; }
 .stat-val.complete { color: #34e0ff; }
 .stat-val.progress { color: #f8ee1a; }
 .stat-val.locked { color: rgba(255,255,255,0.15); }
@@ -281,6 +283,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .portfolio-overlay.show .portfolio-popup { opacity:1; transform:scale(1); }
 .pp-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.06); border:none; border-radius:8px; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin:16px 0 8px; }
+.portfolio-popup .skill-bar-track { max-width: 200px; }
 
 @media (max-width: 700px) {
   .game-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
