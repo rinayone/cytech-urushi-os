@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ダッシュボード構成案09 — 上下分割サンプル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.4; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.9) 35%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,0.3) 100%); }
+
+/* Header */
+.header {
+  position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50;
+  display: flex; align-items: center; padding: 0 18px; gap: 10px;
+  background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+}
+.header img { height: 22px; }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .hr { margin-left: auto; }
+.hb { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+
+/* Main */
+.main {
+  position: fixed;
+  top: 84px; bottom: 16px; left: 16px; right: 16px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 12px;
+  z-index: 10;
+}
+
+/* ===== TOP: 未来（これからやること）===== */
+.future-area {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 12px;
+  min-height: 0;
+}
+
+/* Left: Progress + CTA */
+.action-panel {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 28px;
+  display: flex; flex-direction: column;
+}
+
+.progress-section { margin-bottom: 24px; }
+.bar-group { margin-bottom: 14px; }
+.bar-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); }
+.bar-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; color: #fff; }
+.bar-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
+.bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; max-width: 200px; }
+.bar-fill { height: 100%; border-radius: 4px; }
+.bar-fill.progress { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.bar-fill.gate { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+
+/* CTA */
+.next-action {
+  background: linear-gradient(135deg, rgba(247,81,59,0.1), rgba(241,56,132,0.07));
+  border: 1px solid rgba(247,81,59,0.25);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex; align-items: center; gap: 16px;
+  cursor: pointer; transition: all 0.2s;
+}
+.next-action:hover { border-color: rgba(247,81,59,0.5); background: linear-gradient(135deg, rgba(247,81,59,0.15), rgba(241,56,132,0.1)); }
+.na-icon { font-size: 28px; }
+.na-text { flex: 1; }
+.na-title { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.na-sub { font-size: 12px; color: rgba(255,255,255,0.4); }
+.na-btn { padding: 12px 28px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; }
+.na-btn:hover { opacity: 0.9; }
+
+/* Right: AI Chat */
+.chat-panel {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.chat-header { display: flex; align-items: center; gap: 10px; padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.chat-orb { width: 32px; height: 32px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); flex-shrink: 0; position: relative; }
+.chat-orb .co-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 16px; height: 8px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 5px; z-index: 2; }
+.chat-orb .co-eye { width: 2px; height: 5px; background: #fff; border-radius: 1px; }
+.chat-name { font-size: 13px; font-weight: 700; }
+.chat-status { font-size: 10px; color: rgba(255,255,255,0.3); }
+.chat-messages { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+.cm { font-size: 13px; line-height: 1.7; padding: 10px 14px; border-radius: 4px 14px 14px 14px; max-width: 90%; }
+.cm-ai { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+.cm-user { background: rgba(149,62,195,0.12); color: rgba(255,255,255,0.85); border-radius: 14px 4px 14px 14px; align-self: flex-end; }
+.chat-input { display: flex; gap: 6px; padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.04); }
+.chat-input input { flex: 1; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 13px; outline: none; font-family: inherit; }
+.chat-input input::placeholder { color: rgba(255,255,255,0.2); }
+.chat-input button { padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.chat-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
+
+/* ===== BOTTOM: 過去（やってきたこと）===== */
+.past-area {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr auto;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.char-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; width: 140px;
+}
+.char-orb { width: 48px; height: 48px; border-radius: 50%; position: relative; }
+.char-orb .orb-glow { position: absolute; inset: -8px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(12px); opacity: 0.4; animation: spin 10s linear infinite; }
+.char-orb .orb-body { position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(6px) saturate(1.3); animation: spin 7s linear infinite reverse; }
+.char-orb .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 22px; height: 11px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.char-orb .eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; box-shadow: 0 0 5px rgba(255,255,255,0.8); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.char-name { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 900; }
+.level-badge { padding: 4px 12px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 900; }
+
+.badge-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.badge-label { font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
+.badge-slots { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge-slot { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: 'Lato', sans-serif; transition: all 0.2s; }
+.badge-earned { color: #fff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.3); }
+.badge-earned:hover { transform: scale(1.1); }
+.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.06); }
+
+.cal-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: inset 0px 0px 20px rgba(255,255,255,0.15);
+}
+.cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cal-month { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); }
+.cal-streak { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #f7513b; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-header { font-size: 7px; color: rgba(255,255,255,0.2); text-align: center; padding: 2px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.cal-day { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.1); }
+.cal-day.lv1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.25); }
+.cal-day.lv2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.4); }
+.cal-day.lv3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.6); }
+.cal-day.lv4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.cal-day.today { box-shadow: 0 0 0 2px rgba(255,255,255,0.4); }
+
+.util-card {
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 6px; justify-content: center; width: 80px;
+}
+.util-btn { width: 100%; padding: 8px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); font-size: 12px; cursor: pointer; text-align: center; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.util-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+.util-btn .notif-badge { display: inline-flex; width: 14px; height: 14px; background: #f7513b; border-radius: 50%; font-size: 8px; font-weight: 700; color: #fff; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; }
+
+@media (max-width: 800px) {
+  .future-area { grid-template-columns: 1fr; }
+  .past-area { grid-template-columns: 1fr 1fr; }
+  .char-card, .util-card { width: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<header class="header">
+  <img src="logo.png" alt="CyTech">
+  <span class="ht">ダッシュボード</span>
+  <div class="hr"><button class="hb">学習に戻る →</button></div>
+</header>
+
+<div class="main">
+
+  <!-- ===== TOP: 未来 ===== -->
+  <div class="future-area">
+
+    <!-- Left: Progress + CTA -->
+    <div class="action-panel">
+      <div class="progress-section">
+        <div class="bar-group">
+          <div class="bar-top"><span class="bar-label">カリキュラム進捗</span><span class="bar-value">52<span class="unit">%</span></span></div>
+          <div class="bar-track"><div class="bar-fill progress" style="width:52%;"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-top"><span class="bar-label">面接開放まで</span><span class="bar-value">38<span class="unit">h</span></span></div>
+          <div class="bar-track"><div class="bar-fill gate" style="width:52%;"></div></div>
+        </div>
+      </div>
+
+      <div class="next-action">
+        <div class="na-icon">📘</div>
+        <div class="na-text">
+          <div class="na-title">Unit 5 — ネットワーク基礎</div>
+          <div class="na-sub">STEP 3 から再開 / 推定40分</div>
+        </div>
+        <button class="na-btn">再開 →</button>
+      </div>
+    </div>
+
+    <!-- Right: AI Chat -->
+    <div class="chat-panel">
+      <div class="chat-header">
+        <div class="chat-orb"><div class="co-face"><div class="co-eye"></div><div class="co-eye"></div></div></div>
+        <div><div class="chat-name">KANAME</div><div class="chat-status">オンライン</div></div>
+      </div>
+      <div class="chat-messages" id="chatMsgs">
+        <div class="cm cm-ai">今日も学習お疲れさまです。Unit 5のネットワーク構成図、前回の営業の組織図の話の続きから進めましょうか？</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatIn" placeholder="KANAMEに質問する..." oninput="document.getElementById('chatSend').classList.toggle('active',this.value.trim().length>0)">
+        <button id="chatSend">送信</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== BOTTOM: 過去 ===== -->
+  <div class="past-area">
+
+    <!-- Character -->
+    <div class="char-card">
+      <div class="char-orb">
+        <div class="orb-glow"></div>
+        <div class="orb-body"></div>
+        <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
+      </div>
+      <div class="char-name">佐藤 健太</div>
+      <div class="level-badge">B1 Rookie</div>
+    </div>
+
+    <!-- Badges -->
+    <div class="badge-card">
+      <div class="badge-label">獲得バッジ</div>
+      <div class="badge-slots">
+        <div class="badge-slot badge-earned" style="background:#f7513b;">IT</div>
+        <div class="badge-slot badge-earned" style="background:#f13884;">HW</div>
+        <div class="badge-slot badge-earned" style="background:#953ec3;">OS</div>
+        <div class="badge-slot badge-locked">NW</div>
+        <div class="badge-slot badge-locked">SC</div>
+        <div class="badge-slot badge-locked">DB</div>
+        <div class="badge-slot badge-locked">EX</div>
+        <div class="badge-slot badge-locked">SP</div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="cal-card">
+      <div class="cal-top">
+        <span class="cal-month">4月 2026</span>
+        <span class="cal-streak">🔥 5日連続</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-header">Mo</div><div class="cal-header">Tu</div><div class="cal-header">We</div><div class="cal-header">Th</div><div class="cal-header">Fr</div><div class="cal-header">Sa</div><div class="cal-header">Su</div>
+        <div class="cal-day"></div><div class="cal-day lv2">1</div><div class="cal-day lv3">2</div><div class="cal-day">3</div><div class="cal-day lv1">4</div><div class="cal-day">5</div><div class="cal-day">6</div>
+        <div class="cal-day lv4">7</div><div class="cal-day lv3">8</div><div class="cal-day lv2">9</div><div class="cal-day lv4">10</div><div class="cal-day lv1">11</div><div class="cal-day">12</div><div class="cal-day lv1">13</div>
+        <div class="cal-day lv3">14</div><div class="cal-day lv4">15</div><div class="cal-day lv2">16</div><div class="cal-day lv3">17</div><div class="cal-day lv4">18</div><div class="cal-day lv1">19</div><div class="cal-day">20</div>
+        <div class="cal-day lv4">21</div><div class="cal-day lv4">22</div><div class="cal-day lv4">23</div><div class="cal-day lv4 today">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div>
+      </div>
+    </div>
+
+    <!-- Utility -->
+    <div class="util-card">
+      <div class="util-btn">📋</div>
+      <div class="util-btn">📊</div>
+      <div class="util-btn">⚙</div>
+      <div class="util-btn">🔔 <span class="notif-badge">2</span></div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
