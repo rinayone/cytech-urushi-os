@@ -24,318 +24,180 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
 }
-.header .logo-swap { flex-shrink: 0; width: auto; }
-.header .logo-swap .logo-default { height: 22px; width: auto; }
+.header img { height: 22px; }
 .header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
 .header .hr { margin-left: auto; }
-/* Dashboard chat */
-.dash-chat {
-  flex: 1; display: flex; flex-direction: column;
-  background: rgba(0,0,0,0.08); border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.04);
-  overflow: hidden; min-height: 0;
+.hb { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+
+/* Layout */
+.layout { position: fixed; top: 84px; bottom: 16px; left: 16px; right: 16px; display: grid; grid-template-columns: 220px 1fr; gap: 12px; z-index: 10; }
+
+/* ===== LEFT: Sidebar ===== */
+.sidebar { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px 16px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
+.sb-heading { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; color: rgba(255,255,255,0.8); margin-bottom: 14px; letter-spacing: 0.5px; }
+.sb-level { padding: 5px 18px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; margin-bottom: 16px; }
+.sb-label { font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 6px; width: 100%; text-align: left; margin-top: 12px; }
+.sb-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.sb-badge { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: 'Lato', sans-serif; transition: all 0.2s; cursor: pointer; }
+.sb-badge.earned { color: #fff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.3); }
+.sb-badge.earned:hover { transform: scale(1.1); }
+.sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.05); }
+
+.sb-cal { width: 100%; padding: 0; margin-top: 4px; }
+.sb-cal-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.sb-cal-month { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.sb-cal-streak { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: #f7513b; }
+.sb-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.sb-cal-h { font-size: 6px; color: rgba(255,255,255,0.2); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.sb-cal-d { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.08); }
+.sb-cal-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.2); }
+.sb-cal-d.l2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.35); }
+.sb-cal-d.l3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.5); }
+.sb-cal-d.l4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.sb-cal-d.today { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.4); }
+
+/* Account */
+.sb-account { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 16px; cursor: pointer; width: 100%; transition: opacity 0.2s; position: relative; }
+.sb-account:hover { opacity: 0.8; }
+.sb-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0f4bab, #34e0ff); display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.sb-account-name { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+.sb-account-menu {
+  display: none; position: absolute; bottom: 56px; left: 8px;
+  background: rgba(20,20,40,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 8px;
+  min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 60;
 }
-.dc-header { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.dc-orb { width: 28px; height: 28px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); flex-shrink: 0; }
-.dc-messages { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
-.dc-msg { font-size: 13px; line-height: 1.7; padding: 10px 14px; border-radius: 4px 14px 14px 14px; max-width: 90%; }
-.dc-ai { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
-.dc-user { background: rgba(149,62,195,0.12); color: rgba(255,255,255,0.85); border-radius: 14px 4px 14px 14px; align-self: flex-end; }
-.dc-input { display: flex; gap: 6px; padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.04); }
-.dc-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 12px; outline: none; font-family: inherit; }
-.dc-input input::placeholder { color: rgba(255,255,255,0.2); }
-.dc-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.dc-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
+.sb-account-menu.show { display: block; }
+.sb-menu-item { padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.7); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.sb-menu-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
 
-/* Notification */
-.hr { margin-left: auto; }
-.notif-btn { background: none; border: none; font-size: 18px; cursor: pointer; position: relative; padding: 4px; transition: transform 0.2s; }
-.notif-btn:hover { transform: scale(1.1); }
-.notif-badge { position: absolute; top: -2px; right: -4px; width: 16px; height: 16px; background: #f7513b; border-radius: 50%; font-size: 9px; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; }
+/* ===== RIGHT: Main ===== */
+.main-area { display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
 
-/* Notification popup */
-.notif-overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,8,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-start; justify-content: flex-end; padding: 80px 20px 20px; }
-.notif-overlay.show { display: flex; }
-.notif-popup { background: rgba(0,0,0,0.25); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 40px rgba(0,0,0,0.5); width: 340px; max-height: 70vh; overflow-y: auto; padding: 20px; opacity: 0; transform: translateY(-8px); transition: all 0.3s ease; }
-.notif-overlay.show .notif-popup { opacity: 1; transform: translateY(0); }
-.notif-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
-.notif-item:last-child { border-bottom: none; }
-.notif-item .ni-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 9px; font-weight: 700; margin-right: 6px; }
-.ni-update { background: rgba(52,224,255,0.15); color: #34e0ff; }
-.ni-company { background: rgba(149,62,195,0.15); color: #953ec3; }
-.notif-item .ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
-.notif-item .ni-detail { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
-.notif-item .ni-detail.show { display: block; }
-
-/* Logo ↔ KANAME swap */
-.logo-swap { position: relative; cursor: pointer; height: 36px; display: flex; align-items: center; justify-content: center; }
-.logo-swap .logo-default { height: 22px; transition: opacity 0.2s; }
-.logo-swap .logo-kaname { position: absolute; left: 0; top: 0; width: 36px; height: 36px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
-.logo-swap .logo-kaname .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
-.logo-swap .logo-kaname .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
-.logo-swap:hover .logo-default { opacity: 0; }
-.logo-swap:hover .logo-kaname { opacity: 1; }
-
-/* Main layout - game style */
-.game-layout {
-  position: fixed;
-  top: 84px; bottom: 16px; left: 16px; right: 16px;
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 16px;
-  z-index: 10;
-}
-
-/* Left: Character panel */
-.char-panel {
-  background: rgba(0,0,0,0.15);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* KANAME character */
-.char-kaname {
-  position: relative;
-  width: 100px; height: 100px;
-  border-radius: 50%;
-  margin-bottom: 16px;
-}
-.char-kaname .orb-glow { position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(20px); opacity: 0.5; animation: spin 10s linear infinite; }
-.char-kaname .orb-body { position: absolute; inset: 4px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(10px) saturate(1.3); animation: spin 7s linear infinite reverse; }
-.char-kaname .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 44px; height: 22px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 12px; }
-.char-kaname .eye { width: 4px; height: 10px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+/* KANAME Speech */
+.speech-area { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 24px; display: flex; align-items: flex-start; gap: 16px; }
+.sp-orb { width: 56px; height: 56px; border-radius: 50%; position: relative; flex-shrink: 0; }
+.sp-orb .og { position: absolute; inset: -10px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(14px); opacity: 0.4; animation: spin 10s linear infinite; }
+.sp-orb .ob { position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(7px) saturate(1.3); animation: spin 7s linear infinite reverse; }
+.sp-orb .of { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 26px; height: 13px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 7px; }
+.sp-orb .oe { width: 3px; height: 7px; background: #fff; border-radius: 2px; box-shadow: 0 0 5px rgba(255,255,255,0.8); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.char-name { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 2px; }
-.char-meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+.sp-content { flex: 1; }
+.sp-bubble { background: rgba(255,255,255,0.05); border-radius: 4px 16px 16px 16px; padding: 14px 18px; font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
+.sp-bubble strong { color: #fff; }
+.sp-bubble .hl { color: #34e0ff; font-weight: 700; }
 
-/* Level badge */
-.level-wrap { position: relative; margin-bottom: 20px; }
-.level-badge {
-  padding: 8px 24px;
-  border-radius: 100px;
-  background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15));
-  border: 1px solid rgba(52,224,255,0.3);
-  color: #34e0ff;
-  font-family: 'Lato', sans-serif;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s;
+/* Daily Mission */
+.mission-card { margin-top: 4px; }
+.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+.mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: opacity 0.2s; }
+.mission-item:last-child { border-bottom: none; }
+.mission-item:hover { opacity: 0.85; }
+.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; }
+.mi-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff; }
+.mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
+.mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.mi-time { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
+.mission-item.navigating .mi-box { transform: scale(1.15); }
+.mission-item.navigating { opacity: 0.6; }
+.mission-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.mp-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 200px; }
+.mp-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f13884); transition: width 0.4s ease; }
+.mp-label { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 700; }
+
+/* Suggest row */
+.suggest-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.suggest-chip {
+  padding: 8px 14px; background: transparent; border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 100px; color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; flex-shrink: 0;
 }
-.level-badge:hover { border-color: rgba(52,224,255,0.5); }
-.level-tooltip {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 8px;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-radius: 12px;
-  padding: 12px 16px;
-  width: 220px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  z-index: 30;
-  text-align: center;
+.suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); color: #fff; }
+.suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
+.suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
+.suggest-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; min-width: 0; }
+.suggest-input input::placeholder { color: rgba(255,255,255,0.2); }
+.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.suggest-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
+
+/* Dynamic area */
+.dynamic-area { flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow-y: auto; }
+
+/* Progress row */
+.prog-row { display: flex; gap: 12px; }
+.prog-card { flex: 1; background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px; }
+.prog-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+.prog-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; margin-bottom: 8px; }
+.prog-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
+.prog-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; max-width: 180px; }
+.prog-fill { height: 100%; border-radius: 4px; }
+.prog-fill.rainbow { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.prog-fill.blue { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+
+/* Expand panels */
+.expand-panel {
+  background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 20px; display: none; animation: fadeSlide 0.25s ease forwards;
 }
-.level-wrap:hover .level-tooltip { display: block; }
-.lt-desc { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 8px; line-height: 1.5; }
-.lt-bar { display: flex; gap: 3px; justify-content: center; }
-.lt-seg { width: 28px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); }
-.lt-seg.filled { background: #34e0ff; }
-.lt-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 8px; color: rgba(255,255,255,0.25); font-family: 'Lato', sans-serif; font-weight: 700; }
+.expand-panel.show { display: block; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.ep-title { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 900; margin-bottom: 12px; }
+.ep-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+.ep-bar-name { width: 80px; color: rgba(255,255,255,0.5); flex-shrink: 0; }
+.ep-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 140px; }
+.ep-bar-fill { height: 100%; border-radius: 3px; }
+.ep-bar-val { width: 30px; text-align: right; color: rgba(255,255,255,0.35); font-family: 'Lato', sans-serif; font-weight: 700; }
+.level-detail { display: flex; flex-direction: column; gap: 8px; }
+.ld-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; font-size: 12px; }
+.ld-item.current { background: rgba(52,224,255,0.08); border: 1px solid rgba(52,224,255,0.2); }
+.ld-rank { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 900; width: 32px; }
+.ld-rank.active { color: #34e0ff; }
+.ld-rank.locked { color: rgba(255,255,255,0.15); }
+.ld-name { font-weight: 700; width: 60px; }
+.ld-desc { color: rgba(255,255,255,0.4); flex: 1; }
 
-/* Badges (equipment slots) */
-.badge-slots {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-.badge-slot {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700;
-  font-family: 'Lato', sans-serif;
-}
-.badge-earned { color: #fff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.3); opacity: 0.9; }
-.badge-earned:hover { opacity: 1; transform: scale(1.08); }
-.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.06); }
+/* ===== POPUPS (shared) ===== */
+.popup-overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,8,0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); align-items: center; justify-content: center; }
+.popup-overlay.show { display: flex; }
+.popup-overlay.top-right { align-items: flex-start; justify-content: flex-end; padding: 80px 20px 20px; }
+.popup-box { background: rgba(0,0,0,0.2); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 24px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; padding: 28px; position: relative; opacity: 0; transform: scale(0.97); transition: all 0.3s ease; }
+.popup-overlay.show .popup-box { opacity: 1; transform: scale(1); }
+.popup-box.small { max-width: 420px; width: 90%; border-radius: 20px; }
+.popup-box.medium { max-width: 340px; width: 90%; border-radius: 20px; padding: 20px; }
+.popup-box.full { max-width: 90vw; width: 90vw; padding: 32px; }
+.pp-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: rgba(255,255,255,0.06); border: none; border-radius: 8px; color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pp-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin: 16px 0 8px; }
 
-/* Streak + Glass Calendar */
-.streak-area { margin-top: 12px; width: 100%; }
-.cal-card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: inset 0px 0px 20px rgba(255,255,255,0.15), inset -1px -1px 1px rgba(255,255,255,0.08), inset 1px 1px 1px rgba(255,255,255,0.15);
-}
-.cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.cal-month { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); }
-.cal-streak { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #f7513b; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.cal-header { font-size: 8px; color: rgba(255,255,255,0.25); text-align: center; padding: 3px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
-.cal-day { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.15); }
-.cal-day.lv1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.3); }
-.cal-day.lv2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.5); }
-.cal-day.lv3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.7); }
-.cal-day.lv4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
-.cal-day.today { box-shadow: 0 0 0 2px rgba(255,255,255,0.4); }
-
-/* Nav links */
-.nav-links { display: flex; gap: 6px; margin-top: 12px; }
-.nav-link { flex: 1; padding: 8px 4px; text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: block; }
-.nav-link:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.12); }
-
-/* Settings icon */
-.settings-icon { background: none; border: none; font-size: 14px; cursor: pointer; color: rgba(255,255,255,0.3); transition: color 0.2s; padding: 2px; }
-.settings-icon:hover { color: rgba(255,255,255,0.7); }
-
-/* Settings popup */
-.settings-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(5,5,8,0.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); align-items:center; justify-content:center; }
-.settings-overlay.show { display:flex; }
-.settings-popup { background:rgba(0,0,0,0.25); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 40px rgba(0,0,0,0.5); max-width:420px; width:90%; padding:28px; position:relative; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
-.settings-overlay.show .settings-popup { opacity:1; transform:scale(1); }
-.set-item { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+/* Settings */
+.set-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .set-item:last-child { border-bottom: none; }
 .set-item .set-label { font-size: 14px; }
 .set-item .set-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-.set-toggle { width:44px; height:24px; background:rgba(255,255,255,0.15); border-radius:12px; position:relative; cursor:pointer; transition:background 0.2s; }
-.set-toggle.on { background:linear-gradient(to right,#953ec3,#0f4bab); }
-.set-toggle::after { content:''; width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:3px; left:3px; transition:left 0.2s; }
-.set-toggle.on::after { left:23px; }
-.set-input { padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; width:120px; text-align:right; }
-.set-select { padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; }
-.set-select option { background:#1a1a2e; }
-.set-input { padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; font-size:14px; font-family:inherit; outline:none; }
-.set-input:focus { border-color:rgba(255,255,255,0.25); }
+.set-toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.15); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
+.set-toggle.on { background: linear-gradient(to right, #953ec3, #0f4bab); }
+.set-toggle::after { content: ''; width: 18px; height: 18px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+.set-toggle.on::after { left: 23px; }
+.set-select { padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 13px; font-family: inherit; outline: none; }
+.set-select option { background: #1a1a2e; }
+.set-input { padding: 10px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 14px; font-family: inherit; outline: none; }
+.set-input:focus { border-color: rgba(255,255,255,0.25); }
 
-/* Right: Stats panel */
-.stats-panel {
-  background: rgba(0,0,0,0.1);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
+/* Notification items */
+.notif-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; cursor: pointer; }
+.notif-item:last-child { border-bottom: none; }
+.ni-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 9px; font-weight: 700; margin-right: 6px; }
+.ni-update { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.ni-company { background: rgba(149,62,195,0.15); color: #953ec3; }
+.ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
+.ni-detail { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+.ni-detail.show { display: block; }
 
-/* Progress bars (HP/MP style) */
-.main-bars { margin-bottom: 20px; }
-.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.bar-group { margin-bottom: 12px; }
-.bar-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
-.bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); }
-.bar-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; color: #fff; }
-.bar-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
-.bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; max-width: 200px; }
-.bar-fill { height: 100%; border-radius: 5px; }
-.bar-fill.progress { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
-.bar-fill.gate { background: linear-gradient(to right, #0f4bab, #34e0ff); }
-
-/* Stats grid (STR/INT/DEX style) */
-.stats-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 10px; }
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-.stat-name { font-size: 12px; color: rgba(255,255,255,0.45); flex: 1; }
-.stat-val { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 900; }
-.stat-item .bar-mini { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; max-width: 60px; overflow: hidden; margin-top: 4px; }
-.stat-item .bar-mini-fill { height: 100%; border-radius: 2px; }
-.stat-val.complete { color: #34e0ff; }
-.stat-val.progress { color: #f8ee1a; }
-.stat-val.locked { color: rgba(255,255,255,0.15); }
-
-/* Next action (CTA) */
-.next-action {
-  background: linear-gradient(135deg, rgba(247,81,59,0.08), rgba(241,56,132,0.06));
-  border: 1px solid rgba(247,81,59,0.2);
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transition: all 0.2s;
-}
-.next-action:hover { border-color: rgba(247,81,59,0.4); background: linear-gradient(135deg, rgba(247,81,59,0.12), rgba(241,56,132,0.08)); }
-.na-icon { font-size: 24px; }
-.na-text { flex: 1; }
-.na-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
-.na-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
-.na-btn {
-  padding: 10px 24px;
-  background: linear-gradient(135deg, #f7513b, #f13884);
-  color: #fff; border: none; border-radius: 12px;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  font-family: 'Noto Sans JP', sans-serif;
-  white-space: nowrap; flex-shrink: 0;
-}
-.na-btn:hover { opacity: 0.9; }
-
-/* Info row */
-.info-row {
-  display: flex;
-  gap: 12px;
-  margin-top: auto;
-}
-.info-card {
-  flex: 1;
-  padding: 14px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.04);
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.info-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
-.info-val { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; }
-.info-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
 .hl { color: #34e0ff; }
 
-/* Portfolio popup */
-.portfolio-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(5,5,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); align-items:center; justify-content:center; }
-.portfolio-overlay.show { display:flex; }
-.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:90vw; width:90vw; max-height:90vh; overflow-y:auto; padding:32px; position:relative; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
-.portfolio-overlay.show .portfolio-popup { opacity:1; transform:scale(1); }
-.pp-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.06); border:none; border-radius:8px; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin:16px 0 8px; }
-.portfolio-popup .skill-bar-track { max-width: 200px; }
-
-@media (max-width: 700px) {
-  .game-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .char-panel { flex-direction: row; gap: 16px; padding: 16px; }
-  .char-kaname { width: 64px; height: 64px; margin-bottom: 0; }
-  .stats-grid { grid-template-columns: 1fr; }
-  .info-row { flex-direction: column; }
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -344,112 +206,168 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
 <header class="header">
-  <img src="logo.png" alt="CyTech" style="height:22px;">
+  <img src="logo.png" alt="CyTech">
   <span class="ht">ダッシュボード</span>
-  <div class="hr">
-    <button onclick="location.href='p05-lesson.html'" style="padding:8px 18px;background:linear-gradient(135deg,#0f4bab,#34e0ff);border:none;border-radius:12px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">学習に戻る →</button>
-  </div>
+  <div class="hr"><button class="hb" onclick="location.href='p05-lesson.html'">学習に戻る →</button></div>
 </header>
 
-<div class="game-layout">
-  <!-- Left: Character -->
-  <div class="char-panel">
-    <div class="char-kaname">
-      <div class="orb-glow"></div>
-      <div class="orb-body"></div>
-      <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
-    </div>
-    <div class="char-name">佐藤 健太</div>
-    <div class="char-meta">情シス志望 / 97日目</div>
-    <div class="level-wrap">
-      <div class="level-badge">B1 Rookie</div>
-      <div class="level-tooltip">
-        <div class="lt-desc">手順があれば作業を完了できるレベル</div>
-        <div class="lt-bar">
-          <div class="lt-seg filled"></div>
-          <div class="lt-seg"></div>
-          <div class="lt-seg"></div>
-          <div class="lt-seg"></div>
-          <div class="lt-seg"></div>
-        </div>
-        <div class="lt-labels"><span>B1</span><span>B2</span><span>B3</span><span>B4</span><span>B5</span></div>
-      </div>
-    </div>
+<div class="layout">
 
-    <!-- Badges (equipment) -->
-    <div class="badge-slots">
-      <div class="badge-slot badge-earned" title="IT基礎" onclick="openPortfolio()" style="background:#f7513b;">IT</div>
-      <div class="badge-slot badge-earned" title="HW基礎" onclick="openPortfolio()" style="background:#f13884;">HW</div>
-      <div class="badge-slot badge-earned" title="OS基礎" onclick="openPortfolio()" style="background:#953ec3;">OS</div>
-      <div class="badge-slot badge-locked" title="ネットワーク">NW</div>
-      <div class="badge-slot badge-locked" title="セキュリティ">SC</div>
-      <div class="badge-slot badge-locked" title="DB">DB</div>
-      <div class="badge-slot badge-locked" title="総合">EX</div>
-      <div class="badge-slot badge-locked" title="Skill Prime" style="border-color:rgba(255,255,255,0.1);">SP</div>
+  <!-- LEFT: Sidebar -->
+  <div class="sidebar">
+    <div class="sb-heading">Your Layers</div>
+    <div class="sb-level">B1 Rookie</div>
+    <div class="sb-label">獲得バッジ</div>
+    <div class="sb-badges">
+      <div class="sb-badge earned" style="background:#f7513b;" onclick="openPortfolio()">IT</div>
+      <div class="sb-badge earned" style="background:#f13884;" onclick="openPortfolio()">HW</div>
+      <div class="sb-badge earned" style="background:#953ec3;" onclick="openPortfolio()">OS</div>
+      <div class="sb-badge locked">NW</div>
+      <div class="sb-badge locked">SC</div>
+      <div class="sb-badge locked">DB</div>
+      <div class="sb-badge locked">EX</div>
+      <div class="sb-badge locked">SP</div>
     </div>
-
-    <!-- Calendar + Nav -->
-    <div class="streak-area">
-      <div class="cal-card">
-        <div class="cal-top">
-          <span class="cal-month">4月 2026</span>
-          <span class="cal-streak">🔥 5日連続</span>
-        </div>
-        <div class="cal-grid">
-          <div class="cal-header">Mo</div><div class="cal-header">Tu</div><div class="cal-header">We</div><div class="cal-header">Th</div><div class="cal-header">Fr</div><div class="cal-header">Sa</div><div class="cal-header">Su</div>
-          <div class="cal-day"></div><div class="cal-day lv2">1</div><div class="cal-day lv3">2</div><div class="cal-day">3</div><div class="cal-day lv1">4</div><div class="cal-day">5</div><div class="cal-day">6</div>
-          <div class="cal-day lv4">7</div><div class="cal-day lv3">8</div><div class="cal-day lv2">9</div><div class="cal-day lv4">10</div><div class="cal-day lv1">11</div><div class="cal-day">12</div><div class="cal-day lv1">13</div>
-          <div class="cal-day lv3">14</div><div class="cal-day lv4">15</div><div class="cal-day lv2">16</div><div class="cal-day lv3">17</div><div class="cal-day lv4">18</div><div class="cal-day lv1">19</div><div class="cal-day">20</div>
-          <div class="cal-day lv4">21</div><div class="cal-day lv4">22</div><div class="cal-day lv4">23</div><div class="cal-day lv4 today">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div>
-        </div>
+    <div class="sb-label">学習カレンダー</div>
+    <div class="sb-cal">
+      <div class="sb-cal-top"><span class="sb-cal-month">4月 2026</span><span class="sb-cal-streak">🔥5日</span></div>
+      <div class="sb-cal-grid">
+        <div class="sb-cal-h">M</div><div class="sb-cal-h">T</div><div class="sb-cal-h">W</div><div class="sb-cal-h">T</div><div class="sb-cal-h">F</div><div class="sb-cal-h">S</div><div class="sb-cal-h">S</div>
+        <div class="sb-cal-d"></div><div class="sb-cal-d l2">1</div><div class="sb-cal-d l3">2</div><div class="sb-cal-d">3</div><div class="sb-cal-d l1">4</div><div class="sb-cal-d">5</div><div class="sb-cal-d">6</div>
+        <div class="sb-cal-d l4">7</div><div class="sb-cal-d l3">8</div><div class="sb-cal-d l2">9</div><div class="sb-cal-d l4">10</div><div class="sb-cal-d l1">11</div><div class="sb-cal-d">12</div><div class="sb-cal-d l1">13</div>
+        <div class="sb-cal-d l3">14</div><div class="sb-cal-d l4">15</div><div class="sb-cal-d l2">16</div><div class="sb-cal-d l3">17</div><div class="sb-cal-d l4">18</div><div class="sb-cal-d l1">19</div><div class="sb-cal-d">20</div>
+        <div class="sb-cal-d l4">21</div><div class="sb-cal-d l4">22</div><div class="sb-cal-d l4">23</div><div class="sb-cal-d l4 today">24</div><div class="sb-cal-d">25</div><div class="sb-cal-d">26</div><div class="sb-cal-d">27</div>
       </div>
-      <div class="nav-links">
-        <a class="nav-link" onclick="openSelection()">📋 企業・選考</a>
-        <a class="nav-link" onclick="openPortfolio()">📊 ポートフォリオ</a>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
-        <button class="settings-icon" onclick="openSettings()" title="設定" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:14px;">⚙</button>
-        <button class="notif-btn" onclick="openNotif()" title="お知らせ" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;">🔔<span class="notif-badge">2</span></button>
-      </div>
+    </div>
+    <!-- Account (bottom) -->
+    <div class="sb-account" onclick="toggleAccountMenu()">
+      <div class="sb-avatar">SK</div>
+      <div class="sb-account-name">佐藤 健太</div>
+    </div>
+    <div class="sb-account-menu" id="accountMenu">
+      <div class="sb-menu-item" onclick="event.stopPropagation();openSettings();">⚙ 設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();openNotif();">🔔 通知設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();location.href='login.html';">→ ログアウト</div>
     </div>
   </div>
 
-  <!-- Right: Stats -->
-  <div class="stats-panel">
-    <!-- Main progress bars -->
-    <div class="main-bars">
-      <div class="bar-group">
-        <div class="bar-top"><span class="bar-label">カリキュラム進捗</span><span class="bar-value">52<span class="unit">%</span></span></div>
-        <div class="bar-track"><div class="bar-fill progress" style="width:52%;"></div></div>
-      </div>
-      <div class="bar-group">
-        <div class="bar-top"><span class="bar-label">面接開放まで</span><span class="bar-value">38<span class="unit">h</span></span></div>
-        <div class="bar-track"><div class="bar-fill gate" style="width:52%;"></div></div>
+  <!-- RIGHT: Main -->
+  <div class="main-area">
+
+    <!-- KANAME speech + Mission -->
+    <div class="speech-area">
+      <div class="sp-orb"><div class="og"></div><div class="ob"></div><div class="of"><div class="oe"></div><div class="oe"></div></div></div>
+      <div class="sp-content">
+        <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。今日のミッションを用意しました。<span class="hl">あと38時間</span>で面接開放 — まず1つ目から片付けましょう。</div>
+        <div class="mission-card">
+          <div class="mission-header">TODAY'S MISSION</div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">Unit 5 STEP 3 を完了する</div>
+            <div class="mi-time">20分</div>
+          </div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">STEP 4 に進む</div>
+            <div class="mi-time">15分</div>
+          </div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">復習クイズに答える</div>
+            <div class="mi-time">5分</div>
+          </div>
+          <div class="mission-progress">
+            <div class="mp-track"><div class="mp-fill" id="mpFill" style="width:0%;"></div></div>
+            <div class="mp-label" id="mpLabel">0 / 3</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Next action (TOP priority) -->
-    <div class="next-action" onclick="location.href='p05-lesson.html'" style="cursor:pointer;">
-      <div class="na-icon">📘</div>
-      <div class="na-text">
-        <div class="na-title">Unit 5 — ネットワーク基礎</div>
-        <div class="na-sub">STEP 3 から再開 / 推定40分</div>
+    <!-- Suggest chips + input -->
+    <div class="suggest-row">
+      <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオを見る</button>
+      <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベルを見る</button>
+      <button class="suggest-chip" onclick="togglePanel('company', this)">📋 企業・選考を見る</button>
+      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(247,81,59,0.3);color:#f7513b;">🔔 お知らせがあります</button>
+      <div class="suggest-input">
+        <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
+        <button id="cSend">送信</button>
       </div>
-      <button class="na-btn" onclick="event.stopPropagation();location.href='p05-lesson.html'">再開 →</button>
     </div>
 
-    <!-- AI Chat -->
-    <div class="dash-chat">
-      <div class="dc-header">
-        <div class="dc-orb"></div>
-        <div><div style="font-size:12px;font-weight:700;">KANAME</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">オンライン</div></div>
+    <!-- Dynamic area -->
+    <div class="dynamic-area">
+      <div class="prog-row">
+        <div class="prog-card">
+          <div class="prog-label">カリキュラム進捗</div>
+          <div class="prog-value">52<span class="unit">%</span></div>
+          <div class="prog-track"><div class="prog-fill rainbow" style="width:52%;"></div></div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">面接開放まで</div>
+          <div class="prog-value">38<span class="unit">h</span></div>
+          <div class="prog-track"><div class="prog-fill blue" style="width:52%;"></div></div>
+        </div>
       </div>
-      <div class="dc-messages" id="dcMessages">
-        <div class="dc-msg dc-ai">今日も学習お疲れさまです。Unit 5のネットワーク構成図、前回の営業の組織図の話の続きから進めましょうか？</div>
+
+      <!-- Portfolio panel -->
+      <div class="expand-panel" id="panelPortfolio">
+        <div class="ep-title">スキルポートフォリオ</div>
+        <div class="ep-row"><span class="ep-bar-name">IT基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:100%;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span class="ep-bar-val">B1</span></div>
+        <div class="ep-row"><span class="ep-bar-name">HW基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:100%;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span class="ep-bar-val">B1</span></div>
+        <div class="ep-row"><span class="ep-bar-name">OS基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:85%;background:linear-gradient(to right,#7cbf00,#f8ee1a,#f7513b,#f13884);"></div></div><span class="ep-bar-val">85%</span></div>
+        <div class="ep-row"><span class="ep-bar-name">ネットワーク</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:37%;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span class="ep-bar-val">37%</span></div>
+        <div class="ep-row"><span class="ep-bar-name">セキュリティ</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
+        <div class="ep-row"><span class="ep-bar-name">DB</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
+          <span style="font-size:11px;color:rgba(255,255,255,0.3);">正答率: 82% / 学習: 42h</span>
+          <a href="p07-portfolio.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+        </div>
       </div>
-      <div class="dc-input">
-        <input type="text" id="dcInput" placeholder="KANAMEに質問する...">
-        <button id="dcSend" onclick="sendDcMsg()">送信</button>
+
+      <!-- Level panel -->
+      <div class="expand-panel" id="panelLevel">
+        <div class="ep-title">学習レベル</div>
+        <div class="level-detail">
+          <div class="ld-item current"><span class="ld-rank active">B1</span><span class="ld-name">Rookie</span><span class="ld-desc">手順があれば作業を完了できる</span></div>
+          <div class="ld-item"><span class="ld-rank locked">B2</span><span class="ld-name">Player</span><span class="ld-desc">定型業務を一人で遂行できる</span></div>
+          <div class="ld-item"><span class="ld-rank locked">B3</span><span class="ld-name">Pro</span><span class="ld-desc">未経験の課題を自ら解決できる</span></div>
+          <div class="ld-item"><span class="ld-rank locked">B4</span><span class="ld-name">Expert</span><span class="ld-desc">判断基準を設計し展開できる</span></div>
+          <div class="ld-item"><span class="ld-rank locked">B5</span><span class="ld-name">Master</span><span class="ld-desc">新手法を創出し外部にも影響</span></div>
+        </div>
+      </div>
+
+      <!-- Company panel -->
+      <div class="expand-panel" id="panelCompany">
+        <div class="ep-title">企業・選考</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
+          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:11px;">A</div>
+          <div style="flex:1;"><strong>◯◯株式会社</strong><br><span style="color:rgba(255,255,255,0.35);">情シス — 社内IT</span></div>
+          <span style="font-size:10px;color:rgba(255,255,255,0.25);">ゲート未達</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 0;font-size:12px;">
+          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:11px;">B</div>
+          <div style="flex:1;"><strong>△△株式会社</strong><br><span style="color:rgba(255,255,255,0.35);">情シス — DX推進</span></div>
+          <span style="font-size:10px;color:rgba(255,255,255,0.25);">ゲート未達</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
+          <span style="font-size:11px;color:rgba(255,255,255,0.3);">100%完了でエントリー可能</span>
+          <a href="p04-curriculum.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Notification panel -->
+      <div class="expand-panel" id="panelNotif">
+        <div class="ep-title">お知らせ</div>
+        <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;">
+          <span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました
+          <div class="ni-date">2025.06.03</div>
+        </div>
+        <div style="padding:10px 0;font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;">
+          <span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました
+          <div class="ni-date">2025.06.01</div>
+        </div>
       </div>
     </div>
 
@@ -457,10 +375,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 </div>
 
 <!-- Settings popup -->
-<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
-  <div class="settings-popup">
+<div class="popup-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
+  <div class="popup-box small">
     <button class="pp-close" onclick="closeSettings()">&#10005;</button>
-    <!-- Main settings view -->
     <div id="setMain">
       <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:20px;">設定</div>
       <div class="set-item">
@@ -489,16 +406,12 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
       <button onclick="closeSettings()" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:16px;">保存</button>
     </div>
-
-    <!-- Profile edit view -->
     <div id="setProfile" style="display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">プロフィール編集</span></div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">メールアドレス</div><input type="email" value="n.s@example.com" class="set-input" style="width:100%;text-align:left;"></div>
       <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">保存</button>
     </div>
-
-    <!-- Password change view -->
     <div id="setPassword" style="display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">パスワード変更</span></div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">現在のパスワード</div><input type="password" placeholder="現在のパスワード" class="set-input" style="width:100%;text-align:left;"></div>
@@ -510,26 +423,19 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 </div>
 
 <!-- Selection popup -->
-<div class="portfolio-overlay" id="selectionOverlay" onclick="if(event.target===this)closeSelection()">
-  <div class="portfolio-popup">
+<div class="popup-overlay" id="selectionOverlay" onclick="if(event.target===this)closeSelection()">
+  <div class="popup-box full">
     <button class="pp-close" onclick="closeSelection()">&#10005;</button>
-
     <div style="font-size:20px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:20px;">企業・選考</div>
-
-    <!-- Active curriculum -->
     <div style="background:linear-gradient(135deg,rgba(241,56,132,0.08),rgba(247,81,59,0.06));border:1px solid rgba(241,56,132,0.2);border-radius:14px;padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
       <span style="padding:5px 12px;background:linear-gradient(135deg,#f7513b,#f13884);border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;color:#fff;">受講中</span>
       <div style="flex:1;"><div style="font-size:14px;font-weight:700;">情シス基礎コース — ◯◯株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">全8 Unit / 推定80時間 / 完了で面接確約</div></div>
       <div style="text-align:right;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:900;">52<span style="font-size:12px;color:rgba(255,255,255,0.4);">%</span></div></div>
     </div>
-
-    <!-- Gate -->
     <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(0,0,0,0.2);border-radius:12px;margin-bottom:20px;">
       <span style="font-size:24px;">🔒</span>
       <div style="flex:1;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"><strong style="color:#fff;">Skill Prime ゲート</strong> — カリキュラム100%完了で面接資格。残り<span style="color:#34e0ff;font-weight:700;">38時間</span></div>
     </div>
-
-    <!-- Roadmap -->
     <div class="pp-label">採用ロードマップ</div>
     <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:20px;">
       <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#fff;font-weight:700;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:9px;">1</span>学習中</div>
@@ -542,8 +448,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
       <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">5</span>内定</div>
     </div>
-
-    <!-- Curriculum list -->
     <div class="pp-label">カリキュラム一覧</div>
     <div style="margin-bottom:20px;">
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">01</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">IT基礎・ハードウェア</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">20h</div></div><span style="font-size:11px;color:#34e0ff;">完了</span></div>
@@ -552,8 +456,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">04</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">セキュリティ入門</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">15h</div></div><span style="font-size:11px;color:rgba(255,255,255,0.2);">未開始</span></div>
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">05</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">総合演習・実技課題</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">10h</div></div><span style="font-size:11px;color:rgba(255,255,255,0.2);">未開始</span></div>
     </div>
-
-    <!-- Companies -->
     <div class="pp-label">エントリー可能企業</div>
     <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
       <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:13px;">A</div>
@@ -569,45 +471,39 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 </div>
 
 <!-- Notification popup -->
-<div class="notif-overlay" id="notifOverlay" onclick="if(event.target===this)closeNotif()">
-  <div class="notif-popup">
+<div class="popup-overlay top-right" id="notifOverlay" onclick="if(event.target===this)closeNotif()">
+  <div class="popup-box medium">
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;">お知らせ</div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
       <div><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました<div class="ni-date">2025.06.03</div></div>
-      <div class="ni-detail">応答精度が大幅に向上しました。学習中の質問への回答品質が改善され、より的確なアドバイスが受けられます。また、カリキュラム推薦の精度も向上しています。</div>
+      <div class="ni-detail">応答精度が大幅に向上しました。学習中の質問への回答品質が改善され、より的確なアドバイスが受けられます。</div>
     </div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
       <div><span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました<div class="ni-date">2025.06.01</div></div>
-      <div class="ni-detail">情シスポジションの採用要件が更新されました。ネットワーク基礎のカリキュラムが必須要件に追加されています。現在受講中のコースで対応可能です。</div>
+      <div class="ni-detail">情シスポジションの採用要件が更新されました。ネットワーク基礎のカリキュラムが必須要件に追加されています。</div>
     </div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
       <div><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました<div class="ni-date">2025.05.28</div></div>
-      <div class="ni-detail">新しいカリキュラム「セキュリティ入門」が公開されました。脅威対策、認証、暗号化の基礎を学べます。情シスコースの必須科目です。</div>
+      <div class="ni-detail">新しいカリキュラム「セキュリティ入門」が公開されました。脅威対策、認証、暗号化の基礎を学べます。</div>
     </div>
   </div>
 </div>
 
-<!-- Portfolio popup (full) -->
-<div class="portfolio-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
-  <div class="portfolio-popup">
+<!-- Portfolio popup -->
+<div class="popup-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
+  <div class="popup-box full">
     <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
-
-    <!-- Profile -->
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
       <div style="width:52px;height:52px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:18px;flex-shrink:0;">SK</div>
       <div style="flex:1;"><div style="font-size:18px;font-weight:700;">佐藤 健太</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div></div>
       <div style="padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(52,224,255,0.15),rgba(15,75,171,0.15));border:1px solid rgba(52,224,255,0.25);color:#34e0ff;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;flex-shrink:0;">B1 Rookie</div>
     </div>
-
-    <!-- Stats -->
     <div style="display:flex;gap:8px;margin-bottom:16px;">
       <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">42<span style='font-size:12px;'>h</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">総学習時間</div></div>
       <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">52<span style='font-size:12px;'>%</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">カリキュラム</div></div>
       <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">82<span style='font-size:12px;'>%</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">正答率</div></div>
       <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">12</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">閲覧数</div></div>
     </div>
-
-    <!-- Skill graph -->
     <div class="pp-label">スキルグラフ（B1〜B5）</div>
     <div style="margin-bottom:16px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
@@ -617,8 +513,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">セキュリティ</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;border-radius:3px;"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">0%</span></div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">データベース</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;border-radius:3px;"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">0%</span></div>
     </div>
-
-    <!-- Badges -->
     <div class="pp-label">獲得バッジ</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#f7513b;color:#fff;">IT基礎 修了</span>
@@ -630,8 +524,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">総合演習</span>
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">Skill Prime</span>
     </div>
-
-    <!-- AI evaluation log -->
     <div class="pp-label">AI評価ログ</div>
     <div style="margin-bottom:16px;">
       <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#34e0ff;">&#10003;</span><div><strong style="color:#fff;">Unit 4 課題</strong> — B1到達 / 正答率: 82%</div></div>
@@ -639,8 +531,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#34e0ff;">&#10003;</span><div><strong style="color:#fff;">Unit 2 課題</strong> — B1到達 / 正答率: 85%</div></div>
       <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#f8ee1a;">&#9679;</span><div><strong style="color:#fff;">Unit 1 課題</strong> — 再提出後B1到達 / 71%→88%</div></div>
     </div>
-
-    <!-- Learning history -->
     <div class="pp-label">学習履歴</div>
     <div style="margin-bottom:16px;">
       <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#34e0ff;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 5 STEP 3 完了</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.06.04</span></div>
@@ -648,59 +538,72 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#f13884;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 4 課題提出 — B1判定</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.06.01</span></div>
       <div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#0f4bab;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 4 全STEP完了</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.05.30</span></div>
     </div>
-
-    <!-- Public setting -->
     <div class="pp-label">公開設定</div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
       <div><div style="font-size:13px;">ポートフォリオを企業に公開</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">公開すると企業がスカウトを送れます</div></div>
       <div style="width:44px;height:24px;background:linear-gradient(to right,#953ec3,#0f4bab);border-radius:12px;position:relative;cursor:pointer;" onclick="this.classList.toggle('off');this.style.background=this.classList.contains('off')?'rgba(255,255,255,0.15)':'linear-gradient(to right,#953ec3,#0f4bab)';"><div style="width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:23px;transition:left 0.2s;"></div></div>
     </div>
-
-    <!-- PDF -->
     <button style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">ポートフォリオPDFを出力</button>
   </div>
 </div>
 
 <script>
+// Account menu
+function toggleAccountMenu() {
+  document.getElementById('accountMenu').classList.toggle('show');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.sb-account') && !e.target.closest('.sb-account-menu')) {
+    document.getElementById('accountMenu').classList.remove('show');
+  }
+});
+
+// Mission: check → auto navigate
+function toggleMission(el) {
+  if (el.classList.contains('done')) return;
+  el.classList.add('done', 'navigating');
+  el.querySelector('.mi-box').classList.add('checked');
+  var total = document.querySelectorAll('.mission-item').length;
+  var done = document.querySelectorAll('.mission-item.done').length;
+  document.getElementById('mpFill').style.width = (done / total * 100) + '%';
+  document.getElementById('mpLabel').textContent = done + ' / ' + total;
+  setTimeout(function() {
+    location.href = 'p05-lesson.html';
+  }, 400);
+}
+
+// Suggest chip panels
+var activePanel = null;
+function togglePanel(id, btn) {
+  var panels = ['panelPortfolio', 'panelLevel', 'panelCompany', 'panelNotif'];
+  var chips = document.querySelectorAll('.suggest-chip');
+  if (activePanel === id) {
+    document.getElementById('panel' + id.charAt(0).toUpperCase() + id.slice(1)).classList.remove('show');
+    btn.classList.remove('active');
+    activePanel = null;
+  } else {
+    panels.forEach(function(p) { document.getElementById(p).classList.remove('show'); });
+    chips.forEach(function(c) { c.classList.remove('active'); });
+    var panelId = id === 'portfolio' ? 'panelPortfolio' : id === 'level' ? 'panelLevel' : id === 'company' ? 'panelCompany' : 'panelNotif';
+    document.getElementById(panelId).classList.add('show');
+    btn.classList.add('active');
+    activePanel = id;
+  }
+}
+
+// Popups
 function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
 function openNotif() { document.getElementById('notifOverlay').classList.add('show'); }
 function closeNotif() { document.getElementById('notifOverlay').classList.remove('show'); }
 function openSelection() { document.getElementById('selectionOverlay').classList.add('show'); }
 function closeSelection() { document.getElementById('selectionOverlay').classList.remove('show'); }
-// Dashboard chat
-var dcInput = document.getElementById('dcInput');
-var dcSendBtn = document.getElementById('dcSend');
-dcInput.addEventListener('input', function() {
-  dcSendBtn.classList.toggle('active', dcInput.value.trim().length > 0);
-});
-function sendDcMsg() {
-  var text = dcInput.value.trim();
-  if (!text) return;
-  dcInput.value = '';
-  dcSendBtn.classList.remove('active');
-  var area = document.getElementById('dcMessages');
-  var um = document.createElement('div');
-  um.className = 'dc-msg dc-user';
-  um.textContent = text;
-  area.appendChild(um);
-  area.scrollTop = area.scrollHeight;
-  setTimeout(function() {
-    var am = document.createElement('div');
-    am.className = 'dc-msg dc-ai';
-    am.textContent = 'いい質問ですね。学習を進めながら一緒に考えていきましょう。';
-    area.appendChild(am);
-    area.scrollTop = area.scrollHeight;
-  }, 600);
-}
-dcInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') sendDcMsg(); });
-
 function openSettings() { showSetView('main'); document.getElementById('settingsOverlay').classList.add('show'); }
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('show'); }
 function showSetView(v) {
-  document.getElementById('setMain').style.display = v==='main' ? 'block' : 'none';
-  document.getElementById('setProfile').style.display = v==='profile' ? 'block' : 'none';
-  document.getElementById('setPassword').style.display = v==='password' ? 'block' : 'none';
+  document.getElementById('setMain').style.display = v === 'main' ? 'block' : 'none';
+  document.getElementById('setProfile').style.display = v === 'profile' ? 'block' : 'none';
+  document.getElementById('setPassword').style.display = v === 'password' ? 'block' : 'none';
 }
 </script>
 </body>
