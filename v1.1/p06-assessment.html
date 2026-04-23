@@ -107,39 +107,45 @@ body.panel-open .content-area { right: 328px; }
   align-items: center; justify-content: center;
 }
 .feedback-overlay.show { display: flex; }
-.feedback-chat {
-  max-width: 480px; width: 90%; max-height: 80vh; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 12px;
+.fb-popup {
+  background: rgba(0,0,0,0.25); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 24px; padding: 28px; max-width: 460px; width: 90%; max-height: 80vh; overflow-y: auto;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5);
+  opacity: 0; transform: scale(0.97); transition: all 0.3s ease;
 }
-.fc-msg { display: flex; gap: 10px; opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
+.feedback-overlay.show .fb-popup { opacity: 1; transform: scale(1); }
+/* Mini KANAME in popup */
+.fb-kaname { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+.fb-orb { width: 56px; height: 56px; border-radius: 50%; position: relative; }
+.fb-orb .orb-glow { position: absolute; inset: -10px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(12px); opacity: 0.5; animation: spin 10s linear infinite; }
+.fb-orb .orb-body { position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(6px) saturate(1.3); animation: spin 7s linear infinite reverse; }
+.fb-orb .orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 24px; height: 12px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 7px; }
+.fb-orb .eye { width: 3px; height: 7px; background: #fff; border-radius: 2px; box-shadow: 0 0 5px rgba(255,255,255,0.8); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.fc-msg { opacity: 0; transform: translateY(8px); transition: all 0.5s ease; margin-bottom: 10px;
+  font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.9); }
 .fc-msg.visible { opacity: 1; transform: translateY(0); }
-.fc-avatar {
-  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-  background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
-  filter: blur(2px) saturate(1.2);
-}
-.fc-bubble {
-  background: rgba(0,0,0,0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-radius: 4px 16px 16px 16px; padding: 14px 18px;
-  font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.9);
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-}
-.fc-bubble strong { color: #fff; }
+.fc-msg strong { color: #fff; }
+.fc-msg .hl { color: #34e0ff; font-weight: 700; }
+.fc-msg .hl-y { color: #f8ee1a; }
+
 .fc-action {
-  display: flex; gap: 8px; margin-top: 4px; opacity: 0; transform: translateY(6px); transition: all 0.4s ease;
+  display: flex; flex-direction: column; gap: 8px; margin-top: 12px;
+  opacity: 0; transform: translateY(6px); transition: all 0.4s ease;
 }
 .fc-action.visible { opacity: 1; transform: translateY(0); }
 .fc-action button {
-  flex: 1; padding: 14px 16px; border-radius: 14px;
+  width: 100%; padding: 14px 20px; border-radius: 14px;
   font-size: 13px; font-weight: 700; cursor: pointer;
   font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s;
   border: 1.5px solid rgba(255,255,255,0.25); background: transparent; color: #fff;
-  text-align: center;
+  text-align: left; position: relative; padding-left: 42px;
 }
+.fc-action button::before { content: ''; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; transition: all 0.2s; }
 .fc-action button:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); }
-.fc-action button.recommended {
-  background: linear-gradient(135deg, #f7513b, #f13884); border: none;
-}
+.fc-action button.recommended { background: linear-gradient(135deg, #f7513b, #f13884); border: none; padding-left: 20px; text-align: center; }
+.fc-action button.recommended::before { display: none; }
 .fc-action button.recommended:hover { opacity: 0.9; }
 .feedback-card {
   background: rgba(255,255,255,0.06); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -277,6 +283,12 @@ body.panel-open .slide-panel { transform: translateX(0); }
   .confidence-options { flex-wrap: wrap; }
   .conf-opt { flex: 0 0 calc(50% - 4px); }
 }
+/* Floating AI button */
+.ai-fab { position: fixed; bottom: 24px; right: 24px; z-index: 80; width: 80px; height: 80px; background: #fff; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.2s; user-select: none; touch-action: none; }
+.ai-fab:hover { transform: scale(1.05); }
+.ai-fab.dragging { background: rgba(255,255,255,0.63); box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.3); }
+.ai-fab .fab-orb { width: 28px; height: 28px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(2px) saturate(1.2); }
+.ai-fab .fab-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; font-weight: 500; background: linear-gradient(to right, #0f4bab, #34e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 </style>
 </head>
 <body>
@@ -331,25 +343,14 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <!-- Feedback overlay -->
 <div class="feedback-overlay" id="feedbackOverlay">
-  <div class="feedback-chat">
-    <div class="fc-msgs" id="fcMsgs">
-      <div class="fc-msg" id="fc1">
-        <div class="fc-avatar"></div>
-        <div class="fc-bubble">佐藤さん、<strong>B1レベル — Rookie 到達</strong>です！</div>
-      </div>
-      <div class="fc-msg" id="fc2">
-        <div class="fc-avatar"></div>
-        <div class="fc-bubble"><span style="color:#34e0ff;">&#10003;</span> <strong>手順の論理性</strong> — 切り分けの順序が正しく、段階的に原因を絞り込めています。<br><span style="color:#34e0ff;">&#10003;</span> <strong>基礎知識の適用</strong> — ping、IPアドレス、DNS等の概念を正しく使用しています。<br><span style="color:#f8ee1a;">&#9679;</span> <strong>説明の具体性</strong> — もう少し具体的に書けるとB2に近づきます。</div>
-      </div>
-      <div class="fc-msg" id="fc3">
-        <div class="fc-avatar"></div>
-        <div class="fc-bubble">営業で例えると、お客様から「商品が届かない」と連絡が来た時の切り分けと同じ考え方ができています。<strong>自信を持ってください。</strong><br><br>正答率: <span style="color:#34e0ff;font-weight:700;">82%</span> / あなたの自信度: <span id="confDisplay2">—</span></div>
-      </div>
-      <div class="fc-msg" id="fc4">
-        <div class="fc-avatar"></div>
-        <div class="fc-bubble" id="fcRecommend"></div>
-      </div>
+  <div class="fb-popup">
+    <div class="fb-kaname">
+      <div class="fb-orb"><div class="orb-glow"></div><div class="orb-body"></div><div class="orb-face"><div class="eye"></div><div class="eye"></div></div></div>
     </div>
+    <div class="fc-msg" id="fc1">佐藤さん、<strong>B1レベル — Rookie 到達</strong>です！</div>
+    <div class="fc-msg" id="fc2"><span class="hl">&#10003;</span> <strong>手順の論理性</strong> — 段階的に原因を絞り込めています。<br><span class="hl">&#10003;</span> <strong>基礎知識の適用</strong> — ping、IPアドレス等を正しく使用。<br><span class="hl-y">&#9679;</span> <strong>説明の具体性</strong> — もう少し具体的に書けるとB2に近づきます。</div>
+    <div class="fc-msg" id="fc3">営業での「商品が届かない」時の切り分けと同じ考え方ができています。<strong>自信を持ってください。</strong><br>正答率: <span class="hl">82%</span> / 自信度: <span id="confDisplay2">—</span></div>
+    <div class="fc-msg" id="fc4" style="font-weight:500;"></div>
     <div class="fc-action" id="fcAction"></div>
   </div>
 </div>
@@ -505,6 +506,14 @@ function sendK() {
   }, 600);
 }
 document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
+</script>
+
+<div class="ai-fab" id="aiFab" onclick="if(!this._dragged)location.href='p02-ai-dialogue.html'">
+  <div class="fab-orb"></div>
+  <div class="fab-text">AIと対話する</div>
+</div>
+<script>
+(function(){var fab=document.getElementById('aiFab'),sx,sy,ox,oy,dragged;fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;dragged=false;fab._dragged=false;function move(e2){var dx=e2.clientX-sx,dy=e2.clientY-sy;if(Math.abs(dx)>4||Math.abs(dy)>4){dragged=true;fab._dragged=true;fab.classList.add('dragging');fab.style.position='fixed';fab.style.left=(ox+dx)+'px';fab.style.top=(oy+dy)+'px';fab.style.right='auto';fab.style.bottom='auto';}}function up(){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);fab.classList.remove('dragging');if(!dragged)fab._dragged=false;}document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);});})();
 </script>
 </body>
 </html>

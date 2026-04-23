@@ -51,6 +51,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   padding: 20px; transition: all 0.2s;
 }
 .widget:hover { border-color: rgba(255,255,255,0.15); }
+.widget.clickable { cursor: pointer; }
+.widget.clickable:hover { transform: translateY(-2px); }
 .widget-full { grid-column: 1 / -1; }
 
 .w-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 8px; letter-spacing: 0.5px; }
@@ -119,6 +121,20 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .w-cta:hover { opacity: 0.9; }
 
+/* Floating AI button */
+.ai-fab {
+  position: fixed; bottom: 24px; right: 24px; z-index: 80;
+  width: 80px; height: 80px;
+  background: #fff; border-radius: 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transition: all 0.2s; user-select: none; touch-action: none;
+}
+.ai-fab:hover { transform: scale(1.05); }
+.ai-fab.dragging { background: rgba(255,255,255,0.63); box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.3); }
+.ai-fab .fab-orb { width: 28px; height: 28px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(2px) saturate(1.2); }
+.ai-fab .fab-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; font-weight: 500; background: linear-gradient(to right, #0f4bab, #34e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
 @media (max-width: 700px) {
   .widget-grid, .widget-grid-3 { grid-template-columns: 1fr; }
   .widget-full { grid-column: auto; }
@@ -159,7 +175,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   <!-- Progress + Skill Prime -->
   <div class="sec-title">学習進捗</div>
   <div class="widget-grid">
-    <div class="widget">
+    <div class="widget clickable" onclick="location.href='p05-lesson.html'">
       <div class="w-label">カリキュラム全体</div>
       <div class="w-value">52<span style="font-size:16px;">%</span></div>
       <div class="w-sub">情シス基礎コース — 8 Unit中 4 Unit完了</div>
@@ -175,7 +191,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
   <!-- Skills -->
   <div class="sec-title">スキル別進捗</div>
-  <div class="widget widget-full">
+  <div class="widget widget-full clickable" onclick="location.href='p07-portfolio.html'">
     <div class="skill-row"><span class="skill-name">IT基礎</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
     <div class="skill-row"><span class="skill-name">ハードウェア</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">100%</span></div>
     <div class="skill-row"><span class="skill-name">OS基礎</span><div class="skill-track"><div class="skill-fill" style="width:85%;"></div></div><span class="skill-pct">85%</span></div>
@@ -221,7 +237,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="streak-day">日</div>
       </div>
     </div>
-    <div class="widget">
+    <div class="widget clickable" onclick="location.href='p07-portfolio.html'">
       <div class="w-label">レベル・バッジ</div>
       <div class="w-value" style="font-size:16px;">B1 Rookie <span style="font-size:12px;color:rgba(255,255,255,0.35);">進行中</span></div>
       <div class="badge-list">
@@ -253,5 +269,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   </div>
 
 </main>
+
+<div class="ai-fab" id="aiFab" onclick="if(!this._dragged)location.href='p02-ai-dialogue.html'">
+  <div class="fab-orb"></div>
+  <div class="fab-text">AIと対話する</div>
+</div>
+
+<script>
+(function(){
+  var fab=document.getElementById('aiFab'),sx,sy,ox,oy,dragged;
+  fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;dragged=false;fab._dragged=false;
+    function move(e2){var dx=e2.clientX-sx,dy=e2.clientY-sy;if(Math.abs(dx)>4||Math.abs(dy)>4){dragged=true;fab._dragged=true;fab.classList.add('dragging');fab.style.position='fixed';fab.style.left=(ox+dx)+'px';fab.style.top=(oy+dy)+'px';fab.style.right='auto';fab.style.bottom='auto';}}
+    function up(){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);fab.classList.remove('dragging');if(!dragged)fab._dragged=false;}
+    document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);
+  });
+})();
+</script>
 </body>
 </html>

@@ -14,48 +14,59 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 .scene { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-/* KANAME (same as P-02) */
+/* KANAME */
 .kaname-wrap { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; margin-bottom: 28px; }
 .kaname-orb { position: relative; width: 120px; height: 120px; border-radius: 50%; opacity: 0; transform: scale(0.2); transition: all 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.4s; }
 .scene.ignited .kaname-orb { opacity: 1; transform: scale(1); }
 .orb-glow { position: absolute; inset: -22px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(26px); opacity: 0.6; animation: spin 10s linear infinite; }
 .orb-body { position: absolute; inset: 5px; border-radius: 50%; background: conic-gradient(from 200deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(12px) saturate(1.3); animation: spin 7s linear infinite reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 28px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 15px; backdrop-filter: blur(4px); box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+.orb-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 28px; background: rgba(8,8,35,0.75); border-radius: 100px; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 15px; }
 .eye { width: 5px; height: 12px; background: #fff; border-radius: 3px; box-shadow: 0 0 8px rgba(255,255,255,0.9); }
-.ignite-flash { position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(circle, rgba(247,81,59,0.9) 0%, rgba(241,56,132,0.4) 40%, transparent 70%); opacity: 0; z-index: 3; pointer-events: none; }
+.ignite-flash { position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(circle, rgba(247,81,59,0.9) 0%, rgba(241,56,132,0.4) 40%, transparent 70%); opacity: 0; z-index: 3; }
 .scene.ignited .ignite-flash { animation: ignFlash 1.4s ease-out forwards; }
-@keyframes ignFlash { 0% { opacity: 0; transform: scale(0.4); } 12% { opacity: 1; transform: scale(1.6); filter: blur(4px); } 100% { opacity: 0; transform: scale(4); filter: blur(40px); } }
+@keyframes ignFlash { 0% { opacity:0; transform:scale(0.4); } 12% { opacity:1; transform:scale(1.6); filter:blur(4px); } 100% { opacity:0; transform:scale(4); filter:blur(40px); } }
 .kaname-ref { width: 70px; height: 20px; border-radius: 50%; background: radial-gradient(ellipse, rgba(52,224,255,0.1), transparent 70%); margin-top: 8px; filter: blur(5px); opacity: 0; transition: opacity 1.5s ease 1.2s; }
 .scene.ignited .kaname-ref { opacity: 1; }
 .scene.ignited .kaname-orb { animation: breathe 4.5s ease-in-out infinite 2.5s; }
 @keyframes breathe { 0%,100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.04) translateY(-4px); } }
 
-/* Message area (same as P-02) */
-.msg-area { position: relative; z-index: 20; max-width: 440px; width: 90%; display: flex; flex-direction: column; gap: 10px; }
+/* Message area */
+.msg-area { position: relative; z-index: 20; max-width: 440px; width: 90%; }
+
+/* Slide container for smooth transitions */
+.slide-container { position: relative; overflow: hidden; }
+.slide-panel-inner { transition: opacity 0.4s ease, transform 0.4s ease; }
+.slide-panel-inner.exit { opacity: 0; transform: translateX(-20px); position: absolute; inset: 0; }
+.slide-panel-inner.enter { opacity: 0; transform: translateX(20px); }
+.slide-panel-inner.enter-active { opacity: 1; transform: translateX(0); }
+.slide-panel-inner.exit-back { opacity: 0; transform: translateX(20px); position: absolute; inset: 0; }
+.slide-panel-inner.enter-back { opacity: 0; transform: translateX(-20px); }
+
+/* AI message */
 .ai-msg {
   background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-radius: 4px 18px 18px 18px; padding: 14px 20px;
   font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.9);
   box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-  opacity: 0; transform: translateY(10px); transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  margin-bottom: 10px;
+  opacity: 0; transform: translateY(10px); transition: all 0.5s ease;
 }
 .ai-msg.visible { opacity: 1; transform: translateY(0); }
 .ai-msg strong { color: #fff; }
 .ai-msg .hl { color: #34e0ff; font-weight: 700; }
 
 /* Good buttons */
-.good-btns { display: flex; gap: 12px; justify-content: center; opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
+.good-btns { display: flex; gap: 12px; justify-content: center; margin-top: 8px; opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
 .good-btns.visible { opacity: 1; transform: translateY(0); }
 .good-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15); font-size: 24px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
 .good-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
 .good-btn.pressed { animation: goodPop 0.5s ease forwards; }
-@keyframes goodPop { 0% { transform: scale(1); opacity: 1; } 40% { transform: scale(1.3); } 100% { transform: scale(1.4); opacity: 0; } }
+@keyframes goodPop { 0% { transform:scale(1); opacity:1; } 40% { transform:scale(1.3); } 100% { transform:scale(1.4); opacity:0; } }
 
-/* Choices (same style as P-02) */
-.choices { display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
-.choices.visible { opacity: 1; transform: translateY(0); }
-.choice-btn { padding: 14px 20px; background: transparent; border: 1.5px solid rgba(255,255,255,0.25); border-radius: 14px; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; text-align: left; position: relative; padding-left: 42px; }
+/* Choices */
+.choices { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.choice-btn { padding: 14px 20px; background: transparent; border: 1.5px solid rgba(255,255,255,0.25); border-radius: 14px; color: #fff; font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; text-align: left; position: relative; padding-left: 42px; }
 .choice-btn::before { content: ''; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; transition: all 0.25s; }
 .choice-btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); transform: translateX(4px); }
 .choice-btn:hover::before { border-color: #34e0ff; background: rgba(52,224,255,0.2); }
@@ -63,176 +74,183 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .choice-btn.selected::before { border-color: #34e0ff; background: #34e0ff; }
 
 /* Text input */
-.text-input { width: 100%; padding: 14px 20px; background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 14px; color: #fff; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+.text-input { width: 100%; padding: 14px 20px; background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 14px; color: #fff; font-size: 14px; font-family: inherit; outline: none; margin-top: 10px; }
 .text-input::placeholder { color: rgba(255,255,255,0.25); }
 .text-input:focus { border-color: rgba(255,255,255,0.3); }
-.input-row { display: flex; gap: 8px; margin-top: 8px; }
-.skip-btn { padding: 10px 20px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: rgba(255,255,255,0.4); font-size: 13px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
-.next-sm { padding: 10px 24px; background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; border-radius: 12px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; margin-left: auto; }
+
+/* Nav buttons */
+.nav-row { display: flex; gap: 8px; margin-top: 12px; }
+.nav-btn { padding: 10px 24px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; }
+.btn-back { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); }
+.btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+.btn-next { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; color: #fff; margin-left: auto; }
+.btn-next:hover { opacity: 0.9; }
 
 /* Other input */
-.other-wrap { display: none; margin-top: 8px; }
+.other-wrap { display: none; }
 .other-wrap.show { display: block; }
 
-/* Result section */
-.result-area { opacity: 0; transform: translateY(10px); transition: all 0.6s ease; }
-.result-area.visible { opacity: 1; transform: translateY(0); }
-.result-badge { display: inline-flex; padding: 6px 16px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.25); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
-.result-title { font-size: 16px; font-weight: 700; line-height: 1.6; margin-bottom: 12px; }
-.result-desc { font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+/* Result */
+.result-area { display: flex; flex-direction: column; gap: 10px; }
+.result-badge { display: inline-flex; padding: 6px 16px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.25); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; width: fit-content; }
+.result-title { font-size: 16px; font-weight: 700; line-height: 1.6; }
+.result-desc { font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.7); }
 .result-desc strong { color: #fff; }
-.roadmap { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 14px 18px; margin-bottom: 16px; }
-.roadmap-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 10px; }
+.roadmap { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 14px 18px; }
+.rm-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 10px; }
 .rm-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 12px; color: rgba(255,255,255,0.5); }
 .rm-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3); flex-shrink: 0; }
 .rm-time { margin-left: auto; font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.25); }
 .rm-total { display: flex; justify-content: space-between; padding-top: 8px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12px; font-weight: 700; }
 .rm-total .hl { color: #34e0ff; }
-.cta-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+.cta-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; margin-top: 4px; }
 .cta-btn:hover { opacity: 0.9; }
 
-/* Transition */
 .trans-overlay { position: fixed; inset: 0; z-index: 100; background: #050508; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
 .trans-overlay.active { opacity: 1; pointer-events: all; }
-
-/* Sections */
-.section { display: none; }
-.section.active { display: flex; flex-direction: column; gap: 10px; }
 </style>
 </head>
 <body>
 
 <div class="scene" id="scene">
   <div class="kaname-wrap">
-    <div class="kaname-orb">
-      <div class="orb-glow"></div>
-      <div class="orb-body"></div>
-      <div class="ignite-flash"></div>
-      <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
-    </div>
+    <div class="kaname-orb"><div class="orb-glow"></div><div class="orb-body"></div><div class="ignite-flash"></div><div class="orb-face"><div class="eye"></div><div class="eye"></div></div></div>
     <div class="kaname-ref"></div>
   </div>
 
   <div class="msg-area">
-    <!-- Greeting -->
-    <div class="section active" id="secGreet">
-      <div class="ai-msg" id="g1">はじめまして、<strong>佐藤さん</strong>。</div>
-      <div class="ai-msg" id="g2">KANAMEです。あなたの学習パートナーになります。</div>
-      <div class="ai-msg" id="g3">これから一緒に、あなたに合った学び方を見つけていきましょう。</div>
-      <div class="good-btns" id="goodBtns">
-        <button class="good-btn" onclick="pressGood(this)">&#128077;</button>
-        <button class="good-btn" onclick="pressGood(this)">&#10024;</button>
-        <button class="good-btn" onclick="pressGood(this)">&#128170;</button>
-      </div>
-    </div>
-
-    <!-- Q1 -->
-    <div class="section" id="secQ1">
-      <div class="ai-msg visible">目標にしている企業はありますか？</div>
-      <input type="text" class="text-input" id="q1Input" placeholder="例：◯◯株式会社（分からなければスキップOK）">
-      <div class="input-row">
-        <button class="skip-btn" onclick="goQ(2)">スキップ</button>
-        <button class="next-sm" onclick="goQ(2)">次へ</button>
-      </div>
-    </div>
-
-    <!-- Q2 -->
-    <div class="section" id="secQ2">
-      <div class="ai-msg visible">興味のある職種はどれですか？</div>
-      <div class="choices visible" id="q2Choices">
-        <button class="choice-btn" onclick="selQ2(this,false)">情シス・社内IT</button>
-        <button class="choice-btn" onclick="selQ2(this,false)">Webエンジニア</button>
-        <button class="choice-btn" onclick="selQ2(this,false)">データ分析・DX推進</button>
-        <button class="choice-btn" onclick="selQ2(this,false)">インフラエンジニア</button>
-        <button class="choice-btn" onclick="selQ2(this,true)">その他（自分で入力）</button>
-      </div>
-      <div class="other-wrap" id="otherWrap">
-        <input type="text" class="text-input" id="q2Other" placeholder="希望の職種を入力...">
-        <div class="input-row"><button class="next-sm" onclick="goQ(3)">次へ</button></div>
-      </div>
-    </div>
-
-    <!-- Q3 -->
-    <div class="section" id="secQ3">
-      <div class="ai-msg visible">いつ頃までに転職したいですか？</div>
-      <div class="choices visible">
-        <button class="choice-btn" onclick="selQ3(this)">3ヶ月以内</button>
-        <button class="choice-btn" onclick="selQ3(this)">6ヶ月以内</button>
-        <button class="choice-btn" onclick="selQ3(this)">1年以内</button>
-        <button class="choice-btn" onclick="selQ3(this)">まだ決めていない</button>
-      </div>
-    </div>
-
-    <!-- Result -->
-    <div class="section" id="secResult">
-      <div class="result-area" id="resultArea">
-        <div class="result-badge">&#9733; KANAMEの分析結果</div>
-        <div class="result-title">佐藤さんには<span style="color:#34e0ff;">情シス（社内IT）</span>が向いています。</div>
-        <div class="result-desc">営業で培った<strong>コミュニケーション力</strong>は、社内IT課題を解決する情シスで武器になります。このカリキュラムを完了すれば<span class="hl">面接確約</span>です。</div>
-        <div class="roadmap">
-          <div class="roadmap-title">あなたの学習ロードマップ</div>
-          <div class="rm-item"><span class="rm-num">1</span>IT基礎・ハードウェア<span class="rm-time">20h</span></div>
-          <div class="rm-item"><span class="rm-num">2</span>OS・ソフトウェア基礎<span class="rm-time">15h</span></div>
-          <div class="rm-item"><span class="rm-num">3</span>ネットワーク基礎<span class="rm-time">20h</span></div>
-          <div class="rm-item"><span class="rm-num">4</span>セキュリティ入門<span class="rm-time">15h</span></div>
-          <div class="rm-item"><span class="rm-num">5</span>総合演習・実技課題<span class="rm-time">10h</span></div>
-          <div class="rm-total"><span>推定学習時間</span><span class="hl">合計 80時間</span></div>
-        </div>
-        <button class="cta-btn" onclick="goToAI()">KANAMEと始める →</button>
-      </div>
-    </div>
+    <div class="slide-container" id="slideContainer"></div>
   </div>
 </div>
 
 <div class="trans-overlay" id="transOverlay"></div>
 
 <script>
-window.addEventListener('load', function() {
-  setTimeout(function() { document.getElementById('scene').classList.add('ignited'); }, 200);
-  setTimeout(function() { document.getElementById('g1').classList.add('visible'); }, 500);
-  setTimeout(function() { document.getElementById('g2').classList.add('visible'); }, 800);
-  setTimeout(function() { document.getElementById('g3').classList.add('visible'); }, 1100);
-  setTimeout(function() { document.getElementById('goodBtns').classList.add('visible'); }, 1500);
-});
+var container = document.getElementById('slideContainer');
+var currentStep = 0;
+var direction = 1; // 1=forward, -1=back
+
+var steps = [
+  // 0: Greeting
+  function() {
+    return '<div class="ai-msg" data-delay="0">はじめまして、<strong>佐藤さん</strong>。</div>' +
+      '<div class="ai-msg" data-delay="300">KANAMEです。あなたの学習パートナーになります。</div>' +
+      '<div class="ai-msg" data-delay="600">これから一緒に、あなたに合った学び方を見つけていきましょう。</div>' +
+      '<div class="good-btns" data-delay="1000"><button class="good-btn" onclick="pressGood(this)">&#128077;</button><button class="good-btn" onclick="pressGood(this)">&#10024;</button><button class="good-btn" onclick="pressGood(this)">&#128170;</button></div>';
+  },
+  // 1: Q1
+  function() {
+    return '<div class="ai-msg visible">目標にしている企業はありますか？</div>' +
+      '<input type="text" class="text-input" placeholder="例：◯◯株式会社（任意）">' +
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(0,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(2,1)">次へ</button></div>';
+  },
+  // 2: Q2
+  function() {
+    return '<div class="ai-msg visible">興味のある職種はどれですか？</div>' +
+      '<div class="choices">' +
+        '<button class="choice-btn" onclick="selQ2(this,false)">情シス・社内IT</button>' +
+        '<button class="choice-btn" onclick="selQ2(this,false)">Webエンジニア</button>' +
+        '<button class="choice-btn" onclick="selQ2(this,false)">データ分析・DX推進</button>' +
+        '<button class="choice-btn" onclick="selQ2(this,false)">インフラエンジニア</button>' +
+        '<button class="choice-btn" onclick="selQ2(this,true)">その他（自分で入力）</button>' +
+      '</div>' +
+      '<div class="other-wrap" id="otherWrap"><input type="text" class="text-input" placeholder="希望の職種を入力..."></div>' +
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" id="q2Next" onclick="goStep(3,1)">次へ</button></div>';
+  },
+  // 3: Q3
+  function() {
+    return '<div class="ai-msg visible">いつ頃までに転職したいですか？</div>' +
+      '<div class="choices">' +
+        '<button class="choice-btn" onclick="selQ3(this)">3ヶ月以内</button>' +
+        '<button class="choice-btn" onclick="selQ3(this)">6ヶ月以内</button>' +
+        '<button class="choice-btn" onclick="selQ3(this)">1年以内</button>' +
+        '<button class="choice-btn" onclick="selQ3(this)">まだ決めていない</button>' +
+      '</div>' +
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(2,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(4,1)">次へ</button></div>';
+  },
+  // 4: Result
+  function() {
+    return '<div class="result-area">' +
+      '<div class="result-badge">&#9733; KANAMEの分析結果</div>' +
+      '<div class="result-title">佐藤さんには<span style="color:#34e0ff;">情シス（社内IT）</span>が向いています。</div>' +
+      '<div class="result-desc">営業で培った<strong>コミュニケーション力</strong>は、社内IT課題を解決する情シスで武器になります。このカリキュラムを完了すれば<span class="hl">面接確約</span>です。</div>' +
+      '<div class="roadmap"><div class="rm-title">あなたの学習ロードマップ</div>' +
+        '<div class="rm-item"><span class="rm-num">1</span>IT基礎・ハードウェア<span class="rm-time">20h</span></div>' +
+        '<div class="rm-item"><span class="rm-num">2</span>OS・ソフトウェア基礎<span class="rm-time">15h</span></div>' +
+        '<div class="rm-item"><span class="rm-num">3</span>ネットワーク基礎<span class="rm-time">20h</span></div>' +
+        '<div class="rm-item"><span class="rm-num">4</span>セキュリティ入門<span class="rm-time">15h</span></div>' +
+        '<div class="rm-item"><span class="rm-num">5</span>総合演習・実技課題<span class="rm-time">10h</span></div>' +
+        '<div class="rm-total"><span>推定学習時間</span><span class="hl">合計 80時間</span></div></div>' +
+      '<button class="cta-btn" onclick="goToAI()">KANAMEと始める →</button></div>';
+  }
+];
+
+function renderStep(step, dir) {
+  var old = container.querySelector('.slide-panel-inner');
+  var html = '<div class="slide-panel-inner enter' + (dir < 0 ? '-back' : '') + '">' + steps[step]() + '</div>';
+
+  if (old) {
+    old.classList.add(dir > 0 ? 'exit' : 'exit-back');
+    container.insertAdjacentHTML('beforeend', html);
+    var newEl = container.querySelector('.enter, .enter-back');
+    requestAnimationFrame(function() { requestAnimationFrame(function() {
+      newEl.classList.remove('enter', 'enter-back');
+      newEl.classList.add('enter-active');
+    }); });
+    setTimeout(function() { if (old.parentNode) old.remove(); }, 400);
+  } else {
+    container.innerHTML = '<div class="slide-panel-inner enter-active">' + steps[step]() + '</div>';
+  }
+
+  // Animate ai-msg with delays
+  setTimeout(function() {
+    container.querySelectorAll('.ai-msg[data-delay]').forEach(function(m) {
+      var d = parseInt(m.getAttribute('data-delay'));
+      setTimeout(function() { m.classList.add('visible'); }, d);
+    });
+    container.querySelectorAll('.good-btns[data-delay]').forEach(function(m) {
+      var d = parseInt(m.getAttribute('data-delay'));
+      setTimeout(function() { m.classList.add('visible'); }, d);
+    });
+  }, 50);
+
+  currentStep = step;
+}
+
+function goStep(step, dir) {
+  renderStep(step, dir);
+}
 
 function pressGood(btn) {
   btn.classList.add('pressed');
-  setTimeout(function() {
-    document.getElementById('goodBtns').style.display = 'none';
-    setTimeout(function() { showSec('secQ1'); }, 200);
-  }, 400);
-}
-
-function showSec(id) {
-  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
-  document.getElementById(id).classList.add('active');
-  if (id === 'secResult') {
-    setTimeout(function() { document.getElementById('resultArea').classList.add('visible'); }, 100);
-  }
-}
-
-function goQ(n) {
-  if (n === 2) showSec('secQ2');
-  else if (n === 3) showSec('secQ3');
+  setTimeout(function() { goStep(1, 1); }, 400);
 }
 
 function selQ2(btn, isOther) {
-  document.querySelectorAll('#q2Choices .choice-btn').forEach(function(b) { b.classList.remove('selected'); });
+  container.querySelectorAll('#slideContainer .choice-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
-  if (isOther) { document.getElementById('otherWrap').classList.add('show'); document.getElementById('q2Other').focus(); }
-  else { document.getElementById('otherWrap').classList.remove('show'); setTimeout(function() { goQ(3); }, 300); }
+  var ow = document.getElementById('otherWrap');
+  if (ow) {
+    if (isOther) { ow.classList.add('show'); ow.querySelector('input').focus(); }
+    else { ow.classList.remove('show'); }
+  }
 }
 
 function selQ3(btn) {
-  document.querySelectorAll('#secQ3 .choice-btn').forEach(function(b) { b.classList.remove('selected'); });
+  container.querySelectorAll('.choice-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
-  setTimeout(function() { showSec('secResult'); }, 300);
 }
 
 function goToAI() {
   document.getElementById('transOverlay').classList.add('active');
   setTimeout(function() { window.location.href = 'p02-ai-dialogue.html'; }, 800);
 }
+
+// Init
+window.addEventListener('load', function() {
+  setTimeout(function() { document.getElementById('scene').classList.add('ignited'); }, 200);
+  setTimeout(function() { renderStep(0, 1); }, 400);
+});
 </script>
 </body>
 </html>
