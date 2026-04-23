@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS v1.1 設計仕様書</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 1.8; color: #1a1a1a; max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; background: #fff; }
+h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #111; }
+h2 { font-size: 18px; font-weight: 700; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #111; color: #111; }
+h3 { font-size: 15px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; color: #333; }
+h4 { font-size: 14px; font-weight: 700; margin-top: 20px; margin-bottom: 8px; color: #555; }
+p { margin-bottom: 12px; }
+.subtitle { font-size: 13px; color: #888; margin-bottom: 32px; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+th { background: #f5f5f5; font-weight: 700; text-align: left; padding: 10px 12px; border: 1px solid #ddd; }
+td { padding: 10px 12px; border: 1px solid #ddd; vertical-align: top; }
+tr:nth-child(even) td { background: #fafafa; }
+ul, ol { margin: 8px 0 16px 24px; }
+li { margin-bottom: 6px; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.tag-new { background: #e3f2fd; color: #1565c0; }
+.tag-changed { background: #fff3e0; color: #e65100; }
+.tag-same { background: #f5f5f5; color: #888; }
+.callout { background: #f8f9fa; border-left: 4px solid #1a73e8; padding: 16px 20px; margin: 16px 0 24px; border-radius: 0 8px 8px 0; }
+.callout-title { font-weight: 700; font-size: 13px; color: #1a73e8; margin-bottom: 4px; }
+.flow-diagram { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 16px 0 24px; font-size: 13px; font-family: monospace; line-height: 2; }
+.section-num { color: #888; font-size: 13px; font-weight: 400; }
+hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
+.page-break { page-break-after: always; }
+</style>
+</head>
+<body>
+
+<h1>CyTech Urushi OS v1.1 設計仕様書</h1>
+<p class="subtitle">作成日: 2026-04-23 / ステータス: 設計フェーズ / 対象: 求職者ポータル</p>
+
+<!-- ==================== -->
+<h2><span class="section-num">1.</span> エグゼクティブサマリー</h2>
+
+<p>v1.0は全ポータル（求職者/企業管理者/TNG管理者）のプロトタイプを構築した。v1.1では<strong>求職者ポータルに特化</strong>し、「学校」ではなく<strong>「家庭教師」</strong>としてのUX設計に刷新する。</p>
+
+<div class="callout">
+<div class="callout-title">v1.1 コアコンセプト</div>
+<p style="margin-bottom:0;">一人ひとりに合った提案をする「家庭教師」体験。ログイン後のファーストビューはAIとの1対1の対話画面。前回の行動に基づいたパーソナライズ提案から、学習・選考・アクションへ自然に誘導する。<br><strong>最重要KPI：学習完遂率</strong></p>
+</div>
+
+<!-- ==================== -->
+<h2><span class="section-num">2.</span> v1.0 現状まとめ</h2>
+
+<h3>2.1 実装済みページ一覧</h3>
+<table>
+<tr><th>ポータル</th><th>画面数</th><th>ページ</th></tr>
+<tr><td>HOME</td><td>1</td><td>ポータル選択（求職者/企業管理者/TNG管理者）</td></tr>
+<tr><td>求職者</td><td>9</td><td>ログイン(P-01) / チュートリアル(P-01-1) / ダッシュボード(P-02) / News(P-03) / 学習ポータル(P-04) / 学習実行(P-05) / Myページ(P-06) / マッチング / 選考状況</td></tr>
+<tr><td>企業管理者</td><td>5</td><td>ダッシュボード(M-C-01) / カリキュラム管理(M-C-02) / スキルプライム(M-C-03) / 人材管理(M-C-04) / 分析レポート(M-C-05)</td></tr>
+<tr><td>TNG管理者</td><td>5</td><td>ダッシュボード(TNG-01) / AIエンジン調整(TNG-02) / アカウント管理(TNG-03) / 人材管理(TNG-04) / 分析レポート(TNG-05)</td></tr>
+</table>
+
+<h3>2.2 v1.0の課題</h3>
+<ul>
+<li>全ポータルを網羅した「広く浅い」プロトタイプ</li>
+<li>求職者体験が「学校」的な一方通行のUI（ダッシュボード→自分で探す構造）</li>
+<li>AIメンターはチャットFABのみ。パーソナライズ・能動的声がけがない</li>
+<li>学習完遂を促す設計（離脱防止・動機維持）が不足</li>
+</ul>
+
+<!-- ==================== -->
+<h2><span class="section-num">3.</span> ペルソナ</h2>
+
+<table>
+<tr><th style="width:140px;">項目</th><th>内容</th></tr>
+<tr><td>名前</td><td>佐藤 健太（26歳・男性）</td></tr>
+<tr><td>現職</td><td>地方の地場メーカー（非IT業種）のルート営業</td></tr>
+<tr><td>ITスキル</td><td>独学でIT基礎を少し触った程度。実務経験ゼロ</td></tr>
+<tr><td>利用きっかけ</td><td>SNS広告「未経験からでも、何時間学べばどの地元企業を受けられるかが分かる」を見て半信半疑で無料登録</td></tr>
+</table>
+
+<h3>3.1 3つの課題（心理状態）</h3>
+<table>
+<tr><th>課題</th><th>心理</th><th>v1.1で解決する方法</th></tr>
+<tr><td><strong>1. キャリアの迷子</strong></td><td>「自分にITの何が向いているのか」が全く分からない</td><td>P-01 適性診断 → 職種提示（「情シスが向いています」）</td></tr>
+<tr><td><strong>2. ロードマップ不在</strong></td><td>「何をどれくらい学べばどの仕事に就けるか」見通しが立たず、「どうせ無理」と思っている</td><td>P-04 カリキュラム検索 → 推定学習時間＋「○○時間→面接確約」の可視化</td></tr>
+<tr><td><strong>3. 証明の壁</strong></td><td>独学しても書類選考で弾かれるのがオチだと思っている</td><td>P-07 ポートフォリオ → 「嘘のつけない履歴書」＋Skill Prime達成証明</td></tr>
+</table>
+
+<!-- ==================== -->
+<h2><span class="section-num">4.</span> カスタマージャーニー</h2>
+
+<h3>フェーズ1：不安の払拭と目的の点火（Ignite & Compass）</h3>
+<p><strong>LM原則：</strong> Ignite / Compass</p>
+<p><strong>体験：</strong>ログイン直後のチュートリアルで簡単な質問に答えると、「佐藤さんには『情シス』が向いています」と提示。企業検索画面で「採用ロードマップ」が表示され、「このカリキュラムを推定○○時間学習し100%完了すれば面接確約」という明確なゴールが可視化される。ネガティブ思考がポジティブな動機へ反転する。</p>
+<p><strong>対応ページ：</strong> P-01（適性診断）/ P-04（カリキュラム検索）/ P-08（選考管理）</p>
+
+<h3>フェーズ2：学習の実行と見取り（Challenge & Reflect）</h3>
+<p><strong>LM原則：</strong> One Thing at a Time / Reflect</p>
+<p><strong>体験：</strong>1回の学習セッションは情報量が絞り込まれている。専門用語でつまずくとAIメンターが「営業の仕事に例えると〜」と助言。学習が数日止まるとAIから能動的に声がかかり、孤独感・挫折を防ぐ。</p>
+<p><strong>対応ページ：</strong> P-02（AI対話）/ P-03（ダッシュボード）/ P-05（学習実行）</p>
+
+<h3>フェーズ3：実践とAI評価（Apply & Assessment）</h3>
+<p><strong>LM原則：</strong> Apply / 第2層AI判定（Rubric基準＋根拠開示）</p>
+<p><strong>体験：</strong>実際のトラブル事例を解決する実技課題を提出。KANAMEから「佐藤さんのこの回答はB1レベルを満たしています」と根拠付きフィードバックが返る。客観的評価が自信を生む。</p>
+<p><strong>対応ページ：</strong> P-06（課題・テスト提出）</p>
+
+<h3>フェーズ4：学習完了と実力証明（Skill Prime達成）</h3>
+<p><strong>LM原則：</strong> B1到達 / Fair</p>
+<p><strong>体験：</strong>カリキュラム完遂。学習時間・AI評価ログが蓄積された「嘘のつけない分厚い履歴書」と「スキルグラフ」が完成。「B1レベルの実務適性がある」という確固たる自信を得る。</p>
+<p><strong>対応ページ：</strong> P-07（ポートフォリオ）</p>
+
+<h3>フェーズ5：マッチングと選考（Hiring & Revenge）</h3>
+<p><strong>LM原則：</strong> Skill Prime（学んでから入る）</p>
+<p><strong>体験：</strong>採用試験ゲートのロックが解除され、希望企業へエントリー可能に。履歴書公開設定により、学習プロセスを評価した企業からログ引用スカウトが届く。「自分が選ぶ側にもなれる」体験。</p>
+<p><strong>対応ページ：</strong> P-08（選考管理）/ P-09（スカウト）</p>
+
+<!-- ==================== -->
+<h2><span class="section-num">5.</span> Learning Module v2.1（要約）</h2>
+
+<div class="callout">
+<div class="callout-title">Beyond Study.</div>
+<p style="margin-bottom:0;">体験の質は我々の責任、経験の深さは本人の成果。学ぶべき知識は全員に等しい。しかし届け方は一人ひとり異なる。使えば使うほどフィットする「生きたカリキュラム」が設計の核心。</p>
+</div>
+
+<h3>5.1 学びの原則</h3>
+<table>
+<tr><th style="width:120px;">原則</th><th>内容</th><th>実装ガイド</th></tr>
+<tr><td><strong>Ignite（点火）</strong></td><td>「なぜ学ぶのか」を自分ごとにする。記憶定着率1.5〜2倍向上</td><td>開始3〜5分以内に「こんな場面で困ったことは？」を入れる</td></tr>
+<tr><td><strong>Challenge（山場）</strong></td><td>正解率70〜80%の「ちょうど良い負荷」</td><td>正解率に応じて難易度を動的調整</td></tr>
+<tr><td><strong>Reflect（見取り）</strong></td><td>自信と実力のズレに気づかせる</td><td>「自信度→正解率比較」を標準装備</td></tr>
+<tr><td><strong>Recall（根付き）</strong></td><td>「思い出す」行為で記憶を強化</td><td>復習タイミングを履歴に基づき動的決定</td></tr>
+<tr><td><strong>Apply（活かす）</strong></td><td>知識を「使える状態」へ移行</td><td>各学習単位の最後に「実務への適用課題」</td></tr>
+</table>
+
+<h3>5.2 設計の原則</h3>
+<table>
+<tr><th style="width:120px;">原則</th><th>内容</th></tr>
+<tr><td><strong>One Thing at a Time</strong></td><td>1セッションで導入する新概念は原則1つ。全設計判断の最優先</td></tr>
+<tr><td><strong>Why</strong></td><td>学ぶ理由が自分のこととして見えている</td></tr>
+<tr><td><strong>Agency</strong></td><td>自分で選んで進んでいる実感がある</td></tr>
+<tr><td><strong>Alignment</strong></td><td>目標・学習・評価が1本の線でつながっている</td></tr>
+<tr><td><strong>Compass</strong></td><td>今どこにいるか、次に何をすべきかが常にわかる</td></tr>
+<tr><td><strong>Spiral</strong></td><td>同じテーマを深さと間隔を変えて繰り返す</td></tr>
+</table>
+
+<h3>5.3 レベリング（B1〜B5）</h3>
+<table>
+<tr><th>レベル</th><th>呼称</th><th>観察可能な行動</th></tr>
+<tr><td>B1</td><td>Rookie</td><td>手順があれば作業を完了できる</td></tr>
+<tr><td>B2</td><td>Player</td><td>定型業務を一人で遂行・報告できる</td></tr>
+<tr><td>B3</td><td>Pro</td><td>未経験の課題を自ら調べ解決できる</td></tr>
+<tr><td>B4</td><td>Expert</td><td>判断基準を設計し他者に展開できる</td></tr>
+<tr><td>B5</td><td>Master</td><td>新手法を創出し組織外にも影響を与える</td></tr>
+</table>
+<p><strong>Skill Primeとの関係：</strong> Skill Prime完了 = B1到達。「職場で働く準備ができた」証明。</p>
+
+<h3>5.4 評価（3層構造）</h3>
+<table>
+<tr><th>層</th><th>担い手</th><th>役割</th></tr>
+<tr><td>第1層</td><td>AI</td><td>学習中のフィードバック（育てる）。即時に大量に返す</td></tr>
+<tr><td>第2層</td><td>AI</td><td>修了判定（認定する）。基準に基づく判定と根拠の開示</td></tr>
+<tr><td>第3層</td><td>人間</td><td>異議申し立て時の個別審査</td></tr>
+</table>
+
+<h3>5.5 Skill Prime（採用モデル）</h3>
+<ul>
+<li><strong>二値判定：</strong> 完了か未完了の二値。中間状態なし</li>
+<li><strong>積み上げ式：</strong> Module単位で独立。取得済みは失効しない</li>
+<li><strong>Fair実装：</strong> 受験資格はModuleの完了のみ。年齢・学歴・職歴は条件に含めない</li>
+</ul>
+
+<!-- ==================== -->
+<h2><span class="section-num">6.</span> v1.1 設計方針</h2>
+
+<h3>6.1 「家庭教師」設計思想</h3>
+<table>
+<tr><th style="width:140px;">観点</th><th>v1.0（学校）</th><th>v1.1（家庭教師）</th></tr>
+<tr><td>ファーストビュー</td><td>ダッシュボード（統計一覧）</td><td><strong>AI対話</strong>（パーソナライズされた声がけ）</td></tr>
+<tr><td>学習への誘導</td><td>ユーザーが自分でページを探す</td><td><strong>AIが次のアクションを提案</strong>し、ボタン1つで遷移</td></tr>
+<tr><td>パーソナライズ</td><td>なし（全員同じ画面）</td><td><strong>前回行動に基づく提案</strong>（離脱検知・進捗・時期に応じた文言）</td></tr>
+<tr><td>離脱防止</td><td>なし</td><td><strong>AIが能動的に声がけ</strong>（「3日ぶりですね」「前回の課題で詰まっていませんか？」）</td></tr>
+<tr><td>最重要KPI</td><td>—</td><td><strong>学習完遂率</strong></td></tr>
+</table>
+
+<h3>6.2 ユーザーフロー</h3>
+<div class="flow-diagram">
+初回ユーザー:  ログイン → P-01 適性診断 → P-02 AI対話 → P-03 ダッシュボード / P-05 学習<br>
+学習中ユーザー: ログイン → P-02 AI対話（パーソナライズ提案）→ 学習 / 課題 / アクションへ<br>
+学習完了:     ログイン → P-02 AI対話（選考・スカウト提案）→ P-08 選考 / P-09 スカウトへ
+</div>
+
+<!-- ==================== -->
+<h2><span class="section-num">7.</span> v1.1 ページ構成（全9ページ）</h2>
+
+<table>
+<tr><th>ページ</th><th>名称</th><th>フェーズ</th><th>役割</th><th>v1対比</th></tr>
+<tr><td>P-01</td><td>適性診断</td><td>1. 点火</td><td>初回のみ。質問→適性職種提示→ロードマップ接続</td><td><span class="tag tag-changed">大幅変更</span></td></tr>
+<tr><td>P-02</td><td>AI対話</td><td>全フェーズ</td><td>全ユーザーのファーストビュー。パーソナライズ提案＋次のアクション動線</td><td><span class="tag tag-new">新設</span></td></tr>
+<tr><td>P-03</td><td>ダッシュボード</td><td>2. 実行</td><td>進捗・統計の俯瞰。AI伴走（躓き検知＋声がけ）</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-04</td><td>カリキュラム検索</td><td>1. 点火</td><td>推定学習時間＋Skill Primeゲート＋「○○時間→面接確約」可視化</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-05</td><td>学習実行</td><td>2. 実行</td><td>1セッション（One Thing at a Time）＋AIメンター即レス</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-06</td><td>課題・テスト提出</td><td>3. 評価</td><td>実技課題→AI根拠付きフィードバック＋B1〜B5判定</td><td><span class="tag tag-new">新設</span></td></tr>
+<tr><td>P-07</td><td>ポートフォリオ</td><td>4. 証明</td><td>「嘘のつけない履歴書」＋スキルグラフ＋評価ログ蓄積</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-08</td><td>選考管理</td><td>5. 選考</td><td>採用ロードマップ＋ゲート解除→エントリー可能化</td><td><span class="tag tag-changed">変更</span></td></tr>
+<tr><td>P-09</td><td>スカウト</td><td>5. 選考</td><td>企業がログ引用してスカウト。「選ぶ側にもなれる」体験</td><td><span class="tag tag-new">新設</span></td></tr>
+</table>
+
+<!-- ==================== -->
+<h2><span class="section-num">8.</span> ページ別 詳細設計</h2>
+
+<h3>P-01 適性診断（初回フロー）</h3>
+<h4>目的</h4>
+<p>「キャリアの迷子」状態の佐藤くんに、「自分に向いているIT職種」を提示し、ネガティブをポジティブに反転させる。</p>
+<h4>LM原則</h4>
+<p>Ignite（なぜ学ぶのか）/ Compass（現在地と次の一手）</p>
+<h4>主要要素</h4>
+<ul>
+<li>簡単な質問フロー（興味・経験・働き方の希望）</li>
+<li>KANAME AIによる適性職種の提示（例：「情シスが向いています」）</li>
+<li>提示された職種に対応するカリキュラム＋推定学習時間のプレビュー</li>
+<li>「このカリキュラムを完了すれば面接確約」のゴール提示</li>
+<li>→ P-02（AI対話）またはP-04（カリキュラム検索）への誘導</li>
+</ul>
+
+<h3>P-02 AI対話（ファーストビュー）</h3>
+<h4>目的</h4>
+<p>「家庭教師」のハブ。全ユーザーのログイン後のファーストビューとして、パーソナライズされた提案から次のアクションへ導く。</p>
+<h4>LM原則</h4>
+<p>Compass / Agency（自分で選んで進む実感）</p>
+<h4>主要要素</h4>
+<ul>
+<li>AIメンターとの対話UI（チャット形式）</li>
+<li>前回行動に基づくパーソナライズメッセージ
+  <ul>
+  <li>例：「前回Unit5で手が止まっていましたね。CSSセレクターの部分を営業の顧客分類に例えると…」</li>
+  <li>例：「3日ぶりですね。前回の課題、あと少しで完了です」</li>
+  <li>例：「Skill Prime達成おめでとうございます！エントリー可能な企業が3社あります」</li>
+  </ul>
+</li>
+<li>アクションボタン群（状況に応じて動的に変化）
+  <ul>
+  <li>「学習を再開する」→ P-05</li>
+  <li>「課題を提出する」→ P-06</li>
+  <li>「スキルグラフを確認」→ P-07</li>
+  <li>「エントリー可能な企業を見る」→ P-08</li>
+  </ul>
+</li>
+</ul>
+
+<h3>P-03 ダッシュボード</h3>
+<h4>目的</h4>
+<p>学習進捗・統計の俯瞰。AI対話の補完として「自分の現在地」を数値で確認できる画面。</p>
+<h4>LM原則</h4>
+<p>Compass / Reflect</p>
+<h4>主要要素</h4>
+<ul>
+<li>学習進捗（%）/ Skill Primeゲートまでの残り</li>
+<li>スキル別進捗バー</li>
+<li>次の面接・選考ステータス</li>
+<li>AI伴走メッセージ（躓き検知→声がけ）</li>
+<li>ネクストアクション一覧</li>
+</ul>
+
+<h3>P-04 カリキュラム検索</h3>
+<h4>目的</h4>
+<p>「ロードマップ不在」の不安を解消。推定学習時間とゴールを可視化し、「届く」実感を与える。</p>
+<h4>LM原則</h4>
+<p>Alignment / Why</p>
+<h4>主要要素</h4>
+<ul>
+<li>推定学習時間の表示（「あと○○時間で面接確約」）</li>
+<li>Skill Primeゲートと紐づくカリキュラム＋合格基準の可視化</li>
+<li>企業別の採用ロードマップ表示</li>
+<li>受講中 / おすすめ / スキル別のフィルター</li>
+</ul>
+
+<h3>P-05 学習実行</h3>
+<h4>目的</h4>
+<p>未経験者でも挫折しない、情報量を絞った学習体験。</p>
+<h4>LM原則</h4>
+<p>One Thing at a Time / Challenge / Ignite</p>
+<h4>主要要素</h4>
+<ul>
+<li>1セッション1概念の教材表示</li>
+<li>AIメンターチャット（24時間即レス、営業経験などに例えた説明）</li>
+<li>正解率に応じた難易度動的調整</li>
+<li>Ignite: 冒頭に「こんな場面で困ったことは？」</li>
+</ul>
+
+<h3>P-06 課題・テスト提出</h3>
+<h4>目的</h4>
+<p>学んだ知識を「使える」状態に移行させ、客観的な実力評価を得る。</p>
+<h4>LM原則</h4>
+<p>Apply / 第2層AI判定 / Reflect</p>
+<h4>主要要素</h4>
+<ul>
+<li>実技課題（実際のトラブル事例ベース）</li>
+<li>KANAME AIフィードバック（B1〜B5レベル判定＋根拠開示）</li>
+<li>自信度 vs 正解率の比較表示</li>
+<li>思考プロセスの記録</li>
+</ul>
+
+<h3>P-07 ポートフォリオ（キャリアポートフォリオ）</h3>
+<h4>目的</h4>
+<p>「証明の壁」を取り除く。学習ログ・AI評価が蓄積された「嘘のつけない履歴書」。</p>
+<h4>LM原則</h4>
+<p>Fair / Skill Prime</p>
+<h4>主要要素</h4>
+<ul>
+<li>B1〜B5スキルグラフ</li>
+<li>獲得バッジ一覧</li>
+<li>学習時間・AI評価ログの蓄積表示</li>
+<li>ポートフォリオPDF出力</li>
+<li>公開/非公開設定（企業へのスカウト許可）</li>
+</ul>
+
+<h3>P-08 選考管理</h3>
+<h4>目的</h4>
+<p>Skill Prime達成後、ゲート解除→エントリーまでの導線。採用ロードマップの可視化。</p>
+<h4>LM原則</h4>
+<p>Skill Prime / Compass</p>
+<h4>主要要素</h4>
+<ul>
+<li>採用ロードマップ（エントリー→書類→面接→内定のステップ可視化）</li>
+<li>Skill Primeゲート解除ステータス</li>
+<li>必須課題100%完了者のみエントリーボタン活性化</li>
+<li>選考中企業のステータス一覧</li>
+</ul>
+
+<h3>P-09 スカウト</h3>
+<h4>目的</h4>
+<p>「選ぶ側にもなれる」体験。企業が学習ログを引用してスカウトする機能。</p>
+<h4>LM原則</h4>
+<p>Skill Prime / Fair</p>
+<h4>主要要素</h4>
+<ul>
+<li>受信スカウト一覧（企業名・ポジション・引用ログ）</li>
+<li>企業が引用した学習ログ・課題修正プロセスの表示</li>
+<li>スカウトへの返信・辞退機能</li>
+<li>ポートフォリオ公開設定との連携</li>
+</ul>
+
+<!-- ==================== -->
+<h2><span class="section-num">9.</span> v1 → v1.1 差分マッピング</h2>
+
+<table>
+<tr><th>v1.1</th><th>v1対応</th><th>変更概要</th></tr>
+<tr><td>P-01 適性診断</td><td>P-01-1 チュートリアル</td><td>簡易目標設定 → 適性診断＋職種提示＋ロードマップ接続</td></tr>
+<tr><td>P-02 AI対話</td><td>（なし）</td><td><strong>新設。</strong>ダッシュボード前のファーストビュー</td></tr>
+<tr><td>P-03 ダッシュボード</td><td>P-02 ダッシュボード</td><td>AI伴走メッセージ強化。統計画面→Compass画面へ</td></tr>
+<tr><td>P-04 カリキュラム検索</td><td>P-04 学習ポータル</td><td>推定学習時間＋Skill Primeゲート＋採用ロードマップ追加</td></tr>
+<tr><td>P-05 学習実行</td><td>P-05 学習実行画面</td><td>One Thing at a Time原則適用。AIメンター統合強化</td></tr>
+<tr><td>P-06 課題・テスト</td><td>（なし）</td><td><strong>新設。</strong>AI評価＋B1〜B5判定</td></tr>
+<tr><td>P-07 ポートフォリオ</td><td>P-06 Myページ</td><td>設定ページ → キャリアポートフォリオ特化。スキルグラフ＋評価ログ</td></tr>
+<tr><td>P-08 選考管理</td><td>選考状況</td><td>ステータス表示のみ → ゲート解除ロジック＋採用ロードマップ</td></tr>
+<tr><td>P-09 スカウト</td><td>（なし）</td><td><strong>新設。</strong>企業からのログ引用スカウト</td></tr>
+</table>
+
+<!-- ==================== -->
+<h2><span class="section-num">10.</span> 実装ステータス</h2>
+
+<table>
+<tr><th>ページ</th><th>ステータス</th><th>備考</th></tr>
+<tr><td>P-01 適性診断</td><td>未着手</td><td></td></tr>
+<tr><td>P-02 AI対話</td><td>未着手</td><td></td></tr>
+<tr><td>P-03 ダッシュボード</td><td>未着手</td><td></td></tr>
+<tr><td>P-04 カリキュラム検索</td><td>未着手</td><td></td></tr>
+<tr><td>P-05 学習実行</td><td>未着手</td><td></td></tr>
+<tr><td>P-06 課題・テスト</td><td>未着手</td><td></td></tr>
+<tr><td>P-07 ポートフォリオ</td><td>未着手</td><td></td></tr>
+<tr><td>P-08 選考管理</td><td>未着手</td><td></td></tr>
+<tr><td>P-09 スカウト</td><td>未着手</td><td></td></tr>
+</table>
+
+<hr>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / Generated 2026-04-23</p>
+
+</body>
+</html>
