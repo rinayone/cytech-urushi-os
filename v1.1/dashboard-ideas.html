@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ダッシュボード構成案 10パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 1.7; color: #1a1a1a; background: #fff; }
+.hero { background: #050508; color: #fff; padding: 60px 24px; text-align: center; }
+.hero h1 { font-family: 'Lato', sans-serif; font-size: 28px; font-weight: 900; margin-bottom: 8px; }
+.hero p { font-size: 13px; color: rgba(255,255,255,0.5); }
+.idea { max-width: 800px; margin: 0 auto; padding: 48px 24px; border-bottom: 1px solid #eee; }
+.idea:last-child { border-bottom: none; }
+.idea-num { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 900; letter-spacing: 2px; color: #f13884; margin-bottom: 4px; }
+.idea h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.idea .why { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.8; }
+.idea .why strong { color: #333; }
+.layout-box {
+  background: #0a0a1a; border-radius: 16px; padding: 20px;
+  color: #fff; font-size: 11px; min-height: 280px;
+  display: grid; gap: 12px;
+}
+.zone {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.zone-label { font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.zone-content { font-size: 11px; color: rgba(255,255,255,0.6); }
+.zone.highlight { border-color: rgba(241,56,132,0.3); background: rgba(241,56,132,0.06); }
+.zone.chat { border-color: rgba(52,224,255,0.2); background: rgba(52,224,255,0.04); }
+.zone.char { border-color: rgba(149,62,195,0.2); background: rgba(149,62,195,0.04); display: flex; align-items: center; justify-content: center; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-top: 4px; }
+.tag-a { background: #fee2e2; color: #dc2626; }
+.tag-b { background: #fef3c7; color: #b45309; }
+.tag-c { background: #f3f4f6; color: #888; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ダッシュボード構成案</h1>
+  <p>コンテンツは同じ。配置と構成を10パターン検討。</p>
+</div>
+
+<!-- ===== 案1 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 01</div>
+  <h2>現状維持（左キャラ＋右ステータス）</h2>
+  <div class="why"><strong>理由：</strong>RPGステータス画面の構成。左にキャラクター情報、右に行動エリア。佐藤くんが「自分の状態」を左で確認し、「次にやること」を右で実行する。<strong>2カラムの明確な役割分担</strong>がゲーム的。</div>
+  <div class="layout-box" style="grid-template-columns:240px 1fr;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone char">🟣 KANAME<br>佐藤健太<br>B1 Rookie</div>
+      <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">IT HW OS __ __ __ __ __</div></div>
+      <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">4月 🔥5日</div></div>
+      <div class="zone"><div class="zone-label">⚙ 🔔</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52% / 面接開放まで38h</div></div>
+      <div class="zone highlight"><div class="zone-label">Next Action</div><div class="zone-content">Unit 5 再開→</div><span class="tag tag-a">最重要</span></div>
+      <div class="zone chat" style="flex:1;"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 案2 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 02</div>
+  <h2>フルワイドNext Action（上部CTA全幅）</h2>
+  <div class="why"><strong>理由：</strong>Next Actionを画面上部に全幅で配置。ダッシュボードを開いた瞬間に<strong>「再開→」が視界の100%を占める</strong>。迷いゼロ。下にスクロールすると詳細が見える。<strong>学習復帰の速度を最大化</strong>。</div>
+  <div class="layout-box" style="grid-template-columns:1fr;grid-template-rows:auto auto 1fr;">
+    <div class="zone highlight" style="text-align:center;padding:20px;"><div class="zone-content" style="font-size:16px;font-weight:700;">📘 Unit 5 — ネットワーク基礎　再開 →</div><div class="zone-content">52% | 面接開放まで38h</div><span class="tag tag-a">最重要</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div class="zone char">🟣 B1 Rookie</div>
+      <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">3/8獲得</div></div>
+      <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日連続</div></div>
+    </div>
+    <div class="zone chat"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット</div></div>
+  </div>
+</div>
+
+<!-- ===== 案3 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 03</div>
+  <h2>センターキャラ（キャラ中央＋周囲にUI）</h2>
+  <div class="why"><strong>理由：</strong>KANAMEを画面中央に大きく配置し、周囲に情報を散りばめる。P-02のAI対話画面と同じ「キャラ中心」の世界観。<strong>家庭教師が部屋の真ん中にいて、必要なものを手渡してくれる</strong>イメージ。</div>
+  <div class="layout-box" style="grid-template-columns:1fr auto 1fr;grid-template-rows:auto 1fr auto;align-items:center;">
+    <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52%<br>面接開放38h</div></div>
+    <div class="zone char" style="width:120px;height:120px;grid-row:1/3;">🟣 KANAME<br>B1 Rookie</div>
+    <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">3/8</div></div>
+    <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日</div></div>
+    <div class="zone highlight" style="grid-column:1/-1;text-align:center;"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+  </div>
+</div>
+
+<!-- ===== 案4 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 04</div>
+  <h2>カード型グリッド（均等タイル）</h2>
+  <div class="why"><strong>理由：</strong>全要素を同サイズのカードに。スマホのホーム画面のように<strong>どこに何があるか覚えやすい</strong>。ただしNext Actionが他と同じ大きさだと埋もれるリスクがある。</div>
+  <div class="layout-box" style="grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto);">
+    <div class="zone char">🟣 KANAME<br>B1 Rookie</div>
+    <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52%</div></div>
+    <div class="zone"><div class="zone-label">面接開放</div><div class="zone-content">残38h</div></div>
+    <div class="zone highlight" style="grid-column:1/-1;"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+    <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">3/8</div></div>
+    <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日</div></div>
+    <div class="zone chat"><div class="zone-label">AI対話</div></div>
+  </div>
+</div>
+
+<!-- ===== 案5 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 05</div>
+  <h2>縦1列（スマホ最適化）</h2>
+  <div class="why"><strong>理由：</strong>佐藤くんは夜21-23時にスマホで学習する可能性が高い。<strong>モバイルファースト</strong>で全要素を縦1列に。PCでも中央に狭い幅で表示。シンプルだがPC画面では余白が多くなる。</div>
+  <div class="layout-box" style="grid-template-columns:1fr;max-width:360px;margin:0 auto;">
+    <div class="zone" style="display:flex;gap:8px;align-items:center;">
+      <div class="zone char" style="width:48px;height:48px;min-height:auto;padding:0;">🟣</div>
+      <div><div class="zone-content">佐藤健太 / B1 Rookie</div></div>
+    </div>
+    <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52% / 面接開放まで38h</div></div>
+    <div class="zone highlight"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+    <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">IT HW OS __ __ __ __ __</div></div>
+    <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日連続</div></div>
+    <div class="zone chat"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット</div></div>
+  </div>
+</div>
+
+<!-- ===== 案6 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 06</div>
+  <h2>ヘッダー統合型（進捗をヘッダーに）</h2>
+  <div class="why"><strong>理由：</strong>進捗バーをヘッダーに組み込み、メインエリアを<strong>Next Action＋AI対話だけ</strong>にする。佐藤くんが見る面積の90%が「学習に戻る or AIに相談」になる。<strong>究極のシンプル</strong>。</div>
+  <div class="layout-box" style="grid-template-columns:1fr;grid-template-rows:auto auto 1fr;">
+    <div class="zone" style="display:flex;gap:16px;align-items:center;justify-content:space-between;">
+      <div class="zone-content">🟣 佐藤健太 B1</div>
+      <div class="zone-content">━━━━━━ 52%</div>
+      <div class="zone-content">面接開放38h</div>
+      <div class="zone-content">🔥5日</div>
+    </div>
+    <div class="zone highlight" style="text-align:center;padding:20px;"><div class="zone-content" style="font-size:14px;font-weight:700;">📘 Unit 5 — ネットワーク基礎　再開 →</div><span class="tag tag-a">最重要</span></div>
+    <div class="zone chat" style="flex:1;"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット（大きく表示）</div></div>
+  </div>
+</div>
+
+<!-- ===== 案7 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 07</div>
+  <h2>左AI対話＋右ステータス（P-02反転型）</h2>
+  <div class="why"><strong>理由：</strong>案1の左右を入れ替え。AI対話を左（メイン）、ステータスを右（サブ）に。<strong>「まずAIと話す→必要に応じてステータスを見る」</strong>という優先順位を配置で表現。家庭教師コンセプトに最も忠実。</div>
+  <div class="layout-box" style="grid-template-columns:1fr 240px;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone highlight"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+      <div class="zone chat" style="flex:1;"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット（広い）</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone char">🟣 B1 Rookie</div>
+      <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52% / 38h</div></div>
+      <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">3/8</div></div>
+      <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 案8 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 08</div>
+  <h2>タブ切替型（情報を階層化）</h2>
+  <div class="why"><strong>理由：</strong>1画面に全て出さず、タブで切り替え。「学習」タブ（Next Action＋進捗）、「記録」タブ（カレンダー＋バッジ）、「相談」タブ（AI対話）。<strong>情報量をゼロにできる</strong>が、タブを押す手間が増える。</div>
+  <div class="layout-box" style="grid-template-columns:1fr;grid-template-rows:auto 1fr;">
+    <div class="zone" style="display:flex;gap:4px;">
+      <div style="padding:6px 16px;background:rgba(241,56,132,0.2);border-radius:100px;font-size:10px;font-weight:700;color:#f13884;">学習</div>
+      <div style="padding:6px 16px;border-radius:100px;font-size:10px;color:rgba(255,255,255,0.4);">記録</div>
+      <div style="padding:6px 16px;border-radius:100px;font-size:10px;color:rgba(255,255,255,0.4);">相談</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52% / 面接開放まで38h</div></div>
+      <div class="zone highlight" style="flex:1;text-align:center;padding:32px;"><div class="zone-content" style="font-size:16px;font-weight:700;">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 案9 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 09</div>
+  <h2>上下分割（上:行動＋下:記録）</h2>
+  <div class="why"><strong>理由：</strong>上半分に「今やるべきこと」（進捗＋Next Action＋AI対話）、下半分に「積み上がった記録」（カレンダー＋バッジ＋キャラ）。<strong>時間軸で分割</strong>：上=未来（これからやること）、下=過去（やってきたこと）。</div>
+  <div class="layout-box" style="grid-template-columns:1fr;grid-template-rows:1fr 1fr;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52% / 面接開放38h</div></div>
+        <div class="zone highlight"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+      </div>
+      <div class="zone chat"><div class="zone-label">AI対話</div><div class="zone-content">KANAMEチャット</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;">
+      <div class="zone char" style="width:100px;">🟣 B1</div>
+      <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">IT HW OS __ __ __ __ __</div></div>
+      <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">🔥5日連続</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 案10 ===== -->
+<div class="idea">
+  <div class="idea-num">IDEA 10</div>
+  <h2>3カラム均等（進捗＋行動＋記録）</h2>
+  <div class="why"><strong>理由：</strong>3つの柱を均等に配置。左=「どこにいるか」（進捗＋レベル）、中央=「何をするか」（Next Action＋AI対話）、右=「何を積み上げたか」（カレンダー＋バッジ）。<strong>過去・現在・未来が一目で見える</strong>。ただしPC画面でないと横幅が足りない。</div>
+  <div class="layout-box" style="grid-template-columns:1fr 1fr 1fr;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone char">🟣 KANAME<br>B1 Rookie</div>
+      <div class="zone"><div class="zone-label">進捗</div><div class="zone-content">52%</div></div>
+      <div class="zone"><div class="zone-label">面接開放</div><div class="zone-content">残38h</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone highlight"><div class="zone-content">📘 Unit 5 再開 →</div><span class="tag tag-a">最重要</span></div>
+      <div class="zone chat" style="flex:1;"><div class="zone-label">AI対話</div><div class="zone-content">KANAME</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="zone"><div class="zone-label">バッジ</div><div class="zone-content">IT HW OS<br>__ __ __ __ __</div></div>
+      <div class="zone"><div class="zone-label">カレンダー</div><div class="zone-content">4月 🔥5日連続</div></div>
+      <div class="zone"><div class="zone-label">📋 📊 ⚙ 🔔</div></div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 24px;font-size:12px;color:#aaa;">
+  ※モック（p03-dashboard.html）は更新していません。案が決まったら反映します。
+</div>
+
+</body>
+</html>
