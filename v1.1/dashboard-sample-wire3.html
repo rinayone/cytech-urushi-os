@@ -25,8 +25,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* ===== LEFT: Personal ===== */
 .sidebar { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px 16px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
-.sb-name { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 4px; }
-.sb-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
 .sb-level { padding: 5px 18px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; margin-bottom: 16px; }
 .sb-label { font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 6px; width: 100%; text-align: left; margin-top: 12px; }
 .sb-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
@@ -48,10 +46,34 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sb-cal-d.l4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
 .sb-cal-d.today { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.4); }
 
-.sb-utils { display: flex; gap: 6px; margin-top: auto; padding-top: 12px; }
-.sb-util { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; color: rgba(255,255,255,0.3); transition: all 0.2s; position: relative; }
-.sb-util:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
-.sb-util .nb { position: absolute; top: -3px; right: -3px; width: 12px; height: 12px; background: #f7513b; border-radius: 50%; font-size: 7px; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; }
+/* Account */
+.sb-account { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 16px; cursor: pointer; width: 100%; transition: opacity 0.2s; position: relative; }
+.sb-account:hover { opacity: 0.8; }
+.sb-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0f4bab, #34e0ff); display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.sb-account-name { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+.sb-account-menu {
+  display: none;
+  position: absolute;
+  bottom: 56px; left: 8px;
+  background: rgba(20,20,40,0.9);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 8px;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 60;
+}
+.sb-account-menu.show { display: block; }
+.sb-menu-item {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sb-menu-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
 
 /* ===== RIGHT: Main ===== */
 .main-area { display: flex; flex-direction: column; gap: 12px; }
@@ -160,8 +182,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
   <!-- LEFT: Personal -->
   <div class="sidebar">
-    <div class="sb-name">佐藤 健太</div>
-    <div class="sb-meta">情シス志望 / 97日目</div>
     <div class="sb-level">B1 Rookie</div>
     <div class="sb-label">獲得バッジ</div>
     <div class="sb-badges">
@@ -185,8 +205,15 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sb-cal-d l4">21</div><div class="sb-cal-d l4">22</div><div class="sb-cal-d l4">23</div><div class="sb-cal-d l4 today">24</div><div class="sb-cal-d">25</div><div class="sb-cal-d">26</div><div class="sb-cal-d">27</div>
       </div>
     </div>
-    <div class="sb-utils">
-      <div class="sb-util" title="設定">⚙</div>
+    <!-- Account (bottom) -->
+    <div class="sb-account" onclick="toggleAccountMenu()">
+      <div class="sb-avatar">SK</div>
+      <div class="sb-account-name">佐藤 健太</div>
+    </div>
+    <div class="sb-account-menu" id="accountMenu">
+      <div class="sb-menu-item" onclick="event.stopPropagation();">⚙ 設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();">🔔 通知設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();">→ ログアウト</div>
     </div>
   </div>
 
@@ -292,6 +319,16 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 </div>
 
 <script>
+// Account menu
+function toggleAccountMenu() {
+  document.getElementById('accountMenu').classList.toggle('show');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.sb-account') && !e.target.closest('.sb-account-menu')) {
+    document.getElementById('accountMenu').classList.remove('show');
+  }
+});
+
 var activePanel = null;
 function togglePanel(id, btn) {
   var panels = ['panelPortfolio', 'panelLevel', 'panelCompany', 'panelNotif'];
