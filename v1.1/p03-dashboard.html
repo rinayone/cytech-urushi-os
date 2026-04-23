@@ -47,9 +47,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .notif-item .ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
 
 /* Logo ↔ KANAME swap */
-.logo-swap { position: relative; cursor: pointer; width: auto; height: 36px; display: flex; align-items: center; justify-content: center; min-width: 36px; }
+.logo-swap { position: relative; cursor: pointer; height: 36px; display: flex; align-items: center; justify-content: center; }
 .logo-swap .logo-default { height: 22px; transition: opacity 0.2s; }
-.logo-swap .logo-kaname { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
+.logo-swap .logo-kaname { position: absolute; left: 0; top: 0; width: 36px; height: 36px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
 .logo-swap .logo-kaname .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
 .logo-swap .logo-kaname .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
 .logo-swap:hover .logo-default { opacity: 0; }
@@ -318,7 +318,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         </div>
       </div>
       <div class="nav-links">
-        <a class="nav-link" onclick="location.href='p04-curriculum.html'">📋 企業・選考</a>
+        <a class="nav-link" onclick="openSelection()">📋 企業・選考</a>
         <a class="nav-link" onclick="openPortfolio()">📊 ポートフォリオ</a>
       </div>
     </div>
@@ -361,7 +361,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
     <!-- Bottom info -->
     <div class="info-row">
-      <div class="info-card" onclick="location.href='p04-curriculum.html'">
+      <div class="info-card" onclick="openSelection()">
         <div class="info-val hl">80h</div>
         <div class="info-label">総カリキュラム</div>
       </div>
@@ -369,7 +369,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="info-val">82%</div>
         <div class="info-label">平均正答率</div>
       </div>
-      <div class="info-card" onclick="location.href='p04-curriculum.html'">
+      <div class="info-card" onclick="openSelection()">
         <div class="info-val">42h</div>
         <div class="info-label">学習済み</div>
       </div>
@@ -377,6 +377,65 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="info-val">12</div>
         <div class="info-label">閲覧数</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Selection popup -->
+<div class="portfolio-overlay" id="selectionOverlay" onclick="if(event.target===this)closeSelection()">
+  <div class="portfolio-popup">
+    <button class="pp-close" onclick="closeSelection()">&#10005;</button>
+
+    <div style="font-size:20px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:20px;">企業・選考</div>
+
+    <!-- Active curriculum -->
+    <div style="background:linear-gradient(135deg,rgba(241,56,132,0.08),rgba(247,81,59,0.06));border:1px solid rgba(241,56,132,0.2);border-radius:14px;padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+      <span style="padding:5px 12px;background:linear-gradient(135deg,#f7513b,#f13884);border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;color:#fff;">受講中</span>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">情シス基礎コース — ◯◯株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">全8 Unit / 推定80時間 / 完了で面接確約</div></div>
+      <div style="text-align:right;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:900;">52<span style="font-size:12px;color:rgba(255,255,255,0.4);">%</span></div></div>
+    </div>
+
+    <!-- Gate -->
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(0,0,0,0.2);border-radius:12px;margin-bottom:20px;">
+      <span style="font-size:24px;">🔒</span>
+      <div style="flex:1;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"><strong style="color:#fff;">Skill Prime ゲート</strong> — カリキュラム100%完了で面接資格。残り<span style="color:#34e0ff;font-weight:700;">38時間</span></div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="pp-label">採用ロードマップ</div>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#fff;font-weight:700;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:9px;">1</span>学習中</div>
+      <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">2</span>達成</div>
+      <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">3</span>エントリー</div>
+      <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">4</span>面接</div>
+      <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">5</span>内定</div>
+    </div>
+
+    <!-- Curriculum list -->
+    <div class="pp-label">カリキュラム一覧</div>
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">01</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">IT基礎・ハードウェア</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">20h</div></div><span style="font-size:11px;color:#34e0ff;">完了</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">02</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">OS・ソフトウェア基礎</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">15h</div></div><span style="font-size:11px;color:#34e0ff;">完了</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">03</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">ネットワーク基礎</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">20h</div></div><span style="font-size:11px;color:#f13884;">受講中</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">04</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">セキュリティ入門</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">15h</div></div><span style="font-size:11px;color:rgba(255,255,255,0.2);">未開始</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;"><span style="font-family:'Lato',sans-serif;font-size:24px;font-weight:700;color:rgba(255,255,255,0.08);width:36px;">05</span><div style="flex:1;"><div style="font-size:13px;font-weight:700;">総合演習・実技課題</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">10h</div></div><span style="font-size:11px;color:rgba(255,255,255,0.2);">未開始</span></div>
+    </div>
+
+    <!-- Companies -->
+    <div class="pp-label">エントリー可能企業</div>
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:13px;">A</div>
+      <div style="flex:1;"><div style="font-size:13px;font-weight:700;">◯◯株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">情シス — 社内IT管理</div></div>
+      <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
+      <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:13px;">B</div>
+      <div style="flex:1;"><div style="font-size:13px;font-weight:700;">△△株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.3);">情シス — DX推進</div></div>
+      <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
     </div>
   </div>
 </div>
@@ -470,6 +529,8 @@ function openPortfolio() { document.getElementById('portfolioOverlay').classList
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
 function openNotif() { document.getElementById('notifOverlay').classList.add('show'); }
 function closeNotif() { document.getElementById('notifOverlay').classList.remove('show'); }
+function openSelection() { document.getElementById('selectionOverlay').classList.add('show'); }
+function closeSelection() { document.getElementById('selectionOverlay').classList.remove('show'); }
 </script>
 </body>
 </html>
