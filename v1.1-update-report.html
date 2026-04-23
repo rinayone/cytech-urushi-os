@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS v1.1 — 更新レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 1.8; color: #1a1a1a; max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; background: #fff; }
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+h2 { font-size: 17px; font-weight: 700; margin-top: 40px; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #111; }
+h3 { font-size: 14px; font-weight: 700; margin-top: 24px; margin-bottom: 8px; color: #333; }
+p { margin-bottom: 10px; }
+.subtitle { font-size: 12px; color: #888; margin-bottom: 24px; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+th { background: #f5f5f5; font-weight: 700; text-align: left; padding: 8px 10px; border: 1px solid #ddd; }
+td { padding: 8px 10px; border: 1px solid #ddd; vertical-align: top; }
+tr:nth-child(even) td { background: #fafafa; }
+ul { margin: 8px 0 14px 20px; }
+li { margin-bottom: 5px; }
+a { color: #1a73e8; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+.tag-new { background: #e3f2fd; color: #1565c0; }
+.tag-changed { background: #fff3e0; color: #e65100; }
+.tag-removed { background: #fce4ec; color: #c62828; }
+.tag-merged { background: #f3e5f5; color: #6a1b9a; }
+.tag-future { background: #f5f5f5; color: #888; }
+.callout { background: #f8f9fa; border-left: 4px solid #1a73e8; padding: 12px 16px; margin: 12px 0 18px; border-radius: 0 6px 6px 0; font-size: 13px; }
+.back-link { display: inline-block; margin-bottom: 20px; font-size: 13px; }
+.update-block { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+.update-date { font-size: 12px; color: #888; font-weight: 700; margin-bottom: 8px; }
+.update-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<a href="v1.1-design-spec.html" class="back-link">← 設計仕様書に戻る</a>
+
+<h1>CyTech Urushi OS v1.1 更新レポート</h1>
+<p class="subtitle">最終更新: <span id="lastUpdated">2026-04-23 19:30 JST</span></p>
+
+<!-- ==================== -->
+<h2>2026-04-23 MTG反映（社内MTG: UI/UX設計）</h2>
+
+<div class="callout">
+MTGでの決定事項を仕様書および実装に反映しました。以下がビフォー/アフターの一覧です。
+</div>
+
+<!-- 1. P-04 + P-08 統合 -->
+<div class="update-block">
+<div class="update-date">構成変更</div>
+<div class="update-title">P-04（カリキュラム検索）＋ P-08（選考管理）→「企業・選考」に統合 <span class="tag tag-merged">統合</span></div>
+<table>
+<tr><th style="width:140px;">項目</th><th>ビフォー</th><th>アフター</th></tr>
+<tr><td>ページ数</td><td>P-04 と P-08 が独立（2ページ）</td><td>P-04「企業・選考」に統合（1ページ）</td></tr>
+<tr><td>P-04 内容</td><td>カリキュラム一覧＋ロードマップのみ</td><td>カリキュラム＋ロードマップ＋<strong>選考ステータス＋企業一覧</strong>を統合</td></tr>
+<tr><td>P-08</td><td>独立した選考管理ページ</td><td>廃止（P-04に統合）</td></tr>
+</table>
+<p><strong>理由：</strong> 企業関連の情報を1つのエリアに集約し、ユーザーが迷わないようにする。</p>
+<p><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p04-curriculum.html" target="_blank">→ P-04 企業・選考ページを確認</a></p>
+</div>
+
+<!-- 2. P-07 ポップアップ化 -->
+<div class="update-block">
+<div class="update-date">構成変更</div>
+<div class="update-title">P-07（ポートフォリオ）→ ダッシュボード内ポップアップ化 <span class="tag tag-changed">変更</span></div>
+<table>
+<tr><th style="width:140px;">項目</th><th>ビフォー</th><th>アフター</th></tr>
+<tr><td>表示方法</td><td>独立したページ（p07-portfolio.html）</td><td>ダッシュボードからポップアップ表示（ページ遷移なし）</td></tr>
+<tr><td>トリガー</td><td>ナビゲーションリンク</td><td>スキル別進捗 or バッジウィジェットをクリック</td></tr>
+<tr><td>全体表示</td><td>—</td><td>ポップアップ内「ポートフォリオ全体を見る→」でp07-portfolio.htmlへ</td></tr>
+</table>
+<p><strong>理由：</strong> ページ遷移を減らし、ダッシュボード内で情報を完結させる。</p>
+<p><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank">→ P-03 ダッシュボード（スキル/バッジクリックで確認）</a></p>
+</div>
+
+<!-- 3. P-09 隠し機能化 -->
+<div class="update-block">
+<div class="update-date">仕様変更</div>
+<div class="update-title">P-09（スカウト）→ 隠し機能（特殊イベント）化 <span class="tag tag-changed">変更</span></div>
+<table>
+<tr><th style="width:140px;">項目</th><th>ビフォー</th><th>アフター</th></tr>
+<tr><td>表示</td><td>常時表示（ナビゲーションにリンクあり）</td><td>条件達成時のみ画面が解放される</td></tr>
+<tr><td>設計思想</td><td>いつでもアクセス可能</td><td>「特殊イベント」として通知。学習に集中させる</td></tr>
+</table>
+<p><strong>理由：</strong> 学習完遂率を最優先。スカウト画面が常時見えると集中力が削がれる。条件を満たした時のみ解放されることで、モチベーション向上にもつながる。</p>
+<p><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p09-scout.html" target="_blank">→ P-09 スカウトページ（条件達成時のみ表示）</a></p>
+</div>
+
+<!-- 4. P-01 目標企業削除 -->
+<div class="update-block">
+<div class="update-date">コンテンツ変更</div>
+<div class="update-title">P-01 適性診断 — 目標企業の質問を削除 <span class="tag tag-removed">削除</span></div>
+<table>
+<tr><th style="width:140px;">項目</th><th>ビフォー</th><th>アフター</th></tr>
+<tr><td>質問数</td><td>3問（企業名→職種→就業時期）</td><td>2問（職種→就業時期）</td></tr>
+<tr><td>削除理由</td><td colspan="2">初期段階ではユーザーが企業を知らない可能性が高く、マスト要件ではないため</td></tr>
+</table>
+<p><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank">→ P-01 適性診断を確認</a></p>
+</div>
+
+<!-- 5. UI改善 -->
+<div class="update-block">
+<div class="update-date">UI改善</div>
+<div class="update-title">全体のスムーズ化＋P-05/P-06のUI整理 <span class="tag tag-changed">変更</span></div>
+<table>
+<tr><th style="width:200px;">変更箇所</th><th>内容</th></tr>
+<tr><td>P-01 遷移アニメーション</td><td>カクカクする挙動を修正。フェードのみでスムーズに切替</td></tr>
+<tr><td>P-02 メッセージ表示</td><td>バウンス感を除去。0.35s easeで統一</td></tr>
+<tr><td>P-05/P-06 左上ロゴ</td><td>削除（上部ホバーでヘッダーが出る仕組みがあるため重複）</td></tr>
+<tr><td>P-06 提出ボタン色</td><td>ピンク系 → パープル→ブルーグラデーション（最後のアクションを色で区別）</td></tr>
+<tr><td>P-06 レコメンド表示</td><td>3つのボタン → CTA1つ＋テキストリンク（AIの提案が明確に）</td></tr>
+</table>
+<p>
+<a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank">→ P-05 学習実行</a> /
+<a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p06-assessment.html" target="_blank">→ P-06 課題・テスト</a>
+</p>
+</div>
+
+<!-- 6. 次フェーズ -->
+<div class="update-block">
+<div class="update-date">次フェーズ（仕様書に方針記載のみ）</div>
+<div class="update-title">今後の対応予定 <span class="tag tag-future">次フェーズ</span></div>
+<table>
+<tr><th style="width:200px;">項目</th><th>内容</th><th>優先度</th></tr>
+<tr><td>ダッシュボード再設計</td><td>ゲームUIを参考に直感的・非日常的なUIに。スクロール削減</td><td>高</td></tr>
+<tr><td>AI名称変更</td><td>「KANAME」→ リリース前に正式名称を決定</td><td>中</td></tr>
+<tr><td>AIキャラクター口調統一</td><td>デフォルトの言葉遣い・トーンを統一</td><td>中</td></tr>
+<tr><td>リマインダー機能</td><td>ユーザーが通知設定可能。設定パネルに含める</td><td>低</td></tr>
+</table>
+</div>
+
+<!-- 用語修正 -->
+<div class="update-block">
+<div class="update-date">用語修正</div>
+<div class="update-title">「学習率」→「学習完遂率」に統一 <span class="tag tag-changed">変更</span></div>
+<p>「学習率」は文脈上不適切。「完遂率」（完了する・マスターする）が正しい用語。仕様書・実装内の表記を統一。</p>
+</div>
+
+<!-- ==================== -->
+<h2>全画面リンク一覧</h2>
+
+<table>
+<tr><th>ページ</th><th>名称</th><th>状態</th><th>URL</th></tr>
+<tr><td>P-01</td><td>適性診断</td><td>実装済み</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank">開く</a></td></tr>
+<tr><td>P-02</td><td>AI対話</td><td>実装済み</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p02-ai-dialogue.html" target="_blank">開く</a></td></tr>
+<tr><td>P-03</td><td>ダッシュボード</td><td>実装済み（再設計予定）</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank">開く</a></td></tr>
+<tr><td>P-04</td><td>企業・選考</td><td>実装済み（P-08統合済）</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p04-curriculum.html" target="_blank">開く</a></td></tr>
+<tr><td>P-05</td><td>学習実行</td><td>実装済み</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank">開く</a></td></tr>
+<tr><td>P-06</td><td>課題・テスト</td><td>実装済み</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p06-assessment.html" target="_blank">開く</a></td></tr>
+<tr><td>P-07</td><td>ポートフォリオ</td><td>ポップアップ化（P-03から）</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p07-portfolio.html" target="_blank">開く</a></td></tr>
+<tr><td>P-09</td><td>スカウト</td><td>隠し機能</td><td><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p09-scout.html" target="_blank">開く</a></td></tr>
+</table>
+
+<h3>一連のフロー（P-01から通しで確認）</h3>
+<p><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" style="font-weight:700;font-size:15px;">→ P-01から全フローを確認する</a></p>
+
+<hr style="margin:32px 0;border:none;border-top:1px solid #eee;">
+
+<h2>関連リンク</h2>
+<ul>
+<li><a href="v1.1-design-spec.html">設計仕様書（v1.1）</a></li>
+<li><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/">バージョン選択ページ</a></li>
+</ul>
+
+<p style="font-size:11px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 更新レポート / Generated 2026-04-23</p>
+
+</body>
+</html>
