@@ -189,7 +189,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 <!-- Content -->
 <div class="content-area" id="contentArea">
   <!-- CT icon (triggers header) -->
-  <div class="ct-icon" onclick="toggleHeader()">
+  <div class="ct-icon" onmouseenter="showHeader()" onmouseleave="scheduleHideHeader()">
     <img src="logo.png" alt="CT">
   </div>
 
@@ -300,18 +300,12 @@ port = <span class="num">80</span>
 </div>
 
 <script>
-// Header
-var headerOpen = false;
-function toggleHeader() {
-  headerOpen = !headerOpen;
-  document.getElementById('headerExpand').classList.toggle('open', headerOpen);
-}
-document.addEventListener('click', function(e) {
-  if (headerOpen && !document.getElementById('headerExpand').contains(e.target) && !e.target.closest('.ct-icon')) {
-    headerOpen = false;
-    document.getElementById('headerExpand').classList.remove('open');
-  }
-});
+// Header (hover)
+var hideTimer = null;
+function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); }
+function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); }, 400); }
+document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
 
 // Panel
 var currentPanel = null;

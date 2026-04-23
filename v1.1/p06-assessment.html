@@ -183,6 +183,14 @@ body.panel-open .content-area { right: 328px; }
 .footer-bar .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; position: relative; }
 .footer-bar .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #0f4bab, #34e0ff); }
 .footer-bar .step-count { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
+.next-btn {
+  padding: 10px 28px; background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif;
+  white-space: nowrap; flex-shrink: 0;
+}
+.next-btn:hover { opacity: 0.9; }
 .footer-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
 .footer-panel-btn { width: 32px; height: 32px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(255,255,255,0.35); transition: all 0.2s; flex-shrink: 0; }
 .footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
@@ -247,7 +255,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <!-- Content -->
 <div class="content-area" id="contentArea">
-  <div class="ct-icon" onclick="toggleHeader()"><img src="logo.png" alt="CT"></div>
+  <div class="ct-icon" onmouseenter="showHeader()" onmouseleave="scheduleHideHeader()"><img src="logo.png" alt="CT"></div>
 
   <div class="step-label">STEP 8 — 課題</div>
   <h2 class="content-title">Unit 5 実技課題</h2>
@@ -368,18 +376,12 @@ body.panel-open .slide-panel { transform: translateX(0); }
 </div>
 
 <script>
-// Header
-var headerOpen = false;
-function toggleHeader() {
-  headerOpen = !headerOpen;
-  document.getElementById('headerExpand').classList.toggle('open', headerOpen);
-}
-document.addEventListener('click', function(e) {
-  if (headerOpen && !document.getElementById('headerExpand').contains(e.target) && !e.target.closest('.ct-icon')) {
-    headerOpen = false;
-    document.getElementById('headerExpand').classList.remove('open');
-  }
-});
+// Header (hover)
+var hideTimer = null;
+function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); }
+function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); }, 400); }
+document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
 
 // Confidence
 var selectedConf = 0;
