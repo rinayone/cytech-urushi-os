@@ -106,21 +106,32 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
 .badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.06); }
 
-/* Streak + Calendar */
-.streak-area { margin-top: auto; text-align: center; width: 100%; }
-.streak-header { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
-.streak-label { font-size: 11px; color: rgba(255,255,255,0.3); }
-.streak-val { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; }
-.streak-fire { color: #f7513b; }
+/* Streak + Glass Calendar */
+.streak-area { margin-top: 12px; width: 100%; }
+.cal-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: inset 0px 0px 20px rgba(255,255,255,0.15), inset -1px -1px 1px rgba(255,255,255,0.08), inset 1px 1px 1px rgba(255,255,255,0.15);
+}
+.cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-month { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); }
+.cal-streak { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #f7513b; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.cal-header { font-size: 7px; color: rgba(255,255,255,0.2); text-align: center; padding: 2px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
-.cal-day { aspect-ratio: 1; border-radius: 3px; background: rgba(255,255,255,0.03); }
-.cal-day.lv1 { background: rgba(149,62,195,0.2); }
-.cal-day.lv2 { background: rgba(149,62,195,0.4); }
-.cal-day.lv3 { background: linear-gradient(135deg, rgba(149,62,195,0.6), rgba(15,75,171,0.5)); }
-.cal-day.lv4 { background: linear-gradient(135deg, #953ec3, #0f4bab); }
-.cal-day.today { border: 1px solid rgba(255,255,255,0.3); }
-.cal-month { font-size: 9px; color: rgba(255,255,255,0.25); margin-bottom: 4px; font-family: 'Lato', sans-serif; font-weight: 700; }
+.cal-header { font-size: 8px; color: rgba(255,255,255,0.25); text-align: center; padding: 3px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.cal-day { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.15); }
+.cal-day.lv1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.3); }
+.cal-day.lv2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.5); }
+.cal-day.lv3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.7); }
+.cal-day.lv4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.cal-day.today { box-shadow: 0 0 0 2px rgba(255,255,255,0.4); }
+
+/* Nav links */
+.nav-links { display: flex; gap: 6px; margin-top: 12px; }
+.nav-link { flex: 1; padding: 8px 4px; text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: block; }
+.nav-link:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.12); }
 
 /* Right: Stats panel */
 .stats-panel {
@@ -264,19 +275,24 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="badge-slot badge-locked" title="Skill Prime">SP</div>
     </div>
 
-    <!-- Streak + Calendar -->
+    <!-- Calendar + Nav -->
     <div class="streak-area">
-      <div class="streak-header">
-        <span class="streak-label">学習ストリーク</span>
-        <span class="streak-val"><span class="streak-fire">🔥</span> 5日</span>
+      <div class="cal-card">
+        <div class="cal-top">
+          <span class="cal-month">4月 2026</span>
+          <span class="cal-streak">🔥 5日連続</span>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-header">Mo</div><div class="cal-header">Tu</div><div class="cal-header">We</div><div class="cal-header">Th</div><div class="cal-header">Fr</div><div class="cal-header">Sa</div><div class="cal-header">Su</div>
+          <div class="cal-day"></div><div class="cal-day lv2">1</div><div class="cal-day lv3">2</div><div class="cal-day">3</div><div class="cal-day lv1">4</div><div class="cal-day">5</div><div class="cal-day">6</div>
+          <div class="cal-day lv4">7</div><div class="cal-day lv3">8</div><div class="cal-day lv2">9</div><div class="cal-day lv4">10</div><div class="cal-day lv1">11</div><div class="cal-day">12</div><div class="cal-day lv1">13</div>
+          <div class="cal-day lv3">14</div><div class="cal-day lv4">15</div><div class="cal-day lv2">16</div><div class="cal-day lv3">17</div><div class="cal-day lv4">18</div><div class="cal-day lv1">19</div><div class="cal-day">20</div>
+          <div class="cal-day lv4">21</div><div class="cal-day lv4">22</div><div class="cal-day lv4">23</div><div class="cal-day lv4 today">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div>
+        </div>
       </div>
-      <div class="cal-month">2026年4月</div>
-      <div class="cal-grid">
-        <div class="cal-header">月</div><div class="cal-header">火</div><div class="cal-header">水</div><div class="cal-header">木</div><div class="cal-header">金</div><div class="cal-header">土</div><div class="cal-header">日</div>
-        <div class="cal-day"></div><div class="cal-day lv2"></div><div class="cal-day lv3"></div><div class="cal-day"></div><div class="cal-day lv1"></div><div class="cal-day"></div><div class="cal-day"></div>
-        <div class="cal-day lv4"></div><div class="cal-day lv3"></div><div class="cal-day lv2"></div><div class="cal-day lv4"></div><div class="cal-day lv1"></div><div class="cal-day"></div><div class="cal-day lv1"></div>
-        <div class="cal-day lv3"></div><div class="cal-day lv4"></div><div class="cal-day lv2"></div><div class="cal-day lv3"></div><div class="cal-day lv4"></div><div class="cal-day lv1"></div><div class="cal-day"></div>
-        <div class="cal-day lv4"></div><div class="cal-day lv4"></div><div class="cal-day lv4"></div><div class="cal-day lv4"></div><div class="cal-day lv4 today"></div><div class="cal-day"></div><div class="cal-day"></div>
+      <div class="nav-links">
+        <a class="nav-link" onclick="location.href='p04-curriculum.html'">📋 企業・選考</a>
+        <a class="nav-link" onclick="openPortfolio()">📊 ポートフォリオ</a>
       </div>
     </div>
   </div>
