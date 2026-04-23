@@ -125,7 +125,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   font-size: 10px; font-weight: 700;
   font-family: 'Lato', sans-serif;
 }
-.badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.badge-earned { color: #fff; }
 .badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.06); }
 
 /* Streak + Glass Calendar */
@@ -314,20 +314,20 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="orb-body"></div>
       <div class="orb-face"><div class="eye"></div><div class="eye"></div></div>
     </div>
-    <div style="display:flex;align-items:center;gap:6px;"><div class="char-name">佐藤 健太</div><button class="settings-icon" onclick="openSettings()" title="設定">⚙</button><button class="notif-btn" onclick="openNotif()" title="お知らせ" style="font-size:14px;">🔔<span class="notif-badge">2</span></button></div>
+    <div class="char-name">佐藤 健太</div>
     <div class="char-meta">情シス志望 / 97日目</div>
     <div class="level-badge">B1 Rookie</div>
 
     <!-- Badges (equipment) -->
     <div class="badge-slots">
-      <div class="badge-slot badge-earned" title="IT基礎" onclick="openPortfolio()">IT</div>
-      <div class="badge-slot badge-earned" title="HW基礎" onclick="openPortfolio()">HW</div>
-      <div class="badge-slot badge-earned" title="OS基礎" onclick="openPortfolio()">OS</div>
+      <div class="badge-slot badge-earned" title="IT基礎" onclick="openPortfolio()" style="background:#f7513b;">IT</div>
+      <div class="badge-slot badge-earned" title="HW基礎" onclick="openPortfolio()" style="background:#f13884;">HW</div>
+      <div class="badge-slot badge-earned" title="OS基礎" onclick="openPortfolio()" style="background:#953ec3;">OS</div>
       <div class="badge-slot badge-locked" title="ネットワーク">NW</div>
       <div class="badge-slot badge-locked" title="セキュリティ">SC</div>
       <div class="badge-slot badge-locked" title="DB">DB</div>
       <div class="badge-slot badge-locked" title="総合">EX</div>
-      <div class="badge-slot badge-locked" title="Skill Prime">SP</div>
+      <div class="badge-slot badge-locked" title="Skill Prime" style="border-color:rgba(255,255,255,0.1);">SP</div>
     </div>
 
     <!-- Calendar + Nav -->
@@ -348,6 +348,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="nav-links">
         <a class="nav-link" onclick="openSelection()">📋 企業・選考</a>
         <a class="nav-link" onclick="openPortfolio()">📊 ポートフォリオ</a>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
+        <button class="settings-icon" onclick="openSettings()" title="設定" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:14px;">⚙</button>
+        <button class="notif-btn" onclick="openNotif()" title="お知らせ" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;">🔔<span class="notif-badge">2</span></button>
       </div>
     </div>
   </div>
@@ -574,9 +578,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <!-- Badges -->
     <div class="pp-label">獲得バッジ</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
-      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎 修了</span>
-      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎 修了</span>
-      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">OS基礎 修了</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#f7513b;color:#fff;">IT基礎 修了</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#f13884;color:#fff;">HW基礎 修了</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:#953ec3;color:#fff;">OS基礎 修了</span>
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">セキュリティ</span>
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">データベース</span>
