@@ -16,21 +16,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.18; }
 .bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, #050508 30%, transparent 60%, rgba(5,5,8,0.5) 100%); }
 
-/* ===== CT ICON + EXPANDABLE HEADER ===== */
-.ct-icon {
-  position: fixed; top: 16px; left: 16px; z-index: 60;
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px; cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: inset 0 0 12px rgba(255,255,255,0.06);
-}
-.ct-icon:hover { background: rgba(255,255,255,0.1); }
-.ct-icon img { height: 18px; }
-
+/* ===== EXPANDABLE HEADER ===== */
 .header-expand {
   position: fixed; top: 16px; left: 16px; right: 16px;
   height: 52px; z-index: 55;
@@ -38,41 +24,39 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   padding: 0 18px; gap: 10px;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
   box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
   transform: translateY(-70px); opacity: 0;
-  transition: all 0.3s ease;
-  pointer-events: none;
+  transition: all 0.3s ease; pointer-events: none;
 }
 .header-expand.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-.header-expand img { height: 22px; }
 .header-expand .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
 .header-expand .hr { margin-left: auto; }
+.header-expand img { height: 22px; }
 .hb-dash { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; }
 .hb-dash:hover { background: rgba(255,255,255,0.16); }
 
-/* ===== MAIN LAYOUT ===== */
-.lesson-layout {
+/* ===== CONTENT AREA ===== */
+.content-area {
   position: fixed;
   top: 16px; bottom: 72px; left: 16px; right: 16px;
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 12px; z-index: 10;
-  transition: grid-template-columns 0.3s ease;
-}
-.lesson-layout.panel-collapsed {
-  grid-template-columns: 1fr 44px;
-}
-
-/* ===== CONTENT ===== */
-.content-area {
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
   box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
-  padding: 28px; display: flex; flex-direction: column; overflow-y: auto;
+  padding: 28px; overflow-y: auto; z-index: 10;
+  transition: right 0.3s ease;
 }
+body.panel-open .content-area { right: 328px; }
+
+/* CT icon inside content */
+.ct-icon {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; margin-bottom: 16px;
+}
+.ct-icon img { height: 20px; opacity: 0.5; transition: opacity 0.2s; }
+.ct-icon:hover img { opacity: 1; }
+
 .step-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
 .content-title { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
 .content-body p { font-size: 14px; line-height: 2; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
@@ -101,32 +85,34 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .code-block .fn { color: #89b4fa; }
 .code-block .num { color: #fab387; }
 
-/* ===== FOOTER BAR (progress + next) ===== */
+/* ===== FOOTER BAR (solid, no glass) ===== */
 .footer-bar {
-  position: fixed; bottom: 16px; left: 16px; right: 16px;
-  height: 48px; z-index: 50;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 56px; z-index: 50;
   display: flex; align-items: center; gap: 16px;
-  padding: 0 8px 0 20px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  box-shadow: inset 0 0 16px rgba(255,255,255,0.06);
+  padding: 0 12px 0 20px;
+  background: #0a0a1a;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 .footer-bar .unit-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap; }
-.footer-bar .progress-track {
-  flex: 1; height: 6px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 3px; overflow: visible;
-  position: relative;
-}
-.footer-bar .progress-fill {
-  height: 100%; border-radius: 3px;
-  background: linear-gradient(to right, #0f4bab, #34e0ff);
-  position: relative;
-  box-shadow: 0 0 12px rgba(52,224,255,0.4), 0 0 4px rgba(15,75,171,0.6);
-}
+.footer-bar .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: visible; position: relative; }
+.footer-bar .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #0f4bab, #34e0ff); box-shadow: 0 0 12px rgba(52,224,255,0.4), 0 0 4px rgba(15,75,171,0.6); }
 .footer-bar .step-count { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
+
+.footer-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+
+/* Panel toggle icons in footer */
+.footer-panel-btn {
+  width: 32px; height: 32px;
+  background: none; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  transition: all 0.2s; flex-shrink: 0;
+}
+.footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+.footer-panel-btn.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border-color: transparent; }
+
 .next-btn {
   padding: 10px 28px;
   background: linear-gradient(135deg, #f7513b, #f13884);
@@ -137,47 +123,26 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .next-btn:hover { opacity: 0.9; }
 
-/* ===== RIGHT PANEL ===== */
-.right-panel {
-  display: flex; flex-direction: column;
+/* ===== SLIDE-IN PANEL ===== */
+.slide-panel {
+  position: fixed;
+  top: 16px; bottom: 72px; right: 16px;
+  width: 300px; z-index: 40;
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
   box-shadow: inset 0 0 16px rgba(255,255,255,0.03);
-  overflow: hidden; transition: all 0.3s ease;
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(calc(100% + 20px));
+  transition: transform 0.3s ease;
 }
-
-/* Collapsed state */
-.panel-collapsed .right-panel {
-  border-radius: 14px;
-}
-.panel-expanded-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
-.panel-collapsed .panel-expanded-content { display: none; }
-
-/* Collapse/expand icons */
-.panel-collapse-bar {
-  display: flex; flex-direction: column; gap: 8px;
-  padding: 12px 0; align-items: center;
-}
-.panel-collapsed .panel-collapse-bar { flex: 1; justify-content: flex-start; padding-top: 16px; }
-.panel-icon-btn {
-  width: 32px; height: 32px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; color: rgba(255,255,255,0.4);
-  transition: all 0.2s;
-}
-.panel-icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.panel-icon-btn.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border-color: transparent; }
+body.panel-open .slide-panel { transform: translateX(0); }
 
 /* Pill toggle */
-.pill-toggle { display: flex; gap: 2px; padding: 2px; margin: 0 12px 8px; background: rgba(0,0,0,0.2); border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08); }
+.pill-toggle { display: flex; gap: 2px; padding: 2px; margin: 12px 12px 8px; background: rgba(0,0,0,0.2); border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08); }
 .pill-opt { flex: 1; padding: 6px 0; text-align: center; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); border-radius: 100px; cursor: pointer; transition: all 0.25s; }
 .pill-opt.active { background: linear-gradient(to right, #953ec3, #0f4bab); color: #fff; }
 
-/* Panel body */
 .panel-body { flex: 1; overflow-y: auto; display: none; }
 .panel-body.active { display: flex; flex-direction: column; }
 
@@ -205,8 +170,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .kaname-input button { padding: 8px 12px; background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border: none; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; }
 
 @media (max-width: 768px) {
-  .lesson-layout { grid-template-columns: 1fr; }
-  .right-panel { display: none; }
+  .slide-panel { width: 85vw; }
+  body.panel-open .content-area { right: 16px; }
   .content-area { padding: 20px; }
 }
 </style>
@@ -215,11 +180,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
-<!-- CT Icon (always visible) -->
-<div class="ct-icon" id="ctIcon" onclick="toggleHeader()">
-  <img src="logo.png" alt="CT">
-</div>
-
 <!-- Expandable Header -->
 <div class="header-expand" id="headerExpand">
   <img src="logo.png" alt="CyTech">
@@ -227,39 +187,42 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   <div class="hr"><button class="hb-dash">ダッシュボードへ →</button></div>
 </div>
 
-<!-- Main Layout -->
-<div class="lesson-layout" id="lessonLayout">
-  <!-- Content -->
-  <div class="content-area">
-    <div class="step-label">STEP 3</div>
-    <h2 class="content-title">ネットワーク構成図の読み方</h2>
-    <div class="content-body">
-      <div class="ignite-box"><span class="ig">&#9673;</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。</div>
+<!-- Content -->
+<div class="content-area" id="contentArea">
+  <!-- CT icon (triggers header) -->
+  <div class="ct-icon" onclick="toggleHeader()">
+    <img src="logo.png" alt="CT">
+  </div>
 
-      <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、サーバーからの情報がルーターを経由して各端末に届きます。</p>
+  <div class="step-label">STEP 3</div>
+  <h2 class="content-title">ネットワーク構成図の読み方</h2>
+  <div class="content-body">
+    <div class="ignite-box"><span class="ig">&#9673;</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。</div>
 
-      <div class="diagram">
-        <div class="diagram-row">
-          <div class="diagram-node sv">サーバー</div><span class="diagram-arrow">→</span>
-          <div class="diagram-node rt">ルーター</div><span class="diagram-arrow">→</span>
-          <div class="diagram-node dv">端末</div>
-        </div>
-        <div class="diagram-row" style="margin-top:4px;">
-          <span class="diagram-sub">＝ 本社</span><span style="width:32px;"></span>
-          <span class="diagram-sub">＝ 支店</span><span style="width:32px;"></span>
-          <span class="diagram-sub">＝ 部署</span>
-        </div>
+    <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、サーバーからの情報がルーターを経由して各端末に届きます。</p>
+
+    <div class="diagram">
+      <div class="diagram-row">
+        <div class="diagram-node sv">サーバー</div><span class="diagram-arrow">→</span>
+        <div class="diagram-node rt">ルーター</div><span class="diagram-arrow">→</span>
+        <div class="diagram-node dv">端末</div>
       </div>
+      <div class="diagram-row" style="margin-top:4px;">
+        <span class="diagram-sub">＝ 本社</span><span style="width:32px;"></span>
+        <span class="diagram-sub">＝ 支店</span><span style="width:32px;"></span>
+        <span class="diagram-sub">＝ 部署</span>
+      </div>
+    </div>
 
-      <p><span class="hl">サーバー</span>は「本社」にあたります。<span class="hl">ルーター</span>は「支店」のように情報を振り分けます。実際にどのようにデータが流れるか、コードで確認してみましょう。</p>
+    <p><span class="hl">サーバー</span>は「本社」にあたります。<span class="hl">ルーター</span>は「支店」のように情報を振り分けます。実際にどのようにデータが流れるか、コードで確認してみましょう。</p>
 
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-dot" style="background:#f7513b;"></span>
-          <span class="code-dot" style="background:#f8ee1a;"></span>
-          <span class="code-dot" style="background:#7cbf00;"></span>
-          <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;">network_check.py</span>
-        </div>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-dot" style="background:#f7513b;"></span>
+        <span class="code-dot" style="background:#f8ee1a;"></span>
+        <span class="code-dot" style="background:#7cbf00;"></span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;">network_check.py</span>
+      </div>
 <pre><span class="cm"># ネットワーク構成を確認するスクリプト</span>
 <span class="kw">import</span> socket
 
@@ -279,97 +242,100 @@ port = <span class="num">80</span>
     <span class="fn">print</span>(<span class="str">f"ルーター </span>{gateway}<span class="str"> に接続成功 ✓"</span>)
 <span class="kw">except</span>:
     <span class="fn">print</span>(<span class="str">"接続できません"</span>)</pre>
-      </div>
+    </div>
 
-      <p>このように、サーバーのIPアドレスを取得し、ルーターへの接続確認を行います。営業先リストで<strong>「この支店に電話が繋がるか確認する」</strong>のと同じ発想です。</p>
+    <p>このように、サーバーのIPアドレスを取得し、ルーターへの接続確認を行います。営業先リストで<strong>「この支店に電話が繋がるか確認する」</strong>のと同じ発想です。</p>
+  </div>
+</div>
+
+<!-- Slide-in Panel -->
+<div class="slide-panel" id="slidePanel">
+  <div class="pill-toggle">
+    <div class="pill-opt active" onclick="switchTab('toc')">目次</div>
+    <div class="pill-opt" onclick="switchTab('kaname')">KANAME</div>
+  </div>
+  <div class="panel-body active" id="panelToc">
+    <div class="toc">
+      <div class="toc-section">Unit 5 — ネットワーク基礎</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>1. ネットワークとは</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>2. IPアドレスの仕組み</div>
+      <div class="toc-item current"><span class="toc-icon">&#9656;</span>3. ネットワーク構成図</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>4. プロトコルの基本</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>5. DNSとドメイン</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>6. セキュリティ入門</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>7. 実務での活用</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>8. 課題・テスト</div>
+      <div class="toc-section">コース全体</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 1 — IT基礎</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 2 — ハードウェア</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 3 — ソフトウェア</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 4 — OS基礎</div>
+      <div class="toc-item current"><span class="toc-icon">&#9656;</span>Unit 5 — ネットワーク</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 6 — データベース</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 7 — セキュリティ</div>
+      <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 8 — 総合演習</div>
     </div>
   </div>
-
-  <!-- Right Panel -->
-  <div class="right-panel" id="rightPanel">
-    <!-- Collapse bar (icons when collapsed) -->
-    <div class="panel-collapse-bar">
-      <div class="panel-icon-btn" onclick="togglePanel()" title="パネル切替">&#9776;</div>
-      <div class="panel-icon-btn" onclick="togglePanel(); switchTab('toc')" title="目次">&#9776;</div>
-      <div class="panel-icon-btn" onclick="togglePanel(); switchTab('kaname')" title="KANAME">K</div>
+  <div class="panel-body" id="panelKaname">
+    <div class="kaname-chat" id="kMsgs">
+      <div class="k-msg" id="km1">そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。</div>
+      <div class="k-msg" id="km2">このコードは<span class="hl">「支店に電話が繋がるか確認する」</span>のと同じです。</div>
     </div>
-
-    <!-- Expanded content -->
-    <div class="panel-expanded-content">
-      <div class="pill-toggle">
-        <div class="pill-opt active" onclick="switchTab('toc')">目次</div>
-        <div class="pill-opt" onclick="switchTab('kaname')">KANAME</div>
-      </div>
-
-      <div class="panel-body active" id="panelToc">
-        <div class="toc">
-          <div class="toc-section">Unit 5 — ネットワーク基礎</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>1. ネットワークとは</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>2. IPアドレスの仕組み</div>
-          <div class="toc-item current"><span class="toc-icon">&#9656;</span>3. ネットワーク構成図</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>4. プロトコルの基本</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>5. DNSとドメイン</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>6. セキュリティ入門</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>7. 実務での活用</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>8. 課題・テスト</div>
-          <div class="toc-section">コース全体</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 1 — IT基礎</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 2 — ハードウェア</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 3 — ソフトウェア</div>
-          <div class="toc-item done"><span class="toc-icon">&#10003;</span>Unit 4 — OS基礎</div>
-          <div class="toc-item current"><span class="toc-icon">&#9656;</span>Unit 5 — ネットワーク</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 6 — データベース</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 7 — セキュリティ</div>
-          <div class="toc-item"><span class="toc-icon">&#9675;</span>Unit 8 — 総合演習</div>
-        </div>
-      </div>
-
-      <div class="panel-body" id="panelKaname">
-        <div class="kaname-chat" id="kMsgs">
-          <div class="k-msg" id="km1">そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。</div>
-          <div class="k-msg" id="km2">このコードは<span class="hl">「支店に電話が繋がるか確認する」</span>のと同じです。</div>
-        </div>
-        <div class="kaname-input">
-          <input type="text" id="kInput" placeholder="質問する...">
-          <button onclick="sendK()">送信</button>
-        </div>
-      </div>
+    <div class="kaname-input">
+      <input type="text" id="kInput" placeholder="質問する...">
+      <button onclick="sendK()">送信</button>
     </div>
   </div>
 </div>
 
-<!-- Footer Bar -->
+<!-- Footer Bar (solid) -->
 <div class="footer-bar">
   <span class="unit-label">Unit 5</span>
   <div class="progress-track"><div class="progress-fill" style="width:37.5%"></div></div>
   <span class="step-count">3 / 8</span>
+  <div class="footer-divider"></div>
+  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')" title="目次">&#9776;</button>
+  <button class="footer-panel-btn" id="btnKaname" onclick="openPanel('kaname')" title="KANAME">K</button>
+  <div class="footer-divider"></div>
   <button class="next-btn">次へ →</button>
 </div>
 
 <script>
-// Header toggle
+// Header
 var headerOpen = false;
 function toggleHeader() {
   headerOpen = !headerOpen;
   document.getElementById('headerExpand').classList.toggle('open', headerOpen);
 }
 document.addEventListener('click', function(e) {
-  if (headerOpen && !document.getElementById('headerExpand').contains(e.target) && !document.getElementById('ctIcon').contains(e.target)) {
+  if (headerOpen && !document.getElementById('headerExpand').contains(e.target) && !e.target.closest('.ct-icon')) {
     headerOpen = false;
     document.getElementById('headerExpand').classList.remove('open');
   }
 });
 
-// Panel collapse/expand
-var panelOpen = true;
-function togglePanel() {
-  panelOpen = !panelOpen;
-  document.getElementById('lessonLayout').classList.toggle('panel-collapsed', !panelOpen);
+// Panel
+var currentPanel = null;
+function openPanel(tab) {
+  if (currentPanel === tab) {
+    closePanel();
+    return;
+  }
+  currentPanel = tab;
+  document.body.classList.add('panel-open');
+  switchTab(tab);
+  updateFooterBtns();
 }
-
-// Tab switch
+function closePanel() {
+  currentPanel = null;
+  document.body.classList.remove('panel-open');
+  updateFooterBtns();
+}
+function updateFooterBtns() {
+  document.getElementById('btnToc').classList.toggle('active', currentPanel === 'toc');
+  document.getElementById('btnKaname').classList.toggle('active', currentPanel === 'kaname');
+}
 function switchTab(id) {
-  if (!panelOpen) { panelOpen = true; document.getElementById('lessonLayout').classList.remove('panel-collapsed'); }
   document.querySelectorAll('.pill-opt').forEach(function(t) { t.classList.remove('active'); });
   document.querySelectorAll('.panel-body').forEach(function(p) { p.classList.remove('active'); });
   if (id === 'toc') {
@@ -381,6 +347,8 @@ function switchTab(id) {
     setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 200);
     setTimeout(function() { document.getElementById('km2').classList.add('visible'); }, 500);
   }
+  updateFooterBtns();
+  currentPanel = id;
 }
 
 // Chat
