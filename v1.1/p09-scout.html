@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — スカウト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow-x: hidden; overflow-y: auto; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
+@keyframes pageIn { to { opacity: 1; } }
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+.header { position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50; display: flex; align-items: center; padding: 0 18px; gap: 10px; background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2); }
+.header img { height: 22px; }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .hr { margin-left: auto; display: flex; gap: 8px; }
+.hb { padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; border: none; color: #fff; }
+.hb-blue { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
+.main { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 84px 20px 40px; }
+.glass { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 24px; margin-bottom: 16px; }
+.sec-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; margin-top: 28px; }
+.hl { color: #34e0ff; font-weight: 700; }
+.page-title { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.page-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+
+/* Stats */
+.stats-row { display: flex; gap: 12px; margin-bottom: 24px; }
+.stat-card { flex: 1; text-align: center; padding: 16px; background: rgba(0,0,0,0.15); backdrop-filter: blur(20px); border-radius: 16px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); }
+.stat-val { font-family: 'Lato', sans-serif; font-size: 28px; font-weight: 700; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+/* Scout card */
+.scout-card { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.scout-card:last-child { border-bottom: none; }
+.scout-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.scout-logo { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-weight: 700; color: rgba(255,255,255,0.4); font-size: 14px; flex-shrink: 0; }
+.scout-from { flex: 1; }
+.scout-from .s-company { font-size: 14px; font-weight: 700; }
+.scout-from .s-position { font-size: 12px; color: rgba(255,255,255,0.4); }
+.scout-date { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); }
+.scout-body { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.7); margin-bottom: 12px; padding-left: 48px; }
+.scout-body strong { color: #fff; }
+.scout-log { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px 16px; margin-left: 48px; margin-bottom: 12px; font-size: 12px; color: rgba(255,255,255,0.5); }
+.scout-log .log-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 6px; }
+.scout-actions { display: flex; gap: 8px; margin-left: 48px; }
+.scout-btn { padding: 8px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; }
+.btn-accept { background: linear-gradient(135deg, #f7513b, #f13884); border: none; color: #fff; }
+.btn-decline { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); }
+
+/* Trend */
+.trend-bar { display: flex; align-items: flex-end; gap: 6px; height: 60px; margin-top: 8px; }
+.trend-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.trend-bar-fill { width: 100%; background: linear-gradient(to top, #0f4bab, #34e0ff); border-radius: 3px 3px 0 0; min-height: 2px; }
+.trend-label { font-size: 9px; color: rgba(255,255,255,0.25); }
+
+.ai-fab { position: fixed; bottom: 24px; right: 24px; z-index: 80; width: 80px; height: 80px; background: #fff; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.2s; user-select: none; touch-action: none; }
+.ai-fab:hover { transform: scale(1.05); }
+.ai-fab.dragging { background: rgba(255,255,255,0.63); box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.3); }
+.ai-fab .fab-orb { width: 28px; height: 28px; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(2px) saturate(1.2); }
+.ai-fab .fab-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; font-weight: 500; background: linear-gradient(to right, #0f4bab, #34e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+@media (max-width: 600px) { .stats-row { flex-direction: column; } .scout-body, .scout-log, .scout-actions { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+<header class="header"><img src="logo.png" alt="CyTech"><span class="ht">スカウト</span><div class="hr"><button class="hb hb-blue" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div></header>
+
+<main class="main">
+  <h1 class="page-title">スカウト</h1>
+  <p class="page-sub">企業があなたの学習ログを見てスカウトを送ります。学ぶほどスカウトが増えます。</p>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" style="color:#34e0ff;">2</div><div class="stat-label">受信スカウト</div></div>
+    <div class="stat-card"><div class="stat-val">12</div><div class="stat-label">プロフィール閲覧</div></div>
+    <div class="stat-card"><div class="stat-val">3</div><div class="stat-label">企業が注目</div></div>
+  </div>
+
+  <!-- Trend -->
+  <div class="sec-title">スカウト受信推移</div>
+  <div class="glass">
+    <div class="trend-bar">
+      <div class="trend-col"><div class="trend-bar-fill" style="height:10%;"></div><div class="trend-label">3月</div></div>
+      <div class="trend-col"><div class="trend-bar-fill" style="height:20%;"></div><div class="trend-label">4月</div></div>
+      <div class="trend-col"><div class="trend-bar-fill" style="height:45%;"></div><div class="trend-label">5月</div></div>
+      <div class="trend-col"><div class="trend-bar-fill" style="height:70%;"></div><div class="trend-label">6月</div></div>
+    </div>
+  </div>
+
+  <!-- Scouts -->
+  <div class="sec-title">受信スカウト</div>
+  <div class="glass">
+    <div class="scout-card">
+      <div class="scout-header">
+        <div class="scout-logo">A</div>
+        <div class="scout-from"><div class="s-company">◯◯株式会社</div><div class="s-position">情シス — 社内IT管理</div></div>
+        <span class="scout-date">2025.06.03</span>
+      </div>
+      <div class="scout-body">佐藤さんの<strong>ネットワーク基礎の課題提出プロセス</strong>に注目しています。初回で不正解だった箇所を修正し、再提出で正答率を大幅に改善した姿勢を評価しています。</div>
+      <div class="scout-log">
+        <div class="log-label">引用された学習ログ</div>
+        Unit 4 課題提出 — 初回71% → 再提出88%（＋17%改善）
+      </div>
+      <div class="scout-actions"><button class="scout-btn btn-accept">返信する</button><button class="scout-btn btn-decline">辞退する</button></div>
+    </div>
+
+    <div class="scout-card">
+      <div class="scout-header">
+        <div class="scout-logo">B</div>
+        <div class="scout-from"><div class="s-company">△△株式会社</div><div class="s-position">DX推進 — 業務改善</div></div>
+        <span class="scout-date">2025.06.01</span>
+      </div>
+      <div class="scout-body">学習の<strong>継続性</strong>に注目しています。5日連続学習と、AIメンターへの積極的な質問姿勢を評価しています。</div>
+      <div class="scout-log">
+        <div class="log-label">引用された学習ログ</div>
+        学習ストリーク5日連続 / KANAMEとの対話12回
+      </div>
+      <div class="scout-actions"><button class="scout-btn btn-accept">返信する</button><button class="scout-btn btn-decline">辞退する</button></div>
+    </div>
+  </div>
+
+  <!-- Evaluation points -->
+  <div class="sec-title">企業が注目しているポイント</div>
+  <div class="glass">
+    <div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;"><span style="color:#34e0ff;">&#9733;</span> 課題の修正プロセス（諦めずに再提出）</div>
+    <div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;"><span style="color:#34e0ff;">&#9733;</span> 学習継続率（5日連続ストリーク）</div>
+    <div style="display:flex;gap:12px;align-items:center;padding:10px 0;font-size:13px;"><span style="color:#34e0ff;">&#9733;</span> AIメンターへの積極的な質問（12回）</div>
+  </div>
+</main>
+
+<div class="ai-fab" id="aiFab" onclick="if(!this._dragged)location.href='p02-ai-dialogue.html'"><div class="fab-orb"></div><div class="fab-text">AIと対話する</div></div>
+<script>(function(){var fab=document.getElementById('aiFab'),sx,sy,ox,oy,d;fab.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;ox=fab.offsetLeft;oy=fab.offsetTop;d=false;fab._dragged=false;function m(e2){var dx=e2.clientX-sx,dy=e2.clientY-sy;if(Math.abs(dx)>4||Math.abs(dy)>4){d=true;fab._dragged=true;fab.classList.add('dragging');fab.style.position='fixed';fab.style.left=(ox+dx)+'px';fab.style.top=(oy+dy)+'px';fab.style.right='auto';fab.style.bottom='auto';}}function u(){document.removeEventListener('pointermove',m);document.removeEventListener('pointerup',u);fab.classList.remove('dragging');if(!d)fab._dragged=false;}document.addEventListener('pointermove',m);document.addEventListener('pointerup',u);});})();</script>
+</body>
+</html>
