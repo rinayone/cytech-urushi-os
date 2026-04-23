@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — ポートフォリオ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow-x: hidden; overflow-y: auto; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
+@keyframes pageIn { to { opacity: 1; } }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+/* Header */
+.header {
+  position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50;
+  display: flex; align-items: center; padding: 0 18px; gap: 10px;
+  background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+}
+.header img { height: 22px; }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .hr { margin-left: auto; display: flex; gap: 8px; }
+.hb { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+.hb:hover { background: rgba(255,255,255,0.16); }
+.hb-primary { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; }
+
+/* Main */
+.main { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 84px 20px 40px; }
+
+/* Glass card (Figma ガラス_02) */
+.glass {
+  background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 24px; margin-bottom: 16px;
+}
+
+.sec-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; margin-top: 28px; }
+.sec-title:first-child { margin-top: 0; }
+.hl { color: #34e0ff; font-weight: 700; }
+
+/* Profile */
+.profile { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.profile-orb {
+  width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
+  filter: blur(2px) saturate(1.2);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px; color: #fff;
+}
+.profile-info .name { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; }
+.profile-info .meta { font-size: 13px; color: rgba(255,255,255,0.5); }
+.profile-actions { margin-left: auto; display: flex; gap: 8px; }
+.profile-actions button {
+  padding: 8px 16px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s;
+}
+.btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+.btn-outline:hover { background: rgba(255,255,255,0.06); }
+.btn-grad { background: linear-gradient(135deg, #f7513b, #f13884); border: none; color: #fff; }
+.btn-grad:hover { opacity: 0.9; }
+
+/* Level badge */
+.level-section { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.level-badge-lg {
+  padding: 12px 24px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15));
+  border: 1px solid rgba(52,224,255,0.25);
+  font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; color: #34e0ff;
+}
+.level-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* Skill graph */
+.skill-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.skill-name { font-size: 13px; color: rgba(255,255,255,0.5); width: 120px; flex-shrink: 0; }
+.skill-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 4px; }
+.skill-fill.blue { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+.skill-fill.rainbow { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
+.skill-fill.full { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.skill-pct { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); width: 36px; text-align: right; }
+
+/* Badge grid */
+.badge-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge-item { padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+.badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.06); }
+
+/* Log entries */
+.log-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+.log-item:last-child { border-bottom: none; }
+.log-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.log-content { flex: 1; color: rgba(255,255,255,0.7); line-height: 1.6; }
+.log-content strong { color: #fff; }
+.log-date { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); white-space: nowrap; }
+
+/* Rubric result */
+.rubric-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; color: rgba(255,255,255,0.7); }
+.rubric-row:last-child { border-bottom: none; }
+.rubric-icon { font-size: 14px; flex-shrink: 0; }
+.rubric-pass { color: #34e0ff; }
+.rubric-partial { color: #f8ee1a; }
+
+/* Public toggle */
+.public-toggle { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.public-label { font-size: 14px; }
+.public-label .sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.15); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
+.toggle.on { background: linear-gradient(to right, #953ec3, #0f4bab); }
+.toggle::after { content: ''; width: 18px; height: 18px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+.toggle.on::after { left: 23px; }
+
+/* Stats row */
+.stats-row { display: flex; gap: 12px; }
+.stat-card { flex: 1; text-align: center; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 14px; }
+.stat-value { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 700; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+@media (max-width: 600px) {
+  .profile { flex-direction: column; text-align: center; }
+  .profile-actions { margin-left: 0; }
+  .stats-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<header class="header">
+  <img src="logo.png" alt="CyTech">
+  <span class="ht">ポートフォリオ</span>
+  <div class="hr">
+    <button class="hb" onclick="location.href='p03-dashboard.html'">ダッシュボード</button>
+    <button class="hb hb-primary" onclick="location.href='p02-ai-dialogue.html'">AI対話 →</button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- Profile -->
+  <div class="glass">
+    <div class="profile">
+      <div class="profile-orb">SK</div>
+      <div class="profile-info">
+        <div class="name">佐藤 健太</div>
+        <div class="meta">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div>
+      </div>
+      <div class="profile-actions">
+        <button class="btn-outline">プロフィール編集</button>
+        <button class="btn-grad">PDF出力</button>
+      </div>
+    </div>
+
+    <div class="level-section">
+      <div class="level-badge-lg">B1 Rookie</div>
+      <div class="level-desc">手順があれば作業を完了できるレベル。<br>Skill Prime達成まで <span class="hl">あと48%</span></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row" style="margin-bottom:16px;">
+    <div class="glass stat-card">
+      <div class="stat-value">42<span style="font-size:14px;">h</span></div>
+      <div class="stat-label">総学習時間</div>
+    </div>
+    <div class="glass stat-card">
+      <div class="stat-value">52<span style="font-size:14px;">%</span></div>
+      <div class="stat-label">カリキュラム進捗</div>
+    </div>
+    <div class="glass stat-card">
+      <div class="stat-value">82<span style="font-size:14px;">%</span></div>
+      <div class="stat-label">平均正答率</div>
+    </div>
+    <div class="glass stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">プロフィール閲覧数</div>
+    </div>
+  </div>
+
+  <!-- Skill Graph -->
+  <div class="sec-title">スキルグラフ（B1〜B5）</div>
+  <div class="glass">
+    <div class="skill-row"><span class="skill-name">IT基礎</span><div class="skill-track"><div class="skill-fill full" style="width:100%;"></div></div><span class="skill-pct">B1</span></div>
+    <div class="skill-row"><span class="skill-name">ハードウェア</span><div class="skill-track"><div class="skill-fill full" style="width:100%;"></div></div><span class="skill-pct">B1</span></div>
+    <div class="skill-row"><span class="skill-name">OS基礎</span><div class="skill-track"><div class="skill-fill rainbow" style="width:85%;"></div></div><span class="skill-pct">85%</span></div>
+    <div class="skill-row"><span class="skill-name">ネットワーク</span><div class="skill-track"><div class="skill-fill blue" style="width:37%;"></div></div><span class="skill-pct">37%</span></div>
+    <div class="skill-row"><span class="skill-name">セキュリティ</span><div class="skill-track"><div class="skill-fill blue" style="width:0%;"></div></div><span class="skill-pct">0%</span></div>
+    <div class="skill-row"><span class="skill-name">データベース</span><div class="skill-track"><div class="skill-fill blue" style="width:0%;"></div></div><span class="skill-pct">0%</span></div>
+  </div>
+
+  <!-- Badges -->
+  <div class="sec-title">獲得バッジ</div>
+  <div class="glass">
+    <div class="badge-grid">
+      <span class="badge-item badge-earned">IT基礎 修了</span>
+      <span class="badge-item badge-earned">HW基礎 修了</span>
+      <span class="badge-item badge-earned">OS基礎 修了</span>
+      <span class="badge-item badge-locked">ネットワーク</span>
+      <span class="badge-item badge-locked">セキュリティ</span>
+      <span class="badge-item badge-locked">データベース</span>
+      <span class="badge-item badge-locked">総合演習</span>
+      <span class="badge-item badge-locked">Skill Prime</span>
+    </div>
+  </div>
+
+  <!-- AI Evaluation Log -->
+  <div class="sec-title">AI評価ログ</div>
+  <div class="glass">
+    <div class="rubric-row"><span class="rubric-icon rubric-pass">&#10003;</span><strong>Unit 4 課題</strong> — 手順の論理性: B1到達 / 正答率: 82%</div>
+    <div class="rubric-row"><span class="rubric-icon rubric-pass">&#10003;</span><strong>Unit 3 課題</strong> — 基礎知識の適用: B1到達 / 正答率: 78%</div>
+    <div class="rubric-row"><span class="rubric-icon rubric-pass">&#10003;</span><strong>Unit 2 課題</strong> — 概念理解: B1到達 / 正答率: 85%</div>
+    <div class="rubric-row"><span class="rubric-icon rubric-partial">&#9679;</span><strong>Unit 1 課題</strong> — 初回提出: 再提出後B1到達 / 正答率: 71%→88%</div>
+  </div>
+
+  <!-- Learning Log -->
+  <div class="sec-title">学習履歴</div>
+  <div class="glass">
+    <div class="log-item"><span class="log-dot" style="background:#34e0ff;"></span><div class="log-content"><strong>Unit 5 STEP 3</strong> ネットワーク構成図の読み方 完了</div><span class="log-date">2025.06.04</span></div>
+    <div class="log-item"><span class="log-dot" style="background:#34e0ff;"></span><div class="log-content"><strong>Unit 5 STEP 2</strong> IPアドレスの仕組み 完了</div><span class="log-date">2025.06.03</span></div>
+    <div class="log-item"><span class="log-dot" style="background:#f13884;"></span><div class="log-content"><strong>Unit 4 課題提出</strong> — B1判定取得 / 正答率82%</div><span class="log-date">2025.06.01</span></div>
+    <div class="log-item"><span class="log-dot" style="background:#0f4bab;"></span><div class="log-content"><strong>Unit 4 全STEP完了</strong></div><span class="log-date">2025.05.30</span></div>
+    <div class="log-item"><span class="log-dot" style="background:#953ec3;"></span><div class="log-content"><strong>Unit 3 課題提出</strong> — B1判定取得 / 正答率78%</div><span class="log-date">2025.05.25</span></div>
+  </div>
+
+  <!-- Public setting -->
+  <div class="sec-title">公開設定</div>
+  <div class="glass">
+    <div class="public-toggle">
+      <div class="public-label">ポートフォリオを企業に公開<div class="sub">公開すると、企業があなたの学習ログを閲覧しスカウトを送れるようになります</div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

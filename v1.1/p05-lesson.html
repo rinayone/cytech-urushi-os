@@ -14,8 +14,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* BG */
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.18; }
-.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, #050508 30%, transparent 60%, rgba(5,5,8,0.5) 100%); }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
 
 /* ===== EXPANDABLE HEADER ===== */
 .header-expand {
@@ -23,10 +23,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   height: 52px; z-index: 55;
   display: flex; align-items: center;
   padding: 0 18px; gap: 10px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px;
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
   transform: translateY(-70px); opacity: 0;
   transition: all 0.3s ease; pointer-events: none;
 }
@@ -41,10 +41,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .content-area {
   position: fixed;
   top: 16px; bottom: 72px; left: 16px; right: 16px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.2);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
   padding: 28px; overflow-y: auto; z-index: 10;
   transition: right 0.3s ease;
 }
@@ -128,10 +128,10 @@ body.panel-open .content-area { right: 328px; }
   position: fixed;
   top: 16px; bottom: 72px; right: 16px;
   width: 300px; z-index: 40;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
-  box-shadow: inset 0 0 16px rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
   display: flex; flex-direction: column; overflow: hidden;
   transform: translateX(calc(100% + 20px));
   transition: transform 0.3s ease;
