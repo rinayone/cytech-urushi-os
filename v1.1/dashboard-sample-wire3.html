@@ -103,8 +103,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
 .mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
 .mi-time { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
-.mission-start { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; margin-top: 10px; transition: opacity 0.2s; }
-.mission-start:hover { opacity: 0.9; }
+.mission-item.navigating .mi-box { transform: scale(1.15); }
+.mission-item.navigating { opacity: 0.6; }
 .mission-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .mp-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 200px; }
 .mp-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f13884); transition: width 0.4s ease; }
@@ -198,7 +198,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
   <!-- LEFT: Personal -->
   <div class="sidebar">
-    <div class="sb-heading">Your Status</div>
+    <div class="sb-heading">Your Layers</div>
     <div class="sb-level">B1 Rookie</div>
     <div class="sb-label">獲得バッジ</div>
     <div class="sb-badges">
@@ -263,7 +263,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
             <div class="mp-track"><div class="mp-fill" id="mpFill" style="width:0%;"></div></div>
             <div class="mp-label" id="mpLabel">0 / 3</div>
           </div>
-          <button class="mission-start" onclick="location.href='p05-lesson.html'">最初のミッションを始める →</button>
         </div>
       </div>
     </div>
@@ -368,23 +367,18 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Mission toggle
+// Mission: check → auto navigate
 function toggleMission(el) {
-  el.classList.toggle('done');
-  el.querySelector('.mi-box').classList.toggle('checked');
+  if (el.classList.contains('done')) return;
+  el.classList.add('done', 'navigating');
+  el.querySelector('.mi-box').classList.add('checked');
   var total = document.querySelectorAll('.mission-item').length;
   var done = document.querySelectorAll('.mission-item.done').length;
   document.getElementById('mpFill').style.width = (done / total * 100) + '%';
   document.getElementById('mpLabel').textContent = done + ' / ' + total;
-  var btn = document.querySelector('.mission-start');
-  if (done === total) {
-    btn.textContent = 'すべて完了！ 🎉';
-    btn.style.background = 'linear-gradient(135deg, #7cbf00, #34e0ff)';
-  } else {
-    var next = document.querySelectorAll('.mission-item:not(.done)');
-    btn.textContent = next.length < total ? '次のミッションへ →' : '最初のミッションを始める →';
-    btn.style.background = 'linear-gradient(135deg, #f7513b, #f13884)';
-  }
+  setTimeout(function() {
+    location.href = 'p05-lesson.html';
+  }, 400);
 }
 
 var activePanel = null;
