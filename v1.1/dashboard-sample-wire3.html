@@ -35,7 +35,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sb-badge.earned:hover { transform: scale(1.1); }
 .sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.05); }
 
-.sb-cal { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px; margin-top: 4px; box-shadow: inset 0 0 16px rgba(255,255,255,0.08); }
+.sb-cal { width: 100%; padding: 0; margin-top: 4px; }
 .sb-cal-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
 .sb-cal-month { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); }
 .sb-cal-streak { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: #f7513b; }
@@ -72,29 +72,36 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sp-cta { display: inline-flex; padding: 12px 28px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
 .sp-cta:hover { opacity: 0.9; }
 
-/* Suggest chips */
-.suggest-area { display: flex; gap: 8px; flex-wrap: wrap; }
+/* Suggest row (horizontal) */
+.suggest-row { display: flex; align-items: center; gap: 8px; }
 .suggest-chip {
-  padding: 10px 18px;
+  padding: 8px 14px;
   background: transparent;
   border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 100px;
   color: rgba(255,255,255,0.6);
-  font-size: 12px; font-weight: 500;
+  font-size: 11px; font-weight: 500;
   cursor: pointer; transition: all 0.2s;
   font-family: 'Noto Sans JP', sans-serif;
+  white-space: nowrap; flex-shrink: 0;
 }
 .suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); color: #fff; }
 .suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
+.suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
+.suggest-input input { flex: 1; padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 12px; outline: none; font-family: inherit; min-width: 0; }
+.suggest-input input::placeholder { color: rgba(255,255,255,0.2); }
+.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.suggest-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
 
-/* Dynamic content area */
+/* Dynamic content area (vertical) */
 .dynamic-area {
   flex: 1;
-  display: flex; gap: 12px;
+  display: flex; flex-direction: column; gap: 12px;
   min-height: 0;
 }
 
-/* Progress cards (always visible) */
+/* Progress row */
+.prog-row { display: flex; gap: 12px; }
 .prog-card { flex: 1; background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px; }
 .prog-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
 .prog-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; margin-bottom: 8px; }
@@ -104,9 +111,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .prog-fill.rainbow { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
 .prog-fill.blue { background: linear-gradient(to right, #0f4bab, #34e0ff); }
 
-/* Expandable panel (portfolio / level) */
+/* Expandable panel (full width, below progress) */
 .expand-panel {
-  flex: 1;
   background: rgba(0,0,0,0.1);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-radius: 16px;
@@ -114,10 +120,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   padding: 20px;
   overflow-y: auto;
   display: none;
-  animation: fadeSlide 0.3s ease forwards;
+  animation: fadeSlide 0.25s ease forwards;
 }
 .expand-panel.show { display: block; }
-@keyframes fadeSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 .ep-title { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 900; margin-bottom: 12px; }
 .ep-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
 .ep-bar-name { width: 80px; color: rgba(255,255,255,0.5); flex-shrink: 0; }
@@ -199,27 +205,33 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
     </div>
 
-    <!-- Suggest chips -->
-    <div class="suggest-area">
-      <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオを見る</button>
-      <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベルを見る</button>
-      <button class="suggest-chip" onclick="togglePanel('company', this)">📋 企業・選考を見る</button>
+    <!-- Suggest chips + input (horizontal) -->
+    <div class="suggest-row">
+      <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオ</button>
+      <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベル</button>
+      <button class="suggest-chip" onclick="togglePanel('company', this)">📋 企業・選考</button>
+      <div class="suggest-input">
+        <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
+        <button id="cSend">送信</button>
+      </div>
     </div>
 
-    <!-- Dynamic area: progress cards + expandable panel -->
+    <!-- Dynamic area -->
     <div class="dynamic-area">
-      <div class="prog-card">
-        <div class="prog-label">カリキュラム進捗</div>
-        <div class="prog-value">52<span class="unit">%</span></div>
-        <div class="prog-track"><div class="prog-fill rainbow" style="width:52%;"></div></div>
-      </div>
-      <div class="prog-card">
-        <div class="prog-label">面接開放まで</div>
-        <div class="prog-value">38<span class="unit">h</span></div>
-        <div class="prog-track"><div class="prog-fill blue" style="width:52%;"></div></div>
+      <div class="prog-row">
+        <div class="prog-card">
+          <div class="prog-label">カリキュラム進捗</div>
+          <div class="prog-value">52<span class="unit">%</span></div>
+          <div class="prog-track"><div class="prog-fill rainbow" style="width:52%;"></div></div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">面接開放まで</div>
+          <div class="prog-value">38<span class="unit">h</span></div>
+          <div class="prog-track"><div class="prog-fill blue" style="width:52%;"></div></div>
+        </div>
       </div>
 
-      <!-- Portfolio panel -->
+      <!-- Portfolio panel (full width below) -->
       <div class="expand-panel" id="panelPortfolio">
         <div class="ep-title">スキルポートフォリオ</div>
         <div class="ep-row"><span class="ep-bar-name">IT基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:100%;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span class="ep-bar-val">B1</span></div>
