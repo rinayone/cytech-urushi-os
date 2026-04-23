@@ -30,7 +30,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .header-expand img { height: 22px; }
 .header-expand .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
 .header-expand .hr { margin-left: auto; }
-.hb-dash { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+.hb-dash { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; }
+.hb-dash:hover { opacity: 0.9; }
 .hb-dash:hover { background: rgba(255,255,255,0.16); }
 
 /* Content */
@@ -106,6 +107,40 @@ body.panel-open .content-area { right: 328px; }
   align-items: center; justify-content: center;
 }
 .feedback-overlay.show { display: flex; }
+.feedback-chat {
+  max-width: 480px; width: 90%; max-height: 80vh; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.fc-msg { display: flex; gap: 10px; opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
+.fc-msg.visible { opacity: 1; transform: translateY(0); }
+.fc-avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
+  filter: blur(2px) saturate(1.2);
+}
+.fc-bubble {
+  background: rgba(0,0,0,0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 4px 16px 16px 16px; padding: 14px 18px;
+  font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.9);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+}
+.fc-bubble strong { color: #fff; }
+.fc-action {
+  display: flex; gap: 8px; margin-top: 4px; opacity: 0; transform: translateY(6px); transition: all 0.4s ease;
+}
+.fc-action.visible { opacity: 1; transform: translateY(0); }
+.fc-action button {
+  flex: 1; padding: 14px 16px; border-radius: 14px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s;
+  border: 1.5px solid rgba(255,255,255,0.25); background: transparent; color: #fff;
+  text-align: center;
+}
+.fc-action button:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); }
+.fc-action button.recommended {
+  background: linear-gradient(135deg, #f7513b, #f13884); border: none;
+}
+.fc-action button.recommended:hover { opacity: 0.9; }
 .feedback-card {
   background: rgba(255,255,255,0.06); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255,255,255,0.12); border-radius: 24px;
@@ -251,7 +286,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 <div class="header-expand" id="headerExpand">
   <img src="logo.png" alt="CyTech">
   <span class="ht">CyTech Urushi OS</span>
-  <div class="hr"><button class="hb-dash">ダッシュボードへ →</button></div>
+  <div class="hr"><button class="hb-dash" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div>
 </div>
 
 <!-- Content -->
@@ -296,41 +331,26 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <!-- Feedback overlay -->
 <div class="feedback-overlay" id="feedbackOverlay">
-  <div class="feedback-card">
-    <div class="level-badge level-b1">&#9733; B1 — Rookie 到達</div>
-    <h2 class="feedback-title">佐藤さん、B1レベルを達成しました。</h2>
-
-    <!-- Rubric -->
-    <ul class="rubric-list">
-      <li class="rubric-item"><span class="rubric-icon rubric-pass">&#10003;</span><div><strong>手順の論理性</strong> — 切り分けの順序が正しく、段階的に原因を絞り込めています。</div></li>
-      <li class="rubric-item"><span class="rubric-icon rubric-pass">&#10003;</span><div><strong>基礎知識の適用</strong> — ping、IPアドレス、DNS等の概念を正しく使用しています。</div></li>
-      <li class="rubric-item"><span class="rubric-icon rubric-partial">&#9679;</span><div><strong>説明の具体性</strong> — 手順は正しいですが、各ステップで「何を確認するか」をもう少し具体的に書けるとB2レベルに近づきます。</div></li>
-    </ul>
-
-    <!-- Confidence vs Actual -->
-    <div class="conf-compare">
-      <div class="conf-compare-item">
-        <div class="conf-compare-label">あなたの自信度</div>
-        <div class="conf-compare-value conf" id="confDisplay">—</div>
+  <div class="feedback-chat">
+    <div class="fc-msgs" id="fcMsgs">
+      <div class="fc-msg" id="fc1">
+        <div class="fc-avatar"></div>
+        <div class="fc-bubble">佐藤さん、<strong>B1レベル — Rookie 到達</strong>です！</div>
       </div>
-      <div class="conf-compare-item">
-        <div class="conf-compare-label">実際の正答率</div>
-        <div class="conf-compare-value actual">82%</div>
+      <div class="fc-msg" id="fc2">
+        <div class="fc-avatar"></div>
+        <div class="fc-bubble"><span style="color:#34e0ff;">&#10003;</span> <strong>手順の論理性</strong> — 切り分けの順序が正しく、段階的に原因を絞り込めています。<br><span style="color:#34e0ff;">&#10003;</span> <strong>基礎知識の適用</strong> — ping、IPアドレス、DNS等の概念を正しく使用しています。<br><span style="color:#f8ee1a;">&#9679;</span> <strong>説明の具体性</strong> — もう少し具体的に書けるとB2に近づきます。</div>
+      </div>
+      <div class="fc-msg" id="fc3">
+        <div class="fc-avatar"></div>
+        <div class="fc-bubble">営業で例えると、お客様から「商品が届かない」と連絡が来た時の切り分けと同じ考え方ができています。<strong>自信を持ってください。</strong><br><br>正答率: <span style="color:#34e0ff;font-weight:700;">82%</span> / あなたの自信度: <span id="confDisplay2">—</span></div>
+      </div>
+      <div class="fc-msg" id="fc4">
+        <div class="fc-avatar"></div>
+        <div class="fc-bubble" id="fcRecommend"></div>
       </div>
     </div>
-
-    <!-- KANAME comment -->
-    <div class="kaname-feedback">
-      <div class="kaname-mini"></div>
-      <div class="kaname-feedback-text">
-        <strong>営業で例えると、</strong>お客様から「商品が届かない」と連絡が来た時に、まず配送状況を確認し、次に倉庫の在庫を確認し…と順番に切り分けますよね。今回の回答はまさにその考え方ができています。<strong>自信を持ってください。</strong>
-      </div>
-    </div>
-
-    <div class="feedback-actions">
-      <button class="fb-btn fb-btn-secondary" onclick="closeFeedback()">解説を見る</button>
-      <button class="fb-btn fb-btn-primary" onclick="closeFeedback()">次のUnitへ →</button>
-    </div>
+    <div class="fc-action" id="fcAction"></div>
   </div>
 </div>
 
@@ -397,8 +417,33 @@ function selectConf(el, val) {
 function submitAnswer() {
   var text = document.getElementById('answerText').value.trim();
   if (!text) { document.getElementById('answerText').style.borderColor = 'rgba(247,81,59,0.5)'; return; }
-  document.getElementById('confDisplay').textContent = selectedConf > 0 ? confLabels[selectedConf] : '未選択';
+
+  document.getElementById('confDisplay2').textContent = selectedConf > 0 ? confLabels[selectedConf] : '未選択';
+
+  // Recommendation based on confidence
+  var recText = '';
+  var recBtn = '';
+  if (selectedConf <= 1) {
+    recText = '少し不安が残っているようですね。復習してから次に進むと、もっと自信がつきますよ。';
+    recBtn = '<button onclick="closeFeedback()">解説を見る</button><button class="recommended" onclick="closeFeedback()">復習する →</button><button onclick="closeFeedback()">次のUnitへ</button>';
+  } else if (selectedConf <= 2) {
+    recText = 'もう少し理解を深めたい部分がありそうですね。解説を確認してみましょう。';
+    recBtn = '<button onclick="closeFeedback()">復習する</button><button class="recommended" onclick="closeFeedback()">解説を見る →</button><button onclick="closeFeedback()">次のUnitへ</button>';
+  } else {
+    recText = '自信を持って正解できていますね。次のUnitに進みましょう！';
+    recBtn = '<button onclick="closeFeedback()">復習する</button><button onclick="closeFeedback()">解説を見る</button><button class="recommended" onclick="closeFeedback()">次のUnitへ →</button>';
+  }
+  document.getElementById('fcRecommend').innerHTML = recText;
+  document.getElementById('fcAction').innerHTML = recBtn;
+
   document.getElementById('feedbackOverlay').classList.add('show');
+
+  // Sequential chat messages
+  setTimeout(function() { document.getElementById('fc1').classList.add('visible'); }, 300);
+  setTimeout(function() { document.getElementById('fc2').classList.add('visible'); }, 800);
+  setTimeout(function() { document.getElementById('fc3').classList.add('visible'); }, 1300);
+  setTimeout(function() { document.getElementById('fc4').classList.add('visible'); }, 1800);
+  setTimeout(function() { document.getElementById('fcAction').classList.add('visible'); }, 2200);
 }
 
 function closeFeedback() {
