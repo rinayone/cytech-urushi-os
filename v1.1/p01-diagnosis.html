@@ -63,16 +63,19 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Reaction fly */
 .reaction-fly {
   position: fixed;
-  font-size: 28px;
+  font-size: 24px;
   pointer-events: none;
   z-index: 200;
-  animation: flyUp var(--dur) ease-out forwards;
-  opacity: 1;
+  opacity: 0;
+  animation: flyUp var(--dur) cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  animation-delay: var(--delay);
 }
 @keyframes flyUp {
-  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-  50% { transform: translateY(-200px) scale(1.2) rotate(var(--rot)); opacity: 0.8; }
-  100% { transform: translateY(-500px) scale(0.6) rotate(calc(var(--rot) * 2)); opacity: 0; }
+  0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+  10% { opacity: 1; transform: translateY(-10px) translateX(var(--dx1)) scale(1); }
+  40% { opacity: 1; transform: translateY(-120px) translateX(var(--dx2)) scale(1.05); }
+  70% { opacity: 0.6; transform: translateY(-250px) translateX(var(--dx3)) scale(0.9); }
+  100% { opacity: 0; transform: translateY(-400px) translateX(var(--dx4)) scale(0.7); }
 }
 
 /* Choices */
@@ -227,21 +230,26 @@ function goStep(step) {
 
 function pressGood(btn, emoji) {
   btn.classList.add('pressed');
-  // Fly reactions
   var rect = btn.getBoundingClientRect();
-  for (var i = 0; i < 6; i++) {
+  var cx = rect.left + rect.width / 2;
+  var cy = rect.top;
+  for (var i = 0; i < 5; i++) {
     var fly = document.createElement('div');
     fly.className = 'reaction-fly';
     fly.textContent = emoji;
-    fly.style.left = (rect.left + rect.width/2 - 14 + (Math.random()-0.5)*60) + 'px';
-    fly.style.top = (rect.top - 10) + 'px';
-    fly.style.setProperty('--dur', (0.8 + Math.random()*0.6) + 's');
-    fly.style.setProperty('--rot', ((Math.random()-0.5)*40) + 'deg');
-    fly.style.animationDelay = (i * 0.08) + 's';
+    fly.style.left = (cx - 12) + 'px';
+    fly.style.top = cy + 'px';
+    var spread = (Math.random() - 0.5) * 80;
+    fly.style.setProperty('--dur', (1.2 + Math.random() * 0.8) + 's');
+    fly.style.setProperty('--delay', (i * 0.12) + 's');
+    fly.style.setProperty('--dx1', (spread * 0.3) + 'px');
+    fly.style.setProperty('--dx2', (spread * 0.6) + 'px');
+    fly.style.setProperty('--dx3', (spread * 0.8) + 'px');
+    fly.style.setProperty('--dx4', (spread) + 'px');
     document.body.appendChild(fly);
-    setTimeout(function(el) { el.remove(); }.bind(null, fly), 1600);
+    setTimeout(function(el) { el.remove(); }.bind(null, fly), 2500);
   }
-  setTimeout(function() { renderStep(1); }, 600);
+  setTimeout(function() { renderStep(1); }, 800);
 }
 
 function selQ2(btn) {
