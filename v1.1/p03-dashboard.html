@@ -356,27 +356,77 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   </div>
 </div>
 
-<!-- Portfolio popup -->
+<!-- Portfolio popup (full) -->
 <div class="portfolio-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
   <div class="portfolio-popup">
     <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;">SK</div>
-      <div><div style="font-size:18px;font-weight:700;">佐藤 健太</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">B1 Rookie / 97日経過</div></div>
+
+    <!-- Profile -->
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="width:52px;height:52px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:18px;flex-shrink:0;">SK</div>
+      <div style="flex:1;"><div style="font-size:18px;font-weight:700;">佐藤 健太</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div></div>
+      <div style="padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(52,224,255,0.15),rgba(15,75,171,0.15));border:1px solid rgba(52,224,255,0.25);color:#34e0ff;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;flex-shrink:0;">B1 Rookie</div>
     </div>
-    <div class="pp-label">スキルグラフ</div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">HW基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">37%</span></div>
+
+    <!-- Stats -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">42<span style='font-size:12px;'>h</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">総学習時間</div></div>
+      <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">52<span style='font-size:12px;'>%</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">カリキュラム</div></div>
+      <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">82<span style='font-size:12px;'>%</span></div><div style="font-size:10px;color:rgba(255,255,255,0.3);">正答率</div></div>
+      <div style="flex:1;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;"><div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;">12</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">閲覧数</div></div>
+    </div>
+
+    <!-- Skill graph -->
+    <div class="pp-label">スキルグラフ（B1〜B5）</div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">ハードウェア</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">B1</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">OS基礎</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(to right,#7cbf00,#f8ee1a,#f7513b,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">85%</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">37%</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">セキュリティ</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;border-radius:3px;"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">0%</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;"><span style="width:90px;color:rgba(255,255,255,0.5);">データベース</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;border-radius:3px;"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;">0%</span></div>
+    </div>
+
+    <!-- Badges -->
     <div class="pp-label">獲得バッジ</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎</span>
-      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎</span>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">IT基礎 修了</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">HW基礎 修了</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;">OS基礎 修了</span>
       <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">セキュリティ</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">データベース</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">総合演習</span>
+      <span style="padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">Skill Prime</span>
     </div>
-    <div class="pp-label">直近のAI評価</div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;"><span style="color:#34e0ff;">&#10003;</span> Unit 4 — B1到達 / 正答率82%</div>
-    <button style="width:100%;padding:12px;background:linear-gradient(135deg,#f7513b,#f13884);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:16px;" onclick="location.href='p07-portfolio.html'">ポートフォリオ全体を見る →</button>
+
+    <!-- AI evaluation log -->
+    <div class="pp-label">AI評価ログ</div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#34e0ff;">&#10003;</span><div><strong style="color:#fff;">Unit 4 課題</strong> — B1到達 / 正答率: 82%</div></div>
+      <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#34e0ff;">&#10003;</span><div><strong style="color:#fff;">Unit 3 課題</strong> — B1到達 / 正答率: 78%</div></div>
+      <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#34e0ff;">&#10003;</span><div><strong style="color:#fff;">Unit 2 課題</strong> — B1到達 / 正答率: 85%</div></div>
+      <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#f8ee1a;">&#9679;</span><div><strong style="color:#fff;">Unit 1 課題</strong> — 再提出後B1到達 / 71%→88%</div></div>
+    </div>
+
+    <!-- Learning history -->
+    <div class="pp-label">学習履歴</div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#34e0ff;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 5 STEP 3 完了</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.06.04</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#34e0ff;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 5 STEP 2 完了</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.06.03</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#f13884;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 4 課題提出 — B1判定</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.06.01</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#0f4bab;flex-shrink:0;"></span><span style="flex:1;color:rgba(255,255,255,0.6);">Unit 4 全STEP完了</span><span style="color:rgba(255,255,255,0.25);font-family:'Lato',sans-serif;font-size:11px;">2025.05.30</span></div>
+    </div>
+
+    <!-- Public setting -->
+    <div class="pp-label">公開設定</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+      <div><div style="font-size:13px;">ポートフォリオを企業に公開</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">公開すると企業がスカウトを送れます</div></div>
+      <div style="width:44px;height:24px;background:linear-gradient(to right,#953ec3,#0f4bab);border-radius:12px;position:relative;cursor:pointer;" onclick="this.classList.toggle('off');this.style.background=this.classList.contains('off')?'rgba(255,255,255,0.15)':'linear-gradient(to right,#953ec3,#0f4bab)';"><div style="width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:23px;transition:left 0.2s;"></div></div>
+    </div>
+
+    <!-- PDF -->
+    <button style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">ポートフォリオPDFを出力</button>
   </div>
 </div>
 
