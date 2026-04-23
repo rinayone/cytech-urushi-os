@@ -24,11 +24,30 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
 }
-.header .logo-swap { flex-shrink: 0; }
+.header .logo-swap { flex-shrink: 0; width: auto; }
+.header .logo-swap .logo-default { height: 22px; width: auto; }
 .header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
 .header .hr { margin-left: auto; }
+/* Notification */
+.hr { margin-left: auto; }
+.notif-btn { background: none; border: none; font-size: 18px; cursor: pointer; position: relative; padding: 4px; transition: transform 0.2s; }
+.notif-btn:hover { transform: scale(1.1); }
+.notif-badge { position: absolute; top: -2px; right: -4px; width: 16px; height: 16px; background: #f7513b; border-radius: 50%; font-size: 9px; font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; }
+
+/* Notification popup */
+.notif-overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,8,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-start; justify-content: flex-end; padding: 80px 20px 20px; }
+.notif-overlay.show { display: flex; }
+.notif-popup { background: rgba(0,0,0,0.25); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 40px rgba(0,0,0,0.5); width: 340px; max-height: 70vh; overflow-y: auto; padding: 20px; opacity: 0; transform: translateY(-8px); transition: all 0.3s ease; }
+.notif-overlay.show .notif-popup { opacity: 1; transform: translateY(0); }
+.notif-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+.notif-item:last-child { border-bottom: none; }
+.notif-item .ni-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 9px; font-weight: 700; margin-right: 6px; }
+.ni-update { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.ni-company { background: rgba(149,62,195,0.15); color: #953ec3; }
+.notif-item .ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
+
 /* Logo ↔ KANAME swap */
-.logo-swap { position: relative; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+.logo-swap { position: relative; cursor: pointer; width: auto; height: 36px; display: flex; align-items: center; justify-content: center; min-width: 36px; }
 .logo-swap .logo-default { height: 22px; transition: opacity 0.2s; }
 .logo-swap .logo-kaname { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884); filter: blur(1px) saturate(1.2); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
 .logo-swap .logo-kaname .kh-face { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 18px; height: 9px; background: rgba(8,8,35,0.7); border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; z-index: 2; }
@@ -184,15 +203,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* Next action (CTA) */
 .next-action {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(247,81,59,0.08), rgba(241,56,132,0.06));
+  border: 1px solid rgba(247,81,59,0.2);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 14px;
+  transition: all 0.2s;
 }
+.next-action:hover { border-color: rgba(247,81,59,0.4); background: linear-gradient(135deg, rgba(247,81,59,0.12), rgba(241,56,132,0.08)); }
 .na-icon { font-size: 24px; }
 .na-text { flex: 1; }
 .na-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
@@ -231,7 +252,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Portfolio popup */
 .portfolio-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(5,5,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); align-items:center; justify-content:center; }
 .portfolio-overlay.show { display:flex; }
-.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:520px; width:92%; max-height:85vh; overflow-y:auto; padding:28px; position:relative; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
+.portfolio-popup { background:rgba(0,0,0,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:24px; box-shadow:inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3), 0 12px 48px rgba(0,0,0,0.5); max-width:90vw; width:90vw; max-height:90vh; overflow-y:auto; padding:32px; position:relative; opacity:0; transform:scale(0.97); transition:all 0.3s ease; }
 .portfolio-overlay.show .portfolio-popup { opacity:1; transform:scale(1); }
 .pp-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.06); border:none; border-radius:8px; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .pp-label { font-family:'Lato',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin:16px 0 8px; }
@@ -252,7 +273,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <header class="header">
   <div class="logo-swap" onclick="location.href='p02-ai-dialogue.html'"><img src="logo.png" alt="CyTech" class="logo-default"><div class="logo-kaname"><div class="kh-face"><div class="kh-eye"></div><div class="kh-eye"></div></div></div></div>
   <span class="ht">ダッシュボード</span>
-  
+  <div class="hr">
+    <button class="notif-btn" onclick="openNotif()" title="お知らせ">🔔<span class="notif-badge">2</span></button>
+  </div>
 </header>
 
 <div class="game-layout">
@@ -315,6 +338,16 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
     </div>
 
+    <!-- Next action (TOP priority) -->
+    <div class="next-action" onclick="location.href='p05-lesson.html'" style="cursor:pointer;">
+      <div class="na-icon">📘</div>
+      <div class="na-text">
+        <div class="na-title">Unit 5 — ネットワーク基礎</div>
+        <div class="na-sub">STEP 3 から再開 / 推定40分</div>
+      </div>
+      <button class="na-btn" onclick="event.stopPropagation();location.href='p05-lesson.html'">再開 →</button>
+    </div>
+
     <!-- Skills (stat grid) -->
     <div class="stats-title">スキルステータス</div>
     <div class="stats-grid">
@@ -324,16 +357,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="stat-item"><span class="stat-name">ネットワーク</span><span class="stat-val progress">37%</span></div>
       <div class="stat-item"><span class="stat-name">セキュリティ</span><span class="stat-val locked">—</span></div>
       <div class="stat-item"><span class="stat-name">データベース</span><span class="stat-val locked">—</span></div>
-    </div>
-
-    <!-- Next action -->
-    <div class="next-action">
-      <div class="na-icon">📘</div>
-      <div class="na-text">
-        <div class="na-title">Unit 5 — ネットワーク基礎</div>
-        <div class="na-sub">STEP 3 から再開 / 推定40分</div>
-      </div>
-      <button class="na-btn" onclick="location.href='p05-lesson.html'">再開 →</button>
     </div>
 
     <!-- Bottom info -->
@@ -355,6 +378,16 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="info-label">閲覧数</div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Notification popup -->
+<div class="notif-overlay" id="notifOverlay" onclick="if(event.target===this)closeNotif()">
+  <div class="notif-popup">
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">お知らせ</div>
+    <div class="notif-item"><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました。応答精度が向上しています。<div class="ni-date">2025.06.03</div></div>
+    <div class="notif-item"><span class="ni-tag ni-company">企業</span>◯◯株式会社が新しい採用要件を公開しました。カリキュラムが更新されています。<div class="ni-date">2025.06.01</div></div>
+    <div class="notif-item"><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました。<div class="ni-date">2025.05.28</div></div>
   </div>
 </div>
 
@@ -435,6 +468,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <script>
 function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
+function openNotif() { document.getElementById('notifOverlay').classList.add('show'); }
+function closeNotif() { document.getElementById('notifOverlay').classList.remove('show'); }
 </script>
 </body>
 </html>
