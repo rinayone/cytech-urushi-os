@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — 課題・テスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.18; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, #050508 30%, transparent 60%, rgba(5,5,8,0.5) 100%); }
+
+/* Header expand */
+.header-expand {
+  position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 55;
+  display: flex; align-items: center; padding: 0 18px; gap: 10px;
+  background: rgba(255,255,255,0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
+  transform: translateY(-70px); opacity: 0; transition: all 0.3s ease; pointer-events: none;
+}
+.header-expand.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+.header-expand img { height: 22px; }
+.header-expand .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header-expand .hr { margin-left: auto; }
+.hb-dash { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+.hb-dash:hover { background: rgba(255,255,255,0.16); }
+
+/* Content */
+.content-area {
+  position: fixed; top: 16px; bottom: 72px; left: 16px; right: 16px;
+  background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+  padding: 28px; overflow-y: auto; z-index: 10;
+  transition: right 0.3s ease;
+}
+body.panel-open .content-area { right: 328px; }
+
+.ct-icon { display: inline-flex; align-items: center; cursor: pointer; margin-bottom: 16px; }
+.ct-icon img { height: 20px; opacity: 0.5; transition: opacity 0.2s; }
+.ct-icon:hover img { opacity: 1; }
+
+.step-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+.content-title { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.content-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+.hl { color: #34e0ff; font-weight: 700; }
+
+/* Scenario box */
+.scenario-box {
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 20px 24px; margin-bottom: 24px;
+}
+.scenario-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #f7513b; margin-bottom: 8px; }
+.scenario-box p { font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.8); }
+.scenario-box strong { color: #fff; }
+
+/* Answer area */
+.answer-section { margin-bottom: 24px; }
+.answer-label { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+.answer-textarea {
+  width: 100%; min-height: 140px; padding: 16px;
+  background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; color: #fff; font-size: 14px; line-height: 1.8;
+  font-family: inherit; outline: none; resize: vertical;
+  transition: border-color 0.2s;
+}
+.answer-textarea::placeholder { color: rgba(255,255,255,0.2); }
+.answer-textarea:focus { border-color: rgba(255,255,255,0.25); }
+
+/* Confidence selector */
+.confidence-section { margin-bottom: 24px; }
+.confidence-label { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.confidence-options { display: flex; gap: 8px; }
+.conf-opt {
+  flex: 1; padding: 12px 8px; text-align: center;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; cursor: pointer; transition: all 0.2s;
+  font-size: 12px; color: rgba(255,255,255,0.5);
+}
+.conf-opt:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+.conf-opt.selected { background: rgba(15,75,171,0.2); border-color: #0f4bab; color: #34e0ff; font-weight: 700; }
+.conf-opt .conf-emoji { font-size: 20px; display: block; margin-bottom: 4px; }
+
+/* Submit button */
+.submit-area { display: flex; justify-content: flex-end; }
+.submit-btn {
+  padding: 12px 32px; background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s;
+}
+.submit-btn:hover { opacity: 0.9; }
+
+/* ===== FEEDBACK (hidden initially) ===== */
+.feedback-overlay {
+  display: none; position: fixed; inset: 0; z-index: 100;
+  background: rgba(5,5,8,0.85);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.feedback-overlay.show { display: flex; }
+.feedback-card {
+  background: rgba(255,255,255,0.06); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 24px;
+  padding: 36px; max-width: 520px; width: 90%;
+  box-shadow: inset 0 0 24px rgba(255,255,255,0.06), 0 12px 48px rgba(0,0,0,0.5);
+  opacity: 0; transform: scale(0.95) translateY(12px);
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.feedback-overlay.show .feedback-card { opacity: 1; transform: scale(1) translateY(0); }
+
+/* Level badge */
+.level-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; border-radius: 100px; margin-bottom: 20px;
+  font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700;
+}
+.level-b1 { background: linear-gradient(135deg, rgba(52,224,255,0.2), rgba(15,75,171,0.2)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; }
+
+.feedback-title { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 16px; line-height: 1.4; }
+
+/* Rubric breakdown */
+.rubric-list { list-style: none; margin-bottom: 20px; }
+.rubric-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6;
+}
+.rubric-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+.rubric-pass { color: #34e0ff; }
+.rubric-partial { color: #f8ee1a; }
+
+/* Confidence vs Actual */
+.conf-compare {
+  background: rgba(0,0,0,0.3); border-radius: 12px; padding: 16px;
+  margin-bottom: 20px; display: flex; gap: 16px;
+}
+.conf-compare-item { flex: 1; text-align: center; }
+.conf-compare-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+.conf-compare-value { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 700; }
+.conf-compare-value.actual { color: #34e0ff; }
+.conf-compare-value.conf { color: rgba(255,255,255,0.6); }
+
+/* KANAME comment */
+.kaname-feedback {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 16px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; margin-bottom: 24px;
+}
+.kaname-mini {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(from 0deg, #f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
+  filter: blur(2px) saturate(1.2);
+}
+.kaname-feedback-text { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+.kaname-feedback-text strong { color: #fff; }
+
+.feedback-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.fb-btn {
+  padding: 12px 28px; border-radius: 12px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; border: none; color: #fff;
+}
+.fb-btn-primary { background: linear-gradient(135deg, #f7513b, #f13884); }
+.fb-btn-primary:hover { opacity: 0.9; }
+.fb-btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
+.fb-btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+/* Footer */
+.footer-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 56px; z-index: 50;
+  display: flex; align-items: center; gap: 16px; padding: 0 12px 0 20px;
+  background: #0a0a1a; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-bar .unit-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap; }
+.footer-bar .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; position: relative; }
+.footer-bar .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #0f4bab, #34e0ff); box-shadow: 0 0 12px rgba(52,224,255,0.4), 0 0 4px rgba(15,75,171,0.6); }
+.footer-bar .step-count { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
+.footer-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+.footer-panel-btn { width: 32px; height: 32px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(255,255,255,0.35); transition: all 0.2s; flex-shrink: 0; }
+.footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+.footer-panel-btn.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border-color: transparent; }
+
+/* Slide panel */
+.slide-panel {
+  position: fixed; top: 16px; bottom: 72px; right: 16px; width: 300px; z-index: 40;
+  background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+  box-shadow: inset 0 0 16px rgba(255,255,255,0.03);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(calc(100% + 20px)); transition: transform 0.3s ease;
+}
+body.panel-open .slide-panel { transform: translateX(0); }
+.pill-toggle { display: flex; gap: 2px; padding: 2px; margin: 12px 12px 8px; background: rgba(0,0,0,0.2); border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08); }
+.pill-opt { flex: 1; padding: 6px 0; text-align: center; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); border-radius: 100px; cursor: pointer; transition: all 0.25s; }
+.pill-opt.active { background: linear-gradient(to right, #953ec3, #0f4bab); color: #fff; }
+.panel-body { flex: 1; overflow-y: auto; display: none; }
+.panel-body.active { display: flex; flex-direction: column; }
+
+/* TOC in panel */
+.toc { padding: 16px; }
+.toc-section { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.2); padding: 12px 12px 6px; }
+.toc-section:first-child { padding-top: 4px; }
+.toc-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: 13px; color: rgba(255,255,255,0.4); cursor: pointer; margin-bottom: 2px; }
+.toc-item.current { color: #fff; font-weight: 700; background: rgba(255,255,255,0.06); }
+.toc-item.done { color: #34e0ff; }
+.toc-icon { font-size: 12px; width: 18px; text-align: center; flex-shrink: 0; }
+.toc-item.done .toc-icon { color: #34e0ff; }
+.toc-item.current .toc-icon { color: #f13884; }
+
+/* KANAME in panel */
+.kaname-chat { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+.k-msg { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px 12px 12px 12px; padding: 10px 14px; font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.8); opacity: 0; transform: translateY(6px); transition: all 0.3s; }
+.k-msg.visible { opacity: 1; transform: translateY(0); }
+.k-msg strong { color: #fff; }
+.k-msg .hl { color: #34e0ff; }
+.kaname-input { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 6px; }
+.kaname-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; }
+.kaname-input input::placeholder { color: rgba(255,255,255,0.2); }
+.kaname-input button { padding: 8px 12px; background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border: none; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+@media (max-width: 768px) {
+  .slide-panel { width: 85vw; }
+  body.panel-open .content-area { right: 16px; }
+  .content-area { padding: 20px; }
+  .confidence-options { flex-wrap: wrap; }
+  .conf-opt { flex: 0 0 calc(50% - 4px); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<div class="header-expand" id="headerExpand">
+  <img src="logo.png" alt="CyTech">
+  <span class="ht">CyTech Urushi OS</span>
+  <div class="hr"><button class="hb-dash">ダッシュボードへ →</button></div>
+</div>
+
+<!-- Content -->
+<div class="content-area" id="contentArea">
+  <div class="ct-icon" onclick="toggleHeader()"><img src="logo.png" alt="CT"></div>
+
+  <div class="step-label">STEP 8 — 課題</div>
+  <h2 class="content-title">Unit 5 実技課題</h2>
+  <p class="content-sub">ネットワーク基礎で学んだ内容を、実際のトラブル事例に適用してください。</p>
+
+  <!-- Scenario -->
+  <div class="scenario-box">
+    <div class="scenario-label">トラブル事例</div>
+    <p>あなたは情シス担当として、<strong>社内のPCがインターネットに接続できない</strong>という問い合わせを受けました。</p>
+    <p style="margin-top:12px;">以下の情報をもとに、<span class="hl">原因の切り分け手順</span>を説明してください。</p>
+    <p style="margin-top:8px;font-size:13px;color:rgba(255,255,255,0.5);">
+      ・該当PCのIPアドレス: 192.168.1.105<br>
+      ・ルーター: 192.168.1.1（他のPCからは接続可能）<br>
+      ・該当PCからルーターへのpingは成功する
+    </p>
+  </div>
+
+  <!-- Answer -->
+  <div class="answer-section">
+    <div class="answer-label">あなたの回答</div>
+    <textarea class="answer-textarea" id="answerText" placeholder="原因の切り分け手順を、ステップごとに記述してください..."></textarea>
+  </div>
+
+  <!-- Confidence -->
+  <div class="confidence-section">
+    <div class="confidence-label">この回答への自信度は？</div>
+    <div class="confidence-options">
+      <div class="conf-opt" onclick="selectConf(this, 1)"><span class="conf-emoji">&#128531;</span>自信なし</div>
+      <div class="conf-opt" onclick="selectConf(this, 2)"><span class="conf-emoji">&#129300;</span>少し不安</div>
+      <div class="conf-opt" onclick="selectConf(this, 3)"><span class="conf-emoji">&#128528;</span>まあまあ</div>
+      <div class="conf-opt" onclick="selectConf(this, 4)"><span class="conf-emoji">&#128522;</span>自信あり</div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitAnswer()">回答を提出する</button>
+  </div>
+</div>
+
+<!-- Feedback overlay -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-card">
+    <div class="level-badge level-b1">&#9733; B1 — Rookie 到達</div>
+    <h2 class="feedback-title">佐藤さん、B1レベルを達成しました。</h2>
+
+    <!-- Rubric -->
+    <ul class="rubric-list">
+      <li class="rubric-item"><span class="rubric-icon rubric-pass">&#10003;</span><div><strong>手順の論理性</strong> — 切り分けの順序が正しく、段階的に原因を絞り込めています。</div></li>
+      <li class="rubric-item"><span class="rubric-icon rubric-pass">&#10003;</span><div><strong>基礎知識の適用</strong> — ping、IPアドレス、DNS等の概念を正しく使用しています。</div></li>
+      <li class="rubric-item"><span class="rubric-icon rubric-partial">&#9679;</span><div><strong>説明の具体性</strong> — 手順は正しいですが、各ステップで「何を確認するか」をもう少し具体的に書けるとB2レベルに近づきます。</div></li>
+    </ul>
+
+    <!-- Confidence vs Actual -->
+    <div class="conf-compare">
+      <div class="conf-compare-item">
+        <div class="conf-compare-label">あなたの自信度</div>
+        <div class="conf-compare-value conf" id="confDisplay">—</div>
+      </div>
+      <div class="conf-compare-item">
+        <div class="conf-compare-label">実際の正答率</div>
+        <div class="conf-compare-value actual">82%</div>
+      </div>
+    </div>
+
+    <!-- KANAME comment -->
+    <div class="kaname-feedback">
+      <div class="kaname-mini"></div>
+      <div class="kaname-feedback-text">
+        <strong>営業で例えると、</strong>お客様から「商品が届かない」と連絡が来た時に、まず配送状況を確認し、次に倉庫の在庫を確認し…と順番に切り分けますよね。今回の回答はまさにその考え方ができています。<strong>自信を持ってください。</strong>
+      </div>
+    </div>
+
+    <div class="feedback-actions">
+      <button class="fb-btn fb-btn-secondary" onclick="closeFeedback()">解説を見る</button>
+      <button class="fb-btn fb-btn-primary" onclick="closeFeedback()">次のUnitへ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Slide panel -->
+<div class="slide-panel" id="slidePanel">
+  <div class="pill-toggle">
+    <div class="pill-opt active" onclick="switchTab('toc')">目次</div>
+    <div class="pill-opt" onclick="switchTab('kaname')">KANAME</div>
+  </div>
+  <div class="panel-body active" id="panelToc">
+    <div class="toc">
+      <div class="toc-section">Unit 5 — ネットワーク基礎</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>1. ネットワークとは</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>2. IPアドレスの仕組み</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>3. ネットワーク構成図</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>4. プロトコルの基本</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>5. DNSとドメイン</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>6. セキュリティ入門</div>
+      <div class="toc-item done"><span class="toc-icon">&#10003;</span>7. 実務での活用</div>
+      <div class="toc-item current"><span class="toc-icon">&#9656;</span>8. 課題・テスト</div>
+    </div>
+  </div>
+  <div class="panel-body" id="panelKaname">
+    <div class="kaname-chat" id="kMsgs">
+      <div class="k-msg" id="km1">落ち着いて考えれば大丈夫です。<strong>営業のトラブル対応</strong>と同じ要領ですよ。</div>
+    </div>
+    <div class="kaname-input">
+      <input type="text" id="kInput" placeholder="質問する...">
+      <button onclick="sendK()">送信</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-bar">
+  <span class="unit-label">Unit 5</span>
+  <div class="progress-track"><div class="progress-fill" style="width:87.5%"></div></div>
+  <span class="step-count">8 / 8</span>
+  <div class="footer-divider"></div>
+  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')">&#9776;</button>
+  <button class="footer-panel-btn" id="btnKaname" onclick="openPanel('kaname')">K</button>
+</div>
+
+<script>
+// Header
+var headerOpen = false;
+function toggleHeader() {
+  headerOpen = !headerOpen;
+  document.getElementById('headerExpand').classList.toggle('open', headerOpen);
+}
+document.addEventListener('click', function(e) {
+  if (headerOpen && !document.getElementById('headerExpand').contains(e.target) && !e.target.closest('.ct-icon')) {
+    headerOpen = false;
+    document.getElementById('headerExpand').classList.remove('open');
+  }
+});
+
+// Confidence
+var selectedConf = 0;
+var confLabels = ['', '自信なし', '少し不安', 'まあまあ', '自信あり'];
+function selectConf(el, val) {
+  selectedConf = val;
+  document.querySelectorAll('.conf-opt').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+// Submit
+function submitAnswer() {
+  var text = document.getElementById('answerText').value.trim();
+  if (!text) { document.getElementById('answerText').style.borderColor = 'rgba(247,81,59,0.5)'; return; }
+  document.getElementById('confDisplay').textContent = selectedConf > 0 ? confLabels[selectedConf] : '未選択';
+  document.getElementById('feedbackOverlay').classList.add('show');
+}
+
+function closeFeedback() {
+  document.getElementById('feedbackOverlay').classList.remove('show');
+}
+
+// Panel
+var currentPanel = null;
+function openPanel(tab) {
+  if (currentPanel === tab) { closePanel(); return; }
+  currentPanel = tab;
+  document.body.classList.add('panel-open');
+  switchTab(tab);
+  updateBtns();
+}
+function closePanel() {
+  currentPanel = null;
+  document.body.classList.remove('panel-open');
+  updateBtns();
+}
+function updateBtns() {
+  document.getElementById('btnToc').classList.toggle('active', currentPanel === 'toc');
+  document.getElementById('btnKaname').classList.toggle('active', currentPanel === 'kaname');
+}
+function switchTab(id) {
+  document.querySelectorAll('.pill-opt').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel-body').forEach(function(p) { p.classList.remove('active'); });
+  if (id === 'toc') {
+    document.querySelectorAll('.pill-opt')[0].classList.add('active');
+    document.getElementById('panelToc').classList.add('active');
+  } else {
+    document.querySelectorAll('.pill-opt')[1].classList.add('active');
+    document.getElementById('panelKaname').classList.add('active');
+    setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 200);
+  }
+  currentPanel = id; updateBtns();
+}
+
+// Chat
+function sendK() {
+  var input = document.getElementById('kInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  var area = document.getElementById('kMsgs');
+  var um = document.createElement('div');
+  um.className = 'k-msg visible';
+  um.style.cssText = 'background:rgba(149,62,195,0.12);border-color:rgba(149,62,195,0.2);border-radius:12px 4px 12px 12px;margin-left:20px;';
+  um.textContent = text;
+  area.appendChild(um);
+  area.scrollTop = area.scrollHeight;
+  setTimeout(function() {
+    var km = document.createElement('div');
+    km.className = 'k-msg';
+    km.innerHTML = 'ヒントとしては、<strong>「通信できる範囲を段階的に広げて確認する」</strong>のが基本です。';
+    area.appendChild(km);
+    area.scrollTop = area.scrollHeight;
+    requestAnimationFrame(function() { requestAnimationFrame(function() { km.classList.add('visible'); }); });
+  }, 600);
+}
+document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
+</script>
+</body>
+</html>
