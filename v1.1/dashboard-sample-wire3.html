@@ -92,8 +92,23 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sp-bubble { background: rgba(255,255,255,0.05); border-radius: 4px 16px 16px 16px; padding: 14px 18px; font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
 .sp-bubble strong { color: #fff; }
 .sp-bubble .hl { color: #34e0ff; font-weight: 700; }
-.sp-cta { display: inline-flex; padding: 12px 28px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
-.sp-cta:hover { opacity: 0.9; }
+/* Daily Mission */
+.mission-card { margin-top: 4px; }
+.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+.mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: opacity 0.2s; }
+.mission-item:last-child { border-bottom: none; }
+.mission-item:hover { opacity: 0.85; }
+.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; }
+.mi-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff; }
+.mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
+.mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.mi-time { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
+.mission-start { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; margin-top: 10px; transition: opacity 0.2s; }
+.mission-start:hover { opacity: 0.9; }
+.mission-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.mp-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 200px; }
+.mp-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f13884); transition: width 0.4s ease; }
+.mp-label { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 700; }
 
 /* Suggest row (horizontal) */
 .suggest-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -226,8 +241,30 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <div class="speech-area">
       <div class="sp-orb"><div class="og"></div><div class="ob"></div><div class="of"><div class="oe"></div><div class="oe"></div></div></div>
       <div class="sp-content">
-        <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。<strong>Unit 5 — ネットワーク基礎</strong>の続きですね。前回のSTEP 3、営業の組織図の話の続きから始めましょう。<span class="hl">あと38時間</span>で面接開放です。</div>
-        <button class="sp-cta">再開する →</button>
+        <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。今日のミッションを用意しました。<span class="hl">あと38時間</span>で面接開放 — まず1つ目から片付けましょう。</div>
+        <div class="mission-card">
+          <div class="mission-header">TODAY'S MISSION</div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">Unit 5 STEP 3 を完了する</div>
+            <div class="mi-time">20分</div>
+          </div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">STEP 4 に進む</div>
+            <div class="mi-time">15分</div>
+          </div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
+            <div class="mi-text">復習クイズに答える</div>
+            <div class="mi-time">5分</div>
+          </div>
+          <div class="mission-progress">
+            <div class="mp-track"><div class="mp-fill" id="mpFill" style="width:0%;"></div></div>
+            <div class="mp-label" id="mpLabel">0 / 3</div>
+          </div>
+          <button class="mission-start" onclick="location.href='p05-lesson.html'">最初のミッションを始める →</button>
+        </div>
       </div>
     </div>
 
@@ -330,6 +367,25 @@ document.addEventListener('click', function(e) {
     document.getElementById('accountMenu').classList.remove('show');
   }
 });
+
+// Mission toggle
+function toggleMission(el) {
+  el.classList.toggle('done');
+  el.querySelector('.mi-box').classList.toggle('checked');
+  var total = document.querySelectorAll('.mission-item').length;
+  var done = document.querySelectorAll('.mission-item.done').length;
+  document.getElementById('mpFill').style.width = (done / total * 100) + '%';
+  document.getElementById('mpLabel').textContent = done + ' / ' + total;
+  var btn = document.querySelector('.mission-start');
+  if (done === total) {
+    btn.textContent = 'すべて完了！ 🎉';
+    btn.style.background = 'linear-gradient(135deg, #7cbf00, #34e0ff)';
+  } else {
+    var next = document.querySelectorAll('.mission-item:not(.done)');
+    btn.textContent = next.length < total ? '次のミッションへ →' : '最初のミッションを始める →';
+    btn.style.background = 'linear-gradient(135deg, #f7513b, #f13884)';
+  }
+}
 
 var activePanel = null;
 function togglePanel(id, btn) {
