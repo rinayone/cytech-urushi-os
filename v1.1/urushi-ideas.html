@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>漆×Your Status UIアイデア 10パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; padding-bottom: 60px; }
+.hero { padding: 48px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.hero h1 { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.hero p { font-size: 13px; color: rgba(255,255,255,0.4); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+.idea { max-width: 400px; margin: 0 auto; padding: 40px 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.idea-num { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #f13884; margin-bottom: 4px; }
+.idea-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.idea-desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; line-height: 1.7; }
+
+/* Common sidebar mock */
+.sb-mock {
+  width: 220px; margin: 0 auto;
+  border-radius: 20px;
+  padding: 20px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  min-height: 320px;
+  position: relative; overflow: hidden;
+}
+.sb-heading { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.8); }
+.sb-level { padding: 4px 14px; border-radius: 100px; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 900; }
+.sb-badges { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+.sb-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; font-family: 'Lato', sans-serif; }
+.b-earned { color: #fff; }
+.b-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.05); }
+.sb-label { font-size: 8px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.2); width: 100%; text-align: left; margin-top: 8px; }
+
+/* ===== 1. Layering ===== */
+.s1 { background: rgba(0,0,0,0.15); backdrop-filter: blur(20px); box-shadow: inset 0 0 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); }
+.s1 .b-earned { box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.4); }
+.s1 .b-l1 { background: rgba(247,81,59,0.3); }
+.s1 .b-l2 { background: rgba(241,56,132,0.5); box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.4), 0 0 12px rgba(241,56,132,0.2); }
+.s1 .b-l3 { background: #953ec3; box-shadow: inset 0 1px 3px rgba(255,255,255,0.6), inset 0 -1px 3px rgba(0,0,0,0.4), 0 2px 12px rgba(149,62,195,0.4), 0 0 20px rgba(149,62,195,0.2); }
+
+/* ===== 2. Gradient BG ===== */
+.s2 { background: linear-gradient(180deg, rgba(80,10,10,0.4) 0%, rgba(40,5,15,0.6) 50%, rgba(10,5,20,0.8) 100%); backdrop-filter: blur(20px); box-shadow: inset 0 0 30px rgba(255,255,255,0.2), inset 0 0 60px rgba(180,40,40,0.1); }
+.s2 .sb-heading { color: rgba(255,220,200,0.9); }
+
+/* ===== 3. Annual Rings ===== */
+.ring-wrap { width: 120px; height: 120px; position: relative; margin: 8px 0; }
+.ring { position: absolute; border-radius: 50%; border: 3px solid; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.ring.r1 { width: 40px; height: 40px; border-color: #f7513b; }
+.ring.r2 { width: 64px; height: 64px; border-color: rgba(241,56,132,0.4); border-style: dashed; }
+.ring.r3 { width: 84px; height: 84px; border-color: rgba(149,62,195,0.2); border-style: dashed; }
+.ring.r4 { width: 102px; height: 102px; border-color: rgba(15,75,171,0.15); border-style: dashed; }
+.ring.r5 { width: 118px; height: 118px; border-color: rgba(52,224,255,0.1); border-style: dashed; }
+.ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 900; color: #f7513b; }
+
+/* ===== 4. Brush Stroke ===== */
+.cal-mini { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; width: 100%; }
+.cal-d { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 6px; color: rgba(255,255,255,0.08); font-family: 'Lato', sans-serif; }
+.cal-d.brush { background: linear-gradient(135deg, rgba(247,81,59,0.4), rgba(241,56,132,0.3)); color: rgba(255,255,255,0.3); border-radius: 2px 8px 3px 6px; transform: rotate(-1deg); }
+.cal-d.brush2 { background: linear-gradient(135deg, rgba(149,62,195,0.5), rgba(15,75,171,0.4)); color: rgba(255,255,255,0.4); border-radius: 6px 2px 7px 3px; transform: rotate(1deg); }
+
+/* ===== 5. Gloss Level ===== */
+.gloss-badges { display: flex; gap: 10px; justify-content: center; margin: 8px 0; }
+.gloss-b { width: 48px; height: 48px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: 'Lato', sans-serif; color: #fff; }
+.gloss-matte { background: #953ec3; }
+.gloss-semi { background: #953ec3; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 2px 8px rgba(149,62,195,0.3); }
+.gloss-mirror { background: linear-gradient(135deg, #953ec3, #34e0ff); box-shadow: inset 0 1px 4px rgba(255,255,255,0.6), inset 0 -2px 4px rgba(0,0,0,0.3), 0 4px 16px rgba(149,62,195,0.4), 0 0 24px rgba(52,224,255,0.15); }
+.gloss-label { font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+/* ===== 6. Layer Lines ===== */
+.layer-lines { display: flex; flex-direction: column; gap: 1px; width: 100%; margin: 8px 0; }
+.l-line { height: 2px; border-radius: 1px; }
+
+/* ===== 7. Color Deepening ===== */
+.deep-badges { display: flex; gap: 8px; justify-content: center; margin: 8px 0; }
+.deep-b { width: 44px; height: 44px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; font-family: 'Lato', sans-serif; }
+.deep-label { font-size: 7px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+/* ===== 8. Paint Area ===== */
+.s8 { position: relative; }
+.s8-paint { position: absolute; bottom: 0; left: 0; right: 0; border-radius: 0 0 20px 20px; background: linear-gradient(to top, rgba(247,81,59,0.15), rgba(241,56,132,0.1), rgba(149,62,195,0.05), transparent); pointer-events: none; transition: height 0.5s; }
+
+/* ===== 9. Dry Counter ===== */
+.dry-row { display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+.dry-d { width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 7px; font-family: 'Lato', sans-serif; font-weight: 700; }
+.dry-paint { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.dry-dry { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); border: 1px dashed rgba(255,255,255,0.1); }
+.dry-label-row { display: flex; gap: 12px; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+/* ===== 10. Vessel ===== */
+.vessel-wrap { width: 100px; height: 80px; margin: 8px auto; position: relative; }
+.vessel-base { position: absolute; bottom: 0; left: 10px; right: 10px; height: 50px; border-radius: 0 0 40px 40px; border: 2px solid rgba(255,255,255,0.1); border-top: none; overflow: hidden; }
+.vessel-fill { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab); border-radius: 0 0 38px 38px; }
+.vessel-rim { position: absolute; top: 20px; left: 0; right: 0; height: 12px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; }
+.vessel-pct { position: absolute; bottom: -20px; left: 0; right: 0; text-align: center; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 900; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>漆 × Your Status</h1>
+  <p>漆が塗り重なると強く美しくなる。学習が積み上がるとスキルが磨かれる。その性質をUIに落とし込む10パターン。</p>
+</div>
+
+<!-- 1 -->
+<div class="idea">
+  <div class="idea-num">IDEA 01</div>
+  <div class="idea-title">レイヤーリング（塗り重ね）</div>
+  <div class="idea-desc">バッジが獲得するたびに色の層が重なり、深みと艶が増す。最初は薄い半透明、最後は深い光沢。</div>
+  <div class="sb-mock s1">
+    <div class="sb-heading">Your Status</div>
+    <div class="sb-label">獲得バッジ（層が重なる）</div>
+    <div class="sb-badges">
+      <div class="sb-badge b-earned b-l1" style="background:rgba(247,81,59,0.3);">IT</div>
+      <div class="sb-badge b-earned b-l2">HW</div>
+      <div class="sb-badge b-earned b-l3">OS</div>
+      <div class="sb-badge b-locked">NW</div>
+      <div class="sb-badge b-locked">SC</div>
+      <div class="sb-badge b-locked">DB</div>
+      <div class="sb-badge b-locked">EX</div>
+      <div class="sb-badge b-locked">SP</div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:4px;">← 薄い　　　　　深い・艶 →</div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="idea">
+  <div class="idea-num">IDEA 02</div>
+  <div class="idea-title">漆グラデーション背景</div>
+  <div class="idea-desc">サイドバーの背景色がバッジ獲得数に応じて変化。0個=素地 → 3個=朱漆 → 8個=金蒔絵。</div>
+  <div class="sb-mock s2">
+    <div class="sb-heading">Your Status</div>
+    <div class="sb-level" style="background:rgba(180,40,40,0.2);border:1px solid rgba(180,40,40,0.3);color:rgba(255,200,180,0.8);">B1 Rookie</div>
+    <div style="font-size:10px;color:rgba(255,200,180,0.5);">3/8 獲得 — 朱漆の段階</div>
+    <div class="sb-badges" style="margin-top:8px;">
+      <div class="sb-badge b-earned" style="background:#f7513b;">IT</div>
+      <div class="sb-badge b-earned" style="background:#f13884;">HW</div>
+      <div class="sb-badge b-earned" style="background:#953ec3;">OS</div>
+      <div class="sb-badge b-locked">NW</div>
+      <div class="sb-badge b-locked">SC</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="idea">
+  <div class="idea-num">IDEA 03</div>
+  <div class="idea-title">年輪型プログレス</div>
+  <div class="idea-desc">B1〜B5を木の年輪で表現。中心から外へ色が重なる。漆が木に塗り重なるイメージ。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="ring-wrap">
+      <div class="ring r5"></div>
+      <div class="ring r4"></div>
+      <div class="ring r3"></div>
+      <div class="ring r2"></div>
+      <div class="ring r1"></div>
+      <div class="ring-label">B1</div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.3);">中心=現在　外側=目標</div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="idea">
+  <div class="idea-num">IDEA 04</div>
+  <div class="idea-title">刷毛ストローク</div>
+  <div class="idea-desc">学習した日にカレンダー上に刷毛で塗ったようなストロークが入る。漆職人が毎日一塗り。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="sb-label">4月 — 刷毛の重なり</div>
+    <div class="cal-mini">
+      <div class="cal-d">1</div><div class="cal-d brush">2</div><div class="cal-d brush2">3</div><div class="cal-d">4</div><div class="cal-d brush">5</div><div class="cal-d">6</div><div class="cal-d">7</div>
+      <div class="cal-d brush2">8</div><div class="cal-d brush">9</div><div class="cal-d brush2">10</div><div class="cal-d brush">11</div><div class="cal-d">12</div><div class="cal-d brush">13</div><div class="cal-d">14</div>
+      <div class="cal-d brush2">15</div><div class="cal-d brush">16</div><div class="cal-d brush2">17</div><div class="cal-d brush">18</div><div class="cal-d brush2">19</div><div class="cal-d">20</div><div class="cal-d brush">21</div>
+      <div class="cal-d brush2">22</div><div class="cal-d brush">23</div><div class="cal-d brush2">24</div><div class="cal-d">25</div><div class="cal-d">26</div><div class="cal-d">27</div><div class="cal-d">28</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="idea">
+  <div class="idea-num">IDEA 05</div>
+  <div class="idea-title">光沢レベル</div>
+  <div class="idea-desc">レベルが上がるとバッジの光沢度が上がる。B1=マット → B3=半艶 → B5=鏡面仕上げ。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="gloss-badges">
+      <div><div class="gloss-b gloss-matte">B1</div><div class="gloss-label">マット</div></div>
+      <div><div class="gloss-b gloss-semi">B3</div><div class="gloss-label">半艶</div></div>
+      <div><div class="gloss-b gloss-mirror">B5</div><div class="gloss-label">鏡面</div></div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.3);">現在: B1（マット）→ 磨いていく</div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="idea">
+  <div class="idea-num">IDEA 06</div>
+  <div class="idea-title">層の可視化</div>
+  <div class="idea-desc">学習完了ごとに1本の線が積み重なる。漆の断面図。100本で「完成」。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">42 / 100 層</div>
+    <div class="layer-lines">
+      <div class="l-line" style="width:100%;background:#f7513b;opacity:0.8;"></div>
+      <div class="l-line" style="width:98%;background:#f7513b;opacity:0.7;"></div>
+      <div class="l-line" style="width:96%;background:#f13884;opacity:0.65;"></div>
+      <div class="l-line" style="width:94%;background:#f13884;opacity:0.6;"></div>
+      <div class="l-line" style="width:92%;background:#953ec3;opacity:0.55;"></div>
+      <div class="l-line" style="width:90%;background:#953ec3;opacity:0.5;"></div>
+      <div class="l-line" style="width:88%;background:#0f4bab;opacity:0.45;"></div>
+      <div class="l-line" style="width:86%;background:#0f4bab;opacity:0.4;"></div>
+      <div class="l-line" style="width:84%;background:#34e0ff;opacity:0.35;"></div>
+      <div class="l-line" style="width:82%;background:#34e0ff;opacity:0.3;"></div>
+      <div class="l-line" style="width:80%;background:rgba(255,255,255,0.06);"></div>
+      <div class="l-line" style="width:78%;background:rgba(255,255,255,0.04);"></div>
+    </div>
+    <div style="font-size:8px;color:rgba(255,255,255,0.2);">↑ 新しい層　　　古い層 ↓</div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="idea">
+  <div class="idea-num">IDEA 07</div>
+  <div class="idea-title">色変化バッジ</div>
+  <div class="idea-desc">獲得したバッジが時間経過で色が深まる。古いほど漆のように深い艶。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="deep-badges">
+      <div>
+        <div class="deep-b" style="background:rgba(247,81,59,0.9);box-shadow:inset 0 2px 4px rgba(255,255,255,0.3),0 4px 12px rgba(247,81,59,0.4);">IT</div>
+        <div class="deep-label">90日前</div>
+      </div>
+      <div>
+        <div class="deep-b" style="background:rgba(241,56,132,0.7);">HW</div>
+        <div class="deep-label">60日前</div>
+      </div>
+      <div>
+        <div class="deep-b" style="background:rgba(149,62,195,0.5);">OS</div>
+        <div class="deep-label">30日前</div>
+      </div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.3);">古いほど深く艶やかに</div>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="idea">
+  <div class="idea-num">IDEA 08</div>
+  <div class="idea-title">塗り面積</div>
+  <div class="idea-desc">サイドバー背景にCyTechカラーが進捗に応じてじわじわ広がる。100%=全面レインボー漆。</div>
+  <div class="sb-mock s8" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="s8-paint" style="height:52%;"></div>
+    <div class="sb-heading" style="position:relative;z-index:1;">Your Status</div>
+    <div style="position:relative;z-index:1;font-size:10px;color:rgba(255,255,255,0.4);">52% 塗り完了</div>
+    <div class="sb-badges" style="position:relative;z-index:1;margin-top:auto;">
+      <div class="sb-badge b-earned" style="background:#f7513b;">IT</div>
+      <div class="sb-badge b-earned" style="background:#f13884;">HW</div>
+      <div class="sb-badge b-earned" style="background:#953ec3;">OS</div>
+      <div class="sb-badge b-locked">NW</div>
+      <div class="sb-badge b-locked">SC</div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="idea">
+  <div class="idea-num">IDEA 09</div>
+  <div class="idea-title">乾燥カウンター</div>
+  <div class="idea-desc">学習日=「塗り」、休日=「乾燥」。休むことにもポジティブな意味。漆は乾かさないと次の層が塗れない。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="sb-label">今週のリズム</div>
+    <div class="dry-row">
+      <div class="dry-d dry-paint">塗</div>
+      <div class="dry-d dry-paint">塗</div>
+      <div class="dry-d dry-paint">塗</div>
+      <div class="dry-d dry-dry">乾</div>
+      <div class="dry-d dry-paint">塗</div>
+      <div class="dry-d dry-paint">塗</div>
+      <div class="dry-d dry-dry">乾</div>
+    </div>
+    <div class="dry-label-row">
+      <span>🎨 塗り 5日</span>
+      <span>💨 乾燥 2日</span>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:4px;">良いリズムです。乾燥も大事な工程です。</div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="idea">
+  <div class="idea-num">IDEA 10</div>
+  <div class="idea-title">完成度メーター（器）</div>
+  <div class="idea-desc">全スキルの総合進捗を器のビジュアルで表現。0%=素焼き → 50%=下塗り → 100%=上塗り完成。</div>
+  <div class="sb-mock" style="background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);box-shadow:inset 0 0 30px rgba(255,255,255,0.3);">
+    <div class="sb-heading">Your Status</div>
+    <div class="vessel-wrap">
+      <div class="vessel-rim"></div>
+      <div class="vessel-base">
+        <div class="vessel-fill" style="height:52%;"></div>
+      </div>
+      <div class="vessel-pct">52<span style="font-size:9px;color:rgba(255,255,255,0.4);">%</span></div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);">下塗りの段階</div>
+    <div style="font-size:8px;color:rgba(255,255,255,0.2);margin-top:2px;">素焼き → 下塗り → 中塗り → 上塗り</div>
+  </div>
+</div>
+
+</body>
+</html>
