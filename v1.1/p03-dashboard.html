@@ -45,6 +45,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ni-update { background: rgba(52,224,255,0.15); color: #34e0ff; }
 .ni-company { background: rgba(149,62,195,0.15); color: #953ec3; }
 .notif-item .ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
+.notif-item .ni-detail { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+.notif-item .ni-detail.show { display: block; }
 
 /* Logo ↔ KANAME swap */
 .logo-swap { position: relative; cursor: pointer; height: 36px; display: flex; align-items: center; justify-content: center; }
@@ -173,6 +175,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .set-input { padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; width:120px; text-align:right; }
 .set-select { padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; }
 .set-select option { background:#1a1a2e; }
+.set-input { padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; font-size:14px; font-family:inherit; outline:none; }
+.set-input:focus { border-color:rgba(255,255,255,0.25); }
 
 /* Right: Stats panel */
 .stats-panel {
@@ -406,30 +410,51 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
   <div class="settings-popup">
     <button class="pp-close" onclick="closeSettings()">&#10005;</button>
-    <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:20px;">設定</div>
-    <div class="set-item">
-      <div><div class="set-label">プロフィール</div><div class="set-sub">佐藤 健太 / n.s@example.com</div></div>
-      <button style="padding:6px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">編集</button>
+    <!-- Main settings view -->
+    <div id="setMain">
+      <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:20px;">設定</div>
+      <div class="set-item">
+        <div><div class="set-label">プロフィール</div><div class="set-sub">佐藤 健太 / n.s@example.com</div></div>
+        <button onclick="showSetView('profile')" style="padding:6px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">編集</button>
+      </div>
+      <div class="set-item">
+        <div><div class="set-label">パスワード変更</div></div>
+        <button onclick="showSetView('password')" style="padding:6px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">変更</button>
+      </div>
+      <div class="set-item">
+        <div><div class="set-label">メール通知</div></div>
+        <div class="set-toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="set-item">
+        <div><div class="set-label">プッシュ通知</div></div>
+        <div class="set-toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="set-item">
+        <div><div class="set-label">学習リマインダー</div><div class="set-sub">設定した時間に通知でお知らせ</div></div>
+        <select class="set-select"><option>21:00</option><option>20:00</option><option>22:00</option><option>設定しない</option></select>
+      </div>
+      <div class="set-item">
+        <div><div class="set-label">言語</div></div>
+        <select class="set-select"><option>日本語</option><option>English</option></select>
+      </div>
+      <button onclick="closeSettings()" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:16px;">保存</button>
     </div>
-    <div class="set-item">
-      <div><div class="set-label">パスワード変更</div></div>
-      <button style="padding:6px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">変更</button>
+
+    <!-- Profile edit view -->
+    <div id="setProfile" style="display:none;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">プロフィール編集</span></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">メールアドレス</div><input type="email" value="n.s@example.com" class="set-input" style="width:100%;text-align:left;"></div>
+      <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">保存</button>
     </div>
-    <div class="set-item">
-      <div><div class="set-label">メール通知</div></div>
-      <div class="set-toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="set-item">
-      <div><div class="set-label">プッシュ通知</div></div>
-      <div class="set-toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="set-item">
-      <div><div class="set-label">学習リマインダー</div><div class="set-sub">設定した時間に通知でお知らせ</div></div>
-      <select class="set-select"><option>21:00</option><option>20:00</option><option>22:00</option><option>設定しない</option></select>
-    </div>
-    <div class="set-item">
-      <div><div class="set-label">言語</div></div>
-      <select class="set-select"><option>日本語</option><option>English</option></select>
+
+    <!-- Password change view -->
+    <div id="setPassword" style="display:none;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">パスワード変更</span></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">現在のパスワード</div><input type="password" placeholder="現在のパスワード" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">新しいパスワード</div><input type="password" placeholder="新しいパスワード" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">新しいパスワード（確認）</div><input type="password" placeholder="もう一度入力" class="set-input" style="width:100%;text-align:left;"></div>
+      <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">変更する</button>
     </div>
   </div>
 </div>
@@ -497,9 +522,18 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="notif-overlay" id="notifOverlay" onclick="if(event.target===this)closeNotif()">
   <div class="notif-popup">
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;">お知らせ</div>
-    <div class="notif-item"><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました。応答精度が向上しています。<div class="ni-date">2025.06.03</div></div>
-    <div class="notif-item"><span class="ni-tag ni-company">企業</span>◯◯株式会社が新しい採用要件を公開しました。カリキュラムが更新されています。<div class="ni-date">2025.06.01</div></div>
-    <div class="notif-item"><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました。<div class="ni-date">2025.05.28</div></div>
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+      <div><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました<div class="ni-date">2025.06.03</div></div>
+      <div class="ni-detail">応答精度が大幅に向上しました。学習中の質問への回答品質が改善され、より的確なアドバイスが受けられます。また、カリキュラム推薦の精度も向上しています。</div>
+    </div>
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+      <div><span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました<div class="ni-date">2025.06.01</div></div>
+      <div class="ni-detail">情シスポジションの採用要件が更新されました。ネットワーク基礎のカリキュラムが必須要件に追加されています。現在受講中のコースで対応可能です。</div>
+    </div>
+    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')" style="cursor:pointer;">
+      <div><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました<div class="ni-date">2025.05.28</div></div>
+      <div class="ni-detail">新しいカリキュラム「セキュリティ入門」が公開されました。脅威対策、認証、暗号化の基礎を学べます。情シスコースの必須科目です。</div>
+    </div>
   </div>
 </div>
 
@@ -584,8 +618,13 @@ function openNotif() { document.getElementById('notifOverlay').classList.add('sh
 function closeNotif() { document.getElementById('notifOverlay').classList.remove('show'); }
 function openSelection() { document.getElementById('selectionOverlay').classList.add('show'); }
 function closeSelection() { document.getElementById('selectionOverlay').classList.remove('show'); }
-function openSettings() { document.getElementById('settingsOverlay').classList.add('show'); }
+function openSettings() { showSetView('main'); document.getElementById('settingsOverlay').classList.add('show'); }
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('show'); }
+function showSetView(v) {
+  document.getElementById('setMain').style.display = v==='main' ? 'block' : 'none';
+  document.getElementById('setProfile').style.display = v==='profile' ? 'block' : 'none';
+  document.getElementById('setPassword').style.display = v==='password' ? 'block' : 'none';
+}
 </script>
 </body>
 </html>
