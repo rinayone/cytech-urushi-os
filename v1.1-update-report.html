@@ -10,385 +10,212 @@
 body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; background: #fff; }
 
 /* Hero */
-.hero {
-  background: #050508;
-  color: #fff;
-  padding: 80px 24px 60px;
-  text-align: center;
-}
-.hero .back { color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none; display: block; margin-bottom: 32px; }
-.hero .back:hover { color: #fff; }
-.hero h1 { font-family: 'Lato', sans-serif; font-size: 40px; font-weight: 900; margin-bottom: 8px; }
-.hero .sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 48px; }
-
-/* Stats row */
-.stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
-.stat { text-align: center; }
-.stat .num { font-family: 'Lato', sans-serif; font-size: 48px; font-weight: 900; line-height: 1; }
-.stat .label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 6px; }
-.c-purple { color: #953ec3; }
-.c-red { color: #f7513b; }
-.c-green { color: #7cbf00; }
-.c-amber { color: #f8ee1a; }
+.hero { background: #050508; color: #fff; padding: 80px 24px 64px; text-align: center; }
+.hero .back { color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none; display: block; margin-bottom: 40px; }
+.hero h1 { font-family: 'Lato', sans-serif; font-size: 44px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
+.hero .highlight { background: linear-gradient(135deg, #f7513b, #f13884); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .sub { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 48px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.8; }
+.hero-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.hero-node { padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.08); }
+.hero-arrow { color: rgba(255,255,255,0.25); font-size: 18px; }
+.hero-caption { font-size: 12px; color: rgba(255,255,255,0.3); }
 
 /* Section */
-.section {
-  padding: 64px 24px;
-  max-width: 720px;
-  margin: 0 auto;
-}
-.section-dark {
-  background: #f8f8fa;
-  padding: 64px 24px;
-}
+.section { padding: 64px 24px; max-width: 720px; margin: 0 auto; }
+.section-dark { background: #f8f8fa; padding: 64px 24px; }
 .section-dark .inner { max-width: 720px; margin: 0 auto; }
+.section-accent { background: #050508; color: #fff; padding: 64px 24px; }
+.section-accent .inner { max-width: 720px; margin: 0 auto; }
 
-/* Section header */
 .sec-emoji { font-size: 40px; margin-bottom: 12px; }
-.sec-title { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 8px; }
-.sec-sub { font-size: 14px; color: #888; margin-bottom: 32px; }
+.sec-overline { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f13884; margin-bottom: 8px; }
+.sec-title { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 8px; line-height: 1.4; }
+.sec-sub { font-size: 14px; color: #888; margin-bottom: 32px; line-height: 1.8; }
+.section-accent .sec-sub { color: rgba(255,255,255,0.5); }
 
-/* Before/After visual */
-.ba-visual {
-  display: grid;
-  grid-template-columns: 1fr 48px 1fr;
-  gap: 0;
-  align-items: stretch;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.ba-side {
-  padding: 28px 24px;
-}
+/* Two pillars */
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+.pillar { padding: 28px 24px; border-radius: 16px; border: 1px solid #eee; text-align: center; }
+.pillar-icon { font-size: 36px; margin-bottom: 12px; }
+.pillar-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.pillar-desc { font-size: 13px; color: #888; line-height: 1.7; }
+.pillar-desc strong { color: #111; }
+
+/* Screen showcase */
+.showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.sc-card { padding: 24px; border-radius: 14px; border: 1px solid #eee; transition: all 0.2s; text-decoration: none; color: #111; display: block; }
+.sc-card:hover { border-color: #ccc; transform: translateY(-2px); }
+.sc-id { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: #aaa; letter-spacing: 1px; }
+.sc-name { font-size: 16px; font-weight: 700; margin: 4px 0 8px; }
+.sc-desc { font-size: 12px; color: #888; line-height: 1.6; }
+.sc-tag { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+.tag-ai { background: #f3e8ff; color: #7c3aed; }
+.tag-one { background: #dbeafe; color: #1d4ed8; }
+
+/* Before/After */
+.ba-visual { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: stretch; border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
+.ba-side { padding: 28px 24px; }
 .ba-before { background: #fef2f2; }
 .ba-after { background: #f0fdf4; }
-.ba-mid {
-  background: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: #ccc;
-}
-.ba-tag {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 100px;
-  font-size: 10px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
+.ba-mid { background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ccc; }
+.ba-tag { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; margin-bottom: 10px; }
 .ba-before .ba-tag { background: #fecaca; color: #dc2626; }
 .ba-after .ba-tag { background: #bbf7d0; color: #16a34a; }
-.ba-main {
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-  margin-bottom: 6px;
-}
+.ba-main { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
 .ba-before .ba-main { color: #999; text-decoration: line-through; }
 .ba-after .ba-main { color: #111; }
 .ba-desc { font-size: 12px; color: #888; }
 
-/* Link button */
-.link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 24px;
-  background: #111;
-  color: #fff;
-  border-radius: 100px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  transition: all 0.2s;
-}
+.link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: #111; color: #fff; border-radius: 100px; text-decoration: none; font-size: 13px; font-weight: 700; transition: all 0.2s; }
 .link-btn:hover { background: #333; }
+.link-btn-light { background: rgba(255,255,255,0.1); }
+.link-btn-light:hover { background: rgba(255,255,255,0.2); }
 
-/* UI list */
-.ui-list { list-style: none; }
-.ui-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 20px 0;
-  border-bottom: 1px solid #eee;
-}
-.ui-item:last-child { border-bottom: none; }
-.ui-icon { font-size: 28px; flex-shrink: 0; width: 40px; text-align: center; }
-.ui-text { flex: 1; }
-.ui-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
-.ui-text span { font-size: 12px; color: #888; }
+/* Coming soon */
+.coming-card { padding: 32px; border-radius: 16px; text-align: center; }
+.coming-card .coming-emoji { font-size: 48px; margin-bottom: 16px; }
+.coming-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.coming-card p { font-size: 14px; line-height: 1.8; }
+.coming-card p strong { color: #fff; }
 
-/* Flow */
-.flow-visual {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px 0;
-}
-.flow-node {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.fn-active { background: #dbeafe; color: #1d4ed8; }
-.fn-new { background: #dcfce7; color: #16a34a; }
-.fn-hidden { background: #f3e8ff; color: #7c3aed; }
-.fn-removed { background: #fee2e2; color: #dc2626; text-decoration: line-through; }
-.flow-arrow { color: #ccc; font-size: 16px; }
-
-/* Future */
-.future-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-.future-item:last-child { border-bottom: none; }
-.pri { padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; flex-shrink: 0; }
-.pri-h { background: #fecaca; color: #dc2626; }
-.pri-m { background: #fef3c7; color: #b45309; }
-.pri-l { background: #f3f4f6; color: #888; }
-
-/* Page grid */
-.page-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.page-card {
-  display: block;
-  padding: 20px 16px;
-  border-radius: 12px;
-  background: #f8f8fa;
-  text-decoration: none;
-  color: #111;
-  text-align: center;
-  transition: all 0.2s;
-  border: 1px solid #eee;
-}
-.page-card:hover { background: #eef; border-color: #ccc; transform: translateY(-2px); }
-.page-card .pc-id { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #aaa; }
-.page-card .pc-name { font-size: 14px; font-weight: 700; margin-top: 4px; }
-.page-card .pc-status { font-size: 10px; color: #888; margin-top: 4px; }
+/* Other changes */
+.other-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid #eee; }
+.other-item:last-child { border-bottom: none; }
+.other-icon { font-size: 24px; flex-shrink: 0; width: 36px; text-align: center; }
+.other-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.other-text span { font-size: 12px; color: #888; }
 
 /* CTA */
-.cta-section {
-  background: #050508;
-  color: #fff;
-  padding: 48px 24px;
-  text-align: center;
-}
-.cta-section h2 { font-size: 18px; margin-bottom: 16px; }
-.cta-btn {
-  display: inline-flex;
-  padding: 14px 40px;
-  background: linear-gradient(135deg, #f7513b, #f13884);
-  color: #fff;
-  border-radius: 100px;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 700;
-  transition: all 0.2s;
-}
-.cta-btn:hover { opacity: 0.9; }
+.cta-section { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; padding: 48px 24px; text-align: center; }
+.cta-section h2 { font-size: 20px; margin-bottom: 16px; font-weight: 700; }
+.cta-section p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+.cta-btn { display: inline-flex; padding: 14px 40px; background: #fff; color: #f7513b; border-radius: 100px; text-decoration: none; font-size: 15px; font-weight: 700; transition: all 0.2s; }
+.cta-btn:hover { transform: scale(1.03); }
+
+.footer-links { text-align: center; padding: 32px 24px; font-size: 13px; }
+.footer-links a { color: #1a73e8; margin: 0 12px; }
 
 @media (max-width: 600px) {
   .hero h1 { font-size: 28px; }
-  .stats { gap: 16px; }
-  .stat .num { font-size: 36px; }
+  .pillars { grid-template-columns: 1fr; }
+  .showcase { grid-template-columns: 1fr; }
   .ba-visual { grid-template-columns: 1fr; }
   .ba-mid { padding: 12px; }
-  .page-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <div class="hero">
-  <a href="v1.1-design-spec.html" class="back">← 設計仕様書に戻る</a>
-  <h1>v1.1 更新レポート</h1>
-  <p class="sub">2026-04-23 MTG反映</p>
-  <div class="stats">
-    <div class="stat"><div class="num c-purple">2→1</div><div class="label">ページ統合</div></div>
-    <div class="stat"><div class="num c-red">1</div><div class="label">質問を削除</div></div>
-    <div class="stat"><div class="num c-green">5</div><div class="label">UI改善</div></div>
-    <div class="stat"><div class="num c-amber">1</div><div class="label">隠し機能化</div></div>
+  <a href="v1.1-design-spec.html" class="back">← 設計仕様書</a>
+  <h1>学習<span class="highlight">完遂率</span>を<br>最大化するUI</h1>
+  <p class="sub">v1.1のブラッシュアップは、ユーザーが迷わず・挫折せず・気づいたら学習を完了している体験の実現に集中しました。</p>
+  <div class="hero-flow">
+    <span class="hero-node">P-01 適性診断</span>
+    <span class="hero-arrow">→</span>
+    <span class="hero-node">P-02 AI対話</span>
+    <span class="hero-arrow">→</span>
+    <span class="hero-node">P-05 学習</span>
+    <span class="hero-arrow">→</span>
+    <span class="hero-node">P-06 課題提出</span>
   </div>
+  <div class="hero-caption">この4画面のフローを徹底的にブラッシュアップしました</div>
 </div>
 
-<!-- 1. 統合 -->
+<!-- ===== 2つの柱 ===== -->
 <div class="section">
-  <div class="sec-emoji">🔗</div>
-  <div class="sec-title">2つのページを1つに統合</div>
-  <div class="sec-sub">カリキュラム検索と選考管理を「企業・選考」に一本化</div>
-  <div class="ba-visual">
-    <div class="ba-side ba-before">
-      <span class="ba-tag">BEFORE</span>
-      <div class="ba-main">P-04 カリキュラム検索</div>
-      <div class="ba-main">P-08 選考管理</div>
-      <div class="ba-desc">2ページに分散。行ったり来たりが必要</div>
+  <div class="sec-overline">Design Principles</div>
+  <div class="sec-title">2つの設計原則</div>
+  <div class="sec-sub">全ての画面設計は、この2つの原則に基づいています。</div>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon">🤖</div>
+      <div class="pillar-title">家庭教師AI</div>
+      <div class="pillar-desc">AIが一人ひとりに<strong>個別カスタマイズ</strong>された提案をする。学校の授業ではなく、<strong>家庭教師が横にいる</strong>ような体験。</div>
     </div>
-    <div class="ba-mid">→</div>
-    <div class="ba-side ba-after">
-      <span class="ba-tag">AFTER</span>
-      <div class="ba-main">P-04 企業・選考</div>
-      <div class="ba-desc">カリキュラム＋ロードマップ＋選考を1画面で確認</div>
+    <div class="pillar">
+      <div class="pillar-icon">👆</div>
+      <div class="pillar-title">動線は常に1つ</div>
+      <div class="pillar-desc">ユーザーに<strong>「次に何をすべきか」を迷わせない</strong>。画面上のアクションは基本的に<strong>1つだけ</strong>。</div>
     </div>
   </div>
-  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p04-curriculum.html" target="_blank" class="link-btn">確認する →</a>
 </div>
 
-<!-- 2. ポップアップ -->
+<!-- ===== 4画面ショーケース ===== -->
 <div class="section-dark">
   <div class="inner">
-    <div class="sec-emoji">💬</div>
-    <div class="sec-title">ポートフォリオをポップアップに</div>
-    <div class="sec-sub">ページ遷移なし。ダッシュボード上でサッと確認</div>
-    <div class="ba-visual">
-      <div class="ba-side ba-before">
-        <span class="ba-tag">BEFORE</span>
-        <div class="ba-main">別ページに移動</div>
-        <div class="ba-desc">ダッシュボードから離れてしまう</div>
-      </div>
-      <div class="ba-mid">→</div>
-      <div class="ba-side ba-after">
-        <span class="ba-tag">AFTER</span>
-        <div class="ba-main">ポップアップで表示</div>
-        <div class="ba-desc">スキル or バッジをクリック → その場で確認</div>
-      </div>
+    <div class="sec-overline">Core Flow</div>
+    <div class="sec-title">完遂率を決める4画面</div>
+    <div class="sec-sub">P-01 → P-02 → P-05 → P-06。この流れが途切れなければ、ユーザーは学習を完了します。</div>
+    <div class="showcase">
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="sc-card">
+        <div class="sc-id">P-01</div>
+        <div class="sc-name">適性診断</div>
+        <div class="sc-desc">KANAMEが挨拶 → 2問の質問 → 「情シスが向いています」＋ロードマップ提示。ネガティブ → ポジティブへの反転。</div>
+        <span class="sc-tag tag-ai">AI個別提案</span>
+      </a>
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p02-ai-dialogue.html" target="_blank" class="sc-card">
+        <div class="sc-id">P-02</div>
+        <div class="sc-name">AI対話</div>
+        <div class="sc-desc">「おかえり、前回はここまで進みましたね」→ 復習の問いかけ → 選択肢を選ぶと、気づいたら学習の中にいる。</div>
+        <span class="sc-tag tag-ai">AI個別提案</span>
+        <span class="sc-tag tag-one">動線1つ</span>
+      </a>
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="sc-card">
+        <div class="sc-id">P-05</div>
+        <div class="sc-name">学習実行</div>
+        <div class="sc-desc">1セッション1概念。営業経験に例えた説明。「次へ→」ボタン1つだけ。KANAMEに質問可能。</div>
+        <span class="sc-tag tag-one">動線1つ</span>
+      </a>
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p06-assessment.html" target="_blank" class="sc-card">
+        <div class="sc-id">P-06</div>
+        <div class="sc-name">課題・テスト</div>
+        <div class="sc-desc">実技課題 → AIが「B1到達です」と根拠付きフィードバック。自信度に応じて次のアクションを1つ提案。</div>
+        <span class="sc-tag tag-ai">AI個別提案</span>
+        <span class="sc-tag tag-one">動線1つ</span>
+      </a>
     </div>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="link-btn">ダッシュボードで確認 →</a>
+    <p style="text-align:center;">
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="link-btn">P-01から全フローを体験する →</a>
+    </p>
   </div>
 </div>
 
-<!-- 3. 隠し機能 -->
+<!-- ===== その他の変更 ===== -->
 <div class="section">
-  <div class="sec-emoji">🎁</div>
-  <div class="sec-title">スカウトを「隠し機能」に</div>
-  <div class="sec-sub">条件を満たした時だけ解放。ゲームの特殊イベントのように</div>
-  <div class="ba-visual">
-    <div class="ba-side ba-before">
-      <span class="ba-tag">BEFORE</span>
-      <div class="ba-main">常にメニューに表示</div>
-      <div class="ba-desc">学習中でも見えて気が散る</div>
-    </div>
-    <div class="ba-mid">→</div>
-    <div class="ba-side ba-after">
-      <span class="ba-tag">AFTER</span>
-      <div class="ba-main">条件達成で解放！</div>
-      <div class="ba-desc">🎮 サプライズ感でモチベーションUP</div>
-    </div>
-  </div>
-  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p09-scout.html" target="_blank" class="link-btn">スカウト画面を確認 →</a>
+  <div class="sec-overline">Other Updates</div>
+  <div class="sec-title">その他の構成変更</div>
+  <div class="sec-sub">MTGでの決定事項を反映しました。</div>
+
+  <div class="other-item"><div class="other-icon">🔗</div><div class="other-text"><strong>カリキュラム＋選考管理 → 「企業・選考」に統合</strong><span>2ページを1ページに。企業関連情報を一元化</span></div></div>
+  <div class="other-item"><div class="other-icon">💬</div><div class="other-text"><strong>ポートフォリオ → ダッシュボードからポップアップ表示</strong><span>ページ遷移なし。スキルやバッジをクリックで確認</span></div></div>
+  <div class="other-item"><div class="other-icon">🎁</div><div class="other-text"><strong>スカウト → 隠し機能に変更</strong><span>条件達成時のみ「特殊イベント」として解放。学習に集中</span></div></div>
+  <div class="other-item"><div class="other-icon">✂️</div><div class="other-text"><strong>適性診断 — 目標企業の質問を削除</strong><span>3問 → 2問に。初期段階では企業が分からないため</span></div></div>
 </div>
 
-<!-- 4. 質問削除 -->
-<div class="section-dark">
+<!-- ===== Coming Soon ===== -->
+<div class="section-accent">
   <div class="inner">
-    <div class="sec-emoji">✂️</div>
-    <div class="sec-title">適性診断を2問に短縮</div>
-    <div class="sec-sub">初期段階では企業が分からないため、目標企業の質問を削除</div>
-    <div class="ba-visual">
-      <div class="ba-side ba-before">
-        <span class="ba-tag">BEFORE</span>
-        <div class="ba-main">3問</div>
-        <div class="ba-desc">企業名 → 職種 → 時期</div>
-      </div>
-      <div class="ba-mid">→</div>
-      <div class="ba-side ba-after">
-        <span class="ba-tag">AFTER</span>
-        <div class="ba-main">2問</div>
-        <div class="ba-desc">職種 → 時期（シンプルに）</div>
-      </div>
-    </div>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="link-btn">適性診断を確認 →</a>
-  </div>
-</div>
-
-<!-- 5. UI改善 -->
-<div class="section">
-  <div class="sec-emoji">✨</div>
-  <div class="sec-title">UI改善 5つ</div>
-  <div class="sec-sub">全体をスムーズに、迷わないデザインに</div>
-  <ul class="ui-list">
-    <li class="ui-item"><div class="ui-icon">🎬</div><div class="ui-text"><strong>P-01 遷移がスムーズに</strong><span>カクカク → なめらかなフェード</span></div></li>
-    <li class="ui-item"><div class="ui-icon">💨</div><div class="ui-text"><strong>P-02 表示が速くなった</strong><span>バウンス感を除去。スッと表示</span></div></li>
-    <li class="ui-item"><div class="ui-icon">🧹</div><div class="ui-text"><strong>P-05/06 画面がスッキリ</strong><span>左上のロゴを削除。学習に集中</span></div></li>
-    <li class="ui-item"><div class="ui-icon">🎨</div><div class="ui-text"><strong>P-06 ボタンの色を変更</strong><span>「提出する」をパープル〜ブルーに。最後のアクションを強調</span></div></li>
-    <li class="ui-item"><div class="ui-icon">🎯</div><div class="ui-text"><strong>P-06 AIの提案が明確に</strong><span>ボタン3つ → 推奨CTA 1つ＋控えめリンク</span></div></li>
-  </ul>
-</div>
-
-<!-- Flow -->
-<div class="section-dark">
-  <div class="inner">
-    <div class="sec-emoji">🗺️</div>
-    <div class="sec-title">現在のページ構成</div>
-    <div class="sec-sub">ユーザーの学習フロー</div>
-    <div class="flow-visual">
-      <span class="flow-node fn-active">P-01 適性診断</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node fn-active">P-02 AI対話</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node fn-active">P-03 ダッシュボード</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node fn-active">P-05 学習</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-node fn-active">P-06 課題</span>
-    </div>
-    <div class="flow-visual" style="padding-top:0;">
-      <span class="flow-node fn-new">P-04 企業・選考（統合）</span>
-      <span class="flow-node fn-active">P-07 ポートフォリオ（ポップアップ）</span>
-      <span class="flow-node fn-hidden">P-09 スカウト（隠し）</span>
-      <span class="flow-node fn-removed">P-08 廃止</span>
+    <div class="coming-card">
+      <div class="coming-emoji">🎮</div>
+      <h3>Coming Soon: ダッシュボード再設計</h3>
+      <p>ゲームUIを参考に、<strong>ランクが上がる・ステータスをゲットできる</strong>ような<br>ワクワクするダッシュボードに生まれ変わります。</p>
+      <p style="margin-top:16px;color:rgba(255,255,255,0.4);font-size:13px;">その他の画面も順次ブラッシュアップしていきます。お楽しみに。</p>
     </div>
   </div>
 </div>
 
-<!-- Pages -->
-<div class="section">
-  <div class="sec-emoji">📱</div>
-  <div class="sec-title">全画面リンク</div>
-  <div class="sec-sub">クリックで各画面を確認できます</div>
-  <div class="page-grid">
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="page-card"><div class="pc-id">P-01</div><div class="pc-name">適性診断</div><div class="pc-status">実装済み</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p02-ai-dialogue.html" target="_blank" class="page-card"><div class="pc-id">P-02</div><div class="pc-name">AI対話</div><div class="pc-status">実装済み</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="page-card"><div class="pc-id">P-03</div><div class="pc-name">ダッシュボード</div><div class="pc-status">再設計予定</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p04-curriculum.html" target="_blank" class="page-card"><div class="pc-id">P-04</div><div class="pc-name">企業・選考</div><div class="pc-status">P-08統合済</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="page-card"><div class="pc-id">P-05</div><div class="pc-name">学習実行</div><div class="pc-status">実装済み</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p06-assessment.html" target="_blank" class="page-card"><div class="pc-id">P-06</div><div class="pc-name">課題・テスト</div><div class="pc-status">実装済み</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p07-portfolio.html" target="_blank" class="page-card"><div class="pc-id">P-07</div><div class="pc-name">ポートフォリオ</div><div class="pc-status">ポップアップ化</div></a>
-    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p09-scout.html" target="_blank" class="page-card"><div class="pc-id">P-09</div><div class="pc-name">スカウト</div><div class="pc-status">隠し機能</div></a>
-  </div>
-</div>
-
-<!-- Future -->
-<div class="section-dark">
-  <div class="inner">
-    <div class="sec-emoji">📋</div>
-    <div class="sec-title">次のフェーズ</div>
-    <div class="sec-sub">今後対応予定の項目</div>
-    <div class="future-item"><span class="pri pri-h">高</span>ダッシュボードをゲームUIで再設計</div>
-    <div class="future-item"><span class="pri pri-m">中</span>AI名称を正式決定（現在: KANAME）</div>
-    <div class="future-item"><span class="pri pri-m">中</span>AIキャラクターの口調を統一</div>
-    <div class="future-item"><span class="pri pri-l">低</span>リマインダー通知機能</div>
-  </div>
-</div>
-
-<!-- CTA -->
+<!-- ===== CTA ===== -->
 <div class="cta-section">
-  <h2>P-01から全フローを通しで確認する</h2>
-  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="cta-btn">フローを確認 →</a>
+  <h2>P-01から学習完了までのフローを体験する</h2>
+  <p>適性診断 → AI対話 → 学習 → 課題提出。4画面を通しで確認できます。</p>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="cta-btn">フローを体験 →</a>
+</div>
+
+<div class="footer-links">
+  <a href="v1.1-design-spec.html">設計仕様書</a>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/">バージョン選択</a>
 </div>
 
 </body>
