@@ -193,11 +193,15 @@ body {
 .transition-overlay.active { opacity: 1; pointer-events: all; }
 .transition-msg {
   position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%) translateY(16px);
   text-align: center;
-  opacity: 0; transition: opacity 0.4s ease 0.4s;
+  opacity: 0;
+  transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
 }
-.transition-overlay.active .transition-msg { opacity: 1; }
+.transition-overlay.active .transition-msg {
+  opacity: 1;
+  transform: translate(-50%,-50%) translateY(0);
+}
 .transition-msg .tm-text {
   font-size: 15px; color: rgba(255,255,255,0.7);
   margin-top: 16px; line-height: 1.8;
