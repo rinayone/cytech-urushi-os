@@ -290,6 +290,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
+<div id="headerTrigger" style="position:fixed;top:0;left:0;right:0;height:24px;z-index:54;" onmouseenter="showHeader()"></div>
 <div class="header-expand" id="headerExpand">
   <img src="logo.png" alt="CyTech">
   <span class="ht">CyTech Urushi OS</span>
@@ -298,7 +299,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <!-- Content -->
 <div class="content-area" id="contentArea">
-  <div class="ct-icon" onmouseenter="showHeader()" onmouseleave="scheduleHideHeader()"><img src="logo.png" alt="CT"></div>
+  <div class="ct-icon"><img src="logo.png" alt="CT"></div>
 
   <div class="step-label">STEP 8 — 課題</div>
   <h2 class="content-title">Unit 5 実技課題</h2>
@@ -393,13 +394,14 @@ body.panel-open .slide-panel { transform: translateX(0); }
 </div>
 
 <script>
-// Header (hover) + hide logo
+// Header (top hover)
 var hideTimer = null;
 var ctIcon = document.querySelector('.ct-icon');
 function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); if(ctIcon) ctIcon.style.opacity='0'; }
 function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); if(ctIcon) ctIcon.style.opacity='1'; }, 400); }
 document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
 document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
+document.getElementById('headerTrigger').addEventListener('mouseleave', function() { scheduleHideHeader(); });
 
 // Confidence
 var selectedConf = 0;
@@ -430,7 +432,7 @@ function submitAnswer() {
     recText = '自信を持って正解できていますね。次のUnitに進みましょう！';
     recBtn = '<button onclick="closeFeedback()">復習する</button><button onclick="closeFeedback()">解説を見る</button><button class="recommended" onclick="closeFeedback()">次のUnitへ →</button>';
   }
-  document.getElementById('fcRecommend').innerHTML = recText;
+  document.getElementById('fc4').innerHTML = recText;
   document.getElementById('fcAction').innerHTML = recBtn;
 
   document.getElementById('feedbackOverlay').classList.add('show');

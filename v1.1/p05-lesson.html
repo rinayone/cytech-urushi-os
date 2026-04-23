@@ -181,6 +181,9 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
+<!-- Header hover trigger zone -->
+<div id="headerTrigger" style="position:fixed;top:0;left:0;right:0;height:24px;z-index:54;" onmouseenter="showHeader()"></div>
+
 <!-- Expandable Header -->
 <div class="header-expand" id="headerExpand">
   <img src="logo.png" alt="CyTech">
@@ -190,10 +193,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
 
 <!-- Content -->
 <div class="content-area" id="contentArea">
-  <!-- CT icon (triggers header) -->
-  <div class="ct-icon" onmouseenter="showHeader()" onmouseleave="scheduleHideHeader()">
-    <img src="logo.png" alt="CT">
-  </div>
+  <div class="ct-icon"><img src="logo.png" alt="CT"></div>
 
   <div class="step-label">STEP 3</div>
   <h2 class="content-title">ネットワーク構成図の読み方</h2>
@@ -302,13 +302,14 @@ port = <span class="num">80</span>
 </div>
 
 <script>
-// Header (hover) + hide logo when open
+// Header (top hover)
 var hideTimer = null;
 var ctIcon = document.querySelector('.ct-icon');
 function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); if(ctIcon) ctIcon.style.opacity='0'; }
 function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); if(ctIcon) ctIcon.style.opacity='1'; }, 400); }
 document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
 document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
+document.getElementById('headerTrigger').addEventListener('mouseleave', function() { scheduleHideHeader(); });
 
 // Panel
 var currentPanel = null;
