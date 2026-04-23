@@ -95,7 +95,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sp-cta:hover { opacity: 0.9; }
 
 /* Suggest row (horizontal) */
-.suggest-row { display: flex; align-items: center; gap: 8px; }
+.suggest-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .suggest-chip {
   padding: 8px 14px;
   background: transparent;
@@ -109,7 +109,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); color: #fff; }
 .suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
-.suggest-input { display: flex; gap: 6px; width: 180px; flex-shrink: 0; }
+.suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
 .suggest-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; min-width: 0; }
 .suggest-input input::placeholder { color: rgba(255,255,255,0.2); }
 .suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
@@ -231,10 +231,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
     <!-- Suggest chips + input (horizontal) -->
     <div class="suggest-row">
-      <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオ</button>
-      <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベル</button>
-      <button class="suggest-chip" onclick="togglePanel('company', this)">📋 企業・選考</button>
-      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(247,81,59,0.3);color:#f7513b;">🔔 お知らせ 2件</button>
+      <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオを見る</button>
+      <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベルを見る</button>
+      <button class="suggest-chip" onclick="togglePanel('company', this)">📋 企業・選考を見る</button>
+      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(247,81,59,0.3);color:#f7513b;">🔔 お知らせがあります</button>
       <div class="suggest-input">
         <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
         <button id="cSend">送信</button>
