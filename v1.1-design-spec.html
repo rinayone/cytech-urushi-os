@@ -39,7 +39,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <script>
 (function() {
   // This timestamp is updated on each commit
-  var lastModified = '2026-04-23 12:00 JST';
+  var lastModified = '2026-04-23 12:30 JST';
   document.getElementById('lastUpdated').textContent = lastModified;
 })();
 </script>
@@ -203,6 +203,101 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 初回ユーザー:  ログイン → P-01 適性診断 → P-02 AI対話 → P-03 ダッシュボード / P-05 学習<br>
 学習中ユーザー: ログイン → P-02 AI対話（パーソナライズ提案）→ 学習 / 課題 / アクションへ<br>
 学習完了:     ログイン → P-02 AI対話（選考・スカウト提案）→ P-08 選考 / P-09 スカウトへ
+</div>
+
+<h3>6.4 画面遷移図</h3>
+<style>
+.transition-map { position: relative; padding: 20px 0; }
+.tm-row { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 32px; flex-wrap: wrap; }
+.tm-node { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 100px; padding: 10px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; text-align: center; line-height: 1.4; position: relative; }
+.tm-node .tm-id { font-size: 10px; color: #888; margin-bottom: 2px; }
+.tm-node .tm-name { font-size: 13px; }
+.tm-node .tm-sub { font-size: 10px; color: #999; font-weight: 400; margin-top: 2px; }
+.tm-hub { background: #1a73e8; color: #fff; min-width: 130px; padding: 14px 18px; border-radius: 16px; box-shadow: 0 4px 16px rgba(26,115,232,0.3); }
+.tm-hub .tm-id { color: rgba(255,255,255,0.7); }
+.tm-hub .tm-sub { color: rgba(255,255,255,0.6); }
+.tm-phase1 { background: #fff3e0; border: 2px solid #e65100; color: #e65100; }
+.tm-phase2 { background: #e3f2fd; border: 2px solid #1565c0; color: #1565c0; }
+.tm-phase3 { background: #fce4ec; border: 2px solid #c62828; color: #c62828; }
+.tm-phase4 { background: #e8f5e9; border: 2px solid #2e7d32; color: #2e7d32; }
+.tm-phase5 { background: #f3e5f5; border: 2px solid #6a1b9a; color: #6a1b9a; }
+.tm-system { background: #f5f5f5; border: 2px solid #999; color: #666; }
+.tm-arrow { font-size: 18px; color: #bbb; padding: 0 6px; flex-shrink: 0; }
+.tm-arrow-down { text-align: center; font-size: 18px; color: #bbb; margin: -12px 0; }
+.tm-label { font-size: 10px; color: #aaa; text-align: center; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.tm-branch { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.tm-group { border: 1px dashed #ddd; border-radius: 16px; padding: 16px 12px 12px; position: relative; }
+.tm-group-label { position: absolute; top: -10px; left: 16px; background: #fff; padding: 0 8px; font-size: 10px; color: #aaa; font-weight: 700; letter-spacing: 1px; }
+.tm-lines { display: flex; justify-content: center; gap: 40px; margin: -8px 0 -8px; }
+.tm-vline { width: 2px; height: 24px; background: #ddd; }
+</style>
+
+<div class="transition-map">
+
+<!-- Login → P-01 (初回のみ) -->
+<div class="tm-label">初回ユーザーのみ</div>
+<div class="tm-row">
+  <div class="tm-node tm-system"><div class="tm-name">ログイン</div></div>
+  <div class="tm-arrow">→</div>
+  <div class="tm-node tm-phase1"><div class="tm-id">P-01</div><div class="tm-name">適性診断</div><div class="tm-sub">職種提示＋ロードマップ</div></div>
+  <div class="tm-arrow">→</div>
+  <div class="tm-node tm-hub"><div class="tm-id">P-02</div><div class="tm-name">AI対話</div><div class="tm-sub">全ユーザーのハブ</div></div>
+</div>
+
+<!-- P-02 Hub → 各ページ -->
+<div class="tm-label">AI対話からの遷移（状態に応じて動的に変化）</div>
+
+<div class="tm-row">
+  <div class="tm-group" style="flex:1;max-width:820px;">
+    <div class="tm-group-label">Phase 2: 学習</div>
+    <div class="tm-branch">
+      <div class="tm-node tm-phase2"><div class="tm-id">P-03</div><div class="tm-name">ダッシュボード</div><div class="tm-sub">ウィジェット型</div></div>
+      <div class="tm-node tm-phase2"><div class="tm-id">P-04</div><div class="tm-name">カリキュラム検索</div><div class="tm-sub">推定時間＋ゲート</div></div>
+      <div class="tm-node tm-phase2"><div class="tm-id">P-05</div><div class="tm-name">学習実行</div><div class="tm-sub">1概念＋AIメンター</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="tm-row">
+  <div class="tm-group" style="max-width:280px;">
+    <div class="tm-group-label">Phase 3: 評価</div>
+    <div class="tm-branch">
+      <div class="tm-node tm-phase3"><div class="tm-id">P-06</div><div class="tm-name">課題・テスト</div><div class="tm-sub">AI判定＋B1〜B5</div></div>
+    </div>
+  </div>
+
+  <div class="tm-group" style="max-width:280px;">
+    <div class="tm-group-label">Phase 4: 証明</div>
+    <div class="tm-branch">
+      <div class="tm-node tm-phase4"><div class="tm-id">P-07</div><div class="tm-name">ポートフォリオ</div><div class="tm-sub">スキルグラフ＋ログ</div></div>
+    </div>
+  </div>
+
+  <div class="tm-group" style="max-width:360px;">
+    <div class="tm-group-label">Phase 5: 選考</div>
+    <div class="tm-branch">
+      <div class="tm-node tm-phase5"><div class="tm-id">P-08</div><div class="tm-name">選考管理</div><div class="tm-sub">ゲート解除＋エントリー</div></div>
+      <div class="tm-node tm-phase5"><div class="tm-id">P-09</div><div class="tm-name">スカウト</div><div class="tm-sub">ログ引用＋推移</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 常時アクセス -->
+<div style="text-align:center;margin-top:16px;">
+  <div class="tm-node tm-system" style="display:inline-flex;"><div class="tm-name">設定パネル</div><div class="tm-sub">ヘッダーから常時アクセス</div></div>
+</div>
+
+<!-- 凡例 -->
+<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:24px;padding-top:16px;border-top:1px solid #eee;">
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#1a73e8;"></div>ハブ（AI対話）</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#fff3e0;border:1.5px solid #e65100;"></div>Phase 1: 点火</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#e3f2fd;border:1.5px solid #1565c0;"></div>Phase 2: 学習</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#fce4ec;border:1.5px solid #c62828;"></div>Phase 3: 評価</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#e8f5e9;border:1.5px solid #2e7d32;"></div>Phase 4: 証明</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#f3e5f5;border:1.5px solid #6a1b9a;"></div>Phase 5: 選考</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:14px;height:14px;border-radius:4px;background:#f5f5f5;border:1.5px solid #999;"></div>システム</div>
+</div>
+
 </div>
 
 <!-- ==================== -->
@@ -412,7 +507,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 </table>
 
 <hr>
-<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 12:00 JST</p>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 12:30 JST</p>
 
 </body>
 </html>
