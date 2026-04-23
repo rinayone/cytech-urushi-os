@@ -8,139 +8,132 @@
 * { margin: 0; padding: 0; }
 body { background: #020206; overflow: hidden; height: 100vh; }
 
-/* Layer 1 (deepest) */
-.volcano-layer-1 {
+.ribbon-canvas {
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse 50% 50% at 20% 25%, rgba(149,62,195,0.1) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 80% 75%, rgba(15,75,171,0.1) 0%, transparent 55%);
-  animation: l1 28s ease-in-out infinite alternate;
-}
-@keyframes l1 {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.04); }
 }
 
-/* Layer 2: flowing ribbons spread across screen */
-.volcano-layer-2 {
-  position: fixed;
-  inset: 0;
-}
-.volcano-layer-2 .flow {
+.ribbon {
   position: absolute;
-  filter: blur(50px);
-  animation: flowMorph var(--morph) ease-in-out infinite alternate,
-             flowDrift var(--drift) ease-in-out infinite alternate;
-}
-@keyframes flowMorph {
-  0%   { border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%; }
-  33%  { border-radius: 60% 40% 35% 65% / 40% 65% 30% 70%; }
-  66%  { border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%; }
-  100% { border-radius: 65% 35% 40% 60% / 35% 70% 40% 60%; }
-}
-@keyframes flowDrift {
-  0%   { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); }
+  filter: blur(var(--bl));
+  animation: ribbonFlow var(--dur) ease-in-out infinite alternate;
+  transform: rotate(var(--rot)) skewX(var(--skew));
 }
 
-/* Top-left: Pink-Red */
-.flow-pink {
-  width: 280px; height: 500px;
-  background: linear-gradient(160deg, #f13884 0%, rgba(247,81,59,0.5) 60%, transparent 100%);
-  top: -8%; left: -3%;
+@keyframes ribbonFlow {
+  0%   {
+    border-radius: 20% 80% 70% 30% / 80% 20% 75% 25%;
+    transform: rotate(var(--rot)) skewX(var(--skew)) translate(0, 0);
+  }
+  50%  {
+    border-radius: 75% 25% 30% 70% / 25% 80% 20% 75%;
+    transform: rotate(calc(var(--rot) + var(--rot2))) skewX(calc(var(--skew) * -0.7)) translate(var(--tx), var(--ty));
+  }
+  100% {
+    border-radius: 30% 70% 80% 20% / 70% 30% 80% 25%;
+    transform: rotate(calc(var(--rot) - 3deg)) skewX(var(--skew)) translate(calc(var(--tx) * -0.5), calc(var(--ty) * 0.5));
+  }
+}
+
+/* ===== TOP-LEFT: Pink → Red ===== */
+.r-pink-1 {
+  width: 100px; height: 600px;
+  background: linear-gradient(180deg, #f13884 0%, rgba(247,81,59,0.6) 60%, transparent);
+  top: -10%; left: 5%;
   opacity: 0.6;
-  --morph: 14s; --drift: 20s;
-  --tx: 40px; --ty: 30px; --rot: 8deg;
+  --bl: 22px; --dur: 16s; --rot: -15deg; --rot2: 8deg; --skew: 12deg; --tx: 30px; --ty: 20px;
 }
-
-/* Top-right: Cyan-Blue */
-.flow-cyan {
-  width: 260px; height: 520px;
-  background: linear-gradient(200deg, #34e0ff 0%, rgba(15,75,171,0.6) 60%, transparent 100%);
-  top: -5%; right: -2%;
-  opacity: 0.58;
-  --morph: 13s; --drift: 22s;
-  --tx: -35px; --ty: 25px; --rot: -6deg;
+.r-pink-2 {
+  width: 70px; height: 500px;
+  background: linear-gradient(175deg, rgba(241,56,132,0.8) 0%, rgba(247,81,59,0.3) 70%, transparent);
+  top: -5%; left: 10%;
+  opacity: 0.5;
+  --bl: 18px; --dur: 14s; --rot: -20deg; --rot2: 6deg; --skew: -8deg; --tx: -20px; --ty: 25px;
 }
-
-/* Bottom-left: Purple */
-.flow-purple {
-  width: 300px; height: 480px;
-  background: linear-gradient(20deg, #953ec3 0%, rgba(241,56,132,0.4) 60%, transparent 100%);
-  bottom: -10%; left: 5%;
+.r-pink-3 {
+  width: 50px; height: 450px;
+  background: linear-gradient(170deg, #f7513b 0%, rgba(241,56,132,0.5) 50%, transparent);
+  top: 0%; left: 15%;
   opacity: 0.55;
-  --morph: 16s; --drift: 24s;
-  --tx: 30px; --ty: -35px; --rot: 5deg;
+  --bl: 15px; --dur: 18s; --rot: -10deg; --rot2: 5deg; --skew: 15deg; --tx: 15px; --ty: -15px;
 }
 
-/* Bottom-right: Orange-Yellow */
-.flow-orange {
-  width: 250px; height: 460px;
-  background: linear-gradient(340deg, #f7513b 0%, rgba(248,238,26,0.45) 60%, transparent 100%);
-  bottom: -6%; right: 8%;
-  opacity: 0.55;
-  --morph: 15s; --drift: 18s;
-  --tx: -40px; --ty: -30px; --rot: -7deg;
-}
-
-/* Layer 3: surface streams, also spread */
-.volcano-layer-3 {
-  position: fixed;
-  inset: 0;
-}
-.volcano-layer-3 .stream {
-  position: absolute;
-  filter: blur(35px);
-  animation: streamFlow var(--sf) ease-in-out infinite alternate;
-}
-@keyframes streamFlow {
-  0%   { border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%; transform: translate(0, 0) rotate(0deg); }
-  50%  { border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%; transform: translate(var(--sx), var(--sy)) rotate(var(--sr)); }
-  100% { border-radius: 35% 65% 70% 30% / 65% 35% 70% 30%; transform: translate(calc(var(--sx) * -0.5), calc(var(--sy) * -0.5)) rotate(calc(var(--sr) * -1)); }
-}
-
-/* Upper-left accent */
-.stream-1 {
-  width: 150px; height: 380px;
-  background: linear-gradient(155deg, rgba(241,56,132,0.7), rgba(149,62,195,0.4) 60%, transparent);
-  top: 5%; left: 12%;
-  opacity: 0.6;
-  --sf: 12s; --sx: 20px; --sy: 15px; --sr: 4deg;
-}
-
-/* Upper-right accent */
-.stream-2 {
-  width: 130px; height: 350px;
-  background: linear-gradient(210deg, rgba(52,224,255,0.65), rgba(15,75,171,0.4) 60%, transparent);
-  top: 8%; right: 15%;
+/* ===== TOP-RIGHT: Cyan → Blue ===== */
+.r-cyan-1 {
+  width: 90px; height: 580px;
+  background: linear-gradient(185deg, #34e0ff 0%, rgba(15,75,171,0.6) 60%, transparent);
+  top: -8%; right: 8%;
   opacity: 0.58;
-  --sf: 14s; --sx: -18px; --sy: 20px; --sr: -3deg;
+  --bl: 22px; --dur: 17s; --rot: 18deg; --rot2: -7deg; --skew: -10deg; --tx: -25px; --ty: 20px;
+}
+.r-cyan-2 {
+  width: 60px; height: 480px;
+  background: linear-gradient(190deg, rgba(52,224,255,0.8) 0%, rgba(15,75,171,0.4) 65%, transparent);
+  top: -3%; right: 14%;
+  opacity: 0.5;
+  --bl: 16px; --dur: 15s; --rot: 22deg; --rot2: -5deg; --skew: 8deg; --tx: 18px; --ty: 22px;
+}
+.r-cyan-3 {
+  width: 45px; height: 420px;
+  background: linear-gradient(180deg, rgba(15,75,171,0.7) 0%, rgba(52,224,255,0.3) 50%, transparent);
+  top: 2%; right: 5%;
+  opacity: 0.5;
+  --bl: 14px; --dur: 19s; --rot: 12deg; --rot2: -8deg; --skew: -14deg; --tx: -15px; --ty: -18px;
 }
 
-/* Lower-left accent */
-.stream-3 {
-  width: 140px; height: 360px;
-  background: linear-gradient(30deg, rgba(149,62,195,0.6), rgba(52,224,255,0.3) 60%, transparent);
-  bottom: 8%; left: 18%;
+/* ===== BOTTOM-LEFT: Purple ===== */
+.r-purple-1 {
+  width: 100px; height: 550px;
+  background: linear-gradient(5deg, #953ec3 0%, rgba(241,56,132,0.4) 60%, transparent);
+  bottom: -12%; left: 8%;
   opacity: 0.55;
-  --sf: 11s; --sx: 15px; --sy: -18px; --sr: 5deg;
+  --bl: 22px; --dur: 18s; --rot: 10deg; --rot2: -6deg; --skew: -12deg; --tx: 25px; --ty: -20px;
+}
+.r-purple-2 {
+  width: 65px; height: 480px;
+  background: linear-gradient(355deg, rgba(149,62,195,0.8) 0%, rgba(15,75,171,0.3) 65%, transparent);
+  bottom: -6%; left: 2%;
+  opacity: 0.5;
+  --bl: 17px; --dur: 15s; --rot: 15deg; --rot2: -4deg; --skew: 10deg; --tx: -18px; --ty: -25px;
 }
 
-/* Lower-right accent */
-.stream-4 {
-  width: 120px; height: 340px;
-  background: linear-gradient(330deg, rgba(247,81,59,0.6), rgba(248,238,26,0.3) 60%, transparent);
-  bottom: 12%; right: 12%;
+/* ===== BOTTOM-RIGHT: Orange → Yellow ===== */
+.r-orange-1 {
+  width: 85px; height: 530px;
+  background: linear-gradient(350deg, #f7513b 0%, rgba(248,238,26,0.5) 55%, transparent);
+  bottom: -10%; right: 10%;
   opacity: 0.58;
-  --sf: 13s; --sx: -20px; --sy: -15px; --sr: -4deg;
+  --bl: 20px; --dur: 16s; --rot: -12deg; --rot2: 7deg; --skew: 10deg; --tx: -22px; --ty: -18px;
+}
+.r-orange-2 {
+  width: 55px; height: 440px;
+  background: linear-gradient(345deg, rgba(248,238,26,0.7) 0%, rgba(247,81,59,0.4) 60%, transparent);
+  bottom: -5%; right: 16%;
+  opacity: 0.48;
+  --bl: 15px; --dur: 19s; --rot: -18deg; --rot2: 5deg; --skew: -8deg; --tx: 20px; --ty: -22px;
+}
+
+/* ===== CENTER: subtle mixing ribbons ===== */
+.r-mix-1 {
+  width: 60px; height: 400px;
+  background: linear-gradient(170deg, rgba(241,56,132,0.4) 0%, rgba(52,224,255,0.3) 50%, transparent);
+  top: 20%; left: 42%;
+  opacity: 0.4;
+  --bl: 25px; --dur: 20s; --rot: -5deg; --rot2: 10deg; --skew: 6deg; --tx: 15px; --ty: 10px;
+}
+.r-mix-2 {
+  width: 50px; height: 380px;
+  background: linear-gradient(195deg, rgba(149,62,195,0.4) 0%, rgba(247,81,59,0.3) 50%, transparent);
+  top: 25%; left: 50%;
+  opacity: 0.35;
+  --bl: 25px; --dur: 22s; --rot: 8deg; --rot2: -6deg; --skew: -8deg; --tx: -12px; --ty: 15px;
 }
 
 /* Vignette */
 .vignette {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, rgba(2,2,6,0.6) 100%);
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, rgba(2,2,6,0.55) 100%);
   z-index: 3;
 }
 
@@ -170,20 +163,28 @@ body { background: #020206; overflow: hidden; height: 100vh; }
 </head>
 <body>
 
-<div class="volcano-layer-1"></div>
+<div class="ribbon-canvas">
+  <!-- Top-left: Pink-Red -->
+  <div class="ribbon r-pink-1"></div>
+  <div class="ribbon r-pink-2"></div>
+  <div class="ribbon r-pink-3"></div>
 
-<div class="volcano-layer-2">
-  <div class="flow flow-pink"></div>
-  <div class="flow flow-cyan"></div>
-  <div class="flow flow-purple"></div>
-  <div class="flow flow-orange"></div>
-</div>
+  <!-- Top-right: Cyan-Blue -->
+  <div class="ribbon r-cyan-1"></div>
+  <div class="ribbon r-cyan-2"></div>
+  <div class="ribbon r-cyan-3"></div>
 
-<div class="volcano-layer-3">
-  <div class="stream stream-1"></div>
-  <div class="stream stream-2"></div>
-  <div class="stream stream-3"></div>
-  <div class="stream stream-4"></div>
+  <!-- Bottom-left: Purple -->
+  <div class="ribbon r-purple-1"></div>
+  <div class="ribbon r-purple-2"></div>
+
+  <!-- Bottom-right: Orange-Yellow -->
+  <div class="ribbon r-orange-1"></div>
+  <div class="ribbon r-orange-2"></div>
+
+  <!-- Center: subtle mixing -->
+  <div class="ribbon r-mix-1"></div>
+  <div class="ribbon r-mix-2"></div>
 </div>
 
 <div class="vignette"></div>
