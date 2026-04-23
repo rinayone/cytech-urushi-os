@@ -91,10 +91,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Daily Mission */
 .mission-card { margin-top: 4px; }
 .mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
-.mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: opacity 0.2s; }
+.mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); transition: opacity 0.2s; }
 .mission-item:last-child { border-bottom: none; }
-.mission-item:hover { opacity: 0.85; }
-.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; }
+.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; cursor: pointer; }
+.mi-box:hover { border-color: rgba(255,255,255,0.4); }
 .mi-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff; }
 .mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
 .mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
@@ -206,7 +206,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
 <header class="header">
-  <img src="logo.png" alt="CyTech">
+  <img src="logo.png" alt="CyTech" style="cursor:pointer;" onclick="goToAiDialogue()">
   <span class="ht">ダッシュボード</span>
   <div class="hr"><button class="hb" onclick="location.href='p05-lesson.html'">学習に戻る →</button></div>
 </header>
@@ -238,7 +238,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sb-cal-d l3">14</div><div class="sb-cal-d l4">15</div><div class="sb-cal-d l2">16</div><div class="sb-cal-d l3">17</div><div class="sb-cal-d l4">18</div><div class="sb-cal-d l1">19</div><div class="sb-cal-d">20</div>
         <div class="sb-cal-d l4">21</div><div class="sb-cal-d l4">22</div><div class="sb-cal-d l4">23</div><div class="sb-cal-d l4 today">24</div><div class="sb-cal-d">25</div><div class="sb-cal-d">26</div><div class="sb-cal-d">27</div>
       </div>
-      <div style="text-align:center;margin-top:8px;font-size:11px;color:#f7513b;font-weight:700;">🔥 5日間連続学習継続中</div>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:rgba(255,255,255,0.45);font-weight:700;">🔥 5日間連続学習継続中</div>
     </div>
     <!-- Account (bottom) -->
     <div class="sb-account" onclick="toggleAccountMenu()">
@@ -247,7 +247,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     </div>
     <div class="sb-account-menu" id="accountMenu">
       <div class="sb-menu-item" onclick="event.stopPropagation();openSettings();">⚙ 設定</div>
-      <div class="sb-menu-item" onclick="event.stopPropagation();openNotif();">🔔 お知らせ</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();showNotifPanel();">🔔 お知らせ</div>
       <div class="sb-menu-item" onclick="event.stopPropagation();location.href='login.html';">→ ログアウト</div>
     </div>
   </div>
@@ -262,18 +262,18 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。今日のミッションを用意しました。<span class="hl">あと38時間</span>で面接開放 — まず1つ目から片付けましょう。</div>
         <div class="mission-card">
           <div class="mission-header">TODAY'S MISSION</div>
-          <div class="mission-item" onclick="toggleMission(this)">
-            <div class="mi-box">✓</div>
+          <div class="mission-item">
+            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
             <div class="mi-text">Unit 5 STEP 3 を完了する</div>
             <div class="mi-time">20分</div>
           </div>
-          <div class="mission-item" onclick="toggleMission(this)">
-            <div class="mi-box">✓</div>
+          <div class="mission-item">
+            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
             <div class="mi-text">STEP 4 に進む</div>
             <div class="mi-time">15分</div>
           </div>
-          <div class="mission-item" onclick="toggleMission(this)">
-            <div class="mi-box">✓</div>
+          <div class="mission-item">
+            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
             <div class="mi-text">復習クイズに答える</div>
             <div class="mi-time">5分</div>
           </div>
@@ -361,13 +361,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <!-- Notification panel -->
       <div class="expand-panel" id="panelNotif">
         <div class="ep-title">お知らせ</div>
-        <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;">
-          <span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました
-          <div class="ni-date">2025.06.03</div>
+        <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
+          <div><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました<div class="ni-date">2025.06.03</div></div>
+          <div class="ni-detail">応答精度が大幅に向上しました。学習中の質問への回答品質が改善され、より的確なアドバイスが受けられます。</div>
         </div>
-        <div style="padding:10px 0;font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;">
-          <span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました
-          <div class="ni-date">2025.06.01</div>
+        <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
+          <div><span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました<div class="ni-date">2025.06.01</div></div>
+          <div class="ni-detail">情シスポジションの採用要件が更新されました。ネットワーク基礎のカリキュラムが必須要件に追加されています。</div>
+        </div>
+        <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
+          <div><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました<div class="ni-date">2025.05.28</div></div>
+          <div class="ni-detail">新しいカリキュラム「セキュリティ入門」が公開されました。脅威対策、認証、暗号化の基礎を学べます。</div>
         </div>
       </div>
     </div>
@@ -490,25 +494,6 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   </div>
 </div>
 
-<!-- Notification popup -->
-<div class="popup-overlay top-right" id="notifOverlay" onclick="if(event.target===this)closeNotif()">
-  <div class="popup-box medium">
-    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">お知らせ</div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
-      <div><span class="ni-tag ni-update">UPDATE</span>KANAMEエンジンv3.2がリリースされました<div class="ni-date">2025.06.03</div></div>
-      <div class="ni-detail">応答精度が大幅に向上しました。学習中の質問への回答品質が改善され、より的確なアドバイスが受けられます。</div>
-    </div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
-      <div><span class="ni-tag ni-company">企業</span>◯◯株式会社が採用要件を更新しました<div class="ni-date">2025.06.01</div></div>
-      <div class="ni-detail">情シスポジションの採用要件が更新されました。ネットワーク基礎のカリキュラムが必須要件に追加されています。</div>
-    </div>
-    <div class="notif-item" onclick="this.querySelector('.ni-detail').classList.toggle('show')">
-      <div><span class="ni-tag ni-update">UPDATE</span>セキュリティ入門コースが追加されました<div class="ni-date">2025.05.28</div></div>
-      <div class="ni-detail">新しいカリキュラム「セキュリティ入門」が公開されました。脅威対策、認証、暗号化の基礎を学べます。</div>
-    </div>
-  </div>
-</div>
-
 <!-- Portfolio popup -->
 <div class="popup-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
   <div class="popup-box" style="max-width:700px;width:90%;padding:28px;">
@@ -626,11 +611,33 @@ function togglePanel(id, btn) {
   }
 }
 
+// Show notif panel from account menu
+function showNotifPanel() {
+  document.getElementById('accountMenu').classList.remove('show');
+  var btn = document.querySelectorAll('.suggest-chip')[3];
+  togglePanel('notif', btn);
+  document.querySelector('.dynamic-area').scrollTop = 9999;
+}
+
+// Logo → P-02 AI dialogue with dynamic message
+function goToAiDialogue() {
+  var hour = new Date().getHours();
+  var msgs = [
+    '佐藤さん、何か気になることがありますか？',
+    '学習の調子はどうですか？一緒に確認しましょう。',
+    'ダッシュボードから戻ってきましたね。続きを始めましょうか？'
+  ];
+  if (hour < 12) msgs.push('おはようございます。朝の学習、いいですね！');
+  else if (hour < 18) msgs.push('午後も頑張っていますね。あと少しです。');
+  else msgs.push('夜の学習お疲れさまです。今日もコツコツ積み重ねましょう。');
+  var msg = msgs[Math.floor(Math.random() * msgs.length)];
+  sessionStorage.setItem('kaname_msg', msg);
+  location.href = 'p02-ai-dialogue.html';
+}
+
 // Popups
 function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
-function openNotif() { document.getElementById('notifOverlay').classList.add('show'); }
-function closeNotif() { document.getElementById('notifOverlay').classList.remove('show'); }
 function openSelection() { document.getElementById('selectionOverlay').classList.add('show'); }
 function closeSelection() { document.getElementById('selectionOverlay').classList.remove('show'); }
 function openSettings() { showSetView('main'); document.getElementById('settingsOverlay').classList.add('show'); }
