@@ -24,7 +24,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
 }
-.header img { height: 22px; }
+.header .logo-swap { flex-shrink: 0; }
 .header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
 .header .hr { margin-left: auto; }
 /* Logo ↔ KANAME swap */
@@ -72,20 +72,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .char-kaname .eye { width: 4px; height: 10px; background: #fff; border-radius: 2px; box-shadow: 0 0 6px rgba(255,255,255,0.8); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.char-name { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.char-name { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 2px; }
 .char-meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
 
 /* Level badge */
 .level-badge {
-  padding: 6px 20px;
+  padding: 8px 24px;
   border-radius: 100px;
   background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15));
   border: 1px solid rgba(52,224,255,0.3);
   color: #34e0ff;
   font-family: 'Lato', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 900;
   margin-bottom: 20px;
+  letter-spacing: 1px;
 }
 
 /* Badges (equipment slots) */
@@ -148,12 +149,15 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Progress bars (HP/MP style) */
 .main-bars { margin-bottom: 20px; }
 .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); width: 90px; flex-shrink: 0; }
-.bar-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; position: relative; }
-.bar-fill { height: 100%; border-radius: 6px; position: relative; }
-.bar-fill.progress { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
+.bar-group { margin-bottom: 12px; }
+.bar-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.bar-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); }
+.bar-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; color: #fff; }
+.bar-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
+.bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 5px; }
+.bar-fill.progress { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
 .bar-fill.gate { background: linear-gradient(to right, #0f4bab, #34e0ff); }
-.bar-value { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); width: 48px; text-align: right; flex-shrink: 0; }
 
 /* Stats grid (STR/INT/DEX style) */
 .stats-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 10px; }
@@ -172,8 +176,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.04);
 }
-.stat-name { font-size: 12px; color: rgba(255,255,255,0.5); flex: 1; }
-.stat-val { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 700; }
+.stat-name { font-size: 12px; color: rgba(255,255,255,0.45); flex: 1; }
+.stat-val { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 900; }
 .stat-val.complete { color: #34e0ff; }
 .stat-val.progress { color: #f8ee1a; }
 .stat-val.locked { color: rgba(255,255,255,0.15); }
@@ -191,7 +195,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .na-icon { font-size: 24px; }
 .na-text { flex: 1; }
-.na-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.na-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
 .na-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
 .na-btn {
   padding: 10px 24px;
@@ -220,7 +224,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   transition: all 0.2s;
 }
 .info-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
-.info-val { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; }
+.info-val { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; }
 .info-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
 .hl { color: #34e0ff; }
 
@@ -301,15 +305,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   <div class="stats-panel">
     <!-- Main progress bars -->
     <div class="main-bars">
-      <div class="bar-row">
-        <span class="bar-label">カリキュラム</span>
+      <div class="bar-group">
+        <div class="bar-top"><span class="bar-label">カリキュラム進捗</span><span class="bar-value">52<span class="unit">%</span></span></div>
         <div class="bar-track"><div class="bar-fill progress" style="width:52%;"></div></div>
-        <span class="bar-value">52%</span>
       </div>
-      <div class="bar-row">
-        <span class="bar-label">Skill Prime</span>
+      <div class="bar-group">
+        <div class="bar-top"><span class="bar-label">Skill Prime ゲートまで</span><span class="bar-value">38<span class="unit">h</span></span></div>
         <div class="bar-track"><div class="bar-fill gate" style="width:52%;"></div></div>
-        <span class="bar-value">残38h</span>
       </div>
     </div>
 
