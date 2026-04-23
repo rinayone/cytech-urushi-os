@@ -8,36 +8,30 @@
 * { margin: 0; padding: 0; }
 body { background: #020206; overflow: hidden; height: 100vh; }
 
-/* ===== VOLCANO FLOW ===== */
-
-/* Layer 1 (deepest): dark base */
+/* Layer 1 (deepest) */
 .volcano-layer-1 {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 40% 80% at 55% 50%, rgba(15,75,171,0.2) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 70% at 50% 40%, rgba(149,62,195,0.12) 0%, transparent 55%);
-  animation: layer1 28s ease-in-out infinite alternate;
+    radial-gradient(ellipse 50% 50% at 20% 25%, rgba(149,62,195,0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 80% 75%, rgba(15,75,171,0.1) 0%, transparent 55%);
+  animation: l1 28s ease-in-out infinite alternate;
 }
-@keyframes layer1 {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-12px) scale(1.03); }
+@keyframes l1 {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.04); }
 }
 
-/* Layer 2: mid-depth flowing ribbons */
+/* Layer 2: flowing ribbons spread across screen */
 .volcano-layer-2 {
   position: fixed;
   inset: 0;
-  animation: layer2 22s ease-in-out infinite alternate;
 }
 .volcano-layer-2 .flow {
   position: absolute;
   filter: blur(50px);
-  animation: flowMorph var(--morph) ease-in-out infinite alternate;
-}
-@keyframes layer2 {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
+  animation: flowMorph var(--morph) ease-in-out infinite alternate,
+             flowDrift var(--drift) ease-in-out infinite alternate;
 }
 @keyframes flowMorph {
   0%   { border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%; }
@@ -45,100 +39,112 @@ body { background: #020206; overflow: hidden; height: 100vh; }
   66%  { border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%; }
   100% { border-radius: 65% 35% 40% 60% / 35% 70% 40% 60%; }
 }
+@keyframes flowDrift {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); }
+}
 
-/* Pink-red ribbon — tall flowing S */
+/* Top-left: Pink-Red */
 .flow-pink {
-  width: 220px; height: 600px;
-  background: linear-gradient(170deg, #f13884 0%, rgba(247,81,59,0.6) 50%, transparent 100%);
-  top: -8%; left: 38%;
+  width: 280px; height: 500px;
+  background: linear-gradient(160deg, #f13884 0%, rgba(247,81,59,0.5) 60%, transparent 100%);
+  top: -8%; left: -3%;
   opacity: 0.6;
-  --morph: 14s;
-  border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%;
+  --morph: 14s; --drift: 20s;
+  --tx: 40px; --ty: 30px; --rot: 8deg;
 }
 
-/* Orange-yellow ribbon — elongated diagonal */
-.flow-orange {
-  width: 180px; height: 520px;
-  background: linear-gradient(175deg, #f7513b 0%, rgba(248,238,26,0.5) 50%, transparent 100%);
-  top: 2%; left: 46%;
-  opacity: 0.55;
-  --morph: 16s;
-  border-radius: 60% 40% 35% 65% / 40% 65% 30% 70%;
-  animation-direction: alternate-reverse;
-}
-
-/* Cyan-blue ribbon — tall curve */
+/* Top-right: Cyan-Blue */
 .flow-cyan {
-  width: 200px; height: 580px;
-  background: linear-gradient(185deg, #34e0ff 0%, rgba(15,75,171,0.6) 50%, transparent 100%);
-  top: 10%; left: 54%;
+  width: 260px; height: 520px;
+  background: linear-gradient(200deg, #34e0ff 0%, rgba(15,75,171,0.6) 60%, transparent 100%);
+  top: -5%; right: -2%;
   opacity: 0.58;
-  --morph: 13s;
-  border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%;
+  --morph: 13s; --drift: 22s;
+  --tx: -35px; --ty: 25px; --rot: -6deg;
 }
 
-/* Purple ribbon — sweeping undertow */
+/* Bottom-left: Purple */
 .flow-purple {
-  width: 240px; height: 550px;
-  background: linear-gradient(190deg, #953ec3 0%, rgba(241,56,132,0.4) 50%, transparent 100%);
-  bottom: -8%; left: 42%;
+  width: 300px; height: 480px;
+  background: linear-gradient(20deg, #953ec3 0%, rgba(241,56,132,0.4) 60%, transparent 100%);
+  bottom: -10%; left: 5%;
   opacity: 0.55;
-  --morph: 17s;
-  border-radius: 65% 35% 40% 60% / 35% 70% 40% 60%;
-  animation-direction: alternate-reverse;
+  --morph: 16s; --drift: 24s;
+  --tx: 30px; --ty: -35px; --rot: 5deg;
 }
 
-/* Layer 3: surface — sharper, thinner streams */
+/* Bottom-right: Orange-Yellow */
+.flow-orange {
+  width: 250px; height: 460px;
+  background: linear-gradient(340deg, #f7513b 0%, rgba(248,238,26,0.45) 60%, transparent 100%);
+  bottom: -6%; right: 8%;
+  opacity: 0.55;
+  --morph: 15s; --drift: 18s;
+  --tx: -40px; --ty: -30px; --rot: -7deg;
+}
+
+/* Layer 3: surface streams, also spread */
 .volcano-layer-3 {
   position: fixed;
   inset: 0;
-  animation: layer3 18s ease-in-out infinite alternate;
 }
 .volcano-layer-3 .stream {
   position: absolute;
   filter: blur(35px);
-  animation: streamFlow 12s ease-in-out infinite alternate;
-}
-@keyframes layer3 {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-5px) scale(1.02); }
+  animation: streamFlow var(--sf) ease-in-out infinite alternate;
 }
 @keyframes streamFlow {
-  0%   { border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%; transform: translateY(0) rotate(0deg); }
-  50%  { border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%; transform: translateY(-12px) rotate(2deg); }
-  100% { border-radius: 35% 65% 70% 30% / 65% 35% 70% 30%; transform: translateY(5px) rotate(-1deg); }
+  0%   { border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%; transform: translate(0, 0) rotate(0deg); }
+  50%  { border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%; transform: translate(var(--sx), var(--sy)) rotate(var(--sr)); }
+  100% { border-radius: 35% 65% 70% 30% / 65% 35% 70% 30%; transform: translate(calc(var(--sx) * -0.5), calc(var(--sy) * -0.5)) rotate(calc(var(--sr) * -1)); }
 }
 
-/* Hot stream — thin vertical ribbon */
-.stream-hot {
-  width: 120px; height: 450px;
-  background: linear-gradient(175deg, rgba(241,56,132,0.7), rgba(247,81,59,0.5) 40%, rgba(248,238,26,0.3) 75%, transparent);
-  top: -2%; left: 44%;
-  opacity: 0.65;
-  border-radius: 25% 75% 65% 35% / 70% 30% 65% 35%;
-  animation-duration: 11s;
-}
-
-/* Cool stream — thin flowing curve */
-.stream-cool {
-  width: 110px; height: 430px;
-  background: linear-gradient(185deg, rgba(52,224,255,0.6), rgba(15,75,171,0.5) 40%, rgba(149,62,195,0.3) 75%, transparent);
-  top: 18%; left: 52%;
+/* Upper-left accent */
+.stream-1 {
+  width: 150px; height: 380px;
+  background: linear-gradient(155deg, rgba(241,56,132,0.7), rgba(149,62,195,0.4) 60%, transparent);
+  top: 5%; left: 12%;
   opacity: 0.6;
-  border-radius: 70% 30% 35% 65% / 35% 65% 30% 70%;
-  animation-duration: 13s;
-  animation-direction: alternate-reverse;
+  --sf: 12s; --sx: 20px; --sy: 15px; --sr: 4deg;
 }
 
-/* Darken edges */
+/* Upper-right accent */
+.stream-2 {
+  width: 130px; height: 350px;
+  background: linear-gradient(210deg, rgba(52,224,255,0.65), rgba(15,75,171,0.4) 60%, transparent);
+  top: 8%; right: 15%;
+  opacity: 0.58;
+  --sf: 14s; --sx: -18px; --sy: 20px; --sr: -3deg;
+}
+
+/* Lower-left accent */
+.stream-3 {
+  width: 140px; height: 360px;
+  background: linear-gradient(30deg, rgba(149,62,195,0.6), rgba(52,224,255,0.3) 60%, transparent);
+  bottom: 8%; left: 18%;
+  opacity: 0.55;
+  --sf: 11s; --sx: 15px; --sy: -18px; --sr: 5deg;
+}
+
+/* Lower-right accent */
+.stream-4 {
+  width: 120px; height: 340px;
+  background: linear-gradient(330deg, rgba(247,81,59,0.6), rgba(248,238,26,0.3) 60%, transparent);
+  bottom: 12%; right: 12%;
+  opacity: 0.58;
+  --sf: 13s; --sx: -20px; --sy: -15px; --sr: -4deg;
+}
+
+/* Vignette */
 .vignette {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 30%, rgba(2,2,6,0.7) 100%);
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, rgba(2,2,6,0.6) 100%);
   z-index: 3;
 }
 
-/* ===== GLASS SAMPLE ===== */
+/* Glass sample */
 .glass-sample {
   position: fixed;
   top: 50%; left: 50%;
@@ -168,14 +174,16 @@ body { background: #020206; overflow: hidden; height: 100vh; }
 
 <div class="volcano-layer-2">
   <div class="flow flow-pink"></div>
-  <div class="flow flow-orange"></div>
   <div class="flow flow-cyan"></div>
   <div class="flow flow-purple"></div>
+  <div class="flow flow-orange"></div>
 </div>
 
 <div class="volcano-layer-3">
-  <div class="stream stream-hot"></div>
-  <div class="stream stream-cool"></div>
+  <div class="stream stream-1"></div>
+  <div class="stream stream-2"></div>
+  <div class="stream stream-3"></div>
+  <div class="stream stream-4"></div>
 </div>
 
 <div class="vignette"></div>
