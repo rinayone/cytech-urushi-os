@@ -39,7 +39,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <script>
 (function() {
   // This timestamp is updated on each commit
-  var lastModified = '2026-04-23 20:00 JST';
+  var lastModified = '2026-04-23 21:00 JST';
   document.getElementById('lastUpdated').textContent = lastModified;
 })();
 </script>
@@ -121,7 +121,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <h3>フェーズ5：マッチングと選考（Hiring & Revenge）</h3>
 <p><strong>LM原則：</strong> Skill Prime（学んでから入る）</p>
 <p><strong>体験：</strong>採用試験ゲートのロックが解除され、希望企業へエントリー可能に。履歴書公開設定により、学習プロセスを評価した企業からログ引用スカウトが届く。「自分が選ぶ側にもなれる」体験。</p>
-<p><strong>対応ページ：</strong> P-08（選考管理）/ P-09（スカウト）</p>
+<p><strong>対応ページ：</strong> P-08（選考管理）/ P-08（スカウト）</p>
 
 <!-- ==================== -->
 <h2><span class="section-num">5.</span> Learning Module v2.1（要約）</h2>
@@ -208,7 +208,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td><strong>カリキュラム同時受講制限</strong></td><td>受講中にできるカリキュラムは1つのみ。検索・閲覧は自由。別カリキュラムに変更する場合は現在のものを中断する。</td></tr>
 <tr><td><strong>採用枠の競争可視化</strong></td><td>学習者は、採用枠に対して自分が全体の何%にいるかを確認できる。早い者勝ちの構造を動機付けに活用する。<strong>※ペルソナにとって信憑性が低い場合は表示方法を要検討。</strong></td></tr>
 <tr><td><strong>面接不合格→再チャレンジ</strong></td><td>面接不合格の場合、再学習が可能（振り出しに戻る）。ただし学習履歴は全て保持される。</td></tr>
-<tr><td><strong>スカウトは隠し機能</strong></td><td>P-09スカウト画面は常時表示ではなく、スカウトの条件を満たした時のみ「特殊イベント」として解放される。学習に集中させるため。学習していないユーザーが面接に直接進む導線は作らない。</td></tr>
+<tr><td><strong>スカウトは隠し機能</strong></td><td>P-08スカウト画面は常時表示ではなく、スカウトの条件を満たした時のみ「特殊イベント」として解放される。学習に集中させるため。学習していないユーザーが面接に直接進む導線は作らない。</td></tr>
 <tr><td><strong>AI名称</strong></td><td>現在「KANAME」だが、リリース前に正式名称を決定予定。AIキャラクターの口調・言葉遣いもリリース前に統一する。</td></tr>
 <tr><td><strong>最重要KPI用語</strong></td><td>「学習率」ではなく「学習完遂率」が正しい用語。完了する・マスターするという意味。</td></tr>
 </table>
@@ -218,7 +218,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 初回ユーザー:  ログイン → P-01 適性診断 → P-02 AI対話 → P-03 ダッシュボード / P-05 学習<br>
 学習中ユーザー: ログイン → P-02 AI対話（パーソナライズ提案）→ 学習 / 課題 / アクションへ<br>
 学習完了:     ログイン → P-02 AI対話（選考提案）→ P-04 企業・選考<br>
-スカウト受信:  条件達成時のみP-09が解放 → 特殊イベントとして通知<br>
+スカウト受信:  条件達成時のみP-08が解放 → 特殊イベントとして通知<br>
 面接不合格:   ログイン → P-02 AI対話（ポジティブ声がけ＋再学習提案）→ P-05 学習
 </div>
 
@@ -293,7 +293,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
     <div class="tm-group-label">Phase 5: 選考</div>
     <div class="tm-branch">
       <div class="tm-node tm-phase5"><div class="tm-id">P-04</div><div class="tm-name">企業・選考</div><div class="tm-sub">カリキュラム＋選考統合</div></div>
-      <div class="tm-node tm-phase5" style="opacity:0.5;border-style:dashed;"><div class="tm-id">P-09</div><div class="tm-name">スカウト</div><div class="tm-sub">隠し機能（条件達成時）</div></div>
+      <div class="tm-node tm-phase5" style="opacity:0.5;border-style:dashed;"><div class="tm-id">P-08</div><div class="tm-name">スカウト</div><div class="tm-sub">隠し機能（条件達成時）</div></div>
     </div>
   </div>
 </div>
@@ -328,8 +328,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-05</td><td>学習実行</td><td>2. 実行</td><td>1セッション（One Thing at a Time）＋AIメンター即レス</td><td><span class="tag tag-changed">変更</span></td></tr>
 <tr><td>P-06</td><td>課題・テスト提出</td><td>3. 評価</td><td>実技課題→AI根拠付きフィードバック＋B1〜B5判定</td><td><span class="tag tag-new">新設</span></td></tr>
 <tr><td>P-07</td><td>ポートフォリオ</td><td>4. 証明</td><td>ダッシュボードからポップアップで表示。スキルグラフ＋評価ログ＋バッジ</td><td><span class="tag tag-changed">ポップアップ化</span></td></tr>
-<tr><td>P-08</td><td colspan="3" style="color:rgba(255,255,255,0.3);">P-04に統合（企業・選考）</td><td><span class="tag tag-same">統合済</span></td></tr>
-<tr><td>P-09</td><td>スカウト</td><td>5. 選考</td><td>隠し機能。条件達成時のみ「特殊イベント」として解放。企業ログ引用スカウト</td><td><span class="tag tag-changed">隠し機能化</span></td></tr>
+<tr><td>P-08</td><td>スカウト</td><td>5. 選考</td><td>隠し機能。条件達成時のみ「特殊イベント」として解放。企業ログ引用スカウト</td><td><span class="tag tag-changed">隠し機能化</span></td></tr>
 <tr><td>—</td><td>設定パネル</td><td>—</td><td>ヘッダーからアクセス。プロフィール・通知・パスワード等</td><td><span class="tag tag-new">独立化</span></td></tr>
 </table>
 
@@ -407,7 +406,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td><strong>学習中（通常）</strong></td><td>「おかえり。前回は○○まで進みましたね」＋復習の問いかけ</td><td>P-05（シームレス）</td></tr>
 <tr><td><strong>長期離脱</strong></td><td>「おかえり。前回の○○、あと少しで完了ですよ」</td><td>P-05（シームレス）</td></tr>
 <tr><td><strong>課題不合格後</strong></td><td>「惜しかったです。ここを修正すればB1到達できます」</td><td>P-06</td></tr>
-<tr><td><strong>学習完了</strong></td><td>「Skill Prime達成！エントリー可能な企業があります」</td><td>P-08 / P-09</td></tr>
+<tr><td><strong>学習完了</strong></td><td>「Skill Prime達成！エントリー可能な企業があります」</td><td>P-08 / P-08</td></tr>
 <tr><td><strong>ネガティブ発言時</strong></td><td>「5分だけやってみましょう。それだけでも十分すごいですよ」（ポジティブに変換し、最小限のハードルを提示）</td><td>P-05（軽い復習）</td></tr>
 <tr><td><strong>面接不合格後</strong></td><td>「学習履歴は全て残っています。次はもっと強い状態で臨めます」</td><td>P-05 / P-04</td></tr>
 </table>
@@ -513,7 +512,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <li>選考中企業のステータス一覧</li>
 </ul>
 
-<h3>P-09 スカウト</h3>
+<h3>P-08 スカウト</h3>
 <h4>目的</h4>
 <p>「選ぶ側にもなれる」体験。企業が学習ログを引用してスカウトする機能。学習が進むほどスカウトが増える構造により、学習完遂率への動機付けにもなる。</p>
 <h4>LM原則</h4>
@@ -542,7 +541,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-06 課題・テスト</td><td>（なし）</td><td><strong>新設。</strong>AI評価＋B1〜B5判定</td></tr>
 <tr><td>P-07 ポートフォリオ</td><td>P-06 Myページ</td><td>設定ページ → キャリアポートフォリオ特化。スキルグラフ＋評価ログ</td></tr>
 <tr><td>P-08 選考管理</td><td>選考状況</td><td>ステータス表示のみ → ゲート解除ロジック＋採用ロードマップ</td></tr>
-<tr><td>P-09 スカウト</td><td>（なし）</td><td><strong>新設。</strong>企業からのログ引用スカウト＋閲覧数＋評価ポイント＋推移グラフ</td></tr>
+<tr><td>P-08 スカウト</td><td>（なし）</td><td><strong>新設。</strong>企業からのログ引用スカウト＋閲覧数＋評価ポイント＋推移グラフ</td></tr>
 <tr><td>設定パネル</td><td>P-06 Myページ内の設定</td><td>Myページから独立。ヘッダーからアクセスするパネル形式に変更</td></tr>
 </table>
 
@@ -559,18 +558,18 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-06 課題・テスト</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p06-assessment.html — 実技課題/自信度選択/AI評価フィードバック(B1判定)</td></tr>
 <tr><td>P-07 ポートフォリオ</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p07-portfolio.html — ダッシュボードからポップアップ表示に変更</td></tr>
 <tr><td>P-08 選考管理</td><td style="color:#888;">P-04に統合</td><td>p08-selection.html は廃止。企業・選考ページに統合</td></tr>
-<tr><td>P-09 スカウト</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p09-scout.html — 隠し機能。条件達成時のみ解放</td></tr>
-<tr><td>設定パネル</td><td style="color:#888;">後日対応</td><td>ヘッダーからアクセス（独立）。リマインダー通知設定機能を含む</td></tr>
+<tr><td>P-08 スカウト</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p08-scout.html — 隠し機能。条件達成時のみ解放（旧P-09から繰上げ）</td></tr>
+<tr><td>設定パネル</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>ダッシュボード名前横⚙からポップアップ。プロフィール/PW/通知/リマインダー/言語</td></tr>
 </table>
 
 <h2><span class="section-num">11.</span> 更新履歴</h2>
 <table>
 <tr><th style="width:140px;">日付</th><th>内容</th><th style="width:80px;">詳細</th></tr>
-<tr><td>2026-04-23</td><td>社内MTG反映: P-04+P-08統合 / P-07ポップアップ化 / P-09隠し機能化 / P-01目標企業削除 / UI改善 / 用語修正</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
+<tr><td>2026-04-23</td><td>社内MTG反映: P-04+P-08統合 / P-07ポップアップ化 / P-08隠し機能化 / P-01目標企業削除 / UI改善 / 用語修正</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 </table>
 
 <hr>
-<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 20:00 JST</p>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-23 21:00 JST</p>
 
 </body>
 </html>
