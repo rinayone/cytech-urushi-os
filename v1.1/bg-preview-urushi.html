@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>背景: 漆（Urushi）</title>
+<style>
+* { margin: 0; padding: 0; }
+body { background: #020204; overflow: hidden; height: 100vh; }
+
+.label {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  font-family: sans-serif; font-size: 13px; color: rgba(255,255,255,0.35);
+  z-index: 100; text-align: center; letter-spacing: 1px;
+}
+
+/* Layer 1: Deepest - almost invisible base colors */
+.urushi-layer-1 {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 35% 40%, rgba(149,62,195,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 80% at 65% 60%, rgba(15,75,171,0.05) 0%, transparent 50%);
+  animation: layerShift1 30s ease-in-out infinite alternate;
+}
+@keyframes layerShift1 {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(10px, -8px); }
+}
+
+/* Layer 2: Mid depth - color starts to appear */
+.urushi-layer-2 {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 25% 30%, rgba(241,56,132,0.08) 0%, transparent 45%),
+    radial-gradient(ellipse 45% 50% at 70% 65%, rgba(52,224,255,0.07) 0%, transparent 45%);
+  animation: layerShift2 25s ease-in-out infinite alternate;
+}
+@keyframes layerShift2 {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.05) translate(-12px, 6px); }
+}
+
+/* Layer 3: Closer to surface - richer color, still subtle */
+.urushi-layer-3 {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 35% 30% at 40% 35%, rgba(247,81,59,0.07) 0%, transparent 40%),
+    radial-gradient(ellipse 30% 35% at 60% 55%, rgba(149,62,195,0.06) 0%, transparent 40%);
+  animation: layerShift3 20s ease-in-out infinite alternate;
+}
+@keyframes layerShift3 {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.03) translate(6px, 8px); }
+}
+
+/* Layer 4: Surface sheen - wet lacquer reflection */
+.urushi-sheen {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255,255,255,0.015) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 30% at 50% 100%, rgba(255,255,255,0.01) 0%, transparent 40%);
+  animation: sheenMove 18s ease-in-out infinite alternate;
+}
+@keyframes sheenMove {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-15px); opacity: 0.7; }
+}
+
+/* Tamamushi iridescence - very subtle rainbow that shifts */
+.urushi-iridescence {
+  position: fixed; inset: 0;
+  background: conic-gradient(
+    from 200deg at 45% 45%,
+    rgba(241,56,132,0.03),
+    rgba(247,81,59,0.02),
+    rgba(248,238,26,0.015),
+    rgba(124,191,0,0.015),
+    rgba(52,224,255,0.03),
+    rgba(15,75,171,0.025),
+    rgba(149,62,195,0.03),
+    rgba(241,56,132,0.03)
+  );
+  animation: iriShift 40s linear infinite;
+  mix-blend-mode: screen;
+}
+@keyframes iriShift {
+  to { transform: rotate(360deg) scale(1.2); }
+}
+
+/* Glass sample */
+.glass-sample {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px; padding: 24px 28px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 0 20px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.5);
+  color: rgba(255,255,255,0.85);
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.9;
+  z-index: 50;
+}
+.glass-sample strong { color: #fff; }
+.glass-sample .hl { color: #34e0ff; }
+</style>
+</head>
+<body>
+
+<div class="label">漆 — 塗り重ねた深みの中にCyTechカラーが沈む</div>
+
+<!-- 4 layers of lacquer depth + surface sheen + iridescence -->
+<div class="urushi-layer-1"></div>
+<div class="urushi-layer-2"></div>
+<div class="urushi-layer-3"></div>
+<div class="urushi-sheen"></div>
+<div class="urushi-iridescence"></div>
+
+<div class="glass-sample">
+  おかえり、<strong>佐藤さん</strong>。<br>
+  前回は<span class="hl">ネットワーク基礎</span>まで進みましたね。
+</div>
+
+</body>
+</html>
