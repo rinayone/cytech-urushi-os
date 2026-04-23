@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アクションプラン UIアイデア 10パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; padding-bottom: 60px; }
+.hero { padding: 48px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.hero h1 { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.hero p { font-size: 13px; color: rgba(255,255,255,0.4); }
+.idea { max-width: 640px; margin: 0 auto; padding: 40px 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.idea-num { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #f13884; margin-bottom: 4px; }
+.idea-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.idea-desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; line-height: 1.7; }
+.idea-cat { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-bottom: 8px; }
+.cat-mission { background: rgba(247,81,59,0.15); color: #f7513b; }
+.cat-talk { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.cat-game { background: rgba(149,62,195,0.15); color: #953ec3; }
+.cat-minimal { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+
+/* Sample boxes */
+.sample {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 20px;
+}
+.hl { color: #34e0ff; font-weight: 700; }
+
+/* 1. Daily Mission */
+.mission-check { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
+.mission-check:last-child { border-bottom: none; }
+.mc-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.mc-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; }
+.mc-text { font-size: 13px; flex: 1; }
+.mc-time { font-size: 11px; color: rgba(255,255,255,0.3); font-family: 'Lato', sans-serif; }
+
+/* 2. Timer */
+.timer-ring { width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; }
+.timer-ring::before { content: ''; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid transparent; border-top-color: #34e0ff; }
+.timer-val { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; }
+.timer-unit { font-size: 9px; color: rgba(255,255,255,0.4); }
+
+/* 3. Step bar */
+.step-dots { display: flex; align-items: center; gap: 4px; margin: 12px 0; }
+.sd { width: 32px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); }
+.sd.done { background: linear-gradient(135deg, #f7513b, #f13884); }
+.sd.current { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
+
+/* 5. Question */
+.q-choices { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.q-choice { padding: 10px 16px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; text-align: left; background: transparent; color: #fff; font-family: inherit; }
+.q-choice:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); }
+
+/* 6. Quest */
+.quest-reward { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 8px 12px; background: rgba(149,62,195,0.1); border-radius: 10px; font-size: 11px; }
+.quest-badge { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.3); }
+
+/* 7. EXP */
+.exp-bar { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
+.exp-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
+.exp-fill { height: 100%; border-radius: 5px; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00); }
+.exp-val { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); }
+
+/* 8. Challenge */
+.challenge-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 8px; }
+.challenge-icon { font-size: 20px; }
+.challenge-bonus { font-size: 11px; color: #f8ee1a; margin-top: 4px; }
+
+/* 9. One line */
+.oneline { display: flex; align-items: center; justify-content: space-between; }
+.oneline-text { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; }
+.oneline-btn { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #f7513b, #f13884); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: none; color: #fff; }
+
+/* 10. Swipe */
+.swipe-track { position: relative; height: 52px; background: rgba(255,255,255,0.04); border-radius: 100px; overflow: hidden; display: flex; align-items: center; }
+.swipe-thumb { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #f7513b, #f13884); margin-left: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; cursor: pointer; animation: swipePulse 2s ease-in-out infinite; }
+@keyframes swipePulse { 0%,100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+.swipe-text { flex: 1; text-align: center; font-size: 13px; color: rgba(255,255,255,0.3); }
+
+/* CTA common */
+.action-cta { display: inline-flex; padding: 10px 24px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>アクションプラン UI 10パターン</h1>
+  <p>「今日これをやろう」をどう見せるか</p>
+</div>
+
+<!-- 1 -->
+<div class="idea">
+  <div class="idea-cat cat-mission">ミッション型</div>
+  <div class="idea-num">IDEA 01</div>
+  <div class="idea-title">デイリーミッションカード</div>
+  <div class="idea-desc">やることをチェックリストで提示。タップで✓がつき、学習画面へ。「消す楽しさ」がある。</div>
+  <div class="sample">
+    <div style="font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.3);margin-bottom:10px;">TODAY'S MISSION</div>
+    <div class="mission-check" onclick="this.querySelector('.mc-box').classList.toggle('checked')">
+      <div class="mc-box">✓</div>
+      <div class="mc-text">Unit 5 STEP 3 を完了する</div>
+      <div class="mc-time">20分</div>
+    </div>
+    <div class="mission-check" onclick="this.querySelector('.mc-box').classList.toggle('checked')">
+      <div class="mc-box"></div>
+      <div class="mc-text">STEP 4 に進む</div>
+      <div class="mc-time">15分</div>
+    </div>
+    <div class="mission-check" onclick="this.querySelector('.mc-box').classList.toggle('checked')">
+      <div class="mc-box"></div>
+      <div class="mc-text">復習クイズに答える</div>
+      <div class="mc-time">5分</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="idea">
+  <div class="idea-cat cat-mission">ミッション型</div>
+  <div class="idea-num">IDEA 02</div>
+  <div class="idea-title">タイマー付きミッション</div>
+  <div class="idea-desc">「あと20分で1ステップ進める」の具体性。時間が見えることで「短い」と思わせる。</div>
+  <div class="sample" style="display:flex;align-items:center;gap:20px;">
+    <div class="timer-ring">
+      <div style="text-align:center;"><div class="timer-val">20</div><div class="timer-unit">min</div></div>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;">次のステップまで</div>
+      <div style="font-size:16px;font-weight:700;">Unit 5 — STEP 3</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px;">ネットワーク構成図の読み方</div>
+      <button class="action-cta" style="margin-top:10px;">始める →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="idea">
+  <div class="idea-cat cat-mission">ミッション型</div>
+  <div class="idea-num">IDEA 03</div>
+  <div class="idea-title">ステップバー型</div>
+  <div class="idea-desc">今日のゴールがドットで見える。1つずつ塗りつぶされる進捗感。</div>
+  <div class="sample">
+    <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;">今日のゴール：3ステップ</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px;">STEP 3 → 4 → 5</div>
+    <div class="step-dots">
+      <div class="sd done"></div>
+      <div class="sd done"></div>
+      <div class="sd current"></div>
+      <div class="sd"></div>
+      <div class="sd"></div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.4);">現在：STEP 3 / ネットワーク構成図</div>
+    <button class="action-cta">続ける →</button>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="idea">
+  <div class="idea-cat cat-talk">会話型</div>
+  <div class="idea-num">IDEA 04</div>
+  <div class="idea-title">KANAMEの一言カード</div>
+  <div class="idea-desc">吹き出しを廃止し、シンプルな一言＋軽いCTA。会話のように自然。</div>
+  <div class="sample" style="display:flex;align-items:center;gap:14px;">
+    <div style="width:40px;height:40px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(1px) saturate(1.2);flex-shrink:0;position:relative;"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:10px;background:rgba(8,8,35,0.7);border-radius:100px;display:flex;align-items:center;justify-content:center;gap:5px;"><div style="width:2px;height:5px;background:#fff;border-radius:1px;"></div><div style="width:2px;height:5px;background:#fff;border-radius:1px;"></div></div></div>
+    <div style="flex:1;">
+      <div style="font-size:14px;line-height:1.6;">前回の続きから。営業の組織図、覚えてますか？</div>
+    </div>
+    <button class="action-cta" style="margin-top:0;">やってみる →</button>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="idea">
+  <div class="idea-cat cat-talk">会話型</div>
+  <div class="idea-num">IDEA 05</div>
+  <div class="idea-title">質問から始まる型</div>
+  <div class="idea-desc">P-02と同じ1ラリー方式。質問に答えたらそのまま学習画面へ。ダッシュボード内で復習が始まる。</div>
+  <div class="sample">
+    <div style="font-size:14px;line-height:1.7;margin-bottom:4px;">前回学んだネットワーク構成図。<strong>「本社」に当たるのはどれでしたか？</strong></div>
+    <div class="q-choices">
+      <button class="q-choice">サーバー</button>
+      <button class="q-choice">ルーター</button>
+      <button class="q-choice">端末</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="idea">
+  <div class="idea-cat cat-game">ゲーム型</div>
+  <div class="idea-num">IDEA 06</div>
+  <div class="idea-title">クエストボード</div>
+  <div class="idea-desc">RPGのクエスト受注画面。「報酬」が見えるから受けたくなる。</div>
+  <div class="sample">
+    <div style="font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.3);margin-bottom:8px;">QUEST</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:4px;">ネットワーク基礎を攻略せよ</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.4);">Unit 5 STEP 3〜5 を完了する</div>
+    <div class="quest-reward">
+      <div class="quest-badge">NW</div>
+      <div style="flex:1;"><strong style="color:#fff;">報酬：</strong><span class="hl">NWバッジ</span> + 進捗15%UP</div>
+    </div>
+    <button class="action-cta">クエスト開始 →</button>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="idea">
+  <div class="idea-cat cat-game">ゲーム型</div>
+  <div class="idea-num">IDEA 07</div>
+  <div class="idea-title">経験値バー型</div>
+  <div class="idea-desc">学習するとEXPが貯まる。100に達するとレベルアップ。目に見える成長。</div>
+  <div class="sample">
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+      <div style="font-family:'Lato',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.3);">TODAY'S EXP</div>
+      <div style="font-family:'Lato',sans-serif;font-size:24px;font-weight:900;">0 <span style="font-size:14px;color:rgba(255,255,255,0.3);">/ 100</span></div>
+    </div>
+    <div class="exp-bar">
+      <div class="exp-track"><div class="exp-fill" style="width:0%;"></div></div>
+      <div class="exp-val">Lv UP まで</div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.4);">Unit 5 STEP 3 を完了すると +35 EXP</div>
+    <button class="action-cta">学習して稼ぐ →</button>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="idea">
+  <div class="idea-cat cat-game">ゲーム型</div>
+  <div class="idea-num">IDEA 08</div>
+  <div class="idea-title">デイリーチャレンジ</div>
+  <div class="idea-desc">毎日のチャレンジ＋ボーナス報酬。ゲームのデイリー報酬と同じ仕組み。</div>
+  <div class="sample">
+    <div style="font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.3);margin-bottom:10px;">DAILY CHALLENGE</div>
+    <div class="challenge-card">
+      <div class="challenge-icon">📘</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;">30分学習する</div>
+        <div class="challenge-bonus">🔥 ボーナス：ストリーク +1日</div>
+      </div>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-icon">✍️</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;">復習クイズに全問正解する</div>
+        <div class="challenge-bonus">⭐ ボーナス：EXP 2倍</div>
+      </div>
+    </div>
+    <button class="action-cta">チャレンジ開始 →</button>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="idea">
+  <div class="idea-cat cat-minimal">ミニマル型</div>
+  <div class="idea-num">IDEA 09</div>
+  <div class="idea-title">一行CTA</div>
+  <div class="idea-desc">テキストと巨大ボタンのみ。究極にシンプル。考える余地を与えない。</div>
+  <div class="sample">
+    <div class="oneline">
+      <div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;">Unit 5</div>
+        <div class="oneline-text">STEP 3</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px;">ネットワーク構成図</div>
+      </div>
+      <button class="oneline-btn">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="idea">
+  <div class="idea-cat cat-minimal">ミニマル型</div>
+  <div class="idea-num">IDEA 10</div>
+  <div class="idea-title">スワイプ型</div>
+  <div class="idea-desc">スマホのロック解除風。「スワイプして学習開始」のインタラクション。動作自体が楽しい。</div>
+  <div class="sample">
+    <div style="font-size:13px;margin-bottom:10px;"><strong>Unit 5 — STEP 3</strong> ネットワーク構成図</div>
+    <div class="swipe-track">
+      <div class="swipe-thumb">→</div>
+      <div class="swipe-text">スワイプして学習開始</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
