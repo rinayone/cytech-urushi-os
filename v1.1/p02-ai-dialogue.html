@@ -11,12 +11,12 @@
 html, body { height: 100%; }
 body {
   font-family: 'Noto Sans JP', 'Lato', sans-serif;
-  background: #000;
+  background: #050508;
   color: #fff;
   overflow: hidden;
 }
 
-/* ===== SCENE ===== */
+/* ===== BACKGROUND ===== */
 .scene {
   position: fixed;
   inset: 0;
@@ -24,10 +24,24 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
 }
+.scene::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 20%, rgba(241,56,132,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 75% 25%, rgba(247,81,59,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 80% 70%, rgba(52,224,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 20% 75%, rgba(149,62,195,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(15,75,171,0.06) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 2s ease 0.6s;
+  z-index: 0;
+}
+.scene.ignited::before { opacity: 1; }
 
-/* Ambient particles */
+/* Ambient */
 .ambient {
   position: fixed;
   inset: 0;
@@ -48,222 +62,8 @@ body {
 }
 @keyframes ambFloat {
   0%, 100% { transform: translateY(0); opacity: 0.08; }
-  50% { transform: translateY(-18px); opacity: 0.3; }
+  50% { transform: translateY(-18px); opacity: 0.25; }
 }
-
-/* ===== KANAME CHARACTER ===== */
-.kaname-wrap {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.kaname-orb {
-  position: relative;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  opacity: 0;
-  transform: scale(0.2);
-  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
-}
-.scene.ignited .kaname-orb {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Rainbow glow (outer) */
-.orb-glow {
-  position: absolute;
-  inset: -24px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #f13884, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
-  filter: blur(28px);
-  opacity: 0.6;
-  animation: orbSpin 10s linear infinite;
-}
-@keyframes orbSpin { to { transform: rotate(360deg); } }
-
-/* Rainbow body (inner) */
-.orb-body {
-  position: absolute;
-  inset: 6px;
-  border-radius: 50%;
-  background: conic-gradient(from 200deg, #f13884, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
-  filter: blur(14px) saturate(1.3);
-  animation: orbSpin 7s linear infinite reverse;
-}
-
-/* Face */
-.orb-face {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 30px;
-  background: rgba(8, 8, 35, 0.75);
-  border-radius: 100px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-}
-.eye {
-  width: 5px;
-  height: 13px;
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 0 8px rgba(255,255,255,0.9);
-}
-
-/* Ignite flash */
-.ignite-flash {
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(247,81,59,0.9) 0%, rgba(241,56,132,0.4) 40%, transparent 70%);
-  opacity: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-.scene.ignited .ignite-flash {
-  animation: ignFlash 1.4s ease-out forwards;
-}
-@keyframes ignFlash {
-  0% { opacity: 0; transform: scale(0.4); filter: blur(2px); }
-  12% { opacity: 1; transform: scale(1.6); filter: blur(4px); }
-  100% { opacity: 0; transform: scale(4); filter: blur(40px); }
-}
-
-/* Reflection */
-.kaname-ref {
-  width: 80px;
-  height: 24px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(52,224,255,0.12), transparent 70%);
-  margin-top: 10px;
-  filter: blur(6px);
-  opacity: 0;
-  transition: opacity 1.5s ease 1.2s;
-}
-.scene.ignited .kaname-ref { opacity: 1; }
-
-/* Breathe */
-.scene.ignited .kaname-orb {
-  animation: breathe 4.5s ease-in-out infinite 2.5s;
-}
-@keyframes breathe {
-  0%, 100% { transform: scale(1) translateY(0); }
-  50% { transform: scale(1.04) translateY(-5px); }
-}
-
-/* ===== BUBBLES (Glassmorphism) ===== */
-.bubble-area {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-}
-.bubble {
-  position: absolute;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 16px 20px;
-  max-width: 270px;
-  font-size: 13px;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.9);
-  pointer-events: auto;
-  opacity: 0;
-  transform: scale(0.85) translateY(8px);
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,0.15),
-    inset -1px -1px 1px rgba(255,255,255,0.1),
-    inset 1px 1px 1px rgba(255,255,255,0.2),
-    0 8px 32px rgba(0,0,0,0.3);
-}
-.bubble.visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-.bubble strong { color: #fff; }
-.bubble .hl { color: #34e0ff; font-weight: 700; }
-.bubble .hl-pink { color: #f13884; font-weight: 700; }
-
-/* Connector dot */
-.bubble::after {
-  content: '';
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-}
-
-/* Positions */
-.bubble.pos-tl { top: 14%; left: 6%; }
-.bubble.pos-tl::after { bottom: -16px; right: 24px; }
-
-.bubble.pos-tr { top: 12%; right: 6%; }
-.bubble.pos-tr::after { bottom: -16px; left: 24px; }
-
-.bubble.pos-l { top: 42%; left: 3%; }
-.bubble.pos-l::after { right: -16px; top: 16px; }
-
-.bubble.pos-r { top: 40%; right: 3%; }
-.bubble.pos-r::after { left: -16px; top: 16px; }
-
-/* Main bubble (bottom center) */
-.bubble.pos-main {
-  bottom: 10%;
-  left: 50%;
-  transform: scale(0.85) translateX(-50%);
-  max-width: 440px;
-  padding: 20px 28px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
-  font-size: 14px;
-  box-shadow:
-    inset 0 0 30px rgba(255,255,255,0.2),
-    inset -1px -1px 2px rgba(255,255,255,0.1),
-    inset 1px 1px 2px rgba(255,255,255,0.25),
-    0 8px 40px rgba(0,0,0,0.3);
-}
-.bubble.pos-main.visible {
-  transform: scale(1) translateX(-50%);
-}
-.bubble.pos-main::after { display: none; }
-
-/* Single CTA button */
-.bub-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 12px 28px;
-  background: linear-gradient(135deg, #f7513b, #f13884);
-  color: #fff;
-  border: none;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Noto Sans JP', sans-serif;
-  width: 100%;
-  justify-content: center;
-}
-.bub-cta:hover { opacity: 0.9; transform: scale(1.02); }
 
 /* ===== HEADER ===== */
 .header {
@@ -282,24 +82,20 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
   opacity: 0;
   transform: translateY(-8px);
   transition: all 0.8s ease 2.8s;
 }
-.scene.ignited .header {
-  opacity: 1;
-  transform: translateY(0);
-}
+.scene.ignited .header { opacity: 1; transform: translateY(0); }
 .header img { height: 22px; }
 .header .ht {
   font-family: 'Lato', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.35);
-  letter-spacing: 0.5px;
 }
 .header .hr { margin-left: auto; }
-.header .hb-dash {
+.hb-dash {
   padding: 8px 18px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
@@ -311,82 +107,275 @@ body {
   transition: all 0.2s;
   font-family: 'Noto Sans JP', sans-serif;
 }
-.header .hb-dash:hover { background: rgba(255,255,255,0.16); }
+.hb-dash:hover { background: rgba(255,255,255,0.16); }
 
-/* ===== CHAT INPUT ===== */
-.chat-bar {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%) translateY(16px);
-  width: 92%;
-  max-width: 480px;
-  z-index: 50;
-  opacity: 0;
-  transition: all 0.8s ease 3.2s;
-}
-.scene.ignited .chat-bar {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-.chat-inner {
+/* ===== KANAME ===== */
+.kaname-wrap {
+  position: relative;
+  z-index: 10;
   display: flex;
-  gap: 6px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 100px;
-  padding: 5px 5px 5px 18px;
+  flex-direction: column;
   align-items: center;
-  box-shadow: inset 0 0 16px rgba(255,255,255,0.08);
+  margin-bottom: 32px;
 }
-.chat-inner input {
+.kaname-orb {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+}
+.scene.ignited .kaname-orb { opacity: 1; transform: scale(1); }
+
+.orb-glow {
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #f13884, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+  filter: blur(28px);
+  opacity: 0.6;
+  animation: orbSpin 10s linear infinite;
+}
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+
+.orb-body {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, #f13884, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+  filter: blur(14px) saturate(1.3);
+  animation: orbSpin 7s linear infinite reverse;
+}
+
+.orb-face {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px; height: 30px;
+  background: rgba(8,8,35,0.75);
+  border-radius: 100px;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+.eye {
+  width: 5px; height: 13px;
+  background: #fff; border-radius: 3px;
+  box-shadow: 0 0 8px rgba(255,255,255,0.9);
+}
+
+.ignite-flash {
+  position: absolute; inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,81,59,0.9) 0%, rgba(241,56,132,0.4) 40%, transparent 70%);
+  opacity: 0; z-index: 3; pointer-events: none;
+}
+.scene.ignited .ignite-flash { animation: ignFlash 1.4s ease-out forwards; }
+@keyframes ignFlash {
+  0% { opacity: 0; transform: scale(0.4); }
+  12% { opacity: 1; transform: scale(1.6); filter: blur(4px); }
+  100% { opacity: 0; transform: scale(4); filter: blur(40px); }
+}
+
+.kaname-ref {
+  width: 80px; height: 24px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(52,224,255,0.12), transparent 70%);
+  margin-top: 10px; filter: blur(6px);
+  opacity: 0; transition: opacity 1.5s ease 1.2s;
+}
+.scene.ignited .kaname-ref { opacity: 1; }
+
+.scene.ignited .kaname-orb { animation: breathe 4.5s ease-in-out infinite 2.5s; }
+@keyframes breathe {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.04) translateY(-5px); }
+}
+
+/* ===== MESSAGE BUBBLE ===== */
+.msg-area {
+  position: relative;
+  z-index: 20;
+  max-width: 460px;
+  width: 90%;
+}
+.msg-bubble {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 20px 24px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.9);
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,0.12),
+    inset -1px -1px 1px rgba(255,255,255,0.08),
+    inset 1px 1px 1px rgba(255,255,255,0.18),
+    0 8px 32px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.msg-bubble.visible { opacity: 1; transform: translateY(0); }
+.msg-bubble strong { color: #fff; }
+.msg-bubble .hl { color: #34e0ff; font-weight: 700; }
+
+/* ===== CHOICES ===== */
+.choices {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.5s ease;
+}
+.choices.visible { opacity: 1; transform: translateY(0); }
+.choice-btn {
   flex: 1;
-  background: none;
-  border: none;
-  outline: none;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
   color: #fff;
   font-size: 13px;
-  font-family: inherit;
-}
-.chat-inner input::placeholder { color: rgba(255,255,255,0.25); }
-.chat-inner button {
-  padding: 9px 18px;
-  background: linear-gradient(135deg, #953ec3, #0f4bab);
-  color: #fff;
-  border: none;
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s;
-  white-space: nowrap;
+  transition: all 0.2s;
+  font-family: 'Noto Sans JP', sans-serif;
+  text-align: center;
+  line-height: 1.5;
 }
-.chat-inner button:hover { opacity: 0.85; }
+.choice-btn:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== TRANSITION TO LEARNING ===== */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #050508;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.transition-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.transition-msg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.4s;
+}
+.transition-overlay.active .transition-msg { opacity: 1; }
+.transition-msg .tm-text {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 12px;
+}
+
+/* ===== CHAT ICON ===== */
+.chat-icon-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0;
+  transition: opacity 0.6s ease 3.2s, background 0.2s;
+}
+.scene.ignited .chat-icon-btn { opacity: 1; }
+.chat-icon-btn:hover { background: rgba(255,255,255,0.15); }
+.chat-icon-btn svg { width: 20px; height: 20px; fill: rgba(255,255,255,0.5); }
+
+/* Chat expand */
+.chat-expand {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 60;
+  width: 320px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 16px;
+  display: none;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.chat-expand.open { display: block; }
+.chat-expand-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.chat-expand-header span {
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6);
+}
+.chat-expand-close {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.08);
+  border: none; border-radius: 8px;
+  color: #fff; font-size: 14px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.chat-expand-input {
+  display: flex; gap: 6px;
+}
+.chat-expand-input input {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  color: #fff; font-size: 13px;
+  outline: none; font-family: inherit;
+}
+.chat-expand-input input::placeholder { color: rgba(255,255,255,0.2); }
+.chat-expand-input button {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; border: none; border-radius: 100px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 700px) {
   .kaname-orb { width: 100px; height: 100px; }
   .orb-face { width: 48px; height: 24px; gap: 12px; }
   .eye { width: 4px; height: 10px; }
-  .bubble { max-width: 180px; font-size: 12px; padding: 12px 14px; }
-  .bubble.pos-main { max-width: 90%; font-size: 13px; }
-  .bubble.pos-tl { top: 10%; left: 3%; }
-  .bubble.pos-tr { top: 8%; right: 3%; }
-  .bubble.pos-l { left: 1%; }
-  .bubble.pos-r { right: 1%; }
+  .msg-area { width: 92%; }
+  .choices { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
 <div class="scene" id="scene">
-
-  <!-- Ambient particles -->
   <div class="ambient" id="ambient"></div>
 
-  <!-- Header: only Dashboard exit -->
+  <!-- Header -->
   <header class="header">
     <img src="logo.png" alt="CyTech">
     <span class="ht">AI対話</span>
@@ -397,7 +386,7 @@ body {
 
   <!-- KANAME -->
   <div class="kaname-wrap">
-    <div class="kaname-orb" id="kanameOrb">
+    <div class="kaname-orb">
       <div class="orb-glow"></div>
       <div class="orb-body"></div>
       <div class="ignite-flash"></div>
@@ -409,24 +398,58 @@ body {
     <div class="kaname-ref"></div>
   </div>
 
-  <!-- Bubbles -->
-  <div class="bubble-area" id="bubbleArea"></div>
-
-  <!-- Chat input -->
-  <div class="chat-bar">
-    <div class="chat-inner">
-      <input type="text" id="chatInput" placeholder="KANAMEに質問する...">
-      <button onclick="sendMsg()">送信</button>
+  <!-- Message -->
+  <div class="msg-area">
+    <div class="msg-bubble" id="msgBubble">
+      おかえり、<strong>佐藤さん</strong>。前回は<span class="hl">ネットワーク基礎</span>まで進みましたね。<br><br>
+      営業先の取引先一覧って、本社→支店→部署みたいな階層があるじゃないですか。ネットワークも全く同じ構造なんですよ。<br><br>
+      この図だと、<strong>どこが"本社"に当たると思います？</strong>
+    </div>
+    <div class="choices" id="choices">
+      <button class="choice-btn" onclick="transitionToLesson()">サーバーかな</button>
+      <button class="choice-btn" onclick="transitionToLesson()">ルーターだと思う</button>
+      <button class="choice-btn" onclick="transitionToLesson()">うーん、わからない</button>
     </div>
   </div>
 
+  <!-- Chat icon -->
+  <button class="chat-icon-btn" id="chatIconBtn" onclick="toggleChat()">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+  </button>
+
+  <!-- Chat expand panel -->
+  <div class="chat-expand" id="chatExpand">
+    <div class="chat-expand-header">
+      <span>KANAMEに質問</span>
+      <button class="chat-expand-close" onclick="toggleChat()">&#10005;</button>
+    </div>
+    <div class="chat-expand-input">
+      <input type="text" id="chatInput" placeholder="質問を入力...">
+      <button onclick="sendChat()">送信</button>
+    </div>
+  </div>
+</div>
+
+<!-- Transition overlay -->
+<div class="transition-overlay" id="transOverlay">
+  <div class="transition-msg">
+    <div class="kaname-orb" style="width:60px;height:60px;opacity:1;transform:scale(1);margin:0 auto;">
+      <div class="orb-glow" style="inset:-12px;filter:blur(14px);"></div>
+      <div class="orb-body" style="inset:3px;filter:blur(7px);"></div>
+      <div class="orb-face" style="width:30px;height:15px;gap:8px;">
+        <div class="eye" style="width:3px;height:7px;"></div>
+        <div class="eye" style="width:3px;height:7px;"></div>
+      </div>
+    </div>
+    <div class="tm-text">そうそう、いい感じです。<br>じゃあ続きを見ていきましょう。</div>
+  </div>
 </div>
 
 <script>
-// ===== AMBIENT PARTICLES =====
+// Ambient particles
 (function() {
   var a = document.getElementById('ambient');
-  for (var i = 0; i < 25; i++) {
+  for (var i = 0; i < 20; i++) {
     var d = document.createElement('div');
     d.className = 'ambient-dot';
     d.style.left = Math.random() * 100 + '%';
@@ -437,83 +460,59 @@ body {
   }
 })();
 
-// ===== AUTO IGNITE =====
+// Auto ignite
 window.addEventListener('load', function() {
   setTimeout(function() {
     document.getElementById('scene').classList.add('ignited');
-    setTimeout(startBubbles, 1800);
+    // Show message
+    setTimeout(function() {
+      document.getElementById('msgBubble').classList.add('visible');
+    }, 1800);
+    // Show choices
+    setTimeout(function() {
+      document.getElementById('choices').classList.add('visible');
+    }, 2600);
   }, 300);
 });
 
-// ===== BUBBLES =====
-var bubbleSequence = [
-  { pos: 'pos-tl', html: 'おかえりなさい、<strong>佐藤さん</strong>。', delay: 0 },
-  { pos: 'pos-tr', html: '前回から<span class="hl">3日</span>経っています。<br>Unit 5 で手が止まっていましたね。', delay: 700 },
-  { pos: 'pos-r', html: 'ネットワーク構成図は、営業の<strong>顧客管理の組織図</strong>と同じ考え方です。', delay: 1400 },
-  { pos: 'pos-l', html: 'あと<span class="hl">12時間</span>の学習で<br><span class="hl-pink">Skill Prime 達成</span>です。', delay: 2100 },
-  { pos: 'pos-main', html: 'ゴールは近いです。<br>学習の続きから始めましょう。<button class="bub-cta">ダッシュボードへ進む →</button>', delay: 3000 }
-];
-
-function startBubbles() {
-  var area = document.getElementById('bubbleArea');
-  bubbleSequence.forEach(function(b) {
-    setTimeout(function() {
-      var el = document.createElement('div');
-      el.className = 'bubble ' + b.pos;
-      el.innerHTML = b.html;
-      area.appendChild(el);
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          el.classList.add('visible');
-        });
-      });
-    }, b.delay);
-  });
+// Transition to lesson
+function transitionToLesson() {
+  var overlay = document.getElementById('transOverlay');
+  overlay.classList.add('active');
+  // After transition, would navigate to P-05 learning page
+  // For now, simulate with a message
+  setTimeout(function() {
+    // window.location.href = 'p05-lesson.html';
+  }, 2000);
 }
 
-// ===== CHAT =====
-function sendMsg() {
+// Chat toggle
+function toggleChat() {
+  var panel = document.getElementById('chatExpand');
+  var btn = document.getElementById('chatIconBtn');
+  panel.classList.toggle('open');
+  btn.style.display = panel.classList.contains('open') ? 'none' : 'flex';
+  if (panel.classList.contains('open')) {
+    document.getElementById('chatInput').focus();
+  }
+}
+
+function sendChat() {
   var input = document.getElementById('chatInput');
   var text = input.value.trim();
   if (!text) return;
   input.value = '';
-
-  var area = document.getElementById('bubbleArea');
-
-  // Fade out side bubbles
-  area.querySelectorAll('.bubble:not(.pos-main)').forEach(function(b) {
-    b.style.opacity = '0';
-    b.style.transform = 'scale(0.8)';
-    setTimeout(function() { b.remove(); }, 400);
-  });
-
-  // User bubble
+  input.placeholder = 'KANAMEが考えています...';
   setTimeout(function() {
-    var ub = document.createElement('div');
-    ub.className = 'bubble pos-tr';
-    ub.style.background = 'rgba(149,62,195,0.15)';
-    ub.style.borderColor = 'rgba(149,62,195,0.25)';
-    ub.innerHTML = text.replace(/</g, '&lt;');
-    area.appendChild(ub);
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() { ub.classList.add('visible'); });
-    });
-
-    // AI reply
+    input.placeholder = '学習を進めながら一緒に考えましょう。';
     setTimeout(function() {
-      var rb = document.createElement('div');
-      rb.className = 'bubble pos-l';
-      rb.innerHTML = 'なるほど、良い質問ですね。<br>学習を進めながら一緒に考えていきましょう。';
-      area.appendChild(rb);
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() { rb.classList.add('visible'); });
-      });
-    }, 800);
-  }, 500);
+      input.placeholder = '質問を入力...';
+    }, 3000);
+  }, 1000);
 }
 
 document.getElementById('chatInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') sendMsg();
+  if (e.key === 'Enter') sendChat();
 });
 </script>
 </body>
