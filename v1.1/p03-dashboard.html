@@ -30,7 +30,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .hb { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
 
 /* Layout */
-.layout { position: fixed; top: 84px; bottom: 16px; left: 16px; right: 16px; display: grid; grid-template-columns: 220px 1fr; gap: 12px; z-index: 10; }
+.layout { position: fixed; top: 84px; bottom: 16px; left: 16px; right: 16px; display: grid; grid-template-columns: 260px 1fr; gap: 12px; z-index: 10; }
 
 /* ===== LEFT: Sidebar ===== */
 .sidebar { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px 16px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
@@ -246,7 +246,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     </div>
     <div class="sb-account-menu" id="accountMenu">
       <div class="sb-menu-item" onclick="event.stopPropagation();openSettings();">⚙ 設定</div>
-      <div class="sb-menu-item" onclick="event.stopPropagation();openNotif();">🔔 通知設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();openNotif();">🔔 お知らせ</div>
       <div class="sb-menu-item" onclick="event.stopPropagation();location.href='login.html';">→ ログアウト</div>
     </div>
   </div>
@@ -408,6 +408,18 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     </div>
     <div id="setProfile" style="display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">プロフィール編集</span></div>
+      <!-- Avatar change -->
+      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:20px;">
+        <div id="avatarPreview" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#0f4bab,#34e0ff);display:flex;align-items:center;justify-content:center;font-family:'Lato',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;overflow:hidden;position:relative;">SK</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">アイコン</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <div class="avatar-opt" onclick="pickAvatar(this,'gradient')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0f4bab,#34e0ff);cursor:pointer;border:2px solid #34e0ff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
+          <div class="avatar-opt" onclick="pickAvatar(this,'pink')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
+          <div class="avatar-opt" onclick="pickAvatar(this,'purple')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#953ec3,#0f4bab);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
+          <div class="avatar-opt" onclick="pickAvatar(this,'rainbow')" style="width:36px;height:36px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
+          <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.3);transition:all 0.2s;" title="画像をアップロード">📷<input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
+        </div>
+      </div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">メールアドレス</div><input type="email" value="n.s@example.com" class="set-input" style="width:100%;text-align:left;"></div>
       <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">保存</button>
@@ -604,6 +616,37 @@ function showSetView(v) {
   document.getElementById('setMain').style.display = v === 'main' ? 'block' : 'none';
   document.getElementById('setProfile').style.display = v === 'profile' ? 'block' : 'none';
   document.getElementById('setPassword').style.display = v === 'password' ? 'block' : 'none';
+}
+
+// Avatar picker
+var avatarStyles = {
+  gradient: 'linear-gradient(135deg,#0f4bab,#34e0ff)',
+  pink: 'linear-gradient(135deg,#f7513b,#f13884)',
+  purple: 'linear-gradient(135deg,#953ec3,#0f4bab)',
+  rainbow: 'conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884)'
+};
+function pickAvatar(el, style) {
+  document.querySelectorAll('.avatar-opt').forEach(function(o) { o.style.borderColor = 'transparent'; });
+  el.style.borderColor = '#34e0ff';
+  var preview = document.getElementById('avatarPreview');
+  preview.style.background = avatarStyles[style];
+  preview.style.backgroundSize = '';
+  preview.textContent = 'SK';
+  document.querySelector('.sb-avatar').style.background = avatarStyles[style];
+}
+function previewUpload(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var preview = document.getElementById('avatarPreview');
+      preview.style.background = 'url(' + e.target.result + ') center/cover';
+      preview.textContent = '';
+      document.querySelector('.sb-avatar').style.background = 'url(' + e.target.result + ') center/cover';
+      document.querySelectorAll('.avatar-opt').forEach(function(o) { o.style.borderColor = 'transparent'; });
+      input.parentElement.style.borderColor = '#34e0ff';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 </script>
 </body>
