@@ -34,10 +34,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Message area */
 .msg-area { position: relative; z-index: 20; max-width: 440px; width: 90%; }
 
-/* Slide container */
-.slide-container { position: relative; }
-.slide-panel-inner { transition: opacity 0.3s ease; }
-.slide-panel-inner.exiting { opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; right: 0; z-index: -1; }
+/* Slide container — no layout shift */
+.slide-container { position: relative; min-height: 300px; }
+.slide-panel-inner { position: absolute; top: 0; left: 0; right: 0; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.slide-panel-inner.active { opacity: 1; pointer-events: auto; position: relative; }
 
 /* AI message */
 .ai-msg {
@@ -144,7 +144,7 @@ var steps = [
         '<button class="choice-btn" onclick="selQ2(this)">インフラエンジニア</button>' +
       '</div>' +
       '<input type="text" class="text-input" placeholder="その他の職種を入力...">' +
-      '<div class="nav-row"><button class="nav-btn btn-next" style="margin-left:auto;" onclick="goStep(2,1)">次へ</button></div>';
+      '<div class="nav-row"><button class="nav-btn btn-next" style="margin-left:auto;" onclick="goStep(2)">次へ</button></div>';
   },
   // 2: Q2 希望就業時期
   function() {
@@ -155,7 +155,7 @@ var steps = [
         '<button class="choice-btn" onclick="selQ3(this)">1年以内</button>' +
         '<button class="choice-btn" onclick="selQ3(this)">まだ決めていない</button>' +
       '</div>' +
-      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1,-1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(3,1)">次へ</button></div>';
+      '<div class="nav-row"><button class="nav-btn btn-back" onclick="goStep(1)">戻る</button><button class="nav-btn btn-next" onclick="goStep(3)">次へ</button></div>';
   },
   // 3: Result
   function() {
@@ -174,48 +174,45 @@ var steps = [
   }
 ];
 
-function renderStep(step, dir) {
-  var old = container.querySelector('.slide-panel-inner:not(.exiting)');
-
-  if (old) {
-    // Fade out old first
-    old.classList.add('exiting');
-    setTimeout(function() {
-      if (old.parentNode) old.remove();
-      // Then create and fade in new
-      insertNew(step);
-    }, 300);
-  } else {
-    insertNew(step);
-  }
-
-  function insertNew(s) {
+// Pre-render all steps into DOM
+function initSteps() {
+  for (var i = 0; i < steps.length; i++) {
     var div = document.createElement('div');
     div.className = 'slide-panel-inner';
-    div.style.opacity = '0';
-    div.innerHTML = steps[s]();
+    div.id = 'step-' + i;
+    div.innerHTML = steps[i]();
     container.appendChild(div);
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() { div.style.opacity = '1'; });
-    });
-    setTimeout(function() {
-      div.querySelectorAll('[data-delay]').forEach(function(m) {
-        var d = parseInt(m.getAttribute('data-delay'));
-        setTimeout(function() { m.classList.add('visible'); }, d);
-      });
-    }, 50);
   }
+}
 
+function renderStep(step) {
+  // Deactivate all
+  container.querySelectorAll('.slide-panel-inner').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  // Activate target
+  var target = document.getElementById('step-' + step);
+  if (target) {
+    requestAnimationFrame(function() {
+      target.classList.add('active');
+    });
+    // Animate delayed elements
+    target.querySelectorAll('[data-delay]').forEach(function(m) {
+      m.classList.remove('visible');
+      var d = parseInt(m.getAttribute('data-delay'));
+      setTimeout(function() { m.classList.add('visible'); }, d + 50);
+    });
+  }
   currentStep = step;
 }
 
-function goStep(step, dir) {
-  renderStep(step, dir);
+function goStep(step) {
+  renderStep(step);
 }
 
 function pressGood(btn) {
   btn.classList.add('pressed');
-  setTimeout(function() { goStep(1, 1); }, 400);
+  setTimeout(function() { renderStep(1); }, 400);
 }
 
 function selQ2(btn) {
@@ -235,8 +232,9 @@ function goToAI() {
 
 // Init
 window.addEventListener('load', function() {
+  initSteps();
   setTimeout(function() { document.getElementById('scene').classList.add('ignited'); }, 200);
-  setTimeout(function() { renderStep(0, 1); }, 400);
+  setTimeout(function() { renderStep(0); }, 400);
 });
 </script>
 </body>
