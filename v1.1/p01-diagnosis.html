@@ -57,8 +57,23 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .good-btns.visible { opacity: 1; transform: translateY(0); }
 .good-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15); font-size: 24px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
 .good-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
-.good-btn.pressed { animation: goodPop 0.5s ease forwards; }
-@keyframes goodPop { 0% { transform:scale(1); opacity:1; } 40% { transform:scale(1.3); } 100% { transform:scale(1.4); opacity:0; } }
+.good-btn.pressed { animation: goodPop 0.4s ease forwards; }
+@keyframes goodPop { 0% { transform:scale(1); } 30% { transform:scale(1.2); } 100% { transform:scale(0.9); opacity:0.5; } }
+
+/* Reaction fly */
+.reaction-fly {
+  position: fixed;
+  font-size: 28px;
+  pointer-events: none;
+  z-index: 200;
+  animation: flyUp var(--dur) ease-out forwards;
+  opacity: 1;
+}
+@keyframes flyUp {
+  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: translateY(-200px) scale(1.2) rotate(var(--rot)); opacity: 0.8; }
+  100% { transform: translateY(-500px) scale(0.6) rotate(calc(var(--rot) * 2)); opacity: 0; }
+}
 
 /* Choices */
 .choices { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
@@ -132,7 +147,7 @@ var steps = [
     return '<div class="ai-msg" data-delay="0">はじめまして、<strong>佐藤さん</strong>。</div>' +
       '<div class="ai-msg" data-delay="300">KANAMEです。あなたの学習パートナーになります。</div>' +
       '<div class="ai-msg" data-delay="600">これから一緒に、あなたに合った学び方を見つけていきましょう。</div>' +
-      '<div class="good-btns" data-delay="1000"><button class="good-btn" onclick="pressGood(this)">&#128077;</button><button class="good-btn" onclick="pressGood(this)">&#10024;</button><button class="good-btn" onclick="pressGood(this)">&#128170;</button></div>';
+      '<div class="good-btns" data-delay="1000"><button class="good-btn" onclick="pressGood(this,\'👍\')">👍</button><button class="good-btn" onclick="pressGood(this,\'🚀\')">🚀</button><button class="good-btn" onclick="pressGood(this,\'✨\')">✨</button></div>';
   },
   // 1: Q1 興味のある職種
   function() {
@@ -210,9 +225,23 @@ function goStep(step) {
   renderStep(step);
 }
 
-function pressGood(btn) {
+function pressGood(btn, emoji) {
   btn.classList.add('pressed');
-  setTimeout(function() { renderStep(1); }, 400);
+  // Fly reactions
+  var rect = btn.getBoundingClientRect();
+  for (var i = 0; i < 6; i++) {
+    var fly = document.createElement('div');
+    fly.className = 'reaction-fly';
+    fly.textContent = emoji;
+    fly.style.left = (rect.left + rect.width/2 - 14 + (Math.random()-0.5)*60) + 'px';
+    fly.style.top = (rect.top - 10) + 'px';
+    fly.style.setProperty('--dur', (0.8 + Math.random()*0.6) + 's');
+    fly.style.setProperty('--rot', ((Math.random()-0.5)*40) + 'deg');
+    fly.style.animationDelay = (i * 0.08) + 's';
+    document.body.appendChild(fly);
+    setTimeout(function(el) { el.remove(); }.bind(null, fly), 1600);
+  }
+  setTimeout(function() { renderStep(1); }, 600);
 }
 
 function selQ2(btn) {
