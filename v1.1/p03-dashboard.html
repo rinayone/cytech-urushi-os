@@ -25,7 +25,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
 }
 .header img { height: 22px; }
-.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); }
 .header .hr { margin-left: auto; }
 .hb { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
 
@@ -36,22 +36,22 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sidebar { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px 16px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
 .sb-heading { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; color: rgba(255,255,255,0.8); margin-bottom: 14px; letter-spacing: 0.5px; }
 .sb-level { padding: 5px 18px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; margin-bottom: 20px; }
-.sb-label { font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 8px; width: 100%; text-align: left; margin-top: 20px; }
+.sb-label { font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; width: 100%; text-align: left; margin-top: 20px; }
 .sb-badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .sb-badge { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: 'Lato', sans-serif; transition: all 0.2s; cursor: pointer; }
 .sb-badge.earned { color: #fff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.3); }
 .sb-badge.earned:hover { transform: scale(1.1); }
-.sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.05); }
+.sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08); }
 
 .sb-cal { width: 100%; padding: 0; margin-top: 6px; }
 .sb-cal-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
 .sb-cal-month { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); }
 .sb-cal-streak { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: #f7513b; }
 .sb-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
-.sb-cal-h { font-size: 6px; color: rgba(255,255,255,0.2); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
-.sb-cal-d { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.08); }
-.sb-cal-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.2); }
-.sb-cal-d.l2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.35); }
+.sb-cal-h { font-size: 6px; color: rgba(255,255,255,0.5); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.sb-cal-d { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.2); }
+.sb-cal-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.4); }
+.sb-cal-d.l2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.55); }
 .sb-cal-d.l3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.5); }
 .sb-cal-d.l4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
 .sb-cal-d.today { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.4); }
@@ -90,21 +90,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* Daily Mission */
 .mission-card { margin-top: 4px; }
-.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 .mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); transition: opacity 0.2s; }
 .mission-item:last-child { border-bottom: none; }
-.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; cursor: pointer; }
+.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.35); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; cursor: pointer; }
 .mi-box:hover { border-color: rgba(255,255,255,0.4); }
 .mi-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff; }
 .mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
 .mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
-.mi-time { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
+.mi-time { font-size: 11px; color: rgba(255,255,255,0.5); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
 .mission-item.navigating .mi-box { transform: scale(1.15); }
 .mission-item.navigating { opacity: 0.6; }
 .mission-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .mp-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 200px; }
 .mp-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f13884); transition: width 0.4s ease; }
-.mp-label { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 700; }
+.mp-label { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 700; }
 
 /* Suggest row */
 .suggest-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -117,8 +117,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
 .suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
 .suggest-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; min-width: 0; }
-.suggest-input input::placeholder { color: rgba(255,255,255,0.2); }
-.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.suggest-input input::placeholder { color: rgba(255,255,255,0.35); }
+.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .suggest-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
 
 /* Dynamic area */
@@ -127,7 +127,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 /* Progress row */
 .prog-row { display: flex; gap: 12px; }
 .prog-card { flex: 1; background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 20px; }
-.prog-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+.prog-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 .prog-value { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; margin-bottom: 8px; }
 .prog-value .unit { font-size: 16px; color: rgba(255,255,255,0.5); }
 .prog-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; max-width: 180px; }
@@ -148,15 +148,15 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ep-bar-name { width: 80px; color: rgba(255,255,255,0.5); flex-shrink: 0; }
 .ep-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; max-width: 140px; }
 .ep-bar-fill { height: 100%; border-radius: 3px; }
-.ep-bar-val { width: 30px; text-align: right; color: rgba(255,255,255,0.35); font-family: 'Lato', sans-serif; font-weight: 700; }
+.ep-bar-val { width: 30px; text-align: right; color: rgba(255,255,255,0.5); font-family: 'Lato', sans-serif; font-weight: 700; }
 .level-detail { display: flex; flex-direction: column; gap: 8px; }
 .ld-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; font-size: 12px; }
 .ld-item.current { background: rgba(52,224,255,0.08); border: 1px solid rgba(52,224,255,0.2); }
 .ld-rank { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 900; width: 32px; }
 .ld-rank.active { color: #34e0ff; }
-.ld-rank.locked { color: rgba(255,255,255,0.15); }
+.ld-rank.locked { color: rgba(255,255,255,0.35); }
 .ld-name { font-weight: 700; width: 60px; }
-.ld-desc { color: rgba(255,255,255,0.4); flex: 1; }
+.ld-desc { color: rgba(255,255,255,0.5); flex: 1; }
 
 /* ===== POPUPS (shared) ===== */
 .popup-overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,8,0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); align-items: center; justify-content: center; }
@@ -168,13 +168,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .popup-box.medium { max-width: 340px; width: 90%; border-radius: 20px; padding: 20px; }
 .popup-box.full { max-width: 90vw; width: 90vw; padding: 32px; }
 .pp-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: rgba(255,255,255,0.06); border: none; border-radius: 8px; color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.pp-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin: 16px 0 8px; }
+.pp-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 16px 0 8px; }
 
 /* Settings */
 .set-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .set-item:last-child { border-bottom: none; }
 .set-item .set-label { font-size: 14px; }
-.set-item .set-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.set-item .set-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
 .set-toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.15); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
 .set-toggle.on { background: linear-gradient(to right, #953ec3, #0f4bab); }
 .set-toggle::after { content: ''; width: 18px; height: 18px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
@@ -190,9 +190,16 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ni-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 9px; font-weight: 700; margin-right: 6px; }
 .ni-update { background: rgba(52,224,255,0.15); color: #34e0ff; }
 .ni-company { background: rgba(149,62,195,0.15); color: #953ec3; }
-.ni-date { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; font-family: 'Lato', sans-serif; }
+.ni-date { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 4px; font-family: 'Lato', sans-serif; }
 .ni-detail { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
 .ni-detail.show { display: block; }
+
+/* Accessibility */
+:focus-visible { outline: 2px solid #34e0ff; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-orb .og, .sp-orb .ob { animation: none; }
+  @keyframes fadeSlide { from { opacity: 1; transform: none; } }
+}
 
 .hl { color: #34e0ff; }
 
@@ -312,7 +319,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sb-cal-d l3">14</div><div class="sb-cal-d l4">15</div><div class="sb-cal-d l2">16</div><div class="sb-cal-d l3">17</div><div class="sb-cal-d l4">18</div><div class="sb-cal-d l1">19</div><div class="sb-cal-d">20</div>
         <div class="sb-cal-d l4">21</div><div class="sb-cal-d l4">22</div><div class="sb-cal-d l4">23</div><div class="sb-cal-d l4 today">24</div><div class="sb-cal-d">25</div><div class="sb-cal-d">26</div><div class="sb-cal-d">27</div>
       </div>
-      <div style="text-align:center;margin-top:8px;font-size:11px;color:rgba(255,255,255,0.45);font-weight:700;">🔥 5日間連続学習継続中</div>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:700;">🔥 5日間連続学習継続中</div>
     </div>
     <!-- Account (bottom) -->
     <div class="sb-account" onclick="toggleAccountMenu()">
@@ -396,7 +403,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="ep-row"><span class="ep-bar-name">セキュリティ</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
         <div class="ep-row"><span class="ep-bar-name">DB</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
-          <span style="font-size:11px;color:rgba(255,255,255,0.3);">正答率: 82% / 学習: 42h</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.5);">正答率: 82% / 学習: 42h</span>
           <a href="javascript:void(0)" onclick="openPortfolio()" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
@@ -417,17 +424,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="expand-panel" id="panelCompany">
         <div class="ep-title">企業・選考</div>
         <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
-          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:11px;">A</div>
-          <div style="flex:1;"><strong>◯◯株式会社</strong><br><span style="color:rgba(255,255,255,0.35);">情シス — 社内IT</span></div>
-          <span style="font-size:10px;color:rgba(255,255,255,0.25);">ゲート未達</span>
+          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.5);font-size:11px;">A</div>
+          <div style="flex:1;"><strong>◯◯株式会社</strong><br><span style="color:rgba(255,255,255,0.5);">情シス — 社内IT</span></div>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);">ゲート未達</span>
         </div>
         <div style="display:flex;align-items:center;gap:10px;padding:10px 0;font-size:12px;">
-          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:11px;">B</div>
-          <div style="flex:1;"><strong>△△株式会社</strong><br><span style="color:rgba(255,255,255,0.35);">情シス — DX推進</span></div>
-          <span style="font-size:10px;color:rgba(255,255,255,0.25);">ゲート未達</span>
+          <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.5);font-size:11px;">B</div>
+          <div style="flex:1;"><strong>△△株式会社</strong><br><span style="color:rgba(255,255,255,0.5);">情シス — DX推進</span></div>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);">ゲート未達</span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
-          <span style="font-size:11px;color:rgba(255,255,255,0.3);">100%完了でエントリー可能</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.5);">100%完了でエントリー可能</span>
           <a href="javascript:void(0)" onclick="openSelection()" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
@@ -490,7 +497,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <!-- Avatar change -->
       <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:20px;">
         <div id="avatarPreview" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#0f4bab,#34e0ff);display:flex;align-items:center;justify-content:center;font-family:'Lato',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;overflow:hidden;position:relative;">SK</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">アイコン</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;">アイコン</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
           <div class="avatar-opt" onclick="pickAvatar(this,'gradient')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0f4bab,#34e0ff);cursor:pointer;border:2px solid #34e0ff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
           <div class="avatar-opt" onclick="pickAvatar(this,'pink')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
@@ -499,15 +506,15 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.3);transition:all 0.2s;" title="画像をアップロード">📷<input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
         </div>
       </div>
-      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
-      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">メールアドレス</div><input type="email" value="n.s@example.com" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">メールアドレス</div><input type="email" value="n.s@example.com" class="set-input" style="width:100%;text-align:left;"></div>
       <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">保存</button>
     </div>
     <div id="setPassword" style="display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;"><button onclick="showSetView('main')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;">←</button><span style="font-size:16px;font-weight:700;">パスワード変更</span></div>
-      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">現在のパスワード</div><input type="password" placeholder="現在のパスワード" class="set-input" style="width:100%;text-align:left;"></div>
-      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">新しいパスワード</div><input type="password" placeholder="新しいパスワード" class="set-input" style="width:100%;text-align:left;"></div>
-      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">新しいパスワード（確認）</div><input type="password" placeholder="もう一度入力" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">現在のパスワード</div><input type="password" placeholder="現在のパスワード" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">新しいパスワード</div><input type="password" placeholder="新しいパスワード" class="set-input" style="width:100%;text-align:left;"></div>
+      <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">新しいパスワード（確認）</div><input type="password" placeholder="もう一度入力" class="set-input" style="width:100%;text-align:left;"></div>
       <button onclick="showSetView('main')" style="width:100%;padding:12px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px;">変更する</button>
     </div>
   </div>
@@ -518,13 +525,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   <div class="popup-box" style="max-width:720px;width:90%;padding:28px;">
     <button class="pp-close" onclick="closeSelection()">&#10005;</button>
     <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:4px;">企業・選考</div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:16px;">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</div>
     <!-- Current course + progress bar -->
     <div style="background:linear-gradient(135deg,rgba(241,56,132,0.1),rgba(247,81,59,0.07));border:1px solid rgba(241,56,132,0.2);border-radius:14px;padding:16px;margin-bottom:14px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
         <span style="padding:5px 12px;background:linear-gradient(135deg,#f7513b,#f13884);border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;color:#fff;">受講中</span>
-        <div style="flex:1;"><div style="font-size:14px;font-weight:700;">情シス基礎コース — ◯◯株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">全8 Unit / 推定80時間 / 完了で面接確約</div></div>
-        <div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:900;">52<span style="font-size:12px;color:rgba(255,255,255,0.4);">%</span></div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;">情シス基礎コース — ◯◯株式会社</div><div style="font-size:11px;color:rgba(255,255,255,0.5);">全8 Unit / 推定80時間 / 完了で面接確約</div></div>
+        <div style="font-family:'Lato',sans-serif;font-size:20px;font-weight:900;">52<span style="font-size:12px;color:rgba(255,255,255,0.5);">%</span></div>
       </div>
       <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:52%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div>
     </div>
@@ -536,17 +543,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <!-- Roadmap -->
     <div class="pp-label">採用ロードマップ</div>
     <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:16px;">
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#fff;font-weight:700;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:9px;">✓</span>学習中<span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:400;margin-left:2px;">52%</span></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#fff;font-weight:700;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:9px;">✓</span>学習中<span style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:400;margin-left:2px;">52%</span></div>
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">2</span>達成<span style="font-size:9px;color:rgba(255,255,255,0.2);font-weight:400;margin-left:2px;">100%完了時</span></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.5);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;">2</span>達成<span style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:400;margin-left:2px;">100%完了時</span></div>
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">3</span>エントリー<span style="font-size:9px;color:rgba(255,255,255,0.2);font-weight:400;margin-left:2px;">ゲート解除後</span></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.5);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;">3</span>エントリー<span style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:400;margin-left:2px;">ゲート解除後</span></div>
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">4</span>書類選考</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.5);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;">4</span>書類選考</div>
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">5</span>面接<span style="font-size:9px;color:rgba(255,255,255,0.2);font-weight:400;margin-left:2px;">面接確約</span></div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.5);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;">5</span>面接<span style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:400;margin-left:2px;">面接確約</span></div>
       <span style="width:14px;height:2px;background:rgba(255,255,255,0.08);"></span>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.3);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;">6</span>内定</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.5);"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:9px;">6</span>内定</div>
     </div>
     <!-- Curriculum list -->
     <div class="pp-label">カリキュラム一覧</div>
@@ -561,14 +568,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <div class="pp-label">エントリー可能企業</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.04);">
-        <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:13px;flex-shrink:0;">A</div>
-        <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;">◯◯株式会社</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">情シス — 社内IT管理</div></div>
-        <span style="padding:3px 8px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.06);white-space:nowrap;">ゲート未達</span>
+        <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.5);font-size:13px;flex-shrink:0;">A</div>
+        <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;">◯◯株式会社</div><div style="font-size:10px;color:rgba(255,255,255,0.5);">情シス — 社内IT管理</div></div>
+        <span style="padding:3px 8px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);white-space:nowrap;">ゲート未達</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.04);">
-        <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.3);font-size:13px;flex-shrink:0;">B</div>
-        <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;">△△株式会社</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">情シス — DX推進</div></div>
-        <span style="padding:3px 8px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.06);white-space:nowrap;">ゲート未達</span>
+        <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.5);font-size:13px;flex-shrink:0;">B</div>
+        <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;">△△株式会社</div><div style="font-size:10px;color:rgba(255,255,255,0.5);">情シス — DX推進</div></div>
+        <span style="padding:3px 8px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);white-space:nowrap;">ゲート未達</span>
       </div>
     </div>
   </div>
@@ -583,7 +590,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;flex-shrink:0;">SK</div>
       <div style="flex:1;">
         <div style="font-size:16px;font-weight:700;">佐藤 健太</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
         <div style="padding:5px 14px;border-radius:100px;background:linear-gradient(135deg,rgba(52,224,255,0.15),rgba(15,75,171,0.15));border:1px solid rgba(52,224,255,0.25);color:#34e0ff;font-family:'Lato',sans-serif;font-size:12px;font-weight:700;">B1 Rookie</div>
@@ -591,24 +598,24 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
     </div>
     <!-- Level description -->
-    <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:14px;padding-left:62px;">手順があれば作業を完了できるレベル。Skill Prime達成まであと48%</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:14px;padding-left:62px;">手順があれば作業を完了できるレベル。Skill Prime達成まであと48%</div>
     <!-- Stats chips -->
     <div style="display:flex;gap:6px;margin-bottom:16px;">
-      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">42<span style='font-size:11px;'>h</span></div><div style="font-size:9px;color:rgba(255,255,255,0.3);">総学習時間</div></div>
-      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">52<span style='font-size:11px;'>%</span></div><div style="font-size:9px;color:rgba(255,255,255,0.3);">カリキュラム進捗</div></div>
-      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">82<span style='font-size:11px;'>%</span></div><div style="font-size:9px;color:rgba(255,255,255,0.3);">平均正答率</div></div>
-      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">12</div><div style="font-size:9px;color:rgba(255,255,255,0.3);">プロフィール閲覧数</div></div>
+      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">42<span style='font-size:11px;'>h</span></div><div style="font-size:9px;color:rgba(255,255,255,0.5);">総学習時間</div></div>
+      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">52<span style='font-size:11px;'>%</span></div><div style="font-size:9px;color:rgba(255,255,255,0.5);">カリキュラム進捗</div></div>
+      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">82<span style='font-size:11px;'>%</span></div><div style="font-size:9px;color:rgba(255,255,255,0.5);">平均正答率</div></div>
+      <div style="flex:1;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.2);border-radius:10px;"><div style="font-family:'Lato',sans-serif;font-size:18px;font-weight:700;">12</div><div style="font-size:9px;color:rgba(255,255,255,0.5);">プロフィール閲覧数</div></div>
     </div>
     <!-- 2-column: Skill graph + Badges -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
       <div>
         <div class="pp-label" style="margin-top:0;">スキルグラフ（B1〜B5）</div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">B1</span></div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ハードウェア</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">B1</span></div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">OS基礎</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(to right,#7cbf00,#f8ee1a,#f7513b,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">85%</span></div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">37%</span></div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">セキュリティ</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">0%</span></div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">データベース</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"></div><span style="width:28px;color:rgba(255,255,255,0.35);text-align:right;font-size:10px;">0%</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">IT基礎</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">B1</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ハードウェア</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;border-radius:3px;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">B1</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">OS基礎</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;border-radius:3px;background:linear-gradient(to right,#7cbf00,#f8ee1a,#f7513b,#f13884);"></div></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">85%</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">ネットワーク</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="width:37%;height:100%;border-radius:3px;background:linear-gradient(to right,#0f4bab,#34e0ff);"></div></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">37%</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">セキュリティ</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">0%</span></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:11px;"><span style="width:80px;color:rgba(255,255,255,0.5);">データベース</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"></div><span style="width:28px;color:rgba(255,255,255,0.5);text-align:right;font-size:10px;">0%</span></div>
       </div>
       <div>
         <div class="pp-label" style="margin-top:0;">獲得バッジ</div>
@@ -616,11 +623,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#f7513b;color:#fff;">IT基礎 修了</span>
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#f13884;color:#fff;">HW基礎 修了</span>
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#953ec3;color:#fff;">OS基礎 修了</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">ネットワーク</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">セキュリティ</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">データベース</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">総合演習</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.06);">Skill Prime</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">ネットワーク</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">セキュリティ</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">データベース</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">総合演習</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">Skill Prime</span>
         </div>
       </div>
     </div>
