@@ -196,8 +196,79 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 .hl { color: #34e0ff; }
 
-@media (max-width: 800px) {
-  .layout { grid-template-columns: 1fr; }
+/* Hamburger (hidden on PC) */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-shrink: 0; }
+.hamburger span { display: block; width: 18px; height: 2px; background: rgba(255,255,255,0.6); margin: 4px 0; border-radius: 1px; transition: all 0.25s; }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 4px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -4px); }
+
+/* Sidebar overlay backdrop (mobile) */
+.sidebar-backdrop { display: none; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  html, body { overflow: auto; height: auto; }
+
+  .hamburger { display: block; }
+
+  .header { top: 8px; left: 8px; right: 8px; height: 48px; padding: 0 14px; gap: 8px; border-radius: 16px; }
+  .header img { height: 18px; }
+  .hb { padding: 6px 14px; font-size: 11px; border-radius: 10px; }
+
+  .layout {
+    position: static; display: flex; flex-direction: column; gap: 10px;
+    padding: 66px 8px 16px; min-height: 100vh;
+  }
+
+  /* Sidebar → drawer */
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 280px; z-index: 80;
+    border-radius: 0 20px 20px 0; padding: 72px 16px 20px;
+    transform: translateX(-100%); transition: transform 0.3s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 70;
+    background: rgba(5,5,8,0.6); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  }
+  .sidebar-backdrop.show { display: block; }
+
+  /* Main area scrollable */
+  .main-area { overflow: visible; }
+  .dynamic-area { overflow: visible; }
+
+  /* Speech area stack */
+  .speech-area { padding: 16px; gap: 12px; flex-direction: column; align-items: stretch; border-radius: 16px; }
+  .sp-orb { width: 40px; height: 40px; align-self: flex-start; }
+  .sp-orb .og { inset: -8px; filter: blur(10px); }
+  .sp-orb .ob { inset: 2px; filter: blur(5px) saturate(1.3); }
+  .sp-orb .of { width: 20px; height: 10px; gap: 5px; }
+  .sp-orb .oe { width: 2px; height: 5px; }
+  .sp-bubble { font-size: 13px; padding: 12px 14px; line-height: 1.7; margin-bottom: 10px; }
+  .mission-item { padding: 10px 0; }
+  .mi-text { font-size: 12px; }
+
+  /* Suggest chips wrap */
+  .suggest-row { gap: 6px; }
+  .suggest-chip { padding: 7px 12px; font-size: 10px; }
+  .suggest-input { flex-basis: 100%; }
+  .suggest-input input { font-size: 12px; }
+
+  /* Progress cards stack */
+  .prog-row { flex-direction: column; }
+  .prog-card { padding: 16px; border-radius: 14px; }
+  .prog-value { font-size: 28px; }
+  .prog-value .unit { font-size: 14px; }
+
+  /* Expand panels */
+  .expand-panel { padding: 16px; border-radius: 14px; }
+  .ep-title { font-size: 13px; }
+
+  /* Popups mobile */
+  .popup-box { padding: 20px !important; max-width: 95vw !important; width: 95% !important; border-radius: 18px !important; }
+  .popup-overlay.top-right { padding: 64px 8px 8px; align-items: flex-start; justify-content: center; }
 }
 </style>
 </head>
@@ -206,10 +277,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
 <header class="header">
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
   <img src="logo.png" alt="CyTech" style="cursor:pointer;" onclick="goToAiDialogue()">
   <span class="ht">ダッシュボード</span>
   <div class="hr"><button class="hb" onclick="location.href='p05-lesson.html'">学習に戻る →</button></div>
 </header>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <div class="layout">
 
@@ -246,8 +320,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="sb-account-name">佐藤 健太</div>
     </div>
     <div class="sb-account-menu" id="accountMenu">
-      <div class="sb-menu-item" onclick="event.stopPropagation();openSettings();">⚙ 設定</div>
-      <div class="sb-menu-item" onclick="event.stopPropagation();showNotifPanel();">🔔 お知らせ</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();closeSidebarIfMobile();openSettings();">⚙ 設定</div>
+      <div class="sb-menu-item" onclick="event.stopPropagation();closeSidebarIfMobile();showNotifPanel();">🔔 お知らせ</div>
       <div class="sb-menu-item" onclick="event.stopPropagation();location.href='login.html';">→ ログアウト</div>
     </div>
   </div>
@@ -589,6 +663,27 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 </div>
 
 <script>
+// Sidebar drawer (mobile)
+function toggleSidebar() {
+  var sb = document.querySelector('.sidebar');
+  var bd = document.getElementById('sidebarBackdrop');
+  var btn = document.getElementById('hamburgerBtn');
+  var isOpen = sb.classList.contains('open');
+  sb.classList.toggle('open');
+  bd.classList.toggle('show');
+  btn.classList.toggle('open');
+}
+
+// Close sidebar on mobile (helper)
+function closeSidebarIfMobile() {
+  if (window.innerWidth <= 768) {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+    document.getElementById('hamburgerBtn').classList.remove('open');
+  }
+  document.getElementById('accountMenu').classList.remove('show');
+}
+
 // Account menu
 function toggleAccountMenu() {
   document.getElementById('accountMenu').classList.toggle('show');
