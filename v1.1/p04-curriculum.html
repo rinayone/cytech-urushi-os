@@ -41,8 +41,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   z-index: 10;
   display: flex; gap: 12px;
 }
-/* Embed モード: ?embed=1 で表示時はヘッダーを隠す（モーダル内利用時） */
+/* Embed モード: ?embed=1 で表示時はヘッダー＆火山BGを隠す（モーダル内利用時） */
 .embed .header { display: none; }
+.embed .bg-volcano { display: none; }
+.embed body { background: transparent; }
 .embed .stage { top: 16px; }
 
 .col {

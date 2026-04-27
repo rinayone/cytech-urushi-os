@@ -395,7 +395,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
     </div>
 
-    <!-- Suggest chips + input -->
+    <!-- Progress cards (moved up: チップの展開内容と隣接させない) -->
+    <div class="prog-row">
+      <div class="prog-card">
+        <div class="prog-label">カリキュラム進捗</div>
+        <div class="prog-value">52<span class="unit">%</span></div>
+        <div class="prog-track"><div class="prog-fill rainbow" style="width:52%;"></div></div>
+      </div>
+      <div class="prog-card">
+        <div class="prog-label">面接開放まで</div>
+        <div class="prog-value">38<span class="unit">h</span></div>
+        <div class="prog-track"><div class="prog-fill blue" style="width:52%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Suggest chips + input (moved down: 直下に展開パネルが出る位置) -->
     <div class="suggest-row">
       <button class="suggest-chip" onclick="togglePanel('portfolio', this)">📊 ポートフォリオを見る</button>
       <button class="suggest-chip" onclick="togglePanel('level', this)">🏆 学習レベルを見る</button>
@@ -407,20 +421,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
     </div>
 
-    <!-- Dynamic area -->
+    <!-- Dynamic area (展開パネルのみ) -->
     <div class="dynamic-area">
-      <div class="prog-row">
-        <div class="prog-card">
-          <div class="prog-label">カリキュラム進捗</div>
-          <div class="prog-value">52<span class="unit">%</span></div>
-          <div class="prog-track"><div class="prog-fill rainbow" style="width:52%;"></div></div>
-        </div>
-        <div class="prog-card">
-          <div class="prog-label">面接開放まで</div>
-          <div class="prog-value">38<span class="unit">h</span></div>
-          <div class="prog-track"><div class="prog-fill blue" style="width:52%;"></div></div>
-        </div>
-      </div>
 
       <!-- Portfolio panel -->
       <div class="expand-panel" id="panelPortfolio">
