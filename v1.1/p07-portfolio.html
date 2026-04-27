@@ -6,11 +6,19 @@
 <title>CyTech Urushi OS — ポートフォリオ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
 body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; opacity: 0; animation: pageIn 0.6s ease 0.05s forwards; }
 @keyframes pageIn { to { opacity: 1; } }
+
+/* Material Symbols helper */
+.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.icon-14 { font-size: 14px; }
+.icon-16 { font-size: 16px; }
+.icon-20 { font-size: 20px; }
+.icon-24 { font-size: 24px; }
 
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
@@ -56,7 +64,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   display: flex; flex-direction: column; gap: 14px;
 }
 .col-l { width: 320px; flex-shrink: 0; }
-.col-c { flex: 1; max-width: 560px; min-width: 0; }
+.col-c { flex: 1; max-width: 560px; min-width: 0; background: rgba(52,224,255,0.025); border-color: rgba(52,224,255,0.08); }
 .col-r { width: 320px; flex-shrink: 0; }
 
 .col::-webkit-scrollbar { width: 4px; }
@@ -309,6 +317,36 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .confirm-foot button { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
 .btn-keep { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #fff; }
 .btn-delete { background: #f7513b; border: none; color: #fff; }
+
+/* ===== Snackbar ===== */
+.snackbar {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  z-index: 400;
+  padding: 12px 18px 12px 16px;
+  background: #0a0a14; border: 1px solid rgba(52,224,255,0.4);
+  border-radius: 12px; color: #fff;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  opacity: 0; pointer-events: none;
+  transition: all 0.25s ease;
+}
+.snackbar.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.snackbar.danger { border-color: rgba(247,81,59,0.5); }
+.snackbar .ic { color: #34e0ff; font-size: 18px; }
+.snackbar.danger .ic { color: #f7513b; }
+.snackbar .undo {
+  margin-left: 6px; padding: 4px 10px; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+  color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: inherit;
+}
+.snackbar .undo:hover { background: rgba(255,255,255,0.12); }
+
+/* === Press feedback === */
+button:active, .icon-btn:active, .add-btn:active, .cert-del:active, .mli-del:active {
+  transform: scale(0.97);
+}
 </style>
 <script>
 // Embed モード: ?embed=1 で表示時はヘッダー非表示（モーダル内利用時）
@@ -356,7 +394,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
     <div class="sec-ttl">
       <span>基本情報</span>
-      <div class="sec-actions"><button class="icon-btn" onclick="openEditModal('basic')" title="編集">✎</button></div>
+      <div class="sec-actions"><button class="icon-btn" onclick="openEditModal('basic')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button></div>
     </div>
     <div class="basic-list-card">
       <dl class="basic-list">
@@ -374,9 +412,9 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <div class="pdf-wrap">
         <button class="btn-grad" onclick="togglePdfMenu(event)" style="width:100%;">PDF出力 ▾</button>
         <div class="pdf-menu" id="pdfMenu">
-          <div class="pdf-opt" onclick="exportPdf('rireki')"><span class="ic">📄</span><div><div class="lbl">履歴書</div><div class="desc">JIS規格相当</div></div></div>
-          <div class="pdf-opt" onclick="exportPdf('shokumu')"><span class="ic">📝</span><div><div class="lbl">職務経歴書</div><div class="desc">業務経験＋CTU学習成果</div></div></div>
-          <div class="pdf-opt" onclick="exportPdf('portfolio')"><span class="ic">🎨</span><div><div class="lbl">ポートフォリオ</div><div class="desc">CTUカラフル形式</div></div></div>
+          <div class="pdf-opt" onclick="exportPdf('rireki')"><span class="material-symbols-outlined ic">description</span><div><div class="lbl">履歴書</div><div class="desc">JIS規格相当</div></div></div>
+          <div class="pdf-opt" onclick="exportPdf('shokumu')"><span class="material-symbols-outlined ic">article</span><div><div class="lbl">職務経歴書</div><div class="desc">業務経験＋CTU学習成果</div></div></div>
+          <div class="pdf-opt" onclick="exportPdf('portfolio')"><span class="material-symbols-outlined ic">palette</span><div><div class="lbl">ポートフォリオ</div><div class="desc">CTUカラフル形式</div></div></div>
         </div>
       </div>
     </div>
@@ -387,7 +425,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
     <div class="sec-ttl">
       <span>自己PR</span>
-      <div class="sec-actions"><button class="icon-btn" onclick="openEditModal('pr')" title="編集">✎</button></div>
+      <div class="sec-actions"><button class="icon-btn" onclick="openEditModal('pr')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button></div>
     </div>
     <div class="pr-card">
       <p class="text">営業職として5年間、IT企業を中心とした法人営業に従事してまいりました。商談先のシステム部門と接する中でITそのものへの興味が深まり、未経験からのキャリアチェンジを決意。CTUで IT基礎・OS・ネットワークを体系的に学習中で、現在 <strong>B1 Rookie</strong> レベルに到達。営業で培った課題ヒアリング力と、社内IT領域への学習意欲を強みとして、御社の DX 推進に貢献したいと考えております。</p>
@@ -397,14 +435,14 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <span>職歴</span>
       <div class="sec-actions">
         <button class="add-btn" onclick="openEditModal('career')">＋ 追加</button>
-        <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
+        <button class="icon-btn" onclick="openEditModal('career')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
       </div>
     </div>
     <div>
       <div class="list-card">
         <div class="lc-actions">
-          <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
-          <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+          <button class="icon-btn" onclick="openEditModal('career')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
+          <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
         <div class="lc-title">◯◯商事株式会社<span class="lc-active">在職中</span></div>
         <div class="lc-sub">営業部 法人営業課 / 主任</div>
@@ -413,8 +451,8 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       </div>
       <div class="list-card">
         <div class="lc-actions">
-          <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
-          <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+          <button class="icon-btn" onclick="openEditModal('career')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
+          <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
         <div class="lc-title">株式会社△△マーケティング</div>
         <div class="lc-sub">営業部 / 一般職</div>
@@ -426,22 +464,22 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <span>学歴</span>
       <div class="sec-actions">
         <button class="add-btn" onclick="openEditModal('education')">＋ 追加</button>
-        <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
+        <button class="icon-btn" onclick="openEditModal('education')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
       </div>
     </div>
     <div>
       <div class="list-card">
         <div class="lc-actions">
-          <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
-          <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+          <button class="icon-btn" onclick="openEditModal('education')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
+          <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
         <div class="lc-title">◯◯大学 経済学部 経営学科</div>
         <span class="lc-period">2017.04 〜 2021.03 卒業</span>
       </div>
       <div class="list-card">
         <div class="lc-actions">
-          <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
-          <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+          <button class="icon-btn" onclick="openEditModal('education')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
+          <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
         <div class="lc-title">△△高等学校 普通科</div>
         <span class="lc-period">2014.04 〜 2017.03 卒業</span>
@@ -452,13 +490,13 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <span>資格・語学</span>
       <div class="sec-actions">
         <button class="add-btn" onclick="openEditModal('cert')">＋ 追加</button>
-        <button class="icon-btn" onclick="openEditModal('cert')" title="編集">✎</button>
+        <button class="icon-btn" onclick="openEditModal('cert')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
       </div>
     </div>
     <div class="cert-list">
-      <span class="cert-item">基本情報技術者試験（2024）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
-      <span class="cert-item">TOEIC L&amp;R 750（2023）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
-      <span class="cert-item">普通自動車第一種運転免許<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
+      <span class="cert-item">基本情報技術者試験（2024）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))"><span class="material-symbols-outlined" style="font-size:12px;">close</span></button></span>
+      <span class="cert-item">TOEIC L&amp;R 750（2023）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))"><span class="material-symbols-outlined" style="font-size:12px;">close</span></button></span>
+      <span class="cert-item">普通自動車第一種運転免許<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))"><span class="material-symbols-outlined" style="font-size:12px;">close</span></button></span>
     </div>
   </div>
 
@@ -518,7 +556,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
   <div class="modal-box">
     <div class="modal-head">
       <span class="ttl">プロフィール編集</span>
-      <button class="modal-close" onclick="closeEditModal()">×</button>
+      <button class="modal-close" onclick="closeEditModal()"><span class="material-symbols-outlined" style="font-size:20px;">close</span></button>
     </div>
     <div class="modal-tabs">
       <button class="modal-tab" data-tab="basic" onclick="switchEditTab('basic')">基本情報</button>
@@ -562,7 +600,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="education">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>学校名</label><input type="text" value="◯◯大学"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="経済学部"></div>
@@ -574,7 +612,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           </div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>学校名</label><input type="text" value="△△高等学校"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="普通科"></div>
@@ -590,7 +628,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="career">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>会社名</label><input type="text" value="◯◯商事株式会社"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部 法人営業課"></div>
@@ -603,7 +641,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <div class="form-row"><label>業務内容</label><textarea rows="3">IT企業向け法人営業（年商3億円担当）。新規開拓・既存深耕を両軸で推進し、3年連続で年間目標110%以上達成。</textarea></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>会社名</label><input type="text" value="株式会社△△マーケティング"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部"></div>
@@ -620,17 +658,17 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="cert">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="基本情報技術者試験"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2024-08" placeholder="YYYY-MM"></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="TOEIC L&amp;R 750点"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2023-06"></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="普通自動車第一種運転免許"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value=""></div>
         </div>
@@ -657,13 +695,52 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
   </div>
 </div>
 
+<!-- Snackbar -->
+<div class="snackbar" id="snackbar">
+  <span class="material-symbols-outlined ic" id="snackbarIcon">check_circle</span>
+  <span id="snackbarMsg">保存しました</span>
+  <button class="undo" id="snackbarUndo" style="display:none;" onclick="undoLastDelete()">元に戻す</button>
+</div>
+
 <script>
+/* ===== Snackbar ===== */
+let snackbarTimer = null;
+let lastDeletedNode = null;
+let lastDeletedParent = null;
+let lastDeletedNextSibling = null;
+
+function showSnackbar(msg, opts = {}) {
+  const sb = document.getElementById('snackbar');
+  const icon = document.getElementById('snackbarIcon');
+  const msgEl = document.getElementById('snackbarMsg');
+  const undo = document.getElementById('snackbarUndo');
+  msgEl.textContent = msg;
+  sb.classList.toggle('danger', !!opts.danger);
+  icon.textContent = opts.danger ? 'delete' : 'check_circle';
+  undo.style.display = opts.undo ? 'inline-block' : 'none';
+  sb.classList.add('show');
+  clearTimeout(snackbarTimer);
+  snackbarTimer = setTimeout(() => sb.classList.remove('show'), opts.duration || 3500);
+}
+function undoLastDelete() {
+  if (!lastDeletedNode || !lastDeletedParent) return;
+  if (lastDeletedNextSibling && lastDeletedNextSibling.parentNode === lastDeletedParent) {
+    lastDeletedParent.insertBefore(lastDeletedNode, lastDeletedNextSibling);
+  } else {
+    lastDeletedParent.appendChild(lastDeletedNode);
+  }
+  lastDeletedNode = null; lastDeletedParent = null; lastDeletedNextSibling = null;
+  document.getElementById('snackbar').classList.remove('show');
+  showSnackbar('元に戻しました');
+}
+
 function openEditModal(tab) {
   document.getElementById('editModal').classList.add('show');
   switchEditTab(tab || 'basic');
 }
 function closeEditModal() {
   document.getElementById('editModal').classList.remove('show');
+  showSnackbar('保存しました');
 }
 function switchEditTab(tab) {
   document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
@@ -677,7 +754,7 @@ function addModalListItem(type) {
   tpl.className = 'modal-list-item';
   if (type === 'education') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
       <div class="form-row"><label>学校名</label><input type="text" value=""></div>
       <div class="form-grid-2">
         <div class="form-row"><label>学部</label><input type="text" value=""></div>
@@ -689,7 +766,7 @@ function addModalListItem(type) {
       </div>`;
   } else if (type === 'career') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
       <div class="form-row"><label>会社名</label><input type="text" value=""></div>
       <div class="form-grid-2">
         <div class="form-row"><label>部署</label><input type="text" value=""></div>
@@ -702,7 +779,7 @@ function addModalListItem(type) {
       <div class="form-row"><label>業務内容</label><textarea rows="3"></textarea></div>`;
   } else if (type === 'cert') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
       <div class="form-row"><label>資格・語学名</label><input type="text" value=""></div>
       <div class="form-row"><label>取得年月（任意）</label><input type="text" value="" placeholder="YYYY-MM"></div>`;
   }
@@ -720,7 +797,13 @@ function cancelDelete() {
   document.getElementById('confirmDialog').classList.remove('show');
 }
 function executeDelete() {
-  if (pendingDeleteTarget) pendingDeleteTarget.remove();
+  if (pendingDeleteTarget) {
+    lastDeletedNode = pendingDeleteTarget;
+    lastDeletedParent = pendingDeleteTarget.parentNode;
+    lastDeletedNextSibling = pendingDeleteTarget.nextSibling;
+    pendingDeleteTarget.remove();
+    showSnackbar('削除しました', { danger: true, undo: true });
+  }
   cancelDelete();
 }
 

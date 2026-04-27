@@ -6,6 +6,7 @@
 <title>CyTech Urushi OS — 企業・選考</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
@@ -56,7 +57,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   display: flex; flex-direction: column; gap: 14px;
 }
 .col-l { width: 320px; flex-shrink: 0; }
-.col-c { flex: 1; max-width: 560px; min-width: 0; }
+.col-c { flex: 1; max-width: 560px; min-width: 0; background: rgba(52,224,255,0.025); border-color: rgba(52,224,255,0.08); }
 .col-r { width: 320px; flex-shrink: 0; }
 
 .col::-webkit-scrollbar { width: 4px; }
@@ -91,7 +92,12 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
 }
 .gate-card .gh { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
-.gate-card .gh .ic { font-size: 18px; }
+.gate-card .gh .ic { font-size: 18px; color: #f13884; }
+/* Material Symbols helper */
+.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; }
+.icon-14 { font-size: 14px; }
+.icon-16 { font-size: 16px; }
+.icon-20 { font-size: 20px; }
 .gate-card .gd { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.7; }
 
 /* ===== Center col: カリキュラム ===== */
@@ -197,7 +203,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
     <div class="sec-ttl">Skill Prime ゲート</div>
     <div class="gate-card">
-      <div class="gh"><span class="ic">🔒</span>面接資格まで <span class="hl">残り 38時間</span></div>
+      <div class="gh"><span class="material-symbols-outlined ic">lock</span>面接資格まで <span class="hl">残り 38時間</span></div>
       <div class="gd">カリキュラム100%完了でゲート解除。完了で◯◯株式会社の面接が確約されます。</div>
     </div>
   </div>
@@ -214,7 +220,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         </div>
         <div class="right">
           <div class="time">20h</div>
-          <span class="badge">完了 ✓</span>
+          <span class="badge"><span class="material-symbols-outlined icon-14" style="margin-right:2px;">check</span>完了</span>
         </div>
       </div>
       <div class="cu-item done">
@@ -225,7 +231,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         </div>
         <div class="right">
           <div class="time">15h</div>
-          <span class="badge">完了 ✓</span>
+          <span class="badge"><span class="material-symbols-outlined icon-14" style="margin-right:2px;">check</span>完了</span>
         </div>
       </div>
       <div class="cu-item current">

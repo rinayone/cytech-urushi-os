@@ -6,6 +6,7 @@
 <title>CyTech Urushi OS — 課題・テスト</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
@@ -349,7 +350,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
       <div class="fb-orb"><div class="orb-glow"></div><div class="orb-body"></div><div class="orb-face"><div class="eye"></div><div class="eye"></div></div></div>
     </div>
     <div class="fc-msg" id="fc1">佐藤さん、<strong>B1レベル — Rookie 到達</strong>です！</div>
-    <div class="fc-msg" id="fc2"><span class="hl">&#10003;</span> <strong>手順の論理性</strong> — 段階的に原因を絞り込めています。<br><span class="hl">&#10003;</span> <strong>基礎知識の適用</strong> — ping、IPアドレス等を正しく使用。<br><span class="hl-y">&#9679;</span> <strong>説明の具体性</strong> — もう少し具体的に書けるとB2に近づきます。</div>
+    <div class="fc-msg" id="fc2"><span class="material-symbols-outlined hl" style="font-size:14px;">check</span> <strong>手順の論理性</strong> — 段階的に原因を絞り込めています。<br><span class="material-symbols-outlined hl" style="font-size:14px;">check</span> <strong>基礎知識の適用</strong> — ping、IPアドレス等を正しく使用。<br><span class="material-symbols-outlined hl-y" style="font-size:14px;">change_history</span> <strong>説明の具体性</strong> — もう少し具体的に書けるとB2に近づきます。</div>
     <div class="fc-msg" id="fc3">営業での「商品が届かない」時の切り分けと同じ考え方ができています。<strong>自信を持ってください。</strong><br>正答率: <span class="hl">82%</span> / 自信度: <span id="confDisplay2">—</span></div>
     <div class="fc-msg" id="fc4" style="font-weight:500;"></div>
     <div class="fc-action" id="fcAction"></div>
@@ -365,14 +366,14 @@ body.panel-open .slide-panel { transform: translateX(0); }
   <div class="panel-body active" id="panelToc">
     <div class="toc">
       <div class="toc-section">Unit 5 — ネットワーク基礎</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>1. ネットワークとは</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>2. IPアドレスの仕組み</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>3. ネットワーク構成図</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>4. プロトコルの基本</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>5. DNSとドメイン</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>6. セキュリティ入門</div>
-      <div class="toc-item done"><span class="toc-icon">&#10003;</span>7. 実務での活用</div>
-      <div class="toc-item current"><span class="toc-icon">&#9656;</span>8. 課題・テスト</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>1. ネットワークとは</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>2. IPアドレスの仕組み</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>3. ネットワーク構成図</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>4. プロトコルの基本</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>5. DNSとドメイン</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>6. セキュリティ入門</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>7. 実務での活用</div>
+      <div class="toc-item current"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">play_arrow</span>8. 課題・テスト</div>
     </div>
   </div>
   <div class="panel-body" id="panelKaname">
@@ -392,7 +393,7 @@ body.panel-open .slide-panel { transform: translateX(0); }
   <div class="progress-track"><div class="progress-fill" style="width:87.5%"></div></div>
   <span class="step-count">8 / 8</span>
   <div class="footer-divider"></div>
-  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')">&#9776;</button>
+  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')"><span class="material-symbols-outlined" style="font-size:18px;">menu</span></button>
   <button class="footer-panel-btn" id="btnKaname" onclick="openPanel('kaname')">K</button>
   <div class="footer-divider"></div>
   <button class="next-btn submit-final" onclick="submitAnswer()">回答を提出する</button>
