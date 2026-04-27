@@ -404,7 +404,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="ep-row"><span class="ep-bar-name">DB</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
           <span style="font-size:11px;color:rgba(255,255,255,0.5);">正答率: 82% / 学習: 42h</span>
-          <a href="javascript:void(0)" onclick="openPortfolio()" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+          <a href="p07-portfolio.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
 
@@ -435,7 +435,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
           <span style="font-size:11px;color:rgba(255,255,255,0.5);">100%完了でエントリー可能</span>
-          <a href="javascript:void(0)" onclick="openSelection()" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+          <a href="p04-curriculum.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
 
@@ -524,7 +524,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="popup-overlay" id="selectionOverlay" onclick="if(event.target===this)closeSelection()">
   <div class="popup-box" style="max-width:720px;width:90%;padding:28px;">
     <button class="pp-close" onclick="closeSelection()">&#10005;</button>
-    <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;margin-bottom:4px;">企業・選考</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+      <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;">企業・選考</div>
+      <a href="p04-curriculum.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">全画面で開く ↗</a>
+    </div>
     <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</div>
     <!-- Current course + progress bar -->
     <div style="background:linear-gradient(135deg,rgba(241,56,132,0.1),rgba(247,81,59,0.07));border:1px solid rgba(241,56,132,0.2);border-radius:14px;padding:16px;margin-bottom:14px;">
@@ -571,6 +574,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 <div class="popup-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()">
   <div class="popup-box" style="max-width:740px;width:90%;padding:28px;">
     <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
+    <!-- Open full page CTA -->
+    <div style="margin-bottom:14px;">
+      <a href="p07-portfolio.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">📄 ポートフォリオを全画面で開く ↗</a>
+    </div>
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;">
       <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);filter:blur(2px) saturate(1.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;flex-shrink:0;">SK</div>
