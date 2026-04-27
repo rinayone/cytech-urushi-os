@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[初回版・保管] CyTech Urushi OS — 学習実行 (P-05 v1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
+@keyframes pageIn { to { opacity: 1; } }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+/* ===== EXPANDABLE HEADER ===== */
+.header-expand {
+  position: fixed; top: 16px; left: 16px; right: 16px;
+  height: 52px; z-index: 55;
+  display: flex; align-items: center;
+  padding: 0 18px; gap: 10px;
+  background: rgba(0,0,0,0.01);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px;
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2);
+  transform: translateY(-70px); opacity: 0;
+  transition: all 0.3s ease; pointer-events: none;
+}
+.header-expand.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+.header-expand .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header-expand .hr { margin-left: auto; }
+.header-expand img { height: 22px; }
+.hb-dash { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; }
+.hb-dash:hover { opacity: 0.9; }
+
+/* ===== CONTENT AREA ===== */
+.content-area {
+  position: fixed;
+  top: 16px; bottom: 72px; left: 16px; right: 16px;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  padding: 36px 28px 28px; overflow-y: auto; z-index: 10;
+  transition: right 0.3s ease;
+}
+body.panel-open .content-area { right: 328px; }
+
+/* CT icon inside content */
+.ct-icon {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; margin-bottom: 16px;
+}
+.ct-icon { transition: opacity 0.2s; }
+.ct-icon img { height: 20px; }
+
+.step-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+.content-title { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
+.content-body p { font-size: 14px; line-height: 2; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
+.content-body strong { color: #fff; }
+.content-body .hl { color: #34e0ff; font-weight: 700; }
+
+.ignite-box { background: rgba(247,81,59,0.08); border: 1px solid rgba(247,81,59,0.2); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+.ignite-box .ig { color: #f7513b; margin-right: 6px; }
+
+.diagram { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin: 20px 0; text-align: center; }
+.diagram-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
+.diagram-node { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; }
+.diagram-node.sv { background: rgba(241,56,132,0.2); border: 1px solid rgba(241,56,132,0.4); color: #f13884; }
+.diagram-node.rt { background: rgba(52,224,255,0.15); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; }
+.diagram-node.dv { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
+.diagram-arrow { color: rgba(255,255,255,0.25); font-size: 14px; }
+.diagram-sub { font-size: 11px; color: rgba(255,255,255,0.25); }
+
+.code-block { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+.code-block .code-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.code-block .code-dot { width: 8px; height: 8px; border-radius: 50%; }
+.code-block pre { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #cdd6f4; white-space: pre; }
+.code-block .kw { color: #cba6f7; }
+.code-block .str { color: #7cbf00; }
+.code-block .cm { color: #6c7086; }
+.code-block .fn { color: #89b4fa; }
+.code-block .num { color: #fab387; }
+
+/* ===== FOOTER BAR (solid, no glass) ===== */
+.footer-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 56px; z-index: 50;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 12px 0 20px;
+  background: #0a0a1a;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-bar .unit-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap; }
+.footer-bar .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: visible; position: relative; }
+.footer-bar .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.footer-bar .step-count { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
+
+.footer-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+
+/* Panel toggle icons in footer */
+.footer-panel-btn {
+  width: 32px; height: 32px;
+  background: none; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  transition: all 0.2s; flex-shrink: 0;
+}
+.footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+.footer-panel-btn.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border-color: transparent; }
+
+.next-btn {
+  padding: 10px 28px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif;
+  white-space: nowrap; flex-shrink: 0;
+}
+.next-btn:hover { opacity: 0.9; }
+
+/* ===== SLIDE-IN PANEL ===== */
+.slide-panel {
+  position: fixed;
+  top: 16px; bottom: 72px; right: 16px;
+  width: 300px; z-index: 40;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(calc(100% + 20px));
+  transition: transform 0.3s ease;
+}
+body.panel-open .slide-panel { transform: translateX(0); }
+
+/* Pill toggle */
+.pill-toggle { display: flex; gap: 2px; padding: 2px; margin: 12px 12px 8px; background: rgba(0,0,0,0.2); border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08); }
+.pill-opt { flex: 1; padding: 6px 0; text-align: center; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); border-radius: 100px; cursor: pointer; transition: all 0.25s; }
+.pill-opt.active { background: linear-gradient(to right, #953ec3, #0f4bab); color: #fff; }
+
+.panel-body { flex: 1; overflow-y: auto; display: none; }
+.panel-body.active { display: flex; flex-direction: column; }
+
+/* TOC */
+.toc { padding: 16px; flex: 1; }
+.toc-section { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.2); padding: 12px 12px 6px; }
+.toc-section:first-child { padding-top: 4px; }
+.toc-item { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 10px; font-size: 13px; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.15s; margin-bottom: 0; }
+.toc-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+.toc-item.current { color: #fff; font-weight: 700; background: rgba(255,255,255,0.06); }
+.toc-item.done { color: #34e0ff; }
+.toc-icon { font-size: 12px; width: 18px; text-align: center; flex-shrink: 0; }
+.toc-item.done .toc-icon { color: #34e0ff; }
+.toc-item.current .toc-icon { color: #f13884; }
+
+/* KANAME */
+.kaname-chat { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+.k-msg { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px 12px 12px 12px; padding: 10px 14px; font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.8); opacity: 0; transform: translateY(6px); transition: all 0.3s ease; }
+.k-msg.visible { opacity: 1; transform: translateY(0); }
+.k-msg strong { color: #fff; }
+.k-msg .hl { color: #34e0ff; }
+.kaname-input { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 6px; }
+.kaname-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; }
+.kaname-input input::placeholder { color: rgba(255,255,255,0.2); }
+.kaname-input button { padding: 8px 12px; background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border: none; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+@media (max-width: 768px) {
+  .slide-panel { width: 85vw; }
+  body.panel-open .content-area { right: 16px; }
+  .content-area { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 初回版・保管バナー（このページはアプリ内導線からは到達しません。仕様書の P-05 バージョン履歴からのみ参照） -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:200;height:32px;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0f4bab,#34e0ff);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.4px;">
+  <span class="material-symbols-outlined" style="font-size:14px;">inventory_2</span>
+  初回版（保管） — 現行バージョンは <a href="../../v1.1/p05-lesson.html" style="color:#fff;text-decoration:underline;">v1.1/p05-lesson.html</a>
+</div>
+
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<!-- Header hover trigger zone -->
+<div id="headerTrigger" style="position:fixed;top:0;left:0;right:0;height:24px;z-index:54;" onmouseenter="showHeader()"></div>
+
+<!-- Expandable Header -->
+<div class="header-expand" id="headerExpand">
+  <img src="logo.png" alt="CyTech">
+  <span class="ht">CyTech Urushi OS</span>
+  <div class="hr"><button class="hb-dash" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div>
+</div>
+
+<!-- Content -->
+<div class="content-area" id="contentArea">
+  <div class="step-label">STEP 3</div>
+  <h2 class="content-title">ネットワーク構成図の読み方</h2>
+  <div class="content-body">
+    <div class="ignite-box"><span class="material-symbols-outlined ig" style="font-size:14px;">flare</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。</div>
+
+    <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、サーバーからの情報がルーターを経由して各端末に届きます。</p>
+
+    <div class="diagram">
+      <div class="diagram-row">
+        <div class="diagram-node sv">サーバー</div><span class="diagram-arrow">→</span>
+        <div class="diagram-node rt">ルーター</div><span class="diagram-arrow">→</span>
+        <div class="diagram-node dv">端末</div>
+      </div>
+      <div class="diagram-row" style="margin-top:4px;">
+        <span class="diagram-sub">＝ 本社</span><span style="width:32px;"></span>
+        <span class="diagram-sub">＝ 支店</span><span style="width:32px;"></span>
+        <span class="diagram-sub">＝ 部署</span>
+      </div>
+    </div>
+
+    <p><span class="hl">サーバー</span>は「本社」にあたります。<span class="hl">ルーター</span>は「支店」のように情報を振り分けます。実際にどのようにデータが流れるか、コードで確認してみましょう。</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-dot" style="background:#f7513b;"></span>
+        <span class="code-dot" style="background:#f8ee1a;"></span>
+        <span class="code-dot" style="background:#7cbf00;"></span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;">network_check.py</span>
+      </div>
+<pre><span class="cm"># ネットワーク構成を確認するスクリプト</span>
+<span class="kw">import</span> socket
+
+<span class="cm"># サーバー（本社）のIPアドレスを取得</span>
+hostname = socket.<span class="fn">gethostname</span>()
+ip_address = socket.<span class="fn">gethostbyname</span>(hostname)
+
+<span class="fn">print</span>(<span class="str">f"サーバー名: </span>{hostname}<span class="str">"</span>)
+<span class="fn">print</span>(<span class="str">f"IPアドレス: </span>{ip_address}<span class="str">"</span>)
+
+<span class="cm"># ルーター（支店）へのルート確認</span>
+gateway = <span class="str">"192.168.1.1"</span>
+port = <span class="num">80</span>
+
+<span class="kw">try</span>:
+    sock = socket.<span class="fn">create_connection</span>((gateway, port), timeout=<span class="num">3</span>)
+    <span class="fn">print</span>(<span class="str">f"ルーター </span>{gateway}<span class="str"> に接続成功 ✓"</span>)
+<span class="kw">except</span>:
+    <span class="fn">print</span>(<span class="str">"接続できません"</span>)</pre>
+    </div>
+
+    <p>このように、サーバーのIPアドレスを取得し、ルーターへの接続確認を行います。営業先リストで<strong>「この支店に電話が繋がるか確認する」</strong>のと同じ発想です。</p>
+  </div>
+</div>
+
+<!-- Slide-in Panel -->
+<div class="slide-panel" id="slidePanel">
+  <div class="pill-toggle">
+    <div class="pill-opt active" onclick="switchTab('toc')">目次</div>
+    <div class="pill-opt" onclick="switchTab('kaname')">KANAME</div>
+  </div>
+  <div class="panel-body active" id="panelToc">
+    <div class="toc">
+      <div class="toc-section">Unit 5 — ネットワーク基礎</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>1. ネットワークとは</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>2. IPアドレスの仕組み</div>
+      <div class="toc-item current"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">play_arrow</span>3. ネットワーク構成図</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>4. プロトコルの基本</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>5. DNSとドメイン</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>6. セキュリティ入門</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>7. 実務での活用</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>8. 課題・テスト</div>
+      <div class="toc-section">コース全体</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 1 — IT基礎</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 2 — ハードウェア</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 3 — ソフトウェア</div>
+      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 4 — OS基礎</div>
+      <div class="toc-item current"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">play_arrow</span>Unit 5 — ネットワーク</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 6 — データベース</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 7 — セキュリティ</div>
+      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 8 — 総合演習</div>
+    </div>
+  </div>
+  <div class="panel-body" id="panelKaname">
+    <div class="kaname-chat" id="kMsgs">
+      <div class="k-msg" id="km1">そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。</div>
+      <div class="k-msg" id="km2">このコードは<span class="hl">「支店に電話が繋がるか確認する」</span>のと同じです。</div>
+    </div>
+    <div class="kaname-input">
+      <input type="text" id="kInput" placeholder="質問する...">
+      <button onclick="sendK()">送信</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer Bar (solid) -->
+<div class="footer-bar">
+  <span class="unit-label">Unit 5</span>
+  <div class="progress-track"><div class="progress-fill" style="width:37.5%"></div></div>
+  <span class="step-count">3 / 8</span>
+  <div class="footer-divider"></div>
+  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')" title="目次"><span class="material-symbols-outlined" style="font-size:18px;">menu</span></button>
+  <button class="footer-panel-btn" id="btnKaname" onclick="openPanel('kaname')" title="KANAME">K</button>
+  <div class="footer-divider"></div>
+  <button class="next-btn" onclick="window.location.href='p06-assessment.html'">次へ →</button>
+</div>
+
+<script>
+// Header (top hover)
+var hideTimer = null;
+var ctIcon = document.querySelector('.ct-icon');
+function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); if(ctIcon) ctIcon.style.opacity='0'; }
+function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); if(ctIcon) ctIcon.style.opacity='1'; }, 400); }
+document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
+document.getElementById('headerTrigger').addEventListener('mouseleave', function() { scheduleHideHeader(); });
+
+// Panel
+var currentPanel = null;
+function openPanel(tab) {
+  if (currentPanel === tab) {
+    closePanel();
+    return;
+  }
+  currentPanel = tab;
+  document.body.classList.add('panel-open');
+  switchTab(tab);
+  updateFooterBtns();
+}
+function closePanel() {
+  currentPanel = null;
+  document.body.classList.remove('panel-open');
+  updateFooterBtns();
+}
+function updateFooterBtns() {
+  document.getElementById('btnToc').classList.toggle('active', currentPanel === 'toc');
+  document.getElementById('btnKaname').classList.toggle('active', currentPanel === 'kaname');
+}
+function switchTab(id) {
+  document.querySelectorAll('.pill-opt').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel-body').forEach(function(p) { p.classList.remove('active'); });
+  if (id === 'toc') {
+    document.querySelectorAll('.pill-opt')[0].classList.add('active');
+    document.getElementById('panelToc').classList.add('active');
+  } else {
+    document.querySelectorAll('.pill-opt')[1].classList.add('active');
+    document.getElementById('panelKaname').classList.add('active');
+    setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 200);
+    setTimeout(function() { document.getElementById('km2').classList.add('visible'); }, 500);
+  }
+  updateFooterBtns();
+  currentPanel = id;
+}
+
+// Chat
+function sendK() {
+  var input = document.getElementById('kInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  var area = document.getElementById('kMsgs');
+  var um = document.createElement('div');
+  um.className = 'k-msg visible';
+  um.style.cssText = 'background:rgba(149,62,195,0.12);border-color:rgba(149,62,195,0.2);border-radius:12px 4px 12px 12px;margin-left:20px;';
+  um.textContent = text;
+  area.appendChild(um);
+  area.scrollTop = area.scrollHeight;
+  setTimeout(function() {
+    var km = document.createElement('div');
+    km.className = 'k-msg';
+    km.innerHTML = 'いい質問ですね。営業に例えると、<strong>「配送ルート」</strong>と同じ考え方です。';
+    area.appendChild(km);
+    area.scrollTop = area.scrollHeight;
+    requestAnimationFrame(function() { requestAnimationFrame(function() { km.classList.add('visible'); }); });
+  }, 600);
+}
+document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
+</script>
+
+</body>
+</html>

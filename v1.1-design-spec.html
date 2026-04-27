@@ -519,16 +519,27 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 
 <h3>P-05 学習実行</h3>
 <h4>目的</h4>
-<p>未経験者でも挫折しない、情報量を絞った学習体験。</p>
+<p>未経験者でも挫折しない、情報量を絞った学習体験。家庭教師コンセプトを忠実に再現するため、1レッスン内で「読む→対話→演習→振り返り」のフェーズを切り替える構成。</p>
 <h4>LM原則</h4>
 <p>One Thing at a Time / Challenge / Ignite</p>
 <h4>主要要素</h4>
 <ul>
-<li>1セッション1概念の教材表示</li>
-<li>AIメンターチャット（24時間即レス、営業経験などに例えた説明）</li>
-<li>正解率に応じた難易度動的調整</li>
-<li>Ignite: 冒頭に「こんな場面で困ったことは？」</li>
+<li><strong>フェーズ切替型レッスン</strong>（約8分／7フェーズ）: イントロ → 読む3分 → 確認1分 → 読む2分 → 確認1分 → 演習1分 → まとめ</li>
+<li>上部フェーズインジケーター（現在地と残時間を常時可視化）</li>
+<li>各フェーズ最適UI: 読む=教科書モード / 確認=KANAME短対話（2-3ターン）/ 演習=ミニ問題1問 / まとめ=3点要約＋振り返り入力</li>
+<li>KANAMEは常時呼び出し可能（スライドパネル）</li>
+<li>戻る・進むナビでフェーズ間を行き来可能（誤操作リカバリ）</li>
+<li>振り返り入力はポートフォリオに自動保存（任意）</li>
+<li>完了時に Layer +1 演出 → 「理解度チェックへ →」で P-06 へ遷移</li>
 </ul>
+<h4>バージョン履歴</h4>
+<table style="margin-top:8px;">
+<thead><tr><th style="width:120px;">版</th><th style="width:200px;">公開先</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>現行版（v2 / フェーズ切替型）</strong></td><td><a href="v1.1/p05-lesson.html" target="_blank">v1.1/p05-lesson.html</a></td><td>2026-04-27 昇格。読む→対話→演習→振り返りを1レッスン内で切替。家庭教師コンセプトの本質再現。アプリ内 P-03 / P-04 等からはこの URL に遷移</td></tr>
+<tr><td>初回版（v1 / 教科書型・保管）</td><td><a href="archive/v1.1/p05-lesson-original.html" target="_blank">archive/v1.1/p05-lesson-original.html</a></td><td>初期実装。教科書モード単体構成（CT展開ヘッダー＋フッターバー＋スライドパネル）。アプリ内導線からは到達しない（参考保管）</td></tr>
+</tbody>
+</table>
 
 <h3>P-06 課題・テスト提出</h3>
 <h4>目的</h4>
@@ -643,7 +654,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>P-02 AI対話</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p02-ai-dialogue.html → P-05へ遷移</td></tr>
 <tr><td>P-03 ダッシュボード</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p03-dashboard.html — ゲームUI＋漆テーマ。2カラム（260pxサイドバー「Your Layers」＋メインエリア）。デイリーミッションカード（チェック→自動遷移）。ポートフォリオ/企業選考/設定/通知の4ポップアップ。設定にアイコン変更機能。<strong>企業・選考ポップアップから「エントリー可能企業」セクション削除</strong></td></tr>
 <tr><td>P-04 企業・選考</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p04-curriculum.html — 旧P-04+P-08統合。カリキュラム+ロードマップ+選考。<strong>コンテンツ幅 920px に拡張</strong></td></tr>
-<tr><td>P-05 学習実行</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p05-lesson.html — CTアイコン展開ヘッダー/フッターバー/スライドパネル → P-06へ遷移</td></tr>
+<tr><td>P-05 学習実行</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p05-lesson.html — <strong>フェーズ切替型に昇格（v2）</strong>。読む→対話→演習→振り返りの7フェーズ／約8分構成。上部フェーズインジケーター＋下部進度バー＋スライドパネル(目次/KANAME) → 完了で「理解度チェックへ →」P-06遷移。<strong>初回版（教科書型）は <a href="archive/v1.1/p05-lesson-original.html" target="_blank">archive/v1.1/p05-lesson-original.html</a> に保管（参考）</strong></td></tr>
 <tr><td>P-06 課題・テスト</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p06-assessment.html — 実技課題/自信度選択/AI評価フィードバック(B1判定)</td></tr>
 <tr><td>P-07 ポートフォリオ</td><td style="color:#2e7d32;font-weight:700;">実装済み</td><td>p07-portfolio.html — ダッシュボードからポップアップ表示に変更。<strong>履歴書機能搭載</strong>（基本情報拡張＋自己PR＋学歴＋職歴＋資格・語学）。タブ式編集モーダル＋PDF出力3形式（履歴書/職務経歴書/ポートフォリオ）。コンテンツ幅 920px に拡張</td></tr>
 <tr><td>P-08 選考管理</td><td style="color:#888;">P-04に統合</td><td>p08-selection.html は廃止。企業・選考ページに統合</td></tr>
@@ -657,13 +668,14 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>2026-04-23 (AM)</td><td>社内MTG反映: P-04+P-08統合 / P-07ポップアップ化 / P-08隠し機能化 / P-01目標企業削除 / UI改善 / 用語修正</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-23 (PM)</td><td>P-03ダッシュボード全面刷新: ゲームUI＋漆テーマ「Your Layers」/ デイリーミッションカード（チェック→自動遷移）/ サジェストチップ＋展開パネル / ポートフォリオ・企業選考ポップアップのUI圧縮（2カラム・チップ化）/ 設定にアイコン変更機能追加 / サイドバー260px＋余白調整 / ストリーク表示改善 / action-ideas.html作成</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-27</td><td>P-05学習画面のUI/UX提案版を別公開（社長レビュー用）: 対話オンリー型(p05-dialogue) と フェーズ切替型(p05-phased) の2種。p05-phased が本命（読む→対話→演習→振り返りのフェーズ切替）/ P-03からエントリー可能企業セクション削除 / P-04・P-07コンテンツ幅 800→920px / P-07に履歴書機能搭載（基本情報拡張＋自己PR＋学歴＋職歴＋資格・語学＋編集モーダル＋PDF出力3形式）</td><td><a href="reports/2026-04-27-progress.html">レポート →</a></td></tr>
+<tr><td>2026-04-27 (Late)</td><td><strong>P-05 フェーズ切替型を本線に昇格</strong>: <a href="v1.1/p05-lesson.html">v1.1/p05-lesson.html</a> をフェーズ切替型に差し替え（PROPOSAL バナー除去・展開ヘッダー追加・p06遷移配線）。初回版（教科書型）は <a href="archive/v1.1/p05-lesson-original.html">archive/v1.1/p05-lesson-original.html</a> に保管。p03/p04 等からの既存リンクはそのまま新版に到達</td><td>—</td></tr>
 <tr><td>2026-04-27 (PM)</td><td>大規模ブラッシュアップ: <strong>B改善（デザイン品質）+ A改善（学習完遂率）+ UI細部</strong>。Material Symbols Outlined 全画面導入 / カラートークン化(--cta-grad/--accent/--brand-grad/--info/--rainbow) / タイポ・余白スケール統一 / コントラスト引き上げ / ホバー統一 / モーダル ✕ ボタン外側配置 / P-03 サマリーパネル再設計（ポートフォリオ=レベル+強み+閲覧数, 企業選考=本命+19日予測+CTA）/ サマリーカード全体クリッカブル化 / ミッションテキストもクリック可能 / 通知chip 白文字+赤丸バッジ / 学習カレンダー Today Ring + 月Grid hybrid（黄→ピンク Ring + 白α0.18 Done）/ ミッション完了演出（+1 LAYER chip + 全完了時祝福トースト） / P-04 受講中バナーに「Unit 5 STEP 3 から再開」CTA / P-03ポートフォリオサマリーに「Skill Prime達成でスカウト解禁」/ P-07完成度バー横に「自己PR充実で閲覧数+30%」ティップ / PDF出力2形式に縮小 / 編集モーダル削除ボタン ゴミ箱化</td><td>—</td></tr>
 </table>
 
 <h3>提案版（v1.1 mockには未反映）</h3>
 <table>
 <tr><th>提案</th><th>URL</th><th>概要</th></tr>
-<tr><td>P-05 フェーズ切替型 <strong>(本命)</strong></td><td><a href="proposals/p05-phased/" target="_blank">proposals/p05-phased/</a></td><td>家庭教師の本来の流れ「読む→対話→演習→振り返り」を1レッスン内でフェーズ切替。約8分構成、フェーズインジケーター上部固定、Layer積み上げ演出</td></tr>
+<tr><td>P-05 フェーズ切替型 <strong>（v1.1本線に昇格済）</strong></td><td><a href="v1.1/p05-lesson.html" target="_blank">v1.1/p05-lesson.html</a> ／ 提案元: <a href="proposals/p05-phased/" target="_blank">proposals/p05-phased/</a></td><td>2026-04-27 本線昇格。家庭教師の本来の流れ「読む→対話→演習→振り返り」を1レッスン内でフェーズ切替。約8分構成、フェーズインジケーター上部固定、Layer積み上げ演出。<strong>提案版フォルダはオリジナル原本として保持</strong></td></tr>
 <tr><td>P-05 対話オンリー型 (参考)</td><td><a href="proposals/p05-dialogue/" target="_blank">proposals/p05-dialogue/</a></td><td>初版アイデアの全部対話化案。検討の経緯として保持</td></tr>
 </table>
 

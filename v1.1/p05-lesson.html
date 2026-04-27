@@ -10,12 +10,11 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
-body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
-@keyframes pageIn { to { opacity: 1; } }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; }
 
 /* BG */
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
 .bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
 
 /* ===== EXPANDABLE HEADER ===== */
@@ -38,143 +37,495 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .hb-dash { padding: 8px 18px; background: linear-gradient(135deg, #0f4bab, #34e0ff); border: none; border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; }
 .hb-dash:hover { opacity: 0.9; }
 
-/* ===== CONTENT AREA ===== */
-.content-area {
-  position: fixed;
-  top: 16px; bottom: 72px; left: 16px; right: 16px;
+/* ===== PHASE INDICATOR (top) ===== */
+.phase-indicator {
+  position: fixed; top: 16px; left: 16px; right: 16px; z-index: 50;
+  background: rgba(0,0,0,0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.12);
+  padding: 12px 18px;
+}
+.phase-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.phase-head .lesson {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5);
+}
+.phase-head .lesson .unit { color: #34e0ff; }
+.phase-head .timer {
+  font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px;
+}
+.phase-head .timer .ic-clock {
+  width: 14px; height: 14px; color: #f13884; flex-shrink: 0;
+  animation: clockTick 2s ease-in-out infinite;
+}
+@keyframes clockTick { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+.phase-track { display: flex; gap: 4px; align-items: center; }
+.phase-step {
+  flex: 1; display: flex; flex-direction: column; gap: 4px; cursor: pointer;
+  opacity: 0.42; transition: opacity 0.3s;
+}
+.phase-step.active { opacity: 1; }
+.phase-step.done { opacity: 0.85; }
+.phase-step .bar {
+  height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
+}
+.phase-step .bar-fill {
+  height: 100%; width: 0; transition: width 0.5s ease;
+  background: rgba(255,255,255,0.5);
+}
+.phase-step.done .bar-fill { width: 100%; }
+.phase-step.active .bar-fill { width: 50%; }
+.phase-step.t-intro .bar-fill { background: #f8ee1a; }
+.phase-step.t-read .bar-fill { background: #34e0ff; }
+.phase-step.t-dialogue .bar-fill { background: #f13884; }
+.phase-step.t-exercise .bar-fill { background: #7cbf00; }
+.phase-step.t-wrap .bar-fill { background: #953ec3; }
+.phase-step .meta {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Lato', 'Noto Sans JP', sans-serif;
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.3px;
+}
+.phase-step.active .meta { color: #fff; }
+.phase-step .icon { font-size: 11px; }
+.phase-step.t-intro .icon { color: #f8ee1a; }
+.phase-step.t-read .icon { color: #34e0ff; }
+.phase-step.t-dialogue .icon { color: #f13884; }
+.phase-step.t-exercise .icon { color: #7cbf00; }
+.phase-step.t-wrap .icon { color: #953ec3; }
+
+/* ===== STAGE (main content area) ===== */
+.stage {
+  position: fixed; top: 102px; bottom: 64px; left: 16px; right: 16px; z-index: 10;
+  display: flex; flex-direction: column;
+}
+.scene {
+  flex: 1; display: none; position: relative; min-height: 0;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.scene.active { display: flex; opacity: 1; transform: translateY(0); }
+
+/* Generic glass panel */
+.panel {
   background: rgba(0,0,0,0.2);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
-  padding: 36px 28px 28px; overflow-y: auto; z-index: 10;
-  transition: right 0.3s ease;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset -1px -2px 2px rgba(255,255,255,0.08), inset 1px 1px 2px rgba(255,255,255,0.25);
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  min-height: 0;
 }
-body.panel-open .content-area { right: 328px; }
 
-/* CT icon inside content */
-.ct-icon {
-  display: inline-flex; align-items: center; gap: 8px;
-  cursor: pointer; margin-bottom: 16px;
+
+/* ===== INTRO SCENE ===== */
+.intro-wrap {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 24px; text-align: center; gap: 18px;
 }
-.ct-icon { transition: opacity 0.2s; }
-.ct-icon img { height: 20px; }
+.intro-wrap .ka-big {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900;
+  box-shadow: 0 8px 24px rgba(149,62,195,0.4);
+  animation: floatY 3s ease-in-out infinite;
+}
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.intro-wrap .greet {
+  font-size: 13px; color: rgba(255,255,255,0.55); letter-spacing: 1px; font-family: 'Lato', sans-serif;
+}
+.intro-wrap .topic { font-size: 24px; font-weight: 700; line-height: 1.4; }
+.intro-wrap .topic .hl { color: #34e0ff; }
+.intro-wrap .plan {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px;
+}
+.intro-wrap .plan-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 100px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  font-size: 11px; color: rgba(255,255,255,0.85);
+}
+.intro-wrap .plan-chip .ic { font-size: 12px; }
+.intro-wrap .plan-chip.r .ic { color: #34e0ff; }
+.intro-wrap .plan-chip.d .ic { color: #f13884; }
+.intro-wrap .plan-chip.e .ic { color: #7cbf00; }
+.intro-wrap .total {
+  font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px;
+}
 
-.step-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
-.content-title { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
-.content-body p { font-size: 14px; line-height: 2; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
-.content-body strong { color: #fff; }
-.content-body .hl { color: #34e0ff; font-weight: 700; }
-
-.ignite-box { background: rgba(247,81,59,0.08); border: 1px solid rgba(247,81,59,0.2); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
-.ignite-box .ig { color: #f7513b; margin-right: 6px; }
-
-.diagram { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin: 20px 0; text-align: center; }
-.diagram-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
+/* ===== READING SCENE ===== */
+.read-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; }
+.read-head {
+  padding: 14px 22px 0; display: flex; align-items: center; gap: 10px;
+}
+.read-head .step-label {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+.read-head .read-ttl { font-size: 14px; font-weight: 700; }
+.read-body {
+  flex: 1; overflow-y: auto; padding: 16px 28px 24px;
+}
+.read-body::-webkit-scrollbar { width: 4px; }
+.read-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+.read-body p { font-size: 14px; line-height: 2.05; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
+.read-body strong { color: #fff; }
+.read-body .hl { color: #34e0ff; font-weight: 700; }
+.ignite-box {
+  background: rgba(247,81,59,0.08); border: 1px solid rgba(247,81,59,0.2);
+  border-radius: 12px; padding: 12px 16px; margin-bottom: 18px;
+  font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.7;
+}
+.ignite-box .ig { color: #f7513b; margin-right: 6px; font-weight: 900; }
+.diagram {
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 22px; margin: 18px 0; text-align: center;
+}
+.diagram-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 6px; }
 .diagram-node { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; }
 .diagram-node.sv { background: rgba(241,56,132,0.2); border: 1px solid rgba(241,56,132,0.4); color: #f13884; }
 .diagram-node.rt { background: rgba(52,224,255,0.15); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; }
 .diagram-node.dv { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
 .diagram-arrow { color: rgba(255,255,255,0.25); font-size: 14px; }
-.diagram-sub { font-size: 11px; color: rgba(255,255,255,0.25); }
-
-.code-block { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
-.code-block .code-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-.code-block .code-dot { width: 8px; height: 8px; border-radius: 50%; }
-.code-block pre { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #cdd6f4; white-space: pre; }
+.diagram-sub { font-size: 11px; color: rgba(255,255,255,0.3); display: flex; justify-content: center; gap: 30px; }
+.code-block {
+  background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 18px; margin: 18px 0; overflow-x: auto;
+}
+.code-block .ch {
+  display: flex; align-items: center; gap: 7px; margin-bottom: 10px;
+}
+.code-block .cdot { width: 8px; height: 8px; border-radius: 50%; }
+.code-block pre { font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.8; color: #cdd6f4; }
 .code-block .kw { color: #cba6f7; }
 .code-block .str { color: #7cbf00; }
 .code-block .cm { color: #6c7086; }
 .code-block .fn { color: #89b4fa; }
 .code-block .num { color: #fab387; }
 
-/* ===== FOOTER BAR (solid, no glass) ===== */
-.footer-bar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  height: 56px; z-index: 50;
-  display: flex; align-items: center; gap: 16px;
-  padding: 0 12px 0 20px;
-  background: #0a0a1a;
-  border-top: 1px solid rgba(255,255,255,0.06);
+/* ===== DIALOGUE SCENE ===== */
+.dlg-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; }
+.dlg-head {
+  padding: 14px 22px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.footer-bar .unit-label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); white-space: nowrap; }
-.footer-bar .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: visible; position: relative; }
-.footer-bar .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
-.footer-bar .step-count { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; }
-
-.footer-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
-
-/* Panel toggle icons in footer */
-.footer-panel-btn {
-  width: 32px; height: 32px;
-  background: none; border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px; cursor: pointer;
+.dlg-head .step-label {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+.dlg-head .ttl { font-size: 14px; font-weight: 700; }
+.dlg-scroll {
+  flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px;
+  scroll-behavior: smooth;
+}
+.dlg-scroll::-webkit-scrollbar { width: 4px; }
+.dlg-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+.k-row { display: flex; gap: 12px; align-items: flex-start; opacity: 0; transform: translateY(8px); animation: msgIn 0.5s ease forwards; }
+@keyframes msgIn { to { opacity: 1; transform: translateY(0); } }
+.k-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: rgba(255,255,255,0.35);
-  transition: all 0.2s; flex-shrink: 0;
+  font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 900; color: #fff;
+  box-shadow: 0 4px 14px rgba(149,62,195,0.35);
 }
-.footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
-.footer-panel-btn.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border-color: transparent; }
+.k-bubble {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px 16px 16px 16px; padding: 12px 16px;
+  font-size: 13px; line-height: 1.85; color: rgba(255,255,255,0.92); max-width: min(78%, 540px);
+}
+.k-bubble strong { color: #fff; }
+.k-bubble .hl { color: #34e0ff; font-weight: 700; }
+.k-bubble .meta { color: #f13884; font-weight: 700; }
+.k-bubble .nm {
+  display: block; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 4px; text-transform: uppercase;
+}
+.u-row { display: flex; gap: 12px; align-items: flex-start; justify-content: flex-end; opacity: 0; transform: translateY(8px); animation: msgIn 0.5s ease forwards; }
+.u-bubble {
+  background: linear-gradient(135deg, rgba(241,56,132,0.12), rgba(247,81,59,0.12));
+  border: 1px solid rgba(241,56,132,0.25);
+  border-radius: 16px 4px 16px 16px; padding: 10px 14px;
+  font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.95); max-width: min(70%, 480px);
+}
+/* Inline chip row (right-aligned in dialogue scroll) */
+.chip-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: flex-end;
+  padding: 2px 0 4px 48px;
+  opacity: 0; transform: translateY(8px);
+  animation: msgIn 0.5s ease forwards;
+  animation-delay: 0.35s;
+}
 
-.next-btn {
-  padding: 10px 28px;
+/* Chip styles (shared) */
+.chip {
+  padding: 8px 14px; font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px; color: rgba(255,255,255,0.85); cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.chip:hover { background: rgba(255,255,255,0.1); border-color: rgba(52,224,255,0.4); color: #34e0ff; }
+/* primary フラグはデータ層に残すが視覚効果なし（正解を色で示さない） */
+.chip.skip { background: transparent; border-style: dashed; color: rgba(255,255,255,0.4); }
+.chip.skip:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
+
+/* ===== EXERCISE SCENE ===== */
+.ex-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; width: 100%; max-width: 920px; align-self: center; }
+.ex-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.ex-head .lab {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; color: #7cbf00; text-transform: uppercase;
+}
+.ex-head .ic { color: #7cbf00; font-size: 14px; }
+.ex-question {
+  font-size: 16px; font-weight: 700; line-height: 1.6; margin-bottom: 18px;
+}
+.ex-question .em { color: #f13884; }
+.ex-options { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; padding-right: 4px; }
+.ex-option {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+  cursor: pointer; transition: all 0.2s; font-size: 13px; color: rgba(255,255,255,0.85);
+}
+.ex-option:hover { background: rgba(52,224,255,0.06); border-color: rgba(52,224,255,0.3); }
+.ex-option.selected { background: rgba(52,224,255,0.12); border-color: #34e0ff; color: #fff; }
+.ex-option.correct { background: rgba(124,191,0,0.15); border-color: #7cbf00; color: #fff; }
+.ex-option.wrong { background: rgba(247,81,59,0.12); border-color: #f7513b; color: #fff; }
+.ex-option .opt-mark {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 900;
+}
+.ex-option.selected .opt-mark { border-color: #34e0ff; background: #34e0ff; color: #050508; }
+.ex-option.correct .opt-mark { border-color: #7cbf00; background: #7cbf00; color: #050508; }
+.ex-option.wrong .opt-mark { border-color: #f7513b; background: #f7513b; color: #fff; }
+.ex-option.disabled { pointer-events: none; }
+.ex-feedback {
+  margin-top: 16px; padding: 14px 18px; border-radius: 14px;
+  background: rgba(124,191,0,0.08); border: 1px solid rgba(124,191,0,0.25);
+  font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.9);
+  display: none;
+}
+.ex-feedback.show { display: block; animation: msgIn 0.4s ease; }
+.ex-feedback.wrong { background: rgba(247,81,59,0.08); border-color: rgba(247,81,59,0.3); }
+.ex-feedback strong { color: #34e0ff; }
+.ex-feedback.wrong strong { color: #f7513b; }
+
+/* ===== WRAP SCENE ===== */
+.wrap-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; gap: 16px; overflow-y: auto; width: 100%; max-width: 920px; align-self: center; }
+.wrap-greet {
+  display: flex; gap: 12px; align-items: center;
+}
+.wrap-greet .av {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 900;
+}
+.wrap-greet .msg { font-size: 14px; line-height: 1.7; }
+.summary-card {
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(52,224,255,0.25);
+  border-radius: 14px; padding: 18px 20px;
+}
+.summary-card .sc-head {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: #34e0ff; text-transform: uppercase; margin-bottom: 12px;
+}
+.summary-card .sc-row { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 13px; line-height: 1.6; }
+.summary-card .sc-mark { width: 20px; flex-shrink: 0; font-weight: 900; font-family: 'Lato', sans-serif; }
+.summary-card .sc-mark.ok { color: #7cbf00; }
+.summary-card .sc-mark.tri { color: #f8ee1a; }
+
+.output-box {
+  background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 16px 18px;
+}
+.output-box .oh {
+  font-size: 12px; font-weight: 700; margin-bottom: 4px;
+}
+.output-box .osub {
+  font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 10px;
+}
+.output-box input {
+  width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+  color: #fff; font-size: 13px; font-family: inherit; outline: none;
+}
+.output-box input:focus { border-color: rgba(52,224,255,0.5); }
+.output-box .pf-hint {
+  margin-top: 8px; font-size: 11px; color: rgba(52,224,255,0.7);
+  display: flex; align-items: center; gap: 6px;
+}
+.output-box .pf-hint .ic { font-size: 12px; }
+
+.layer-add-anim {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; background: rgba(149,62,195,0.12);
+  border: 1px solid rgba(149,62,195,0.3); border-radius: 14px;
+  opacity: 0; transform: translateX(-12px);
+  transition: all 0.7s ease;
+}
+.layer-add-anim.show { opacity: 1; transform: translateX(0); }
+.layer-add-anim .nm { font-size: 12px; font-weight: 700; color: #fff; }
+.layer-add-anim .desc { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.layer-add-anim .gem {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(135deg, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #953ec3);
+  flex-shrink: 0; box-shadow: 0 4px 16px rgba(149,62,195,0.4);
+  animation: shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
+
+/* ===== FOOTER NAV ===== */
+.footer-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 56px; z-index: 50;
+  display: flex; align-items: center; gap: 14px; padding: 0 20px;
+  background: #0a0a14; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-nav .progress-track {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px;
+  overflow: hidden; position: relative;
+}
+.footer-nav .progress-fill {
+  position: absolute; inset: 0;
+  /* CyTech ガイドラインの7色レインボー（固定スケール） */
+  background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+  /* 進度に応じて右側からクリップ解除して7色が徐々に現れる */
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.55s ease;
+}
+.footer-nav .step-count {
+  font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.btn-back, .btn-next {
+  padding: 9px 18px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.85); border-radius: 10px; font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.btn-back:hover { background: rgba(255,255,255,0.08); }
+.btn-next {
   background: linear-gradient(135deg, #f7513b, #f13884);
-  color: #fff; border: none; border-radius: 12px;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif;
-  white-space: nowrap; flex-shrink: 0;
+  border-color: transparent; color: #fff;
 }
-.next-btn:hover { opacity: 0.9; }
+.btn-next:hover { opacity: 0.92; }
+.btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* ===== SLIDE-IN PANEL ===== */
+/* ===== SLIDE PANEL (TOC + KANAME) — v1.1踏襲 ===== */
 .slide-panel {
-  position: fixed;
-  top: 16px; bottom: 72px; right: 16px;
-  width: 300px; z-index: 40;
-  background: rgba(0,0,0,0.1);
+  position: fixed; top: 16px; bottom: 64px; right: 16px;
+  width: 300px; z-index: 60;
+  background: rgba(0,0,0,0.4);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3);
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset -1px -2px 2px rgba(255,255,255,0.08), inset 1px 1px 2px rgba(255,255,255,0.25);
   display: flex; flex-direction: column; overflow: hidden;
-  transform: translateX(calc(100% + 20px));
+  transform: translateX(calc(100% + 24px));
   transition: transform 0.3s ease;
 }
 body.panel-open .slide-panel { transform: translateX(0); }
+body.panel-open .stage { right: 332px; }
+body.panel-open .phase-indicator { right: 332px; }
 
-/* Pill toggle */
-.pill-toggle { display: flex; gap: 2px; padding: 2px; margin: 12px 12px 8px; background: rgba(0,0,0,0.2); border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08); }
-.pill-opt { flex: 1; padding: 6px 0; text-align: center; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); border-radius: 100px; cursor: pointer; transition: all 0.25s; }
+/* Pill toggle (目次 / KANAME) */
+.pill-toggle {
+  display: flex; gap: 2px; padding: 2px;
+  margin: 12px 12px 8px; background: rgba(0,0,0,0.25);
+  border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.08);
+}
+.pill-opt {
+  flex: 1; padding: 7px 0; text-align: center;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.5); border-radius: 100px;
+  cursor: pointer; transition: all 0.25s; letter-spacing: 0.5px;
+}
 .pill-opt.active { background: linear-gradient(to right, #953ec3, #0f4bab); color: #fff; }
 
 .panel-body { flex: 1; overflow-y: auto; display: none; }
 .panel-body.active { display: flex; flex-direction: column; }
 
 /* TOC */
-.toc { padding: 16px; flex: 1; }
-.toc-section { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.2); padding: 12px 12px 6px; }
+.toc { padding: 8px 12px 16px; }
+.toc-section {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); padding: 12px 12px 6px;
+}
 .toc-section:first-child { padding-top: 4px; }
-.toc-item { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 10px; font-size: 13px; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.15s; margin-bottom: 0; }
-.toc-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+.toc-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px; border-radius: 10px;
+  font-size: 12.5px; color: rgba(255,255,255,0.45);
+  cursor: pointer; transition: all 0.15s;
+}
+.toc-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.75); }
 .toc-item.current { color: #fff; font-weight: 700; background: rgba(255,255,255,0.06); }
 .toc-item.done { color: #34e0ff; }
 .toc-icon { font-size: 12px; width: 18px; text-align: center; flex-shrink: 0; }
 .toc-item.done .toc-icon { color: #34e0ff; }
 .toc-item.current .toc-icon { color: #f13884; }
 
-/* KANAME */
-.kaname-chat { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-.k-msg { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px 12px 12px 12px; padding: 10px 14px; font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.8); opacity: 0; transform: translateY(6px); transition: all 0.3s ease; }
-.k-msg.visible { opacity: 1; transform: translateY(0); }
+/* KANAME chat */
+.kaname-chat {
+  flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+  overflow-y: auto;
+}
+.k-msg {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px 12px 12px 12px; padding: 10px 14px;
+  font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.85);
+}
 .k-msg strong { color: #fff; }
 .k-msg .hl { color: #34e0ff; }
-.kaname-input { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 6px; }
-.kaname-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; }
-.kaname-input input::placeholder { color: rgba(255,255,255,0.2); }
-.kaname-input button { padding: 8px 12px; background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; border: none; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; }
+.kaname-input {
+  padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; gap: 6px;
+}
+.kaname-input input {
+  flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+  color: #fff; font-size: 11px; outline: none; font-family: inherit;
+}
+.kaname-input input::placeholder { color: rgba(255,255,255,0.25); }
+.kaname-input button {
+  padding: 8px 12px; background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; border: none; border-radius: 100px;
+  font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
 
-@media (max-width: 768px) {
-  .slide-panel { width: 85vw; }
-  body.panel-open .content-area { right: 16px; }
-  .content-area { padding: 20px; }
+/* Footer panel toggle buttons */
+.footer-panel-btn {
+  width: 32px; height: 32px;
+  background: none; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45);
+  transition: all 0.2s; flex-shrink: 0; font-family: inherit;
+}
+.footer-panel-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.footer-panel-btn.active {
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; border-color: transparent;
+}
+.footer-divider {
+  width: 1px; height: 24px; background: rgba(255,255,255,0.08); flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .phase-step .meta { font-size: 9px; }
+  .stage { left: 10px; right: 10px; top: 110px; bottom: 60px; }
+  body.panel-open .stage { right: 10px; }
+  body.panel-open .phase-indicator { right: 16px; }
+  .slide-panel { width: 90vw; right: 5vw; }
 }
 </style>
 </head>
@@ -192,184 +543,574 @@ body.panel-open .slide-panel { transform: translateX(0); }
   <div class="hr"><button class="hb-dash" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div>
 </div>
 
-<!-- Content -->
-<div class="content-area" id="contentArea">
-  <div class="step-label">STEP 3</div>
-  <h2 class="content-title">ネットワーク構成図の読み方</h2>
-  <div class="content-body">
-    <div class="ignite-box"><span class="material-symbols-outlined ig" style="font-size:14px;">flare</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。</div>
+<!-- PHASE INDICATOR -->
+<div class="phase-indicator">
+  <div class="phase-head">
+    <span class="lesson"><span class="unit">UNIT 5</span> · ネットワーク基礎 · STEP 3</span>
+    <span class="timer">
+      <svg class="ic-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <polyline points="12 7 12 12 15.5 14"/>
+      </svg>
+      <span id="timerLabel">残り 約8分</span>
+    </span>
+  </div>
+  <div class="phase-track" id="phaseTrack"></div>
+</div>
 
-    <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、サーバーからの情報がルーターを経由して各端末に届きます。</p>
+<!-- STAGE -->
+<div class="stage" id="stage">
 
-    <div class="diagram">
-      <div class="diagram-row">
-        <div class="diagram-node sv">サーバー</div><span class="diagram-arrow">→</span>
-        <div class="diagram-node rt">ルーター</div><span class="diagram-arrow">→</span>
-        <div class="diagram-node dv">端末</div>
-      </div>
-      <div class="diagram-row" style="margin-top:4px;">
-        <span class="diagram-sub">＝ 本社</span><span style="width:32px;"></span>
-        <span class="diagram-sub">＝ 支店</span><span style="width:32px;"></span>
-        <span class="diagram-sub">＝ 部署</span>
+  <!-- INTRO -->
+  <div class="scene" data-phase="intro">
+    <div class="panel">
+      <div class="intro-wrap">
+        <div class="ka-big">K</div>
+        <div class="greet">おかえりなさい、佐藤さん</div>
+        <div class="topic">今日は <span class="hl">「ネットワーク構成図の読み方」</span></div>
+        <div class="plan">
+          <div class="plan-chip r"><span class="ic">📖</span>読む 3分</div>
+          <div class="plan-chip d"><span class="ic">💬</span>確認 1分</div>
+          <div class="plan-chip r"><span class="ic">📖</span>読む 2分</div>
+          <div class="plan-chip d"><span class="ic">💬</span>確認 1分</div>
+          <div class="plan-chip e"><span class="ic">✏️</span>演習 1分</div>
+        </div>
+        <div class="total">合計 約8分</div>
       </div>
     </div>
+  </div>
 
-    <p><span class="hl">サーバー</span>は「本社」にあたります。<span class="hl">ルーター</span>は「支店」のように情報を振り分けます。実際にどのようにデータが流れるか、コードで確認してみましょう。</p>
-
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-dot" style="background:#f7513b;"></span>
-        <span class="code-dot" style="background:#f8ee1a;"></span>
-        <span class="code-dot" style="background:#7cbf00;"></span>
-        <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;">network_check.py</span>
+  <!-- READ 1 -->
+  <div class="scene" data-phase="read1">
+    <div class="panel">
+<div class="read-scene">
+        <div class="read-head">
+          <span class="step-label">読む 3分</span>
+          <span class="read-ttl">サーバとルーターの関係</span>
+        </div>
+        <div class="read-body">
+          <div class="ignite-box"><span class="ig">●</span>営業先の取引先一覧を思い出してみてください。本社→支店→部署と階層がありますよね？ネットワークもまったく同じ構造です。</div>
+          <p>ネットワークは、<strong>情報が流れる道</strong>です。営業で言えば「本社の指示が支店に届き、支店から各部署に伝わる」のと同じように、<strong>サーバ</strong>からの情報が<strong>ルーター</strong>を経由して各<strong>端末</strong>に届きます。</p>
+          <div class="diagram">
+            <div class="diagram-row">
+              <div class="diagram-node sv">サーバ</div><span class="diagram-arrow">→</span>
+              <div class="diagram-node rt">ルーター</div><span class="diagram-arrow">→</span>
+              <div class="diagram-node dv">端末</div>
+            </div>
+            <div class="diagram-sub"><span>本社</span><span>支店</span><span>部署</span></div>
+          </div>
+          <p><span class="hl">サーバ</span>は「本社」にあたります。<span class="hl">ルーター</span>は「支店」のように情報を振り分けます。<span class="hl">端末</span>は各部署のPCのことです。</p>
+          <p>営業活動で例えるなら、本社（サーバ）に取引先データがあって、各支店（ルーター）が必要なデータを抜き出し、それを各部署（端末）に届ける流れです。</p>
+        </div>
       </div>
-<pre><span class="cm"># ネットワーク構成を確認するスクリプト</span>
-<span class="kw">import</span> socket
+    </div>
+  </div>
 
-<span class="cm"># サーバー（本社）のIPアドレスを取得</span>
+  <!-- DIALOGUE 1 -->
+  <div class="scene" data-phase="dialogue1">
+    <div class="panel">
+      <div class="dlg-scene">
+        <div class="dlg-head">
+          <span class="step-label">確認 1分</span>
+          <span class="ttl">ここまでの理解度チェック</span>
+        </div>
+        <div class="dlg-scroll" id="dlg1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- READ 2 -->
+  <div class="scene" data-phase="read2">
+    <div class="panel">
+<div class="read-scene">
+        <div class="read-head">
+          <span class="step-label">読む 2分</span>
+          <span class="read-ttl">実際に確認するコード</span>
+        </div>
+        <div class="read-body">
+          <p>では、実際にネットワークの<strong>サーバ</strong>と<strong>ルーター</strong>がちゃんと繋がっているかを確認するコードを見てみましょう。営業先リストで「この支店に電話が繋がるか確認する」のと同じ発想です。</p>
+          <div class="code-block">
+            <div class="ch">
+              <span class="cdot" style="background:#f7513b;"></span>
+              <span class="cdot" style="background:#f8ee1a;"></span>
+              <span class="cdot" style="background:#7cbf00;"></span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;">network_check.py</span>
+            </div>
+<pre><span class="cm"># サーバ（本社）のIPアドレスを取得</span>
+<span class="kw">import</span> socket
 hostname = socket.<span class="fn">gethostname</span>()
 ip_address = socket.<span class="fn">gethostbyname</span>(hostname)
 
-<span class="fn">print</span>(<span class="str">f"サーバー名: </span>{hostname}<span class="str">"</span>)
-<span class="fn">print</span>(<span class="str">f"IPアドレス: </span>{ip_address}<span class="str">"</span>)
+<span class="fn">print</span>(<span class="str">f"サーバ名: </span>{hostname}<span class="str">"</span>)
 
-<span class="cm"># ルーター（支店）へのルート確認</span>
+<span class="cm"># ルーター（支店）に接続できるか試す</span>
 gateway = <span class="str">"192.168.1.1"</span>
-port = <span class="num">80</span>
-
 <span class="kw">try</span>:
-    sock = socket.<span class="fn">create_connection</span>((gateway, port), timeout=<span class="num">3</span>)
-    <span class="fn">print</span>(<span class="str">f"ルーター </span>{gateway}<span class="str"> に接続成功 ✓"</span>)
+    sock = socket.<span class="fn">create_connection</span>((gateway, <span class="num">80</span>), timeout=<span class="num">3</span>)
+    <span class="fn">print</span>(<span class="str">"ルーター接続OK ✓"</span>)
 <span class="kw">except</span>:
     <span class="fn">print</span>(<span class="str">"接続できません"</span>)</pre>
+          </div>
+          <p>このコードは2つのことをやっています。<br>① <span class="hl">サーバの名前とIPアドレス</span>を取得 → 「本社の住所を確認」<br>② <span class="hl">ルーターに接続できるか</span>試す → 「支店に電話してみる」</p>
+        </div>
+      </div>
     </div>
-
-    <p>このように、サーバーのIPアドレスを取得し、ルーターへの接続確認を行います。営業先リストで<strong>「この支店に電話が繋がるか確認する」</strong>のと同じ発想です。</p>
   </div>
+
+  <!-- DIALOGUE 2 -->
+  <div class="scene" data-phase="dialogue2">
+    <div class="panel">
+      <div class="dlg-scene">
+        <div class="dlg-head">
+          <span class="step-label">確認 1分</span>
+          <span class="ttl">コードの理解度チェック</span>
+        </div>
+        <div class="dlg-scroll" id="dlg2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCISE -->
+  <div class="scene" data-phase="exercise">
+    <div class="panel">
+<div class="ex-scene">
+        <div class="ex-head">
+          <span class="ic">✏️</span>
+          <span class="lab">ミニ演習 1分</span>
+        </div>
+        <div class="ex-question">営業先で「<span class="em">うちの社員のPC</span>」にあたるのは、ネットワーク図のどこ？</div>
+        <div class="ex-options" id="exOptions">
+          <div class="ex-option" data-correct="0"><div class="opt-mark">A</div>サーバ</div>
+          <div class="ex-option" data-correct="0"><div class="opt-mark">B</div>ルーター</div>
+          <div class="ex-option" data-correct="1"><div class="opt-mark">C</div>端末</div>
+          <div class="ex-option" data-correct="0"><div class="opt-mark">D</div>スイッチ</div>
+        </div>
+        <div class="ex-feedback" id="exFeedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WRAP -->
+  <div class="scene" data-phase="wrap">
+    <div class="panel">
+      <div class="wrap-scene">
+        <div class="wrap-greet">
+          <div class="av">K</div>
+          <div class="msg">お疲れさまでした！今日のレッスン、しっかり層が積まれました。</div>
+        </div>
+        <div class="summary-card">
+          <div class="sc-head">今日のポイント (3)</div>
+          <div class="sc-row"><span class="sc-mark ok">✓</span><span><strong>サーバ</strong> = 本社/倉庫担当（情報を出す側）</span></div>
+          <div class="sc-row"><span class="sc-mark ok">✓</span><span><strong>ルーター</strong> = 支店（情報を振り分ける）</span></div>
+          <div class="sc-row"><span class="sc-mark tri">△</span><span><strong>端末</strong> = 各部署のPC（実操作は次回）</span></div>
+        </div>
+        <div class="output-box">
+          <div class="oh">今日の気付きを1行で（任意）</div>
+          <div class="osub">スキップしても大丈夫。書くと P-07 ポートフォリオに残ります。</div>
+          <input type="text" id="outputInput" placeholder="例: サーバとルーターの違いがやっと整理できた...">
+          <div class="pf-hint"><span class="ic">📁</span>ポートフォリオに自動保存されます</div>
+        </div>
+        <div class="layer-add-anim" id="layerAdd">
+          <div class="gem"></div>
+          <div>
+            <div class="nm">STEP 3 完了 — Layer +1</div>
+            <div class="desc">ネットワーク構成図の理解が、あなたの層に塗り重なりました。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- Slide-in Panel -->
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <button class="btn-back" id="btnBack" onclick="prevPhase()">← 戻る</button>
+  <span class="step-count" id="stepCount">1 / 7</span>
+  <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+  <div class="footer-divider"></div>
+  <button class="footer-panel-btn" id="btnPanelToc" onclick="togglePanel('toc')" title="目次">☰</button>
+  <button class="footer-panel-btn" id="btnPanelKaname" onclick="togglePanel('kaname')" title="KANAME">K</button>
+  <div class="footer-divider"></div>
+  <button class="btn-next" id="btnNext" onclick="nextPhase()">次のフェーズへ →</button>
+</div>
+
+<!-- SLIDE PANEL (TOC + KANAME) -->
 <div class="slide-panel" id="slidePanel">
   <div class="pill-toggle">
-    <div class="pill-opt active" onclick="switchTab('toc')">目次</div>
-    <div class="pill-opt" onclick="switchTab('kaname')">KANAME</div>
+    <div class="pill-opt active" data-tab="toc" onclick="switchTab('toc')">目次</div>
+    <div class="pill-opt" data-tab="kaname" onclick="switchTab('kaname')">KANAME</div>
   </div>
+
   <div class="panel-body active" id="panelToc">
     <div class="toc">
       <div class="toc-section">Unit 5 — ネットワーク基礎</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>1. ネットワークとは</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>2. IPアドレスの仕組み</div>
-      <div class="toc-item current"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">play_arrow</span>3. ネットワーク構成図</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>4. プロトコルの基本</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>5. DNSとドメイン</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>6. セキュリティ入門</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>7. 実務での活用</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>8. 課題・テスト</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>1. ネットワークとは</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>2. IPアドレスの仕組み</div>
+      <div class="toc-item current"><span class="toc-icon">▸</span>3. ネットワーク構成図</div>
+      <div class="toc-item"><span class="toc-icon">○</span>4. プロトコルの基本</div>
+      <div class="toc-item"><span class="toc-icon">○</span>5. DNSとドメイン</div>
+      <div class="toc-item"><span class="toc-icon">○</span>6. セキュリティ入門</div>
+      <div class="toc-item"><span class="toc-icon">○</span>7. 実務での活用</div>
+      <div class="toc-item"><span class="toc-icon">○</span>8. 課題・テスト</div>
+
       <div class="toc-section">コース全体</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 1 — IT基礎</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 2 — ハードウェア</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 3 — ソフトウェア</div>
-      <div class="toc-item done"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">check</span>Unit 4 — OS基礎</div>
-      <div class="toc-item current"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">play_arrow</span>Unit 5 — ネットワーク</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 6 — データベース</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 7 — セキュリティ</div>
-      <div class="toc-item"><span class="material-symbols-outlined toc-icon" style="font-size:14px;">radio_button_unchecked</span>Unit 8 — 総合演習</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>Unit 1 — IT基礎</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>Unit 2 — ハードウェア</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>Unit 3 — ソフトウェア</div>
+      <div class="toc-item done"><span class="toc-icon">✓</span>Unit 4 — OS基礎</div>
+      <div class="toc-item current"><span class="toc-icon">▸</span>Unit 5 — ネットワーク</div>
+      <div class="toc-item"><span class="toc-icon">○</span>Unit 6 — データベース</div>
+      <div class="toc-item"><span class="toc-icon">○</span>Unit 7 — セキュリティ</div>
+      <div class="toc-item"><span class="toc-icon">○</span>Unit 8 — 総合演習</div>
     </div>
   </div>
+
   <div class="panel-body" id="panelKaname">
-    <div class="kaname-chat" id="kMsgs">
-      <div class="k-msg" id="km1">そうそう、<strong>サーバーが本社</strong>で合ってます。いい感覚ですね。</div>
-      <div class="k-msg" id="km2">このコードは<span class="hl">「支店に電話が繋がるか確認する」</span>のと同じです。</div>
+    <div class="kaname-chat" id="kanameMsgs">
+      <div class="k-msg">分からないところがあれば、いつでも聞いてください。<br>営業の比喩で説明したり、もう一度教材を読み直したりできます。</div>
     </div>
     <div class="kaname-input">
-      <input type="text" id="kInput" placeholder="質問する...">
-      <button onclick="sendK()">送信</button>
+      <input type="text" id="askInput" placeholder="質問を入力...">
+      <button onclick="sendAsk()">送信</button>
     </div>
   </div>
-</div>
-
-<!-- Footer Bar (solid) -->
-<div class="footer-bar">
-  <span class="unit-label">Unit 5</span>
-  <div class="progress-track"><div class="progress-fill" style="width:37.5%"></div></div>
-  <span class="step-count">3 / 8</span>
-  <div class="footer-divider"></div>
-  <button class="footer-panel-btn" id="btnToc" onclick="openPanel('toc')" title="目次"><span class="material-symbols-outlined" style="font-size:18px;">menu</span></button>
-  <button class="footer-panel-btn" id="btnKaname" onclick="openPanel('kaname')" title="KANAME">K</button>
-  <div class="footer-divider"></div>
-  <button class="next-btn" onclick="window.location.href='p06-assessment.html'">次へ →</button>
 </div>
 
 <script>
-// Header (top hover)
-var hideTimer = null;
-var ctIcon = document.querySelector('.ct-icon');
-function showHeader() { clearTimeout(hideTimer); document.getElementById('headerExpand').classList.add('open'); if(ctIcon) ctIcon.style.opacity='0'; }
-function scheduleHideHeader() { hideTimer = setTimeout(function() { document.getElementById('headerExpand').classList.remove('open'); if(ctIcon) ctIcon.style.opacity='1'; }, 400); }
-document.getElementById('headerExpand').addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
-document.getElementById('headerExpand').addEventListener('mouseleave', function() { scheduleHideHeader(); });
-document.getElementById('headerTrigger').addEventListener('mouseleave', function() { scheduleHideHeader(); });
+/* ============ Phase definitions ============ */
+const PHASES = [
+  { key: 'intro',      label: 'イントロ', icon: '👋', type: 't-intro',    minutes: 0.5 },
+  { key: 'read1',      label: '読む',     icon: '📖', type: 't-read',     minutes: 3 },
+  { key: 'dialogue1',  label: '確認',     icon: '💬', type: 't-dialogue', minutes: 1 },
+  { key: 'read2',      label: '読む',     icon: '📖', type: 't-read',     minutes: 2 },
+  { key: 'dialogue2',  label: '確認',     icon: '💬', type: 't-dialogue', minutes: 1 },
+  { key: 'exercise',   label: '演習',     icon: '✏️', type: 't-exercise', minutes: 1 },
+  { key: 'wrap',       label: 'まとめ',   icon: '✨', type: 't-wrap',     minutes: 0.5 },
+];
+const TOTAL_MIN = PHASES.reduce((s, p) => s + p.minutes, 0);
 
-// Panel
-var currentPanel = null;
-function openPanel(tab) {
-  if (currentPanel === tab) {
-    closePanel();
-    return;
-  }
-  currentPanel = tab;
-  document.body.classList.add('panel-open');
-  switchTab(tab);
-  updateFooterBtns();
-}
-function closePanel() {
-  currentPanel = null;
-  document.body.classList.remove('panel-open');
-  updateFooterBtns();
-}
-function updateFooterBtns() {
-  document.getElementById('btnToc').classList.toggle('active', currentPanel === 'toc');
-  document.getElementById('btnKaname').classList.toggle('active', currentPanel === 'kaname');
-}
-function switchTab(id) {
-  document.querySelectorAll('.pill-opt').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.panel-body').forEach(function(p) { p.classList.remove('active'); });
-  if (id === 'toc') {
-    document.querySelectorAll('.pill-opt')[0].classList.add('active');
-    document.getElementById('panelToc').classList.add('active');
+/* Render phase indicator */
+const phaseTrack = document.getElementById('phaseTrack');
+PHASES.forEach((p, i) => {
+  const el = document.createElement('div');
+  el.className = `phase-step ${p.type}`;
+  el.dataset.idx = i;
+  el.innerHTML = `<div class="bar"><div class="bar-fill"></div></div><div class="meta"><span class="icon">${p.icon}</span>${p.label}</div>`;
+  el.addEventListener('click', () => goPhase(i));
+  phaseTrack.appendChild(el);
+});
+
+/* ============ Dialogue scripts (per dialogue phase) ============ */
+const DLG1 = [
+  {
+    k: ['<span class="nm">KANAME</span>サーバって、営業に例えると<strong>何</strong>でしたっけ？'],
+    chips: [
+      { t: '本社', primary: true, next: 1 },
+      { t: '支店', next: 1, wrong: true },
+      { t: '部署', next: 1, wrong: true },
+      { t: '思い出せない', skip: true, next: 1 },
+    ],
+  },
+  {
+    k: ['<span class="nm">KANAME</span>本社、で合ってます。情報を <strong>出す側</strong> ですね。<br>じゃあ <strong>ルーター</strong>は？'],
+    chips: [
+      { t: '本社', next: 2, wrong: true },
+      { t: '支店', primary: true, next: 2 },
+      { t: '部署', next: 2, wrong: true },
+      { t: 'もう一度説明', next: 2 },
+    ],
+  },
+  {
+    k: ['<span class="nm">KANAME</span>支店、いいですね。情報を <span class="hl">振り分ける</span> 役割。<br>ここまでで困ったところはなさそうですか？'],
+    chips: [
+      { t: 'バッチリ', primary: true, next: 'done' },
+      { t: 'もう一度教材を見たい', next: 'back' },
+      { t: '次へ', skip: true, next: 'done' },
+    ],
+  },
+];
+
+const DLG2 = [
+  {
+    k: ['<span class="nm">KANAME</span>さっきのコードの <span class="hl">create_connection</span> って何してました？'],
+    chips: [
+      { t: '接続を試している', primary: true, next: 1 },
+      { t: '計算している', next: 1, wrong: true },
+      { t: 'もう一度コードを見る', next: 'back' },
+      { t: '思い出せない', skip: true, next: 1 },
+    ],
+  },
+  {
+    k: ['<span class="nm">KANAME</span>ピンポンです。営業で言う「<span class="meta">この支店に電話繋がる？</span>」を試している部分ですね。'],
+    chips: [
+      { t: '完璧', primary: true, next: 'done' },
+      { t: 'もう一度復習', next: 0 },
+    ],
+  },
+];
+
+/* ============ State ============ */
+let curPhase = 0;
+let exerciseAnswered = false;
+
+const sceneEls = document.querySelectorAll('.scene');
+const phaseSteps = document.querySelectorAll('.phase-step');
+
+function updateUI() {
+  // scenes
+  sceneEls.forEach((s, i) => s.classList.toggle('active', i === curPhase));
+  // phase indicator
+  phaseSteps.forEach((s, i) => {
+    s.classList.toggle('active', i === curPhase);
+    s.classList.toggle('done', i < curPhase);
+  });
+  // step count
+  document.getElementById('stepCount').textContent = `${curPhase + 1} / ${PHASES.length}`;
+  // progress: 固定スケールのレインボーを clip-path で右からめくっていく
+  // 例: 50%なら右側50%がクリップされ、左から赤〜緑半分まで見える
+  const prog = (curPhase / (PHASES.length - 1)) * 100;
+  document.getElementById('progFill').style.clipPath = `inset(0 ${100 - prog}% 0 0)`;
+  // back btn
+  document.getElementById('btnBack').disabled = curPhase === 0;
+  document.getElementById('btnBack').style.opacity = curPhase === 0 ? '0.35' : '1';
+  // next btn label
+  const next = document.getElementById('btnNext');
+  if (curPhase >= PHASES.length - 1) {
+    next.textContent = '理解度チェックへ →';
+  } else if (curPhase === PHASES.length - 2) {
+    next.textContent = '最後のフェーズへ →';
   } else {
-    document.querySelectorAll('.pill-opt')[1].classList.add('active');
-    document.getElementById('panelKaname').classList.add('active');
-    setTimeout(function() { document.getElementById('km1').classList.add('visible'); }, 200);
-    setTimeout(function() { document.getElementById('km2').classList.add('visible'); }, 500);
+    next.textContent = '次のフェーズへ →';
   }
-  updateFooterBtns();
-  currentPanel = id;
+  // timer
+  let remaining = 0;
+  for (let i = curPhase; i < PHASES.length; i++) remaining += PHASES[i].minutes;
+  document.getElementById('timerLabel').textContent = `残り 約${Math.ceil(remaining)}分`;
+
+  // Reset & init phase-specific content
+  const ph = PHASES[curPhase].key;
+  if (ph === 'dialogue1') initDlg1();
+  if (ph === 'dialogue2') initDlg2();
+  if (ph === 'exercise') resetExercise();
+  if (ph === 'wrap') triggerWrap();
 }
 
-// Chat
-function sendK() {
-  var input = document.getElementById('kInput');
-  var text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  var area = document.getElementById('kMsgs');
-  var um = document.createElement('div');
-  um.className = 'k-msg visible';
-  um.style.cssText = 'background:rgba(149,62,195,0.12);border-color:rgba(149,62,195,0.2);border-radius:12px 4px 12px 12px;margin-left:20px;';
-  um.textContent = text;
-  area.appendChild(um);
-  area.scrollTop = area.scrollHeight;
-  setTimeout(function() {
-    var km = document.createElement('div');
-    km.className = 'k-msg';
-    km.innerHTML = 'いい質問ですね。営業に例えると、<strong>「配送ルート」</strong>と同じ考え方です。';
-    area.appendChild(km);
-    area.scrollTop = area.scrollHeight;
-    requestAnimationFrame(function() { requestAnimationFrame(function() { km.classList.add('visible'); }); });
+function nextPhase() {
+  if (curPhase < PHASES.length - 1) {
+    curPhase++;
+    updateUI();
+  } else {
+    location.href = 'p06-assessment.html';
+  }
+}
+
+function prevPhase() {
+  if (curPhase > 0) {
+    curPhase--;
+    updateUI();
+  }
+}
+
+function goPhase(i) {
+  curPhase = i;
+  updateUI();
+}
+
+/* ============ Dialogue rendering ============ */
+function appendChipRow(scriptArr, idx, dlgEl, onDone, onBack) {
+  const turn = scriptArr[idx];
+  const chipRow = document.createElement('div');
+  chipRow.className = 'chip-row';
+  turn.chips.forEach(chip => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (chip.primary ? ' primary' : '') + (chip.skip ? ' skip' : '');
+    btn.textContent = chip.t;
+    btn.onclick = () => {
+      chipRow.remove();
+      if (!chip.skip) {
+        const r = document.createElement('div');
+        r.className = 'u-row';
+        r.innerHTML = `<div class="u-bubble">${chip.t}</div>`;
+        dlgEl.appendChild(r);
+        dlgEl.scrollTop = dlgEl.scrollHeight;
+      }
+      if (chip.wrong) {
+        setTimeout(() => {
+          const r = document.createElement('div');
+          r.className = 'k-row';
+          r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>あ、それは違うかも。もう一度考えてみて。</div>`;
+          dlgEl.appendChild(r);
+          dlgEl.scrollTop = dlgEl.scrollHeight;
+          appendChipRow(scriptArr, idx, dlgEl, onDone, onBack);
+        }, 400);
+        return;
+      }
+      if (chip.next === 'done') { onDone(); return; }
+      if (chip.next === 'back') { onBack && onBack(); return; }
+      setTimeout(() => renderDlg(scriptArr, chip.next, dlgEl, onDone, onBack), 500);
+    };
+    chipRow.appendChild(btn);
+  });
+  dlgEl.appendChild(chipRow);
+  setTimeout(() => { dlgEl.scrollTop = dlgEl.scrollHeight; }, 50);
+}
+
+function renderDlg(scriptArr, idx, dlgEl, onDone, onBack) {
+  const turn = scriptArr[idx];
+  if (!turn) return;
+  turn.k.forEach((msg, i) => {
+    const row = document.createElement('div');
+    row.className = 'k-row';
+    row.style.animationDelay = (i * 0.2) + 's';
+    row.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble">${msg}</div>`;
+    dlgEl.appendChild(row);
+  });
+  appendChipRow(scriptArr, idx, dlgEl, onDone, onBack);
+}
+
+function initDlg1() {
+  const dlgEl = document.getElementById('dlg1');
+  if (dlgEl.dataset.inited) return;
+  dlgEl.dataset.inited = '1';
+  dlgEl.innerHTML = '';
+  renderDlg(DLG1, 0, dlgEl,
+    () => {
+      const r = document.createElement('div');
+      r.className = 'k-row';
+      r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>OK、次の教材いきましょう。下の「次のフェーズへ」を押してください。</div>`;
+      dlgEl.appendChild(r);
+      dlgEl.scrollTop = dlgEl.scrollHeight;
+    },
+    () => { goPhase(1); }  // back to read1
+  );
+}
+
+function initDlg2() {
+  const dlgEl = document.getElementById('dlg2');
+  if (dlgEl.dataset.inited) return;
+  dlgEl.dataset.inited = '1';
+  dlgEl.innerHTML = '';
+  renderDlg(DLG2, 0, dlgEl,
+    () => {
+      const r = document.createElement('div');
+      r.className = 'k-row';
+      r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>では、ここまでの理解度を演習で確認しましょう。</div>`;
+      dlgEl.appendChild(r);
+      dlgEl.scrollTop = dlgEl.scrollHeight;
+    },
+    () => { goPhase(3); }  // back to read2
+  );
+}
+
+/* ============ Exercise ============ */
+function resetExercise() {
+  exerciseAnswered = false;
+  const opts = document.querySelectorAll('#exOptions .ex-option');
+  opts.forEach(o => {
+    o.classList.remove('selected', 'correct', 'wrong', 'disabled');
+    o.onclick = () => selectOption(o);
+  });
+  const fb = document.getElementById('exFeedback');
+  fb.classList.remove('show', 'wrong');
+  fb.innerHTML = '';
+}
+
+function selectOption(opt) {
+  if (exerciseAnswered) return;
+  exerciseAnswered = true;
+  const correct = opt.dataset.correct === '1';
+  const opts = document.querySelectorAll('#exOptions .ex-option');
+  opts.forEach(o => {
+    o.classList.add('disabled');
+    if (o.dataset.correct === '1') o.classList.add('correct');
+    else if (o === opt) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('exFeedback');
+  if (correct) {
+    fb.innerHTML = '<strong>正解！</strong> 端末 = 各部署の社員のPC。サーバ（本社）から情報を受け取って実際に使う側ですね。営業の比喩がしっかり頭に入っています。';
+  } else {
+    fb.classList.add('wrong');
+    fb.innerHTML = '<strong>惜しい。</strong> 正解は <span style="color:#7cbf00;font-weight:700">C. 端末</span>。端末 = 各部署のPCのことです。サーバ（本社）→ ルーター（支店）→ 端末（部署）の流れで、社員が直接触れるのは末端の端末です。';
+  }
+  fb.classList.add('show');
+}
+
+/* ============ Wrap ============ */
+function triggerWrap() {
+  setTimeout(() => {
+    document.getElementById('layerAdd').classList.add('show');
   }, 600);
 }
-document.getElementById('kInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendK(); });
+
+/* ============ Slide panel (TOC + KANAME) ============ */
+function switchTab(tab) {
+  document.querySelectorAll('.pill-opt').forEach(o => o.classList.toggle('active', o.dataset.tab === tab));
+  document.getElementById('panelToc').classList.toggle('active', tab === 'toc');
+  document.getElementById('panelKaname').classList.toggle('active', tab === 'kaname');
+  document.getElementById('btnPanelToc').classList.toggle('active', tab === 'toc' && document.body.classList.contains('panel-open'));
+  document.getElementById('btnPanelKaname').classList.toggle('active', tab === 'kaname' && document.body.classList.contains('panel-open'));
+}
+function openPanel(tab) {
+  document.body.classList.add('panel-open');
+  switchTab(tab);
+}
+function closePanel() {
+  document.body.classList.remove('panel-open');
+  document.getElementById('btnPanelToc').classList.remove('active');
+  document.getElementById('btnPanelKaname').classList.remove('active');
+}
+function togglePanel(tab) {
+  const isOpen = document.body.classList.contains('panel-open');
+  const curTab = document.querySelector('.pill-opt.active').dataset.tab;
+  if (isOpen && curTab === tab) {
+    closePanel();
+  } else {
+    openPanel(tab);
+  }
+}
+function sendAsk() {
+  const inp = document.getElementById('askInput');
+  if (!inp.value.trim()) return;
+  const msgs = document.getElementById('kanameMsgs');
+  const userQ = document.createElement('div');
+  userQ.className = 'k-msg';
+  userQ.style.background = 'rgba(241,56,132,0.1)';
+  userQ.style.borderColor = 'rgba(241,56,132,0.25)';
+  userQ.style.borderRadius = '12px 4px 12px 12px';
+  userQ.style.alignSelf = 'flex-end';
+  userQ.style.maxWidth = '85%';
+  userQ.textContent = inp.value;
+  msgs.appendChild(userQ);
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'k-msg';
+    reply.innerHTML = `（プロトタイプ版なので簡易応答のみ）<br>実装版では文脈に応じて、教材の該当箇所を引用しながらお答えします。`;
+    msgs.appendChild(reply);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 400);
+  inp.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* Expandable header */
+let hideTimer;
+function showHeader() {
+  clearTimeout(hideTimer);
+  document.getElementById('headerExpand').classList.add('open');
+}
+function scheduleHideHeader() {
+  hideTimer = setTimeout(function () {
+    document.getElementById('headerExpand').classList.remove('open');
+  }, 600);
+}
+document.getElementById('headerTrigger').addEventListener('mouseleave', scheduleHideHeader);
+document.getElementById('headerExpand').addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
+document.getElementById('headerExpand').addEventListener('mouseleave', scheduleHideHeader);
+
+/* Init */
+updateUI();
+document.getElementById('askInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendAsk(); });
 </script>
 
 </body>
