@@ -289,14 +289,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
 <!-- ===== P-05 提案版（社長レビュー用） ===== -->
 <div class="section-dark">
   <div class="inner">
-    <div class="sec-overline">Proposal (Test version)</div>
-    <div class="sec-title">P-05 学習画面の新UI提案 — 社長レビュー用</div>
-    <div class="sec-sub">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型を提案。<br>v1.1 mock には未反映、直URLでのみアクセス可能。</div>
+    <div class="sec-overline">Proposal History</div>
+    <div class="sec-title">P-05 学習画面の新UI提案 — 検討経緯</div>
+    <div class="sec-sub">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型を提案。<br><strong>2026-04-27 Late、本命の「フェーズ切替型」を v1.1 本線に昇格しました（下段参照）。</strong></div>
     <div class="showcase">
       <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/proposals/p05-phased/" target="_blank" class="sc-card">
         <div class="sc-id">PROPOSAL</div>
-        <div class="sc-name">P-05 フェーズ切替型 <strong>(本命)</strong></div>
-        <div class="sc-desc">家庭教師の本来の流れ「読む→対話→演習→振り返り」を1レッスン約8分でフェーズ切替。フェーズインジケーター上部固定 / 確認パートはチップで進行 / 100%でレインボー進捗バー / Layer積み上げ演出。</div>
+        <div class="sc-name">P-05 フェーズ切替型 <strong>(本線昇格済)</strong></div>
+        <div class="sc-desc">家庭教師の本来の流れ「読む→対話→演習→振り返り」を1レッスン約8分でフェーズ切替。フェーズインジケーター上部固定 / 確認パートはチップで進行 / 100%でレインボー進捗バー / Layer積み上げ演出。<br><strong>→ v1.1/p05-lesson.html として本線採用</strong></div>
         <span class="sc-tag tag-ai">本命提案</span>
       </a>
       <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/proposals/p05-dialogue/" target="_blank" class="sc-card">
@@ -345,6 +345,23 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
     <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">💡</div><div class="other-text"><strong>P-07 履歴書完成度バー（A6拡張）</strong><span>「自己PR を充実させると 閲覧数 平均 +30%」の根拠付き行動喚起ティップ追加</span></div></div>
     <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">📄</div><div class="other-text"><strong>PDF出力 2形式に縮小</strong><span>履歴書 / 職務経歴書 のみ。「ポートフォリオPDF」オプションを削除し選択肢を明確化</span></div></div>
     <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">🗑️</div><div class="other-text"><strong>削除ボタン ゴミ箱化</strong><span>編集モーダル内の削除を × → ゴミ箱アイコンに変更。意味が明確に</span></div></div>
+  </div>
+</div>
+
+<!-- ===== 2026-04-27 (Late) P-05 本線昇格 + 仕上げ ===== -->
+<div class="section">
+  <div class="sec-overline">2026-04-27 Late — Promotion & Polish</div>
+  <div class="sec-title">P-05 フェーズ切替型を本線昇格 / サンプル刷新 / モバイル対応</div>
+  <div class="sec-sub">提案フェーズから実装フェーズへ。あわせてレビュー前の仕上げを実施。</div>
+
+  <div class="other-item"><div class="other-icon">🚀</div><div class="other-text"><strong>P-05 フェーズ切替型を v1.1 本線に昇格</strong><span><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank">v1.1/p05-lesson.html</a> を新版に差し替え（PROPOSAL バナー除去・展開ヘッダー追加・完了 CTA を「理解度チェックへ → P-06」に配線）。p03 / p04 等からの既存リンクはそのまま新版に到達</span></div></div>
+  <div class="other-item"><div class="other-icon">📦</div><div class="other-text"><strong>初回版（教科書型）を保管庫へ移動</strong><span><a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/archive/v1.1/p05-lesson-original.html" target="_blank">archive/v1.1/p05-lesson-original.html</a> として保存。冒頭に「初回版（保管）」帯＋現行版へのリンクを追加。アプリ内導線からは到達せず、仕様書のバージョン履歴経由でのみ参照可能</span></div></div>
+  <div class="other-item"><div class="other-icon">🏢</div><div class="other-text"><strong>サンプル企業データを実名化</strong><span>◯◯/△△ プレースホルダーを v1.1 全 HTML（p03/p04/p07/p08）と仕様書から実名（アサヒ電機工業株式会社、サンライズロジスティクス、東陽商事、みなとマーケティング、青葉経済大学、桜ヶ丘高等学校）に置換。レビュー時の没入感を確保</span></div></div>
+  <div class="other-item"><div class="other-icon">📱</div><div class="other-text"><strong>モバイル対応強化</strong><span>p04 / p07 の 980px ブレークポイントを再構築（fixed → static + マージン式レイアウトで二重スクロール解消、中央列のシアン薄味背景を解除）。p03 のミッション完了トーストを 768px 以下で縮小、360px 以下でさらに縮小しオーバーフロー回避</span></div></div>
+
+  <div style="margin-top:24px;text-align:center;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="link-btn">P-05 現行版を開く →</a>
+    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/archive/v1.1/p05-lesson-original.html" target="_blank" class="link-btn" style="background:rgba(15,75,171,0.15);border:1px solid rgba(52,224,255,0.3);">P-05 初回版（保管）を開く →</a>
   </div>
 </div>
 
