@@ -423,7 +423,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <table>
 <tr><th style="width:140px;">エリア</th><th>内容</th></tr>
 <tr><td><strong>左サイドバー（260px）</strong></td><td>「Your Layers」見出し / B1 Rookieレベルバッジ / 獲得バッジ一覧（8枠） / 学習カレンダー＋連続学習ストリーク / アカウントメニュー（設定・お知らせ・ログアウト）</td></tr>
-<tr><td><strong>右メインエリア</strong></td><td>KANAME吹き出し＋デイリーミッションカード / サジェストチップ＋テキスト入力 / 進捗カード2枚（カリキュラム進捗・面接開放まで） / 展開パネル（ポートフォリオ・レベル・企業選考・お知らせ）</td></tr>
+<tr><td><strong>右メインエリア</strong></td><td>KANAME吹き出し＋デイリーミッションカード（完了演出: +1 LAYER chip / 全完了時の祝福トースト + バーレインボー化） / 進捗カード2枚（カリキュラム進捗・面接開放まで） / サジェストチップ＋テキスト入力 / 展開パネル（ポートフォリオ・レベル・企業選考・お知らせ）。<strong>並び順は KANAME → 進捗カード → チップ → 展開パネル の順で、チップ展開コンテンツが直下に出る動線</strong></td></tr>
 </table>
 
 <h4>「Your Layers」サイドバー</h4>
@@ -475,6 +475,27 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <ul>
 <li><strong>コンセプト：</strong> 漆は何度も塗り重ねることで強度と美しさが増す。学習も同様に、積み重ねによってスキルが深まる</li>
 <li><strong>「Your Layers」：</strong> サイドバー見出し。バッジ1つ1つが「層」であり、取得するたびに強くなることを表現</li>
+</ul>
+
+<h4>サマリーパネル設計（チップ展開時）</h4>
+<table>
+<tr><th>パネル</th><th>表示内容（最重要3点）</th></tr>
+<tr><td>📊 ポートフォリオ</td><td>① B1 Rookie + B2まで残48% / ② 強み Top 3 (IT基礎/HW/OS) / ③ 今週3社が閲覧 ↑先週+1社 / ④ 「Skill Prime達成 でスカウト解禁」黄色タグ / 詳細を見る → P-07モーダル</td></tr>
+<tr><td>📋 企業・選考</td><td>① 本命 ◯◯株式会社（情シス） / ② 「夜2h/日なら 約19日 で面接確約」予測 / ③ 採用ロードマップ6段階（学習中 → 達成 → エントリー → 書類 → 面接 → 内定） / ④ 「▶ Unit 5 を続ける」CTA + 詳細を見る → P-04モーダル</td></tr>
+</table>
+<p style="font-size:12px;color:#666;">※ 上部 prog-card と重複しない情報設計（カリキュラム進捗% / 面接開放hは prog-card 担当）。<br>※ パネル全体クリッカブル（Fitts法則）+ CTA は event.stopPropagation で別動線。</p>
+
+<h4>学習カレンダー（Today Ring + 月Grid hybrid）</h4>
+<ul>
+<li><strong>Today Ring：</strong> 今日の学習時間 (60/100min) を円形プログレスで可視化。stroke は 黄→ピンク gradient（やる気重視カラー）。中央に大きな数字 60。横に 🔥 5日連続 表示</li>
+<li><strong>月カレンダー：</strong> 日本語曜日ヘッダ（月火水木金土日）+ 学習済日（白α=0.18）+ 今日（シアン枠+学習済の二重）+ 未学習（薄い背景）+ 凡例</li>
+<li><strong>整合性：</strong> 4月1日（水曜）の正しい曜日整合、文字サイズ9px に拡大</li>
+</ul>
+
+<h4>ミッション完了演出</h4>
+<ul>
+<li><strong>個別チェック：</strong> ✓ box pop アニメ (cubic-bezier 0.34, 1.56, 0.64, 1) + 「+1 LAYER」chip がふわっと飛ぶ + 進捗バー bouncy 伸び</li>
+<li><strong>全ミッション完了：</strong> 進捗バーが7色レインボー化 + glow + 中央に祝福トースト「✨ 今日のミッション完了！お疲れさまでした。明日もこの調子で塗り重ねましょう。」 / 全完了時は学習画面に遷移しない（達成感を味わう設計）</li>
 </ul>
 
 <h3>P-04 カリキュラム検索</h3>
@@ -636,6 +657,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>2026-04-23 (AM)</td><td>社内MTG反映: P-04+P-08統合 / P-07ポップアップ化 / P-08隠し機能化 / P-01目標企業削除 / UI改善 / 用語修正</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-23 (PM)</td><td>P-03ダッシュボード全面刷新: ゲームUI＋漆テーマ「Your Layers」/ デイリーミッションカード（チェック→自動遷移）/ サジェストチップ＋展開パネル / ポートフォリオ・企業選考ポップアップのUI圧縮（2カラム・チップ化）/ 設定にアイコン変更機能追加 / サイドバー260px＋余白調整 / ストリーク表示改善 / action-ideas.html作成</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-27</td><td>P-05学習画面のUI/UX提案版を別公開（社長レビュー用）: 対話オンリー型(p05-dialogue) と フェーズ切替型(p05-phased) の2種。p05-phased が本命（読む→対話→演習→振り返りのフェーズ切替）/ P-03からエントリー可能企業セクション削除 / P-04・P-07コンテンツ幅 800→920px / P-07に履歴書機能搭載（基本情報拡張＋自己PR＋学歴＋職歴＋資格・語学＋編集モーダル＋PDF出力3形式）</td><td><a href="reports/2026-04-27-progress.html">レポート →</a></td></tr>
+<tr><td>2026-04-27 (PM)</td><td>大規模ブラッシュアップ: <strong>B改善（デザイン品質）+ A改善（学習完遂率）+ UI細部</strong>。Material Symbols Outlined 全画面導入 / カラートークン化(--cta-grad/--accent/--brand-grad/--info/--rainbow) / タイポ・余白スケール統一 / コントラスト引き上げ / ホバー統一 / モーダル ✕ ボタン外側配置 / P-03 サマリーパネル再設計（ポートフォリオ=レベル+強み+閲覧数, 企業選考=本命+19日予測+CTA）/ サマリーカード全体クリッカブル化 / ミッションテキストもクリック可能 / 通知chip 白文字+赤丸バッジ / 学習カレンダー Today Ring + 月Grid hybrid（黄→ピンク Ring + 白α0.18 Done）/ ミッション完了演出（+1 LAYER chip + 全完了時祝福トースト） / P-04 受講中バナーに「Unit 5 STEP 3 から再開」CTA / P-03ポートフォリオサマリーに「Skill Prime達成でスカウト解禁」/ P-07完成度バー横に「自己PR充実で閲覧数+30%」ティップ / PDF出力2形式に縮小 / 編集モーダル削除ボタン ゴミ箱化</td><td>—</td></tr>
 </table>
 
 <h3>提案版（v1.1 mockには未反映）</h3>

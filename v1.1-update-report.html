@@ -309,6 +309,45 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
   </div>
 </div>
 
+<!-- ===== 2026-04-27 (PM) 大規模ブラッシュアップ ===== -->
+<div class="section-dark">
+  <div class="inner">
+    <div class="sec-overline">2026-04-27 PM — Major Brush-up</div>
+    <div class="sec-title">学習完遂率 + デザイン品質 を全画面で底上げ</div>
+    <div class="sec-sub">A項目（学習完遂率改善）と B項目（デザイン品質）を集中ブラッシュアップ。<br>「夜疲れた営業職が30秒で続けたくなる」UI へ。</div>
+
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">🎨</div><div class="other-text"><strong>B-2 アイコン統一</strong><span>全9画面に Material Symbols Outlined を導入。UI絵文字を全置換、お祝い・気分系絵文字（✨🚀🔥😊😐😟🤔）のみ保持</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">🎯</div><div class="other-text"><strong>B-1 カラートークン化</strong><span>:root に CSS変数で --cta-grad / --accent / --brand-grad / --info / --rainbow / --text-1〜4 を定義。色の意味付けを設計仕様と整合</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">📐</div><div class="other-text"><strong>B-3 / B-4 タイポ・余白スケール統一</strong><span>0.5px系を整数値に丸めて 8段階に統一。余白は4倍数で固定</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">🔍</div><div class="other-text"><strong>B-5 コントラスト引き上げ</strong><span>補助テキストの rgba(0.3〜0.45) → 0.55〜0.6 に底上げ。WCAG準拠</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">✨</div><div class="other-text"><strong>B-9 インタラクションフィードバック</strong><span>P-07編集モーダルにスナックバー、削除に「元に戻す」、ボタン押下 scale(0.97) など触感フィードバック追加</span></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-overline">P-03 Dashboard Polish</div>
+  <div class="sec-title">サマリーパネル & ミッション演出</div>
+  <div class="sec-sub">ダッシュボードを「学習を続けたくなる場所」に磨き上げ。</div>
+
+  <div class="other-item"><div class="other-icon">📊</div><div class="other-text"><strong>サマリーパネル再設計（A6, A1）</strong><span>ポートフォリオ = レベル+強みTop3+閲覧3社+「Skill Prime達成でスカウト解禁」/ 企業選考 = 本命1社+「夜2h/日なら約19日で面接確約」+ロードマップ+「Unit 5を続ける」CTA</span></div></div>
+  <div class="other-item"><div class="other-icon">🎉</div><div class="other-text"><strong>ミッション完了演出（A2）</strong><span>✓ チェック時に bounce + 「+1 LAYER」chip 飛び出し。全完了時バーがレインボー化 + 祝福トースト</span></div></div>
+  <div class="other-item"><div class="other-icon">📅</div><div class="other-text"><strong>学習カレンダー再設計</strong><span>Today Ring（黄→ピンク 60/100min） + 月Grid hybrid。曜日整合、白α=0.18の控えめな学習済表示</span></div></div>
+  <div class="other-item"><div class="other-icon">👆</div><div class="other-text"><strong>クリック領域拡大（Fitts法則）</strong><span>サマリーパネル全体クリッカブル / ミッションテキストもタップでチェック / モーダル ✕ ボタンを暗背景に配置</span></div></div>
+  <div class="other-item"><div class="other-icon">🔔</div><div class="other-text"><strong>通知chip 改善</strong><span>赤色警告 → 白文字+アイコン右上の赤丸バッジ（universal な「未読あり」サイン）</span></div></div>
+</div>
+
+<div class="section-dark">
+  <div class="inner">
+    <div class="sec-overline">P-04 / P-07 Polish</div>
+    <div class="sec-title">企業選考 & ポートフォリオの動線・履歴書機能</div>
+
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">▶️</div><div class="other-text"><strong>P-04 受講中バナーに「Unit 5 STEP 3 から再開」CTA</strong><span>進捗確認後の自然な「次の行動」を提示。ダッシュボードの「Unit 5 を続ける」と一貫</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">💡</div><div class="other-text"><strong>P-07 履歴書完成度バー（A6拡張）</strong><span>「自己PR を充実させると 閲覧数 平均 +30%」の根拠付き行動喚起ティップ追加</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">📄</div><div class="other-text"><strong>PDF出力 2形式に縮小</strong><span>履歴書 / 職務経歴書 のみ。「ポートフォリオPDF」オプションを削除し選択肢を明確化</span></div></div>
+    <div class="other-item" style="background:rgba(255,255,255,0.04);"><div class="other-icon">🗑️</div><div class="other-text"><strong>削除ボタン ゴミ箱化</strong><span>編集モーダル内の削除を × → ゴミ箱アイコンに変更。意味が明確に</span></div></div>
+  </div>
+</div>
+
 <!-- ===== Coming Soon ===== -->
 <div class="section-accent">
   <div class="inner">
