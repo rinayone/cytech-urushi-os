@@ -128,9 +128,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(255,255,255,0.04);
 }
 .sb-cal-d.empty { background: transparent; }
-.sb-cal-d.done { background: linear-gradient(135deg, rgba(149,62,195,0.5), rgba(15,75,171,0.5)); color: #fff; }
+.sb-cal-d.done { background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.92); }
 .sb-cal-d.today { outline: 1.5px solid #34e0ff; outline-offset: -1.5px; color: #34e0ff; background: rgba(52,224,255,0.08); }
-.sb-cal-d.today.done { background: linear-gradient(135deg, rgba(149,62,195,0.5), rgba(15,75,171,0.5)); color: #fff; outline-color: #34e0ff; }
+.sb-cal-d.today.done { background: rgba(255,255,255,0.18); color: #34e0ff; outline-color: #34e0ff; }
 
 .sb-cal-legend {
   display: flex; gap: 8px; align-items: center; justify-content: center;
@@ -139,7 +139,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .sb-cal-legend .sq { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 3px; vertical-align: middle; }
 .sb-cal-legend .sq.empty { background: rgba(255,255,255,0.06); }
-.sb-cal-legend .sq.done { background: linear-gradient(135deg, rgba(149,62,195,0.5), rgba(15,75,171,0.5)); }
+.sb-cal-legend .sq.done { background: rgba(255,255,255,0.18); }
 .sb-cal-legend .sq.today-marker { border: 1.5px solid #34e0ff; }
 
 /* Account */
@@ -486,12 +486,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
                   stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
           <defs>
             <linearGradient id="sbRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#f7513b"/>
-              <stop offset="16%" stop-color="#f8ee1a"/>
-              <stop offset="33%" stop-color="#7cbf00"/>
-              <stop offset="50%" stop-color="#34e0ff"/>
-              <stop offset="66%" stop-color="#0f4bab"/>
-              <stop offset="83%" stop-color="#953ec3"/>
+              <stop offset="0%" stop-color="#f8ee1a"/>
               <stop offset="100%" stop-color="#f13884"/>
             </linearGradient>
           </defs>

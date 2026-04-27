@@ -431,9 +431,23 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <li><strong>見出し「Your Layers」：</strong> 漆の「塗り重ね（層 = Layer）」をテーマとした命名。バッジ＝層の視覚化</li>
 <li><strong>レベルバッジ：</strong> B1 Rookie（シアンピル型。B1〜B5段階）</li>
 <li><strong>獲得バッジ（8枠）：</strong> IT / HW / OS / NW / SC / DB / EX / SP。獲得済みはカラー＋光沢、未獲得はグレーアウト。獲得済みクリックでポートフォリオポップアップ</li>
-<li><strong>学習カレンダー：</strong> 月間グリッド。学習量に応じて4段階の色濃度（l1〜l4）。カレンダー下に「🔥 ○日間連続学習継続中」テキスト表示</li>
+<li><strong>学習カレンダー：</strong> 上部 Today Ring（今日の学習時間 60/100min を円形プログレスで可視化、ストロークは黄→ピンクgrad）+ 下部 月間グリッド（学習済日は白α=0.18の薄い塗り、今日はシアン枠で強調）+ 凡例。「🔥 5日連続」表示</li>
 <li><strong>アカウントメニュー（最下部）：</strong> アバター＋名前クリックでドロップアップメニュー（⚙ 設定 / 🔔 お知らせ / → ログアウト）</li>
 </ul>
+
+<h4>機能要件メモ — 学習カレンダーテーマ カスタマイズ（v1.2 / 開発フェーズで実装）</h4>
+<div class="callout">
+<div class="callout-title">未実装。設計仕様としてのみ記載</div>
+<p>学習カレンダーの配色をユーザーが選べるようにする。<strong>キュレートされたプリセット 4 種</strong>から選択。設定パネル（既存のアバター色変更と同じ場所）に統合。選択は localStorage で永続化。</p>
+<table style="margin-top:12px;">
+<tr><th>プリセット</th><th>Today Ring</th><th>学習済日</th><th>用途・印象</th></tr>
+<tr><td>A. やる気重視（デフォルト）</td><td>黄→ピンク <code>#f8ee1a → #f13884</code></td><td>白 <code>rgba(255,255,255,0.18)</code></td><td>暖色で動機強化、Done は控えめ</td></tr>
+<tr><td>B. クール</td><td>シアン→青 <code>#34e0ff → #0f4bab</code></td><td>青 <code>rgba(15,75,171,0.4)</code></td><td>落ち着き、ナビ色と統一</td></tr>
+<tr><td>C. KANAME</td><td>紫→青 <code>#953ec3 → #0f4bab</code></td><td>紫 <code>rgba(149,62,195,0.3)</code></td><td>ブランド統一、バッジ獲得色</td></tr>
+<tr><td>D. ナチュラル</td><td>黄→緑 <code>#f8ee1a → #7cbf00</code></td><td>緑 <code>rgba(124,191,0,0.3)</code></td><td>達成感、universal「完了」</td></tr>
+</table>
+<p style="margin-top:12px;font-size:12px;color:#888;">※ 自由カラーピッカーは採用しない（ブランド一貫性・視認性担保のためプリセット限定）。<br>※ 設計検討時の比較HTML: <code>proposals/p03-calendar-colors/</code></p>
+</div>
 
 <h4>デイリーミッションカード</h4>
 <div class="callout">
