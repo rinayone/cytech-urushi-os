@@ -51,9 +51,13 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .suggest-chip .material-symbols-outlined { font-size: 16px; margin-right: 4px; }
 
 /* 通知バッジ (赤丸): 未読ありを示す universal pattern */
-.notif-icon-wrap { position: relative; display: inline-flex; }
+.notif-icon-wrap {
+  position: relative; display: inline-flex;
+  margin-right: 4px; /* 文字との間隔をここで担保 */
+}
+.notif-icon-wrap .material-symbols-outlined { margin-right: 0; }
 .notif-badge {
-  position: absolute; top: -2px; right: -3px;
+  position: absolute; top: -2px; right: -2px;
   width: 8px; height: 8px;
   background: #f7513b;
   border-radius: 50%;
