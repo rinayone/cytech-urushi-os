@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-05 対話モード提案 — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+/* ===== TEST BANNER ===== */
+.test-banner {
+  position: fixed; top: 0; left: 0; right: 0; height: 44px; z-index: 100;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(135deg, #f7513b 0%, #f13884 100%);
+  color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 0 16px; box-shadow: 0 2px 12px rgba(247,81,59,0.35);
+}
+.test-banner .icon { font-size: 14px; }
+.test-banner .label { font-family: 'Lato', sans-serif; }
+.test-banner .sep { opacity: 0.5; }
+.test-banner .sub { font-weight: 400; opacity: 0.9; }
+.test-banner .info-btn {
+  margin-left: auto; padding: 4px 12px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 100px; cursor: pointer; color: #fff; font-size: 11px; font-weight: 700; font-family: inherit;
+}
+.test-banner .info-btn:hover { background: rgba(0,0,0,0.4); }
+
+/* ===== MODE TOGGLE ===== */
+.mode-toggle {
+  position: fixed; top: 56px; left: 50%; transform: translateX(-50%); z-index: 90;
+  display: flex; gap: 2px; padding: 3px; background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.15);
+}
+.mode-toggle button {
+  padding: 7px 22px; background: none; border: none; border-radius: 100px;
+  color: rgba(255,255,255,0.55); font-family: 'Lato', 'Noto Sans JP', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.25s;
+}
+.mode-toggle button.active {
+  background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff;
+}
+
+/* ===== MODE PANES ===== */
+.mode-pane {
+  position: fixed; top: 44px; bottom: 0; left: 0; right: 0;
+  display: none; z-index: 1;
+}
+.mode-pane.active { display: block; }
+.current-pane iframe { width: 100%; height: 100%; border: 0; }
+
+/* ===== PROPOSAL VERSION (DIALOGUE MODE) ===== */
+.proposal-pane { padding: 100px 16px 16px; display: none; }
+.proposal-pane.active { display: flex; flex-direction: column; gap: 12px; }
+
+/* Layers strip (top) - urushi metaphor */
+.layers-strip {
+  display: flex; flex-direction: column; gap: 3px; padding: 10px 16px;
+  background: rgba(0,0,0,0.25); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  box-shadow: inset 1px 1px 20px rgba(255,255,255,0.12);
+}
+.layers-strip .lh {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+}
+.layers-strip .lh .unit { color: #34e0ff; }
+.layers-strip .layers-row {
+  display: flex; gap: 4px; height: 8px; align-items: stretch;
+}
+.layer-bar {
+  flex: 1; border-radius: 4px; opacity: 0.18;
+  transition: opacity 0.6s, transform 0.6s;
+}
+.layer-bar.done { opacity: 1; }
+.layer-bar.added { animation: layerPop 0.7s ease; }
+@keyframes layerPop {
+  0% { transform: translateY(-12px) scaleY(0.3); opacity: 0; }
+  60% { transform: translateY(2px) scaleY(1.1); opacity: 1; }
+  100% { transform: translateY(0) scaleY(1); opacity: 1; }
+}
+.layer-bar.l1 { background: linear-gradient(to right, #f7513b, #f8ee1a); }
+.layer-bar.l2 { background: linear-gradient(to right, #f8ee1a, #7cbf00); }
+.layer-bar.l3 { background: linear-gradient(to right, #7cbf00, #34e0ff); }
+.layer-bar.l4 { background: linear-gradient(to right, #34e0ff, #0f4bab); }
+.layer-bar.l5 { background: linear-gradient(to right, #0f4bab, #953ec3); }
+.layer-bar.l6 { background: linear-gradient(to right, #953ec3, #f13884); }
+.layer-bar.l7 { background: linear-gradient(to right, #f13884, #f7513b); }
+.layer-bar.l8 { background: linear-gradient(to right, #f7513b, #f8ee1a); }
+
+/* Main split: dialogue + slide */
+.split {
+  flex: 1; display: flex; gap: 12px; min-height: 0;
+}
+
+/* Dialogue (left) */
+.dialogue-area {
+  flex: 1; display: flex; flex-direction: column; min-width: 0;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset -1px -2px 2px rgba(255,255,255,0.08), inset 1px 1px 2px rgba(255,255,255,0.25);
+  overflow: hidden;
+}
+.dialogue-head {
+  padding: 14px 22px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.dialogue-head .step {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; color: rgba(255,255,255,0.35); text-transform: uppercase;
+}
+.dialogue-head .title { font-size: 14px; font-weight: 700; }
+.dialogue-head .udot {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.4);
+}
+.dialogue-head .ubar {
+  width: 60px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden;
+}
+.dialogue-head .ubar > span {
+  display: block; height: 100%; background: linear-gradient(to right, #34e0ff, #f13884);
+  width: 0; transition: width 0.5s ease;
+}
+
+.dialogue-scroll {
+  flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px;
+  scroll-behavior: smooth;
+}
+.dialogue-scroll::-webkit-scrollbar { width: 4px; }
+.dialogue-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+/* KANAME message */
+.k-row { display: flex; gap: 12px; align-items: flex-start; opacity: 0; transform: translateY(8px); animation: msgIn 0.5s ease forwards; }
+@keyframes msgIn { to { opacity: 1; transform: translateY(0); } }
+.k-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 900; color: #fff;
+  box-shadow: 0 4px 14px rgba(149,62,195,0.35);
+}
+.k-bubble {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px 16px 16px 16px;
+  padding: 12px 16px; font-size: 13px; line-height: 1.85;
+  color: rgba(255,255,255,0.92); max-width: 78%;
+}
+.k-bubble strong { color: #fff; }
+.k-bubble .hl { color: #34e0ff; font-weight: 700; }
+.k-bubble .meta { color: #f13884; font-weight: 700; }
+.k-bubble .nm {
+  display: block; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 4px; text-transform: uppercase;
+}
+
+/* User message */
+.u-row { display: flex; gap: 12px; align-items: flex-start; justify-content: flex-end; opacity: 0; transform: translateY(8px); animation: msgIn 0.5s ease forwards; }
+.u-bubble {
+  background: linear-gradient(135deg, rgba(241,56,132,0.12), rgba(247,81,59,0.12));
+  border: 1px solid rgba(241,56,132,0.25);
+  border-radius: 16px 4px 16px 16px;
+  padding: 10px 14px; font-size: 13px; line-height: 1.7;
+  color: rgba(255,255,255,0.95); max-width: 70%;
+}
+
+/* Summary card (after lesson) */
+.summary-card {
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(52,224,255,0.25);
+  border-radius: 14px; padding: 18px 20px; margin: 8px 0;
+  opacity: 0; transform: translateY(8px); animation: msgIn 0.6s 0.1s ease forwards;
+}
+.summary-card .sc-head {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: #34e0ff; text-transform: uppercase; margin-bottom: 12px;
+}
+.summary-card .sc-row { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 13px; line-height: 1.6; }
+.summary-card .sc-mark { width: 20px; flex-shrink: 0; font-weight: 900; font-family: 'Lato', sans-serif; }
+.summary-card .sc-mark.ok { color: #7cbf00; }
+.summary-card .sc-mark.tri { color: #f8ee1a; }
+.summary-card .sc-mark.ng { color: #f7513b; }
+
+/* Chips area + input (bottom of dialogue) */
+.responder {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 14px; font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px; color: rgba(255,255,255,0.85); cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.chip:hover { background: rgba(255,255,255,0.1); border-color: rgba(52,224,255,0.4); color: #34e0ff; }
+.chip.primary {
+  background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff;
+}
+.chip.primary:hover { opacity: 0.9; color: #fff; }
+.chip.skip {
+  background: transparent; border-style: dashed; color: rgba(255,255,255,0.4);
+}
+.chip.skip:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
+
+.input-row { display: flex; gap: 8px; align-items: center; }
+.input-row input {
+  flex: 1; padding: 10px 16px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+  color: #fff; font-size: 12px; outline: none; font-family: inherit;
+}
+.input-row input::placeholder { color: rgba(255,255,255,0.3); }
+.input-row input:focus { border-color: rgba(52,224,255,0.5); }
+.input-row button {
+  padding: 10px 18px; background: linear-gradient(135deg, #953ec3, #0f4bab);
+  border: none; border-radius: 100px; color: #fff; font-size: 11px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+}
+
+/* Slide pane (right) */
+.slide-pane {
+  width: 320px; flex-shrink: 0;
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15), inset -1px -2px 2px rgba(255,255,255,0.08), inset 1px 1px 2px rgba(255,255,255,0.25);
+  display: flex; flex-direction: column; overflow: hidden;
+  transition: width 0.3s, opacity 0.3s;
+}
+.slide-pane.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.slide-head {
+  padding: 14px 18px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.slide-head .label {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+}
+.slide-head .close {
+  margin-left: auto; width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6); font-size: 14px; cursor: pointer; line-height: 1;
+}
+.slide-body {
+  flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
+}
+.slide-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 18px;
+  opacity: 0; transform: translateY(8px); transition: all 0.5s ease;
+}
+.slide-card.show { opacity: 1; transform: translateY(0); }
+.slide-card .ttl { font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+.slide-card .desc { font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.7); }
+.slide-card .desc strong { color: #34e0ff; }
+.metaphor-row {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+}
+.metaphor-row:first-of-type { border-top: 0; padding-top: 0; }
+.metaphor-row .term {
+  flex: 1; padding: 6px 10px; border-radius: 8px; text-align: center; font-size: 11px; font-weight: 700;
+}
+.metaphor-row .term.t1 { background: rgba(241,56,132,0.18); color: #f13884; border: 1px solid rgba(241,56,132,0.3); }
+.metaphor-row .term.t2 { background: rgba(52,224,255,0.18); color: #34e0ff; border: 1px solid rgba(52,224,255,0.3); }
+.metaphor-row .arrow { color: rgba(255,255,255,0.3); font-size: 12px; }
+
+.diagram-row { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 0; }
+.diagram-node { padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+.diagram-node.sv { background: rgba(241,56,132,0.18); border: 1px solid rgba(241,56,132,0.3); color: #f13884; }
+.diagram-node.rt { background: rgba(52,224,255,0.18); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; }
+.diagram-node.dv { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
+.diagram-arrow { color: rgba(255,255,255,0.25); }
+.diagram-sub { display: flex; justify-content: space-around; font-size: 10px; color: rgba(255,255,255,0.35); margin-top: -4px; }
+
+/* Re-open button (when slide collapsed) */
+.reopen-slide {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 60px; background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1); border-right: 0;
+  border-radius: 14px 0 0 14px; color: rgba(255,255,255,0.6);
+  cursor: pointer; font-size: 14px; display: none; z-index: 5;
+}
+.proposal-pane.slide-hidden .reopen-slide { display: flex; align-items: center; justify-content: center; }
+.proposal-pane.slide-hidden .slide-pane { display: none; }
+
+/* INFO MODAL */
+.info-modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.info-modal-bg.show { display: flex; }
+.info-modal {
+  max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto;
+  background: #0a0a14; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+  padding: 24px 28px;
+}
+.info-modal h3 { font-size: 16px; margin-bottom: 12px; }
+.info-modal h4 { font-size: 13px; margin: 16px 0 6px; color: #34e0ff; }
+.info-modal p, .info-modal li { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+.info-modal ul { padding-left: 20px; }
+.info-modal .close-x {
+  float: right; background: none; border: none; color: rgba(255,255,255,0.5);
+  font-size: 22px; cursor: pointer; line-height: 1;
+}
+
+@media (max-width: 880px) {
+  .slide-pane { width: 240px; }
+}
+@media (max-width: 720px) {
+  .split { flex-direction: column; }
+  .slide-pane { width: 100%; max-height: 38%; }
+  .test-banner .info-btn { padding: 4px 10px; font-size: 10px; }
+  .test-banner .sub { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<!-- TEST BANNER -->
+<div class="test-banner">
+  <span class="icon">🧪</span>
+  <span class="label">PROPOSAL / TEST VERSION</span>
+  <span class="sep">|</span>
+  <span class="sub">P-05 学習画面 — 対話モード提案 (v1.1 mockには含まれません)</span>
+  <button class="info-btn" onclick="openInfo()">なぜこの提案か →</button>
+</div>
+
+<!-- MODE TOGGLE -->
+<div class="mode-toggle">
+  <button data-mode="current" onclick="switchMode('current')">現行版</button>
+  <button data-mode="proposal" class="active" onclick="switchMode('proposal')">提案版</button>
+</div>
+
+<!-- 現行版 (iframe) -->
+<div class="mode-pane current-pane" id="paneCurrent">
+  <iframe src="../../v1.1/p05-lesson.html" title="現行版 P-05"></iframe>
+</div>
+
+<!-- 提案版 (built-in dialogue mode) -->
+<div class="mode-pane proposal-pane active" id="paneProposal">
+
+  <!-- Layers strip -->
+  <div class="layers-strip">
+    <div class="lh">
+      <span><span class="unit">UNIT 5</span> · ネットワーク基礎 · STEP 3</span>
+      <span id="layerCount">2 / 8 layers</span>
+    </div>
+    <div class="layers-row" id="layersRow">
+      <div class="layer-bar l1 done"></div>
+      <div class="layer-bar l2 done"></div>
+      <div class="layer-bar l3" id="layer3"></div>
+      <div class="layer-bar l4"></div>
+      <div class="layer-bar l5"></div>
+      <div class="layer-bar l6"></div>
+      <div class="layer-bar l7"></div>
+      <div class="layer-bar l8"></div>
+    </div>
+  </div>
+
+  <!-- Split: dialogue + slide -->
+  <div class="split">
+
+    <!-- Dialogue area -->
+    <div class="dialogue-area">
+      <div class="dialogue-head">
+        <span class="step">STEP 3</span>
+        <span class="title">ネットワーク構成図の読み方</span>
+        <span class="udot">
+          理解度
+          <span class="ubar"><span id="ubarFill"></span></span>
+          <span id="ubarPct">0%</span>
+        </span>
+      </div>
+      <div class="dialogue-scroll" id="dlg"></div>
+      <div class="responder" id="responder">
+        <div class="chips" id="chips"></div>
+        <div class="input-row">
+          <input type="text" id="freeInput" placeholder="自由に質問・回答する...">
+          <button onclick="sendFree()">送信</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide pane -->
+    <div class="slide-pane" id="slidePane">
+      <div class="slide-head">
+        <span class="label">同期スライド</span>
+        <button class="close" onclick="toggleSlide()" title="閉じる">×</button>
+      </div>
+      <div class="slide-body" id="slideBody">
+        <div class="slide-card show">
+          <div class="ttl">今日のレッスン</div>
+          <div class="desc">サーバ・ルーター・端末の関係を、営業の比喩で理解します。<br><br>対話を進めると、ここに関連する図解が同期表示されます。</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="reopen-slide" onclick="toggleSlide()" title="スライドを開く">‹</button>
+
+  </div>
+</div>
+
+<!-- INFO MODAL -->
+<div class="info-modal-bg" id="infoModal" onclick="if(event.target===this)closeInfo()">
+  <div class="info-modal">
+    <button class="close-x" onclick="closeInfo()">×</button>
+    <h3>P-05 対話モード提案について</h3>
+    <p><strong>背景:</strong> v1.1 の P-05 は教科書型レイアウト（左に長文、右にAI・目次）。社内から「学習自体をAIとの対話で進める形にしてはどうか」という案が出ています。</p>
+    <h4>狙い</h4>
+    <ul>
+      <li><strong>学習完遂率の向上</strong>（最重要KPI）</li>
+      <li>夜疲れているペルソナ（26歳・非IT営業職）でも続けられる粒度</li>
+      <li>「家庭教師」コアコンセプトの一段強化</li>
+    </ul>
+    <h4>主要なUI/UX変更点</h4>
+    <ul>
+      <li><strong>対話メイン + 教材は同期スライドで残す</strong>（完全対話化はしない）</li>
+      <li><strong>営業比喩エンジン</strong>: 概念を業務知識に塗り重ねる（漆メタファー）</li>
+      <li><strong>マイクロ進行</strong>: 1単元 = 5〜10ターン、30秒チャンク</li>
+      <li><strong>3つの逃げ道</strong>: 「もう一度」「比喩で」「とりあえず次へ」</li>
+      <li><strong>Layer 積み上げ可視化</strong>: 上部に塗り重ねが視覚的に増える</li>
+      <li><strong>客観評価の硬さ維持</strong>: レッスン終了時に ✓/△/× で要約</li>
+    </ul>
+    <h4>このプロトタイプで体験できること</h4>
+    <ul>
+      <li>チップを押して 7ターンの対話を進める</li>
+      <li>右側スライドが対話に同期して切り替わる</li>
+      <li>レッスン終了時に Layer が1枚追加される演出</li>
+      <li>上部「現行版/提案版」トグルで Before/After 比較</li>
+    </ul>
+    <h4>意思決定が必要なこと</h4>
+    <ul>
+      <li>この方向で v1.2 に進めて良いか</li>
+      <li>進める場合、教材生成 (AI生成 / 既存コンテンツ再利用) の方針</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+/* ============ Dialogue script ============ */
+const TURNS = [
+  {
+    k: ['<span class="nm">KANAME</span>おかえりなさい、佐藤さん。今日は <strong>「ネットワーク構成図の読み方」</strong>。<br>3問だけ一緒に進めれば、明日のテストで使える知識になります。'],
+    chips: [
+      { t: 'スタート', primary: true, next: 1, slide: 0 },
+      { t: '今日はここまで', skip: true, next: -1 },
+    ],
+    understanding: 5,
+  },
+  {
+    k: ['<span class="nm">KANAME</span>営業先で「<strong>サーバって何？</strong>」って聞かれたら、なんて答えます？<br>正解じゃなくて大丈夫です。'],
+    chips: [
+      { t: 'わからない', next: 2, slide: 1 },
+      { t: 'コンピュータ的なやつ？', next: 2, userText: 'コンピュータ的なやつ', slide: 1 },
+      { t: '答えてみる', next: 2, userText: '情報を出してくれる装置？', slide: 1 },
+    ],
+    understanding: 15,
+  },
+  {
+    k: [
+      '<span class="nm">KANAME</span>大丈夫、ここから一緒にいきましょう。<br>イメージは <span class="meta">「御社の倉庫担当」</span>です。注文を受けて、必要な情報を出してくれる人。',
+      '<span class="nm">KANAME</span>営業の世界で言えば、<strong>本社の倉庫</strong>みたいな存在ですね。',
+    ],
+    chips: [
+      { t: 'なるほど', primary: true, next: 3, slide: 2 },
+      { t: 'もう少し詳しく', next: 3, slide: 2 },
+      { t: 'とりあえず次へ', skip: true, next: 3, slide: 2 },
+    ],
+    understanding: 30,
+  },
+  {
+    k: ['<span class="nm">KANAME</span>じゃあ <strong>ルーター</strong>は？営業の比喩で考えてみてください。'],
+    chips: [
+      { t: 'わからない', next: 4, slide: 3 },
+      { t: '電話交換手みたいな？', next: 4, userText: '電話交換手みたいな？', slide: 3 },
+      { t: '次へ', skip: true, next: 4, slide: 3 },
+    ],
+    understanding: 45,
+  },
+  {
+    k: [
+      '<span class="nm">KANAME</span>ナイスです。ルーター = <span class="meta">「支店」</span>みたいな存在で、本社（サーバ）からの情報を <span class="hl">各部署（端末）</span>に振り分けます。',
+      '<span class="nm">KANAME</span>営業先のリストで「この支店にどう連絡するか」を考えるのと同じ発想です。',
+    ],
+    chips: [
+      { t: 'イメージ掴めた', primary: true, next: 5, slide: 3 },
+      { t: 'もう一度説明', next: 5, slide: 3 },
+      { t: 'あとで戻る', skip: true, next: 5, slide: 3 },
+    ],
+    understanding: 65,
+  },
+  {
+    k: ['<span class="nm">KANAME</span>ここまでの理解度チェック。<br>営業先で <strong>「サーバ・ルーター・端末」</strong> を一言で説明するなら？'],
+    chips: [
+      { t: '倉庫担当・支店・各部署', primary: true, next: 6, userText: '倉庫担当・支店・各部署', slide: 3 },
+      { t: 'もう一度復習', next: 4, slide: 3 },
+      { t: '答えを見る', skip: true, next: 6, slide: 3 },
+    ],
+    understanding: 85,
+  },
+  {
+    k: ['<span class="nm">KANAME</span>完璧です！今日学んだ3つのポイントを残しておきますね。'],
+    summary: true,
+    layerAdd: true,
+    chips: [
+      { t: '次のレッスンへ →', primary: true, next: 7, slide: 4 },
+      { t: '今日はここまで', skip: true, next: 7, slide: 4 },
+    ],
+    understanding: 100,
+  },
+  {
+    k: ['<span class="nm">KANAME</span>お疲れさまでした。<br>明日30分でこの Unit を終えられます。良い夜を。'],
+    chips: [
+      { t: 'もう一度最初から', next: 0 },
+    ],
+    end: true,
+    understanding: 100,
+  },
+];
+
+/* ============ Slides ============ */
+const SLIDES = [
+  // 0 — initial
+  {
+    cards: [{
+      ttl: '今日のレッスン',
+      desc: 'サーバ・ルーター・端末の関係を、営業の比喩で理解します。<br><br>対話を進めると、ここに関連する図解が同期表示されます。'
+    }]
+  },
+  // 1 — server question
+  {
+    cards: [{
+      ttl: '考えてみる',
+      desc: '営業先で「サーバって何？」と聞かれた時、<strong>あなたの言葉で</strong>答えてみてください。正解は問わない。<br><br>営業の比喩で例えてくれてもOK。'
+    }]
+  },
+  // 2 — server = warehouse
+  {
+    cards: [
+      {
+        ttl: '比喩マッピング',
+        html: `
+          <div class="metaphor-row">
+            <div class="term t1">サーバ</div>
+            <span class="arrow">＝</span>
+            <div class="term t2">本社の倉庫担当</div>
+          </div>
+          <div class="desc" style="margin-top:10px">注文を受けて、必要な情報を <strong>出してくれる役割</strong>。</div>
+        `
+      }
+    ]
+  },
+  // 3 — full diagram
+  {
+    cards: [
+      {
+        ttl: '構成図',
+        html: `
+          <div class="diagram-row">
+            <div class="diagram-node sv">サーバ</div>
+            <span class="diagram-arrow">→</span>
+            <div class="diagram-node rt">ルーター</div>
+            <span class="diagram-arrow">→</span>
+            <div class="diagram-node dv">端末</div>
+          </div>
+          <div class="diagram-sub">
+            <span>本社</span><span>支店</span><span>部署</span>
+          </div>
+        `
+      },
+      {
+        ttl: '営業の比喩で',
+        html: `
+          <div class="metaphor-row"><div class="term t1">サーバ</div><span class="arrow">＝</span><div class="term t2">本社</div></div>
+          <div class="metaphor-row"><div class="term t1">ルーター</div><span class="arrow">＝</span><div class="term t2">支店</div></div>
+          <div class="metaphor-row"><div class="term t1">端末</div><span class="arrow">＝</span><div class="term t2">部署</div></div>
+        `
+      }
+    ]
+  },
+  // 4 — summary
+  {
+    cards: [
+      {
+        ttl: '今日積んだ Layer',
+        desc: '<strong>STEP 3 完了</strong><br>明日のテストで「ネットワーク構成図」が出題されます。<br><br>この層の上に、明日また新しい知識が塗り重なります。'
+      }
+    ]
+  },
+];
+
+/* ============ State ============ */
+let cur = 0;
+let history = [];
+
+const dlgEl = document.getElementById('dlg');
+const chipsEl = document.getElementById('chips');
+const slideBody = document.getElementById('slideBody');
+const ubarFill = document.getElementById('ubarFill');
+const ubarPct = document.getElementById('ubarPct');
+
+function setUnderstanding(v) {
+  ubarFill.style.width = v + '%';
+  ubarPct.textContent = v + '%';
+}
+
+function renderTurn(idx) {
+  const turn = TURNS[idx];
+  if (!turn) return;
+
+  // Render KANAME messages
+  turn.k.forEach((msg, i) => {
+    const row = document.createElement('div');
+    row.className = 'k-row';
+    row.style.animationDelay = (i * 0.25) + 's';
+    row.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble">${msg}</div>`;
+    dlgEl.appendChild(row);
+  });
+
+  // Summary card if requested
+  if (turn.summary) {
+    const card = document.createElement('div');
+    card.className = 'summary-card';
+    card.innerHTML = `
+      <div class="sc-head">今日のポイント (3)</div>
+      <div class="sc-row"><span class="sc-mark ok">✓</span><span><strong>サーバ</strong> = 本社/倉庫担当（情報を出す側）</span></div>
+      <div class="sc-row"><span class="sc-mark ok">✓</span><span><strong>ルーター</strong> = 支店（情報を振り分ける）</span></div>
+      <div class="sc-row"><span class="sc-mark tri">△</span><span><strong>端末</strong> = 各部署（受け取って使う / 実操作は次回）</span></div>
+    `;
+    dlgEl.appendChild(card);
+  }
+
+  // Render chips
+  chipsEl.innerHTML = '';
+  turn.chips.forEach(chip => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (chip.primary ? ' primary' : '') + (chip.skip ? ' skip' : '');
+    btn.textContent = chip.t;
+    btn.onclick = () => choose(chip);
+    chipsEl.appendChild(btn);
+  });
+
+  // Update slide
+  if (typeof turn.k[0] !== 'undefined' && idx === 0) {
+    renderSlide(0);
+  }
+
+  // Layer animation
+  if (turn.layerAdd) {
+    setTimeout(() => {
+      const l3 = document.getElementById('layer3');
+      l3.classList.add('done', 'added');
+      document.getElementById('layerCount').textContent = '3 / 8 layers';
+    }, 600);
+  }
+
+  // Understanding bar
+  if (typeof turn.understanding === 'number') {
+    setTimeout(() => setUnderstanding(turn.understanding), 200);
+  }
+
+  // End state
+  if (turn.end) {
+    document.getElementById('responder').style.opacity = '0.7';
+  }
+
+  // Auto-scroll
+  setTimeout(() => { dlgEl.scrollTop = dlgEl.scrollHeight; }, 50);
+}
+
+function choose(chip) {
+  // Append user message if userText or chip text
+  const userText = chip.userText || (chip.skip ? null : chip.t);
+  if (userText) {
+    const row = document.createElement('div');
+    row.className = 'u-row';
+    row.innerHTML = `<div class="u-bubble">${userText}</div>`;
+    dlgEl.appendChild(row);
+    setTimeout(() => { dlgEl.scrollTop = dlgEl.scrollHeight; }, 50);
+  }
+
+  // Update slide
+  if (typeof chip.slide === 'number') {
+    setTimeout(() => renderSlide(chip.slide), 350);
+  }
+
+  // Advance
+  if (chip.next === -1) {
+    // 「今日はここまで」
+    setTimeout(() => {
+      const row = document.createElement('div');
+      row.className = 'k-row';
+      row.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>了解です。続きはダッシュボードからいつでも！</div>`;
+      dlgEl.appendChild(row);
+      chipsEl.innerHTML = '<button class="chip primary" onclick="restart()">最初から見る</button>';
+      dlgEl.scrollTop = dlgEl.scrollHeight;
+    }, 500);
+    return;
+  }
+  cur = chip.next;
+  setTimeout(() => renderTurn(cur), 600);
+}
+
+function renderSlide(idx) {
+  const slide = SLIDES[idx];
+  if (!slide) return;
+  slideBody.innerHTML = '';
+  slide.cards.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'slide-card';
+    if (card.html) {
+      el.innerHTML = `<div class="ttl">${card.ttl}</div>${card.html}`;
+    } else {
+      el.innerHTML = `<div class="ttl">${card.ttl}</div><div class="desc">${card.desc}</div>`;
+    }
+    slideBody.appendChild(el);
+    setTimeout(() => el.classList.add('show'), 50 + i * 100);
+  });
+}
+
+function sendFree() {
+  const inp = document.getElementById('freeInput');
+  if (!inp.value.trim()) return;
+  const row = document.createElement('div');
+  row.className = 'u-row';
+  row.innerHTML = `<div class="u-bubble">${inp.value}</div>`;
+  dlgEl.appendChild(row);
+  inp.value = '';
+  setTimeout(() => {
+    const r = document.createElement('div');
+    r.className = 'k-row';
+    r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>（プロトタイプ版なので自由入力には簡易応答のみ。実装版では文脈に応じた回答を返します）<br>とりあえずチップから進めましょう。</div>`;
+    dlgEl.appendChild(r);
+    dlgEl.scrollTop = dlgEl.scrollHeight;
+  }, 400);
+}
+
+function restart() {
+  dlgEl.innerHTML = '';
+  document.getElementById('layer3').classList.remove('done', 'added');
+  document.getElementById('layerCount').textContent = '2 / 8 layers';
+  setUnderstanding(0);
+  cur = 0;
+  renderTurn(0);
+}
+
+/* Mode switching */
+function switchMode(mode) {
+  document.querySelectorAll('.mode-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  document.getElementById('paneCurrent').classList.toggle('active', mode === 'current');
+  document.getElementById('paneProposal').classList.toggle('active', mode === 'proposal');
+}
+
+/* Slide toggle */
+function toggleSlide() {
+  document.getElementById('paneProposal').classList.toggle('slide-hidden');
+}
+
+/* Info modal */
+function openInfo() { document.getElementById('infoModal').classList.add('show'); }
+function closeInfo() { document.getElementById('infoModal').classList.remove('show'); }
+
+/* Init */
+renderTurn(0);
+setUnderstanding(0);
+
+document.getElementById('freeInput').addEventListener('keypress', e => {
+  if (e.key === 'Enter') sendFree();
+});
+</script>
+
+</body>
+</html>
