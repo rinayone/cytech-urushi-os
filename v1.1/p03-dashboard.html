@@ -50,6 +50,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .icon-24 { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .suggest-chip .material-symbols-outlined { font-size: 16px; margin-right: 4px; }
 
+/* B改善: クリック領域拡大 (Fitts) */
+.clickable-panel { cursor: pointer; transition: background 0.15s ease, transform 0.1s ease; }
+.clickable-panel:hover { background: rgba(255,255,255,0.04); }
+.clickable-panel:active { transform: scale(0.995); }
+.mission-item { cursor: pointer; border-radius: 8px; transition: background 0.15s ease; }
+.mission-item:hover { background: rgba(255,255,255,0.03); }
+.mission-item:hover .mi-box { border-color: rgba(255,255,255,0.5); }
+
 /* BG */
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.4; }
@@ -150,7 +158,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   padding: 8px 14px; background: transparent; border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 100px; color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 500;
   cursor: pointer; transition: all 0.15s ease; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; flex-shrink: 0;
+  display: inline-flex; align-items: center; line-height: 1.4;
 }
+.suggest-chip .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
 .suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.55); color: #fff; }
 .suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
 .suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
@@ -410,18 +420,18 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。今日のミッションを用意しました。<span class="hl">あと38時間</span>で面接開放 — まず1つ目から片付けましょう。</div>
         <div class="mission-card">
           <div class="mission-header">TODAY'S MISSION</div>
-          <div class="mission-item">
-            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
             <div class="mi-text">Unit 5 STEP 3 を完了する</div>
             <div class="mi-time">20分</div>
           </div>
-          <div class="mission-item">
-            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
             <div class="mi-text">STEP 4 に進む</div>
             <div class="mi-time">15分</div>
           </div>
-          <div class="mission-item">
-            <div class="mi-box" onclick="toggleMission(this.parentElement)">✓</div>
+          <div class="mission-item" onclick="toggleMission(this)">
+            <div class="mi-box">✓</div>
             <div class="mi-text">復習クイズに答える</div>
             <div class="mi-time">5分</div>
           </div>
@@ -452,7 +462,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <button class="suggest-chip" onclick="togglePanel('portfolio', this)"><span class="material-symbols-outlined">analytics</span>ポートフォリオを見る</button>
       <button class="suggest-chip" onclick="togglePanel('level', this)"><span class="material-symbols-outlined">emoji_events</span>学習レベルを見る</button>
       <button class="suggest-chip" onclick="togglePanel('company', this)"><span class="material-symbols-outlined">assignment</span>企業・選考を見る</button>
-      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(248,238,26,0.45);color:#fff;"><span class="material-symbols-outlined" style="color:#f8ee1a;">notifications</span>お知らせがあります</button>
+      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="color:#fff;"><span class="material-symbols-outlined" style="color:#f8ee1a;">notifications</span>お知らせがあります</button>
       <div class="suggest-input">
         <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
         <button id="cSend">送信</button>
@@ -463,7 +473,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <div class="dynamic-area">
 
       <!-- Portfolio panel -->
-      <div class="expand-panel" id="panelPortfolio">
+      <div class="expand-panel clickable-panel" id="panelPortfolio" onclick="openInModal('p07', event)" role="button" tabindex="0">
         <div class="ep-title">スキルポートフォリオ</div>
         <div class="ep-row"><span class="ep-bar-name">IT基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:100%;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span class="ep-bar-val">B1</span></div>
         <div class="ep-row"><span class="ep-bar-name">HW基礎</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:100%;background:linear-gradient(to right,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);"></div></div><span class="ep-bar-val">B1</span></div>
@@ -478,7 +488,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
 
       <!-- Level panel -->
-      <div class="expand-panel" id="panelLevel">
+      <div class="expand-panel clickable-panel" id="panelLevel" onclick="openInModal('p07', event)" role="button" tabindex="0">
         <div class="ep-title">学習レベル</div>
         <div class="level-detail">
           <div class="ld-item current"><span class="ld-rank active">B1</span><span class="ld-name">Rookie</span><span class="ld-desc">手順があれば作業を完了できる</span></div>
@@ -490,7 +500,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       </div>
 
       <!-- Company panel -->
-      <div class="expand-panel" id="panelCompany">
+      <div class="expand-panel clickable-panel" id="panelCompany" onclick="openInModal('p04', event)" role="button" tabindex="0">
         <div class="ep-title">企業・選考</div>
         <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
           <div style="width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.5);font-size:11px;">A</div>
