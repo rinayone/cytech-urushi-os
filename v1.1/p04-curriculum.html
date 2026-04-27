@@ -195,8 +195,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .selection-card .st { font-size: 10px; padding: 3px 9px; border-radius: 100px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); flex-shrink: 0; }
 
 @media (max-width: 980px) {
-  .stage { flex-direction: column; overflow-y: auto; }
-  .col-l, .col-c, .col-r { width: 100%; max-width: 100%; flex: none; }
+  .stage {
+    position: static; transform: none;
+    width: auto; max-width: none;
+    margin: 84px 12px 16px;
+    flex-direction: column; overflow: visible;
+  }
+  .embed .stage { margin: 12px; }
+  .col-l, .col-c, .col-r { width: 100%; max-width: 100%; flex: none; overflow: visible; }
+  .col-c { background: rgba(0,0,0,0.2); }
+  .header { width: calc(100vw - 24px); max-width: none; }
+}
+@media (max-width: 480px) {
+  .header { padding: 10px 12px; gap: 8px; }
+  .ht { font-size: 13px; }
+  .hb { font-size: 11px; padding: 6px 10px; }
 }
 </style>
 <script>
@@ -223,7 +236,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
     <div class="sec-ttl">受講中コース</div>
     <div class="course-banner">
       <span class="cb-tag">受講中</span>
-      <div class="cb-name">情シス基礎コース<br>◯◯株式会社</div>
+      <div class="cb-name">情シス基礎コース<br>アサヒ電機工業株式会社</div>
       <div class="cb-meta">全8 Unit / 推定80時間 / 完了で面接確約</div>
       <div class="cb-pct-row">
         <div class="cb-pct">52<span>%</span></div>
@@ -236,7 +249,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
     <div class="sec-ttl">Skill Prime ゲート</div>
     <div class="gate-card">
       <div class="gh"><span class="material-symbols-outlined ic">lock</span>面接資格まで <span class="hl">残り 38時間</span></div>
-      <div class="gd">カリキュラム100%完了でゲート解除。完了で◯◯株式会社の面接が確約されます。</div>
+      <div class="gd">カリキュラム100%完了でゲート解除。完了でアサヒ電機工業株式会社の面接が確約されます。</div>
     </div>
   </div>
 
@@ -318,12 +331,12 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
     <div class="sec-ttl">選考ステータス</div>
     <div class="selection-card">
       <div class="av">A</div>
-      <div class="body"><div class="name">◯◯株式会社</div><div class="role">情シス — 社内IT管理</div></div>
+      <div class="body"><div class="name">アサヒ電機工業株式会社</div><div class="role">情シス — 社内IT管理</div></div>
       <span class="st">学習中</span>
     </div>
     <div class="selection-card">
       <div class="av">B</div>
-      <div class="body"><div class="name">△△株式会社</div><div class="role">情シス — DX推進</div></div>
+      <div class="body"><div class="name">サンライズロジスティクス株式会社</div><div class="role">情シス — DX推進</div></div>
       <span class="st">ゲート未達</span>
     </div>
   </div>

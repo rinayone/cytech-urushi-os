@@ -328,8 +328,21 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .toggle.on::after { left: 19px; }
 
 @media (max-width: 980px) {
-  .stage { flex-direction: column; overflow-y: auto; }
-  .col-l, .col-c, .col-r { width: 100%; max-width: 100%; flex: none; }
+  .stage {
+    position: static; transform: none;
+    width: auto; max-width: none;
+    margin: 84px 12px 16px;
+    flex-direction: column; overflow: visible;
+  }
+  .embed .stage { margin: 12px; }
+  .col-l, .col-c, .col-r { width: 100%; max-width: 100%; flex: none; overflow: visible; }
+  .col-c { background: rgba(0,0,0,0.2); }
+  .header { width: calc(100vw - 24px); left: 12px; right: 12px; }
+}
+@media (max-width: 480px) {
+  .header { padding: 0 12px; gap: 8px; }
+  .header .ht { font-size: 11px; }
+  .header .hr button { font-size: 11px; padding: 6px 10px; }
 }
 
 /* ===== Edit Modal ===== */
@@ -529,7 +542,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <button class="icon-btn" onclick="openEditModal('career')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
           <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
-        <div class="lc-title">◯◯商事株式会社<span class="lc-active">在職中</span></div>
+        <div class="lc-title">東陽商事株式会社<span class="lc-active">在職中</span></div>
         <div class="lc-sub">営業部 法人営業課 / 主任</div>
         <span class="lc-period">2021.04 〜 現在</span>
         <div class="lc-desc">IT企業向け法人営業（年商3億円担当）。3年連続で年間目標110%以上達成。</div>
@@ -539,7 +552,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <button class="icon-btn" onclick="openEditModal('career')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
           <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
-        <div class="lc-title">株式会社△△マーケティング</div>
+        <div class="lc-title">株式会社みなとマーケティング</div>
         <div class="lc-sub">営業部 / 一般職</div>
         <span class="lc-period">2021.04 〜 2022.12 退職</span>
       </div>
@@ -558,7 +571,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <button class="icon-btn" onclick="openEditModal('education')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
           <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
-        <div class="lc-title">◯◯大学 経済学部 経営学科</div>
+        <div class="lc-title">青葉経済大学 経済学部 経営学科</div>
         <span class="lc-period">2017.04 〜 2021.03 卒業</span>
       </div>
       <div class="list-card">
@@ -566,7 +579,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <button class="icon-btn" onclick="openEditModal('education')" title="編集"><span class="material-symbols-outlined" style="font-size:14px;">edit</span></button>
           <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">delete</span></button>
         </div>
-        <div class="lc-title">△△高等学校 普通科</div>
+        <div class="lc-title">桜ヶ丘高等学校 普通科</div>
         <span class="lc-period">2014.04 〜 2017.03 卒業</span>
       </div>
     </div>
@@ -686,7 +699,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <div class="modal-pane" data-pane="education">
         <div class="modal-list-item">
           <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
-          <div class="form-row"><label>学校名</label><input type="text" value="◯◯大学"></div>
+          <div class="form-row"><label>学校名</label><input type="text" value="青葉経済大学"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="経済学部"></div>
             <div class="form-row"><label>学科</label><input type="text" value="経営学科"></div>
@@ -698,7 +711,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         </div>
         <div class="modal-list-item">
           <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
-          <div class="form-row"><label>学校名</label><input type="text" value="△△高等学校"></div>
+          <div class="form-row"><label>学校名</label><input type="text" value="桜ヶ丘高等学校"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="普通科"></div>
             <div class="form-row"><label>学科</label><input type="text" value=""></div>
@@ -714,7 +727,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       <div class="modal-pane" data-pane="career">
         <div class="modal-list-item">
           <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
-          <div class="form-row"><label>会社名</label><input type="text" value="◯◯商事株式会社"></div>
+          <div class="form-row"><label>会社名</label><input type="text" value="東陽商事株式会社"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部 法人営業課"></div>
             <div class="form-row"><label>役職</label><input type="text" value="主任"></div>
@@ -727,7 +740,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         </div>
         <div class="modal-list-item">
           <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
-          <div class="form-row"><label>会社名</label><input type="text" value="株式会社△△マーケティング"></div>
+          <div class="form-row"><label>会社名</label><input type="text" value="株式会社みなとマーケティング"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部"></div>
             <div class="form-row"><label>役職</label><input type="text" value="一般職"></div>
