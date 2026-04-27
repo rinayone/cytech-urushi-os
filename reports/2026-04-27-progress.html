@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-04-27 進捗レポート — 本日のブラッシュアップ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; background: #fff; }
+
+/* Hero */
+.hero { background: #050508; color: #fff; padding: 80px 24px 64px; text-align: center; }
+.hero .back { color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none; display: block; margin-bottom: 40px; }
+.hero .date-tag { display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.08); border-radius: 100px; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 24px; color: rgba(255,255,255,0.7); }
+.hero h1 { font-family: 'Lato', sans-serif; font-size: 40px; font-weight: 900; margin-bottom: 12px; line-height: 1.25; }
+.hero .highlight { background: linear-gradient(135deg, #f7513b, #f13884); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .sub { font-size: 15px; color: rgba(255,255,255,0.6); margin: 0 auto 40px; max-width: 560px; line-height: 1.9; }
+
+/* Highlights (top section) */
+.highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.hl-card { padding: 24px 22px; border-radius: 16px; background: #fff; border: 1px solid #eee; transition: all 0.2s; }
+.hl-card:hover { border-color: #ccc; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+.hl-num { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(135deg, #f7513b, #f13884); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; display: block; }
+.hl-title { font-size: 15px; font-weight: 700; line-height: 1.55; margin-bottom: 8px; color: #111; }
+.hl-desc { font-size: 12px; color: #666; line-height: 1.7; }
+
+/* Section */
+.section { padding: 64px 24px; max-width: 760px; margin: 0 auto; }
+.section-dark { background: #f8f8fa; padding: 64px 24px; }
+.section-dark .inner { max-width: 760px; margin: 0 auto; }
+.section-accent { background: #050508; color: #fff; padding: 64px 24px; }
+.section-accent .inner { max-width: 760px; margin: 0 auto; }
+
+.sec-overline { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f13884; margin-bottom: 8px; }
+.sec-title { font-family: 'Lato', sans-serif; font-size: 26px; font-weight: 900; margin-bottom: 8px; line-height: 1.4; }
+.sec-sub { font-size: 14px; color: #888; margin-bottom: 32px; line-height: 1.9; }
+.section-accent .sec-sub { color: rgba(255,255,255,0.5); }
+
+/* Summary 2col */
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.summary-card { padding: 28px 24px; border-radius: 16px; border: 1px solid #eee; background: #fff; }
+.summary-card .sum-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #aaa; margin-bottom: 8px; }
+.summary-card .sum-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.summary-card .sum-desc { font-size: 13px; color: #666; line-height: 1.8; }
+.summary-card.last-week { background: #fafafa; }
+.summary-card.last-week .sum-title { color: #999; }
+.summary-card.today { border-color: #f7513b; box-shadow: 0 4px 16px rgba(247,81,59,0.08); }
+.summary-card.today .sum-label { color: #f13884; }
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+.stat-box { padding: 20px 16px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); text-align: center; }
+.stat-num { font-family: 'Lato', sans-serif; font-size: 32px; font-weight: 900; background: linear-gradient(135deg, #f7513b, #f13884); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; }
+
+/* Focus item */
+.focus-item { padding: 28px; margin-bottom: 16px; border-radius: 16px; background: #fff; border: 1px solid #eee; }
+.focus-num { display: inline-block; padding: 4px 10px; border-radius: 6px; background: #050508; color: #fff; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; }
+.focus-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; line-height: 1.5; }
+.focus-desc { font-size: 13px; color: #666; line-height: 1.9; margin-bottom: 14px; }
+.focus-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.focus-tag { padding: 4px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+.tag-page { background: #eff6ff; color: #1d4ed8; }
+.tag-ux { background: #f3e8ff; color: #7c3aed; }
+.tag-design { background: #fef3c7; color: #92400e; }
+.tag-proposal { background: #fce7f3; color: #be185d; }
+.tag-quality { background: #dcfce7; color: #16a34a; }
+
+/* Before/After */
+.ba-mini { display: grid; grid-template-columns: 1fr 32px 1fr; align-items: stretch; border-radius: 12px; overflow: hidden; margin-top: 8px; }
+.ba-mini-side { padding: 16px 18px; }
+.ba-mini-before { background: #fef2f2; }
+.ba-mini-after { background: #f0fdf4; }
+.ba-mini-mid { background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #ccc; }
+.ba-mini-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 9px; font-weight: 700; margin-bottom: 6px; }
+.ba-mini-before .ba-mini-tag { background: #fecaca; color: #dc2626; }
+.ba-mini-after .ba-mini-tag { background: #bbf7d0; color: #16a34a; }
+.ba-mini-text { font-size: 13px; font-weight: 700; line-height: 1.5; margin-bottom: 4px; }
+.ba-mini-before .ba-mini-text { color: #999; }
+.ba-mini-after .ba-mini-text { color: #111; }
+.ba-mini-desc { font-size: 11px; color: #888; line-height: 1.6; }
+
+/* Link button */
+.link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; background: #111; color: #fff; border-radius: 100px; text-decoration: none; font-size: 12px; font-weight: 700; transition: all 0.2s; }
+.link-btn:hover { background: #333; }
+.link-btn-light { background: #f5f5f5; color: #111; }
+.link-btn-light:hover { background: #eaeaea; }
+
+/* CTA */
+.cta-section { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; padding: 48px 24px; text-align: center; }
+.cta-section h2 { font-size: 20px; margin-bottom: 16px; font-weight: 700; }
+.cta-section p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+.cta-btn { display: inline-flex; padding: 14px 36px; background: #fff; color: #f7513b; border-radius: 100px; text-decoration: none; font-size: 14px; font-weight: 700; transition: all 0.2s; margin: 4px; }
+.cta-btn:hover { transform: scale(1.03); }
+.cta-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+
+.footer-links { text-align: center; padding: 32px 24px; font-size: 13px; }
+.footer-links a { color: #1a73e8; margin: 0 12px; text-decoration: none; }
+
+/* List */
+.simple-list { list-style: none; padding: 0; }
+.simple-list li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: flex-start; gap: 12px; font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.85); }
+.simple-list li:last-child { border-bottom: none; }
+.simple-list .dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, #f7513b, #f13884); margin-top: 8px; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 28px; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <a href="../v1.1-design-spec.html" class="back">← 設計仕様書</a>
+  <div class="date-tag">2026 / 04 / 27 — MONDAY</div>
+  <h1>本日のブラッシュアップ</h1>
+  <p class="sub">先週の v1.1 全画面構築から、今日は体験品質の磨き込みへ。</p>
+</div>
+
+<!-- ===== 今日のフォーカス ===== -->
+<div class="section">
+  <div class="sec-overline">Today's Focus</div>
+  <div class="sec-title">今日の3つの仕事</div>
+  <div class="sec-sub">それぞれが独立した改善ですが、全て「佐藤くんが迷わず学習に戻れる」という1つの体験設計に紐付いています。</div>
+
+  <!-- Focus 1: 情報整理 -->
+  <div class="focus-item">
+    <span class="focus-num">FOCUS 01</span>
+    <div class="focus-title">P-03 / P-04 / P-07 の情報を整理した</div>
+    <div class="focus-meta">
+      <span class="focus-tag tag-page">P-03 / P-04 / P-07</span>
+      <span class="focus-tag tag-ux">情報設計</span>
+    </div>
+    <div class="focus-desc">ダッシュボード(モーダル統合は前回完了済み)の中身を整理し、必要な情報だけに絞り込みました。具体的には P-03 から「エントリー可能企業」セクションを削除、右側ウィジェットの表示順を見直し、P-04 / P-07 のレイアウトを 3パターン提案 → Pattern A（3-Column Grid）で本番再構築。コンテンツ幅は 800px → 920px に拡張し、CTU 世界観の余白バランスを保ちつつ情報密度を確保しました。</div>
+    <div class="ba-mini">
+      <div class="ba-mini-side ba-mini-before">
+        <span class="ba-mini-tag">BEFORE</span>
+        <div class="ba-mini-text">情報量が多く、視線が散る</div>
+        <div class="ba-mini-desc">不要セクションが残り、レイアウトが暫定だった</div>
+      </div>
+      <div class="ba-mini-mid">→</div>
+      <div class="ba-mini-side ba-mini-after">
+        <span class="ba-mini-tag">AFTER</span>
+        <div class="ba-mini-text">必要な情報だけに絞られた</div>
+        <div class="ba-mini-desc">3-Column Grid で並びが整い、何を見ればいいかが一目で分かる</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Focus 2: P-05 proposal -->
+  <div class="focus-item">
+    <span class="focus-num">FOCUS 02</span>
+    <div class="focus-title">P-05 学習画面の新UI提案 — 社長レビュー用</div>
+    <div class="focus-meta">
+      <span class="focus-tag tag-page">P-05</span>
+      <span class="focus-tag tag-proposal">提案</span>
+    </div>
+    <div class="focus-desc">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型（読む → 対話 → 演習 → 振り返り）の新UIを提案版として作成。v1.1 mock には未反映、proposals/ 配下に直URLでアクセス可能。社長レビューを経て採用可否を判断します。</div>
+    <div style="margin-top:12px;">
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/proposals/p05-phased/" target="_blank" class="link-btn link-btn-light">提案版（本命）を見る →</a>
+    </div>
+  </div>
+
+  <!-- Focus 3: Design quality -->
+  <div class="focus-item">
+    <span class="focus-num">FOCUS 03</span>
+    <div class="focus-title">デザイン品質の底上げ — アイコン統一 + レビュー指摘の一括修正</div>
+    <div class="focus-meta">
+      <span class="focus-tag tag-design">全画面</span>
+      <span class="focus-tag tag-quality">品質向上</span>
+    </div>
+    <div class="focus-desc">アイコンを Material Symbols Outlined に統一し、プロダクトトーンの一貫性を確保。続けてレビューで挙がった改善ポイント 7 項目を一括で修正し、残っていた細かい違和感を一斉に潰しました。</div>
+  </div>
+</div>
+
+<!-- ===== ハイライト ===== -->
+<div class="section">
+  <div class="sec-overline">Today's Highlights</div>
+  <div class="sec-title">今日、何が良くなったか</div>
+  <div class="sec-sub">細部の積み重ねが、社長・上司に見せられる完成度を作ります。</div>
+
+  <div class="highlights-grid">
+    <div class="hl-card">
+      <span class="hl-num">01</span>
+      <div class="hl-title">ダッシュボードの情報がスッキリ整理された</div>
+      <div class="hl-desc">P-03 から不要なセクションを削除。表示順を見直し、必要な情報だけに絞り込みました。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">02</span>
+      <div class="hl-title">P-04 / P-07 のレイアウトが本番品質に到達</div>
+      <div class="hl-desc">3パターン提案 → Pattern A（3-Column Grid）を採用。CTU の世界観を保ったまま情報密度を確保。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">03</span>
+      <div class="hl-title">アイコンが全画面で統一された</div>
+      <div class="hl-desc">Material Symbols Outlined に統一。プロダクトトーンの一貫性が大きく向上。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">04</span>
+      <div class="hl-title">細部の違和感が一斉に消えた</div>
+      <div class="hl-desc">レビューで挙がった改善ポイントを 7 項目まとめて一括修正。残っていた小さな違和感を解消しました。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">05</span>
+      <div class="hl-title">P-05 学習画面の新提案が完成</div>
+      <div class="hl-desc">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型を社長レビュー用に作成。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== サマリー ===== -->
+<div class="section">
+  <div class="sec-overline">Summary</div>
+  <div class="sec-title">先週 → 今日の流れ</div>
+  <div class="sec-sub">構築フェーズから磨き込みフェーズへ。今日は「画面の完成」ではなく「体験の完成」に時間を使いました。</div>
+
+  <div class="summary-grid">
+    <div class="summary-card last-week">
+      <div class="sum-label">LAST WEEK (4/23–4/24)</div>
+      <div class="sum-title">構築 — 全9画面の v1.1 化</div>
+      <div class="sum-desc">v1.1 設計仕様書の策定、P-01〜P-08 の全画面実装、P-03 ダッシュボードを RPG ×漆 デザインに全面刷新、P-03 のモバイル対応 + WCAG アクセシビリティ対応。</div>
+    </div>
+    <div class="summary-card today">
+      <div class="sum-label">TODAY (4/27)</div>
+      <div class="sum-title">磨き込み — 体験の統合と品質向上</div>
+      <div class="sum-desc">P-03 / P-04 / P-07 の情報を整理（不要セクション削除・表示順整理・3-Column Grid で並べ直し）、P-05 学習画面の新UI提案、アイコン統一 (Material Symbols) とレビュー指摘の一括修正による品質底上げ。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 数字で見る今日 ===== -->
+<div class="section-accent">
+  <div class="inner">
+    <div class="sec-overline">By the Numbers</div>
+    <div class="sec-title">今日1日の動き</div>
+    <div class="sec-sub">朝から夕方までの実作業を数字で。</div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">12</div>
+        <div class="stat-label">COMMITS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">FOCUS AREAS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">4</div>
+        <div class="stat-label">PAGES TOUCHED (P-03/04/05/07)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CTA ===== -->
+<div class="cta-section">
+  <h2>本日の成果を実機で確認する</h2>
+  <p>P-03 ダッシュボードから P-04 / P-07 のモーダル統合を体験できます。</p>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="cta-btn">P-03 ダッシュボードを開く →</a>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="cta-btn cta-btn-ghost">P-01 から通しで確認</a>
+</div>
+
+<div class="footer-links">
+  <a href="../v1.1-design-spec.html">設計仕様書</a>
+  <a href="../v1.1-update-report.html">累積アップデートレポート</a>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/">バージョン選択</a>
+</div>
+
+</body>
+</html>
