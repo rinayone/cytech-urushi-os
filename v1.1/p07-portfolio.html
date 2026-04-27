@@ -33,6 +33,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* Main */
 .main { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 84px 20px 40px; }
+/* Embed モード: モーダル内表示時はヘッダーを隠す（?embed=1 アクセス時） */
+.embed .header { display: none; }
+.embed .main { padding-top: 28px; }
 
 /* Glass card (Figma ガラス_02) */
 .glass {
@@ -370,6 +373,12 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .logo-swap:hover .logo-default { opacity: 0; }
 .logo-swap:hover .logo-kaname { opacity: 1; }
 </style>
+<script>
+// Embed モード: ?embed=1 で表示時はヘッダー非表示（モーダル内利用時）
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.documentElement.classList.add('embed');
+}
+</script>
 </head>
 <body>
 

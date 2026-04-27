@@ -22,6 +22,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .hb-blue { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
 .hb-blue:hover { opacity: 0.9; }
 .main { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 84px 20px 40px; }
+/* Embed モード: モーダル内表示時はヘッダーを隠す（?embed=1 アクセス時） */
+.embed .header { display: none; }
+.embed .main { padding-top: 28px; }
 .glass { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 24px; margin-bottom: 16px; }
 .sec-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; margin-top: 28px; }
 .sec-title:first-child { margin-top: 0; }
@@ -81,6 +84,12 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .logo-swap:hover .logo-default { opacity: 0; }
 .logo-swap:hover .logo-kaname { opacity: 1; }
 </style>
+<script>
+// Embed モード: ?embed=1 で表示時はヘッダー非表示（モーダル内利用時）
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.documentElement.classList.add('embed');
+}
+</script>
 </head>
 <body>
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>

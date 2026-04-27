@@ -158,6 +158,35 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ld-name { font-weight: 700; width: 60px; }
 .ld-desc { color: rgba(255,255,255,0.5); flex: 1; }
 
+/* ===== DETAIL MODAL (iframe-based, P-04 / P-07 full content) ===== */
+.detail-modal-bg {
+  display: none; position: fixed; inset: 0; z-index: 150;
+  background: rgba(5,5,8,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.detail-modal-bg.show { display: flex; animation: dmFade 0.25s ease; }
+@keyframes dmFade { from { opacity: 0; } to { opacity: 1; } }
+.detail-modal-box {
+  width: 90vw; height: 90vh; max-width: 1280px;
+  background: #050508;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+  animation: dmIn 0.3s ease;
+}
+@keyframes dmIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.detail-modal-iframe { width: 100%; height: 100%; border: 0; display: block; }
+.detail-modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 10;
+  width: 38px; height: 38px;
+  background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-family: inherit;
+}
+.detail-modal-close:hover { background: rgba(247,81,59,0.85); border-color: rgba(247,81,59,1); }
+
 /* ===== POPUPS (shared) ===== */
 .popup-overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,8,0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); align-items: center; justify-content: center; }
 .popup-overlay.show { display: flex; }
@@ -404,7 +433,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="ep-row"><span class="ep-bar-name">DB</span><div class="ep-bar-track"><div class="ep-bar-fill" style="width:0%;"></div></div><span class="ep-bar-val">—</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
           <span style="font-size:11px;color:rgba(255,255,255,0.5);">正答率: 82% / 学習: 42h</span>
-          <a href="p07-portfolio.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+          <a href="p07-portfolio.html" onclick="openInModal('p07', event)" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
 
@@ -435,7 +464,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
           <span style="font-size:11px;color:rgba(255,255,255,0.5);">100%完了でエントリー可能</span>
-          <a href="p04-curriculum.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
+          <a href="p04-curriculum.html" onclick="openInModal('p04', event)" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;">詳細を見る →</a>
         </div>
       </div>
 
@@ -526,7 +555,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <button class="pp-close" onclick="closeSelection()">&#10005;</button>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
       <div style="font-size:18px;font-weight:900;font-family:'Lato',sans-serif;">企業・選考</div>
-      <a href="p04-curriculum.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">全画面で開く ↗</a>
+      <a href="p04-curriculum.html" onclick="openInModal('p04', event)" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">全画面で開く ↗</a>
     </div>
     <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</div>
     <!-- Current course + progress bar -->
@@ -576,7 +605,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <button class="pp-close" onclick="closePortfolio()">&#10005;</button>
     <!-- Open full page CTA -->
     <div style="margin-bottom:14px;">
-      <a href="p07-portfolio.html" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">📄 ポートフォリオを全画面で開く ↗</a>
+      <a href="p07-portfolio.html" onclick="openInModal('p07', event)" style="font-size:11px;color:#34e0ff;text-decoration:none;font-weight:700;padding:4px 10px;border:1px solid rgba(52,224,255,0.3);border-radius:100px;">📄 ポートフォリオを全画面で開く ↗</a>
     </div>
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;">
@@ -659,6 +688,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <button style="padding:8px 20px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;flex-shrink:0;">PDF出力</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ===== DETAIL MODAL (iframe-based, P-04 / P-07) ===== -->
+<div class="detail-modal-bg" id="detailModal" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal-box">
+    <button class="detail-modal-close" onclick="closeDetailModal()" title="閉じる">✕</button>
+    <iframe class="detail-modal-iframe" id="detailModalIframe" src="" title="詳細"></iframe>
   </div>
 </div>
 
@@ -751,11 +788,37 @@ function goToAiDialogue() {
   location.href = 'p02-ai-dialogue.html';
 }
 
-// Popups
+// Popups (summary)
 function openPortfolio() { document.getElementById('portfolioOverlay').classList.add('show'); }
 function closePortfolio() { document.getElementById('portfolioOverlay').classList.remove('show'); }
 function openSelection() { document.getElementById('selectionOverlay').classList.add('show'); }
 function closeSelection() { document.getElementById('selectionOverlay').classList.remove('show'); }
+
+// Detail modal (iframe-based, full P-04 / P-07 content)
+function openInModal(page, e) {
+  if (e) e.preventDefault();
+  // Close summary popups if open (avoid stacked overlays)
+  closePortfolio();
+  closeSelection();
+  const src = page === 'p07' ? 'p07-portfolio.html?embed=1'
+            : page === 'p04' ? 'p04-curriculum.html?embed=1'
+            : '';
+  if (!src) return;
+  document.getElementById('detailModalIframe').src = src;
+  document.getElementById('detailModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeDetailModal() {
+  document.getElementById('detailModal').classList.remove('show');
+  document.getElementById('detailModalIframe').src = '';
+  document.body.style.overflow = '';
+}
+// ESC で閉じる
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('detailModal').classList.contains('show')) {
+    closeDetailModal();
+  }
+});
 function openSettings() { showSetView('main'); document.getElementById('settingsOverlay').classList.add('show'); }
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('show'); }
 function showSetView(v) {
