@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CyTech Urushi OS — カリキュラム検索</title>
+<title>CyTech Urushi OS — 企業・選考</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
-body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow-x: hidden; overflow-y: auto; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; opacity: 0; animation: pageIn 0.6s ease 0.05s forwards; }
 @keyframes pageIn { to { opacity: 1; } }
+
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.6; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
 .bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
 .header { position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50; display: flex; align-items: center; padding: 0 18px; gap: 10px; background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2); }
 .header img { height: 22px; }
 .header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
@@ -21,60 +23,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .hb { padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; border: none; color: #fff; }
 .hb-blue { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
 .hb-blue:hover { opacity: 0.9; }
-.main { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 84px 20px 40px; }
-/* Embed モード: モーダル内表示時はヘッダーを隠す（?embed=1 アクセス時） */
-.embed .header { display: none; }
-.embed .main { padding-top: 28px; }
-.glass { background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: inset 0px 0px 30px rgba(255,255,255,0.3), inset -1px -2px 2px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(255,255,255,0.3); padding: 24px; margin-bottom: 16px; }
-.sec-title { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; margin-top: 28px; }
-.sec-title:first-child { margin-top: 0; }
-.hl { color: #34e0ff; font-weight: 700; }
-.page-title { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-.page-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
 
-/* Active curriculum banner */
-.active-banner { background: linear-gradient(135deg, rgba(241,56,132,0.12), rgba(247,81,59,0.08)); border: 1px solid rgba(241,56,132,0.2); border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
-.active-badge { padding: 6px 14px; background: linear-gradient(135deg, #f7513b, #f13884); border-radius: 100px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
-.active-info { flex: 1; }
-.active-info .name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-.active-info .meta { font-size: 12px; color: rgba(255,255,255,0.5); }
-.active-progress { width: 120px; }
-.active-progress .track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
-.active-progress .fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
-.active-progress .pct { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); text-align: right; }
-
-/* Curriculum card */
-.curr-card { display: flex; align-items: center; gap: 16px; padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: all 0.2s; border-radius: 12px; margin: 0 -8px; padding-left: 24px; }
-.curr-card:hover { background: rgba(255,255,255,0.04); }
-.curr-card:last-child { border-bottom: none; }
-.curr-num { font-family: 'Lato', sans-serif; font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.1); width: 48px; flex-shrink: 0; }
-.curr-info { flex: 1; }
-.curr-info .curr-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-.curr-info .curr-desc { font-size: 12px; color: rgba(255,255,255,0.4); }
-.curr-time { text-align: right; flex-shrink: 0; }
-.curr-time .time-val { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 700; color: #34e0ff; }
-.curr-time .time-label { font-size: 10px; color: rgba(255,255,255,0.3); }
-
-/* Gate info */
-.gate-card { display: flex; align-items: center; gap: 16px; }
-.gate-icon { font-size: 28px; flex-shrink: 0; }
-.gate-text { flex: 1; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.7); }
-.gate-text strong { color: #fff; }
-
-/* Roadmap */
-.roadmap-step { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
-.roadmap-step:last-child { border-bottom: none; }
-.rm-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-.rm-dot.done { background: #34e0ff; color: #000; }
-.rm-dot.current { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
-.rm-dot.locked { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.08); }
-.rm-name { flex: 1; color: rgba(255,255,255,0.7); }
-.rm-name.done-text { color: #34e0ff; }
-.rm-time { font-family: 'Lato', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); }
-
-
-
-@media (max-width: 600px) { .active-banner { flex-direction: column; } }
 /* Logo ↔ KANAME swap */
 .logo-swap { position: relative; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
 .logo-swap .logo-default { height: 22px; transition: opacity 0.2s; }
@@ -83,6 +32,133 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .logo-swap .logo-kaname .kh-eye { width: 3px; height: 6px; background: #fff; border-radius: 2px; }
 .logo-swap:hover .logo-default { opacity: 0; }
 .logo-swap:hover .logo-kaname { opacity: 1; }
+
+/* ===== STAGE: 3-column grid ===== */
+.stage {
+  position: fixed; top: 84px; bottom: 16px;
+  left: 50%; transform: translateX(-50%);
+  width: calc(100vw - 32px); max-width: 1248px;
+  z-index: 10;
+  display: flex; gap: 12px;
+}
+/* Embed モード: ?embed=1 で表示時はヘッダーを隠す（モーダル内利用時） */
+.embed .header { display: none; }
+.embed .stage { top: 16px; }
+
+.col {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 18px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset 1px 1px 2px rgba(255,255,255,0.25);
+  padding: 18px 20px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.col-l { width: 320px; flex-shrink: 0; }
+.col-c { flex: 1; max-width: 560px; min-width: 0; }
+.col-r { width: 320px; flex-shrink: 0; }
+
+.col::-webkit-scrollbar { width: 4px; }
+.col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+.sec-ttl {
+  font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+}
+.sec-ttl:first-child { margin-top: 0; }
+
+.hl { color: #34e0ff; font-weight: 700; }
+
+/* ===== Left col: 受講中コース + ゲート ===== */
+.course-banner {
+  padding: 16px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(241,56,132,0.15), rgba(247,81,59,0.1));
+  border: 1px solid rgba(241,56,132,0.3);
+}
+.cb-tag { display: inline-block; padding: 4px 12px; background: linear-gradient(135deg, #f7513b, #f13884); border-radius: 100px; font-size: 10px; font-weight: 700; margin-bottom: 8px; }
+.cb-name { font-size: 14px; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+.cb-meta { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 14px; line-height: 1.5; }
+.cb-pct-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.cb-pct { font-family: 'Lato', sans-serif; font-size: 36px; font-weight: 900; line-height: 1; }
+.cb-pct span { font-size: 14px; color: rgba(255,255,255,0.5); }
+.cb-remaining { font-size: 11px; color: rgba(255,255,255,0.55); }
+.cb-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.cb-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+
+.gate-card {
+  padding: 14px 16px; background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
+}
+.gate-card .gh { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
+.gate-card .gh .ic { font-size: 18px; }
+.gate-card .gd { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+
+/* ===== Center col: カリキュラム ===== */
+.curriculum-list { display: flex; flex-direction: column; gap: 8px; }
+.cu-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.cu-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(52,224,255,0.2); }
+.cu-item .num { font-family: 'Lato', sans-serif; font-size: 26px; font-weight: 900; color: rgba(255,255,255,0.12); width: 36px; flex-shrink: 0; line-height: 1; }
+.cu-item .body { flex: 1; min-width: 0; }
+.cu-item .name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.cu-item .desc { font-size: 11px; color: rgba(255,255,255,0.5); }
+.cu-item .time { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; color: #34e0ff; }
+.cu-item .badge {
+  font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 100px; flex-shrink: 0; margin-top: 2px;
+  display: inline-block;
+}
+.cu-item.done .badge { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.cu-item.current { border-color: rgba(241,56,132,0.3); background: rgba(241,56,132,0.05); }
+.cu-item.current .badge { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.cu-item.locked .badge { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+.cu-item .right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.cu-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.cu-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f13884); }
+
+/* ===== Right col: ロードマップ + 選考 ===== */
+.roadmap-vert { display: flex; flex-direction: column; }
+.rv-step {
+  display: flex; gap: 10px; align-items: center;
+  padding: 9px 0; font-size: 12px;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+.rv-step:last-child { border: 0; }
+.rv-step .dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.rv-step.active .dot { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.rv-step.done .dot { background: rgba(52,224,255,0.2); color: #34e0ff; border: 1px solid #34e0ff; }
+.rv-step.future .dot { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+.rv-step .nm { flex: 1; }
+.rv-step.future .nm { color: rgba(255,255,255,0.45); }
+.rv-step.active .nm { color: #fff; font-weight: 700; }
+.rv-step .pct { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); }
+
+.selection-card {
+  padding: 12px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.selection-card .av {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: rgba(255,255,255,0.7); font-size: 12px; flex-shrink: 0;
+}
+.selection-card .body { flex: 1; min-width: 0; }
+.selection-card .name { font-size: 12px; font-weight: 700; }
+.selection-card .role { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.selection-card .st { font-size: 10px; padding: 3px 9px; border-radius: 100px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); flex-shrink: 0; }
+
+@media (max-width: 980px) {
+  .stage { flex-direction: column; overflow-y: auto; }
+  .col-l, .col-c, .col-r { width: 100%; max-width: 100%; flex: none; }
+}
 </style>
 <script>
 // Embed モード: ?embed=1 で表示時はヘッダー非表示（モーダル内利用時）
@@ -92,6 +168,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 </script>
 </head>
 <body>
+
 <div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
 
 <header class="header">
@@ -100,72 +177,118 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
   <div class="hr"><button class="hb hb-blue" onclick="location.href='p03-dashboard.html'">ダッシュボードへ →</button></div>
 </header>
 
-<main class="main">
-  <h1 class="page-title">企業・選考</h1>
-  <p class="page-sub">カリキュラム・採用ロードマップ・選考ステータスを一元管理。</p>
+<main class="stage">
 
-  <!-- Active curriculum -->
-  <div class="active-banner">
-    <span class="active-badge">受講中</span>
-    <div class="active-info">
-      <div class="name">情シス基礎コース — ◯◯株式会社</div>
-      <div class="meta">全8 Unit / 推定80時間 / 完了で面接確約</div>
+  <!-- LEFT: 受講中コース + Skill Prime ゲート -->
+  <div class="col col-l">
+    <div class="sec-ttl">受講中コース</div>
+    <div class="course-banner">
+      <span class="cb-tag">受講中</span>
+      <div class="cb-name">情シス基礎コース<br>◯◯株式会社</div>
+      <div class="cb-meta">全8 Unit / 推定80時間 / 完了で面接確約</div>
+      <div class="cb-pct-row">
+        <div class="cb-pct">52<span>%</span></div>
+        <div class="cb-remaining">残り <span class="hl">38時間</span></div>
+      </div>
+      <div class="cb-bar"><div style="width:52%"></div></div>
     </div>
-    <div class="active-progress">
-      <div class="track"><div class="fill" style="width:52%;"></div></div>
-      <div class="pct">52%</div>
-    </div>
-  </div>
 
-  <!-- Roadmap -->
-  <div class="sec-title">採用ロードマップ</div>
-  <div class="glass">
-    <div class="gate-card" style="margin-bottom:16px;">
-      <div class="gate-icon">&#128274;</div>
-      <div class="gate-text"><strong>Skill Primeゲート</strong> — カリキュラム100%完了で面接資格を取得。あと<span class="hl">38時間</span>の学習で達成です。</div>
+    <div class="sec-ttl">Skill Prime ゲート</div>
+    <div class="gate-card">
+      <div class="gh"><span class="ic">🔒</span>面接資格まで <span class="hl">残り 38時間</span></div>
+      <div class="gd">カリキュラム100%完了でゲート解除。完了で◯◯株式会社の面接が確約されます。</div>
     </div>
-    <div class="roadmap-step"><span class="rm-dot done">&#10003;</span><span class="rm-name done-text">カリキュラム学習</span><span class="rm-time">進行中 52%</span></div>
-    <div class="roadmap-step"><span class="rm-dot locked">2</span><span class="rm-name">Skill Prime達成</span><span class="rm-time">100%完了時</span></div>
-    <div class="roadmap-step"><span class="rm-dot locked">3</span><span class="rm-name">エントリー</span><span class="rm-time">ゲート解除後</span></div>
-    <div class="roadmap-step"><span class="rm-dot locked">4</span><span class="rm-name">書類選考</span><span class="rm-time">—</span></div>
-    <div class="roadmap-step"><span class="rm-dot locked">5</span><span class="rm-name">面接</span><span class="rm-time">面接確約</span></div>
-    <div class="roadmap-step"><span class="rm-dot locked">6</span><span class="rm-name">内定</span><span class="rm-time">—</span></div>
   </div>
 
-  <!-- Curriculum list -->
-  <div class="sec-title">カリキュラム一覧</div>
-  <div class="glass">
-    <div class="curr-card" onclick="location.href='p05-lesson.html'"><span class="curr-num">01</span><div class="curr-info"><div class="curr-name">IT基礎・ハードウェア</div><div class="curr-desc">コンピューターの基本構造とハードウェア</div></div><div class="curr-time"><div class="time-val">20h</div><div class="time-label">完了済</div></div></div>
-    <div class="curr-card"><span class="curr-num">02</span><div class="curr-info"><div class="curr-name">OS・ソフトウェア基礎</div><div class="curr-desc">OS、アプリケーション、ファイルシステム</div></div><div class="curr-time"><div class="time-val">15h</div><div class="time-label">完了済</div></div></div>
-    <div class="curr-card"><span class="curr-num">03</span><div class="curr-info"><div class="curr-name">ネットワーク基礎</div><div class="curr-desc">IP、DNS、ルーティング、セキュリティ</div></div><div class="curr-time"><div class="time-val">20h</div><div class="time-label" style="color:#f13884;">受講中</div></div></div>
-    <div class="curr-card"><span class="curr-num">04</span><div class="curr-info"><div class="curr-name">セキュリティ入門</div><div class="curr-desc">脅威対策、認証、暗号化基礎</div></div><div class="curr-time"><div class="time-val">15h</div><div class="time-label">未開始</div></div></div>
-    <div class="curr-card"><span class="curr-num">05</span><div class="curr-info"><div class="curr-name">総合演習・実技課題</div><div class="curr-desc">実務トラブル事例の解決</div></div><div class="curr-time"><div class="time-val">10h</div><div class="time-label">未開始</div></div></div>
+  <!-- CENTER: カリキュラム一覧 -->
+  <div class="col col-c">
+    <div class="sec-ttl">カリキュラム（Unit 1〜5）</div>
+    <div class="curriculum-list">
+      <div class="cu-item done" onclick="location.href='p05-lesson.html'">
+        <span class="num">01</span>
+        <div class="body">
+          <div class="name">IT基礎・ハードウェア</div>
+          <div class="desc">コンピューターの基本構造とハードウェア</div>
+        </div>
+        <div class="right">
+          <div class="time">20h</div>
+          <span class="badge">完了 ✓</span>
+        </div>
+      </div>
+      <div class="cu-item done">
+        <span class="num">02</span>
+        <div class="body">
+          <div class="name">OS・ソフトウェア基礎</div>
+          <div class="desc">OS、アプリケーション、ファイルシステム</div>
+        </div>
+        <div class="right">
+          <div class="time">15h</div>
+          <span class="badge">完了 ✓</span>
+        </div>
+      </div>
+      <div class="cu-item current">
+        <span class="num">03</span>
+        <div class="body">
+          <div class="name">ネットワーク基礎</div>
+          <div class="desc">IP、DNS、ルーティング、セキュリティ</div>
+          <div class="cu-bar"><div style="width:37%"></div></div>
+        </div>
+        <div class="right">
+          <div class="time">20h</div>
+          <span class="badge">受講中 37%</span>
+        </div>
+      </div>
+      <div class="cu-item locked">
+        <span class="num">04</span>
+        <div class="body">
+          <div class="name">セキュリティ入門</div>
+          <div class="desc">脅威対策、認証、暗号化基礎</div>
+        </div>
+        <div class="right">
+          <div class="time">15h</div>
+          <span class="badge">未開始</span>
+        </div>
+      </div>
+      <div class="cu-item locked">
+        <span class="num">05</span>
+        <div class="body">
+          <div class="name">総合演習・実技課題</div>
+          <div class="desc">実務トラブル事例の解決</div>
+        </div>
+        <div class="right">
+          <div class="time">10h</div>
+          <span class="badge">未開始</span>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- 選考ステータス (from P-08) -->
-  <div class="sec-title">選考ステータス</div>
-  <div class="glass">
-    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:16px;">
-      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:#fff;font-weight:700;"><span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);display:flex;align-items:center;justify-content:center;font-size:10px;">1</span>学習中</div>
-      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">2</span>達成</div>
-      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">3</span>エントリー</div>
-      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">4</span>面接</div>
-      <div style="width:16px;height:2px;background:rgba(255,255,255,0.08);"></div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,0.35);"><span style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;">5</span>内定</div>
+
+  <!-- RIGHT: 採用ロードマップ + 選考ステータス -->
+  <div class="col col-r">
+    <div class="sec-ttl">採用ロードマップ</div>
+    <div class="roadmap-vert">
+      <div class="rv-step active"><span class="dot">▸</span><span class="nm">学習中</span><span class="pct">52%</span></div>
+      <div class="rv-step future"><span class="dot">2</span><span class="nm">Skill Prime 達成</span><span class="pct">100%完了時</span></div>
+      <div class="rv-step future"><span class="dot">3</span><span class="nm">エントリー</span><span class="pct">ゲート解除後</span></div>
+      <div class="rv-step future"><span class="dot">4</span><span class="nm">書類選考</span></div>
+      <div class="rv-step future"><span class="dot">5</span><span class="nm">面接</span><span class="pct">確約</span></div>
+      <div class="rv-step future"><span class="dot">6</span><span class="nm">内定</span></div>
     </div>
-    <div style="padding:12px 0;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.4);">A</div>
-      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">◯◯株式会社</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス — 社内IT管理</div></div>
-      <span style="padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
+
+    <div class="sec-ttl">選考ステータス</div>
+    <div class="selection-card">
+      <div class="av">A</div>
+      <div class="body"><div class="name">◯◯株式会社</div><div class="role">情シス — 社内IT管理</div></div>
+      <span class="st">学習中</span>
     </div>
-    <div style="padding:12px 0;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:rgba(255,255,255,0.4);">B</div>
-      <div style="flex:1;"><div style="font-size:14px;font-weight:700;">△△株式会社</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">情シス — DX推進</div></div>
-      <span style="padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.06);">ゲート未達</span>
+    <div class="selection-card">
+      <div class="av">B</div>
+      <div class="body"><div class="name">△△株式会社</div><div class="role">情シス — DX推進</div></div>
+      <span class="st">ゲート未達</span>
     </div>
   </div>
+
 </main>
+
 </body>
 </html>
