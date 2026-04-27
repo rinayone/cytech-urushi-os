@@ -322,6 +322,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .pp-attention-mini { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(255,255,255,0.85); margin-bottom: 4px; }
 .pp-attention-mini .ic { font-size: 14px; color: #953ec3; }
 .pp-attention-mini strong { color: #fff; font-family: 'Lato', sans-serif; font-weight: 900; }
+.pp-attention-mini .trend { color: #7cbf00; font-size: 10px; font-weight: 700; margin-left: 2px; }
+.pp-unlock-mini {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: rgba(255,255,255,0.7);
+  padding: 8px 10px; margin-top: 6px;
+  background: rgba(248,238,26,0.06);
+  border: 1px solid rgba(248,238,26,0.2);
+  border-radius: 8px;
+}
+.pp-unlock-mini .ic { font-size: 14px; color: #f8ee1a; }
+.pp-unlock-mini strong { color: #f8ee1a; font-weight: 700; }
 .pp-foot { display: flex; align-items: center; justify-content: flex-end; margin-top: 10px; }
 .pp-foot a { font-size: 11px; color: #34e0ff; text-decoration: none; font-weight: 700; }
 
@@ -685,6 +696,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="pp-attention-mini">
           <span class="material-symbols-outlined ic">visibility</span>
           今週 <strong>3社</strong> があなたを閲覧
+          <span class="trend">↑ 先週+1社</span>
+        </div>
+        <div class="pp-unlock-mini">
+          <span class="material-symbols-outlined ic">lock_open</span>
+          <span><strong>Skill Prime達成</strong> でスカウト解禁</span>
         </div>
 
         <div class="pp-foot">

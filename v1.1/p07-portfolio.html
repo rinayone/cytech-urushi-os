@@ -262,6 +262,20 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .completion-indicator .bar { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
 .completion-indicator .fill { height: 100%; background: var(--rainbow); }
 
+/* Completion tip — 行動喚起メッセージ */
+.completion-tip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px;
+  background: rgba(248,238,26,0.06);
+  border: 1px solid rgba(248,238,26,0.2);
+  border-radius: 8px;
+  font-size: 11px; color: rgba(255,255,255,0.85);
+  margin-bottom: 8px;
+}
+.completion-tip .ic { font-size: 14px; color: #f8ee1a; flex-shrink: 0; }
+.completion-tip strong { color: #f8ee1a; font-weight: 700; }
+.completion-tip .stat { color: #7cbf00; font-weight: 700; }
+
 .cert-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
 .cert-item {
   display: inline-flex; align-items: center; gap: 8px;
@@ -488,6 +502,10 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
       履歴書完成度
       <span class="pct">85%</span>
       <span class="bar"><span class="fill" style="width:85%"></span></span>
+    </div>
+    <div class="completion-tip">
+      <span class="material-symbols-outlined ic">tips_and_updates</span>
+      <span><strong>自己PR</strong> を充実させると 閲覧数 <span class="stat">平均 +30%</span></span>
     </div>
 
     <div class="sec-ttl">
