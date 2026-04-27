@@ -334,9 +334,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .modal-head .ttl { font-size: 16px; font-weight: 700; }
 .modal-close { margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; line-height: 1; }
 .modal-tabs { display: flex; gap: 2px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
-.modal-tab { padding: 12px 16px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s ease; }
+.modal-tab { padding: 12px 16px; background: none; border: none; color: rgba(255,255,255,0.55); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; transition: color 0.15s ease; position: relative; }
+.modal-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent, #34e0ff); opacity: 0; transition: opacity 0.15s ease; }
 .modal-tab:hover { color: rgba(255,255,255,0.85); }
-.modal-tab.active { color: #34e0ff; border-bottom-color: #34e0ff; }
+.modal-tab.active { color: #34e0ff; }
+.modal-tab.active::after { opacity: 1; }
 .modal-body { padding: 22px; overflow-y: auto; flex: 1; scrollbar-gutter: stable; }
 .modal-pane { display: none; }
 .modal-pane.active { display: block; }
@@ -365,8 +367,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .btn-save:hover { opacity: 0.92; }
 
 .modal-list-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 12px; position: relative; }
-.modal-list-item .mli-del { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; background: rgba(247,81,59,0.1); border: 1px solid rgba(247,81,59,0.3); border-radius: 50%; color: #f7513b; cursor: pointer; font-size: 12px; line-height: 1; }
+.modal-list-item .mli-del { position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; background: rgba(247,81,59,0.1); border: 1px solid rgba(247,81,59,0.3); border-radius: 50%; color: #f7513b; cursor: pointer; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0; }
 .modal-list-item .mli-del:hover { background: rgba(247,81,59,0.2); }
+.modal-list-item .mli-del .material-symbols-outlined { font-size: 12px; }
 
 .confirm-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
 .confirm-bg.show { display: flex; }
@@ -474,7 +477,6 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         <div class="pdf-menu" id="pdfMenu">
           <div class="pdf-opt" onclick="exportPdf('rireki')"><span class="material-symbols-outlined ic">description</span><div><div class="lbl">履歴書</div><div class="desc">JIS規格相当</div></div></div>
           <div class="pdf-opt" onclick="exportPdf('shokumu')"><span class="material-symbols-outlined ic">article</span><div><div class="lbl">職務経歴書</div><div class="desc">業務経験＋CTU学習成果</div></div></div>
-          <div class="pdf-opt" onclick="exportPdf('portfolio')"><span class="material-symbols-outlined ic">palette</span><div><div class="lbl">ポートフォリオ</div><div class="desc">CTUカラフル形式</div></div></div>
         </div>
       </div>
     </div>
@@ -667,7 +669,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="education">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>学校名</label><input type="text" value="◯◯大学"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="経済学部"></div>
@@ -679,7 +681,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           </div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>学校名</label><input type="text" value="△△高等学校"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>学部</label><input type="text" value="普通科"></div>
@@ -695,7 +697,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="career">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>会社名</label><input type="text" value="◯◯商事株式会社"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部 法人営業課"></div>
@@ -708,7 +710,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
           <div class="form-row"><label>業務内容</label><textarea rows="3">IT企業向け法人営業（年商3億円担当）。新規開拓・既存深耕を両軸で推進し、3年連続で年間目標110%以上達成。</textarea></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>会社名</label><input type="text" value="株式会社△△マーケティング"></div>
           <div class="form-grid-2">
             <div class="form-row"><label>部署</label><input type="text" value="営業部"></div>
@@ -725,17 +727,17 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
       <div class="modal-pane" data-pane="cert">
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="基本情報技術者試験"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2024-08" placeholder="YYYY-MM"></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="TOEIC L&amp;R 750点"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2023-06"></div>
         </div>
         <div class="modal-list-item">
-          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
           <div class="form-row"><label>資格・語学名</label><input type="text" value="普通自動車第一種運転免許"></div>
           <div class="form-row"><label>取得年月（任意）</label><input type="text" value=""></div>
         </div>
@@ -821,7 +823,7 @@ function addModalListItem(type) {
   tpl.className = 'modal-list-item';
   if (type === 'education') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
       <div class="form-row"><label>学校名</label><input type="text" value=""></div>
       <div class="form-grid-2">
         <div class="form-row"><label>学部</label><input type="text" value=""></div>
@@ -833,7 +835,7 @@ function addModalListItem(type) {
       </div>`;
   } else if (type === 'career') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
       <div class="form-row"><label>会社名</label><input type="text" value=""></div>
       <div class="form-grid-2">
         <div class="form-row"><label>部署</label><input type="text" value=""></div>
@@ -846,7 +848,7 @@ function addModalListItem(type) {
       <div class="form-row"><label>業務内容</label><textarea rows="3"></textarea></div>`;
   } else if (type === 'cert') {
     tpl.innerHTML = `
-      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined" style="font-size:14px;">close</span></button>
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除"><span class="material-symbols-outlined">delete</span></button>
       <div class="form-row"><label>資格・語学名</label><input type="text" value=""></div>
       <div class="form-row"><label>取得年月（任意）</label><input type="text" value="" placeholder="YYYY-MM"></div>`;
   }
@@ -879,7 +881,7 @@ function togglePdfMenu(e) {
   document.getElementById('pdfMenu').classList.toggle('show');
 }
 function exportPdf(type) {
-  const labels = { rireki: '履歴書', shokumu: '職務経歴書', portfolio: 'ポートフォリオ' };
+  const labels = { rireki: '履歴書', shokumu: '職務経歴書' };
   alert(`${labels[type]}のPDF出力（プロトタイプ版なので実際の出力は行いません）`);
   document.getElementById('pdfMenu').classList.remove('show');
 }
