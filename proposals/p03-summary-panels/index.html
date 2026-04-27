@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-03 サマリーパネル 提案 — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; }
+
+.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.4; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+.test-banner {
+  position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 100;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+}
+
+.main { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 70px 24px 60px; }
+
+h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.7; }
+
+/* Comparison toggle */
+.mode-toggle {
+  display: inline-flex; gap: 2px; padding: 3px;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px; box-shadow: inset 1px 1px 12px rgba(255,255,255,0.15);
+  margin-bottom: 24px;
+}
+.mode-toggle button {
+  padding: 7px 18px; background: none; border: none; border-radius: 100px;
+  color: rgba(255,255,255,0.55); font-family: 'Lato', 'Noto Sans JP', sans-serif;
+  font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px;
+  transition: all 0.15s ease;
+}
+.mode-toggle button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+
+/* Panel sections */
+.panel-section { margin-bottom: 36px; }
+.panel-section h2 {
+  font-size: 14px; font-weight: 700; color: #34e0ff;
+  font-family: 'Lato', sans-serif; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.panel-section .panel-desc {
+  font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 14px; line-height: 1.7;
+}
+
+/* Glass panel (mimics dashboard expand-panel) */
+.glass-panel {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset 1px 1px 2px rgba(255,255,255,0.25);
+  padding: 18px 22px;
+}
+.panel-current { display: none; }
+.panel-current.show { display: block; }
+.panel-proposed { display: none; }
+.panel-proposed.show { display: block; }
+.panel-pair-wrap { display: flex; flex-direction: column; gap: 12px; }
+
+.label-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 100px;
+  font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.label-pill.current { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); }
+.label-pill.proposed { background: linear-gradient(135deg, #34e0ff, #0f4bab); color: #fff; }
+
+/* ===== CURRENT versions (replicate live state) ===== */
+.cur-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.cur-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 11px; }
+.cur-row .nm { width: 72px; color: rgba(255,255,255,0.55); }
+.cur-row .tr { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.cur-row .fl { height: 100%; }
+.cur-row .fl.full { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.cur-row .fl.partial { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
+.cur-row .fl.early { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+.cur-row .v { width: 32px; text-align: right; font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); }
+.cur-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; font-size: 11px; color: rgba(255,255,255,0.6); }
+.cur-foot a { font-size: 11px; color: #34e0ff; text-decoration: none; font-weight: 700; }
+.cur-comp-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; }
+.cur-comp-row:last-of-type { border-bottom: none; }
+.cur-comp-row .av { width: 28px; height: 28px; border-radius: 7px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); }
+.cur-comp-row .body { flex: 1; }
+.cur-comp-row .body strong { font-weight: 700; }
+.cur-comp-row .body span { color: rgba(255,255,255,0.55); font-size: 10px; }
+.cur-comp-row .st { font-size: 10px; color: rgba(255,255,255,0.55); padding: 3px 8px; border-radius: 100px; background: rgba(255,255,255,0.05); }
+
+/* ===== PROPOSED versions ===== */
+/* Portfolio: Level + growth + strengths + views */
+.pp-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.pp-level {
+  font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, #34e0ff, #0f4bab);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.pp-rank { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); }
+.pp-next { font-size: 11px; color: rgba(255,255,255,0.55); margin-left: auto; }
+.pp-next strong { color: #34e0ff; }
+
+.pp-bar {
+  height: 8px; background: rgba(255,255,255,0.06);
+  border-radius: 4px; overflow: hidden; margin-bottom: 6px;
+}
+.pp-bar > div { height: 100%; background: linear-gradient(to right, #34e0ff, #f13884); }
+.pp-bar-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10.5px; color: rgba(255,255,255,0.6); margin-bottom: 16px;
+}
+.pp-bar-meta .grow {
+  color: #7cbf00; font-weight: 700; display: inline-flex; align-items: center; gap: 3px;
+}
+.pp-bar-meta .grow .material-symbols-outlined { font-size: 13px; }
+
+.pp-section-h {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55);
+  margin-bottom: 8px;
+}
+
+.strength-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.strength-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; background: rgba(52,224,255,0.05);
+  border: 1px solid rgba(52,224,255,0.18); border-radius: 8px;
+}
+.strength-row .ic { font-size: 16px; color: #34e0ff; }
+.strength-row .nm { flex: 1; font-size: 12px; font-weight: 700; }
+.strength-row .badge {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 100px;
+  background: rgba(52,224,255,0.18); color: #34e0ff;
+}
+.strength-row.partial .badge { background: rgba(247,238,26,0.15); color: #f8ee1a; }
+
+.pp-attention {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; background: rgba(149,62,195,0.1);
+  border: 1px solid rgba(149,62,195,0.25); border-radius: 8px;
+  font-size: 12px;
+}
+.pp-attention .left { display: flex; align-items: center; gap: 8px; }
+.pp-attention .ic { font-size: 16px; color: #953ec3; }
+.pp-attention .num { font-family: 'Lato', sans-serif; font-weight: 900; color: #fff; }
+
+.pp-foot {
+  margin-top: 14px; display: flex; align-items: center; justify-content: flex-end;
+}
+.pp-foot a {
+  font-size: 11px; color: #34e0ff; text-decoration: none; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 3px;
+}
+
+/* Company panel proposed */
+.cp-target {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.cp-target .target-ic { font-size: 18px; color: #f13884; }
+.cp-target .target-name {
+  font-size: 14px; font-weight: 700; flex: 1;
+}
+.cp-target .target-role {
+  font-size: 10.5px; color: rgba(255,255,255,0.55);
+}
+.cp-target .target-tag {
+  padding: 3px 8px; border-radius: 100px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+}
+
+.cp-bar-area {
+  background: linear-gradient(135deg, rgba(241,56,132,0.08), rgba(247,81,59,0.04));
+  border: 1px solid rgba(241,56,132,0.2);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+}
+.cp-bar-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.cp-bar-row .pct { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900; }
+.cp-bar-row .remaining { font-size: 11px; color: rgba(255,255,255,0.7); }
+.cp-bar-row .remaining strong { color: #34e0ff; font-weight: 700; }
+.cp-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.cp-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.cp-prediction {
+  font-size: 11.5px; color: rgba(255,255,255,0.85); display: flex; align-items: center; gap: 6px;
+}
+.cp-prediction .ic { font-size: 14px; color: #34e0ff; }
+.cp-prediction strong { color: #34e0ff; font-weight: 700; }
+
+/* Roadmap mini */
+.cp-roadmap {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 14px; padding: 10px 4px;
+}
+.cp-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; }
+.cp-step .d {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+}
+.cp-step.active .d { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.cp-step.future .d { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.45); }
+.cp-step .l { font-size: 9px; color: rgba(255,255,255,0.55); }
+.cp-step.active .l { color: #fff; font-weight: 700; }
+.cp-step + .cp-step::before { content: ''; position: absolute; left: -50%; top: 11px; width: 100%; height: 1px; background: rgba(255,255,255,0.1); z-index: -1; }
+
+.cp-cta {
+  display: block; text-align: center; padding: 11px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  border: none; border-radius: 10px;
+  color: #fff; font-size: 12.5px; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: opacity 0.15s ease;
+  width: 100%;
+}
+.cp-cta:hover { opacity: 0.92; }
+.cp-cta .material-symbols-outlined { font-size: 16px; margin-right: 4px; }
+
+.cp-foot {
+  margin-top: 12px; display: flex; align-items: center; justify-content: flex-end;
+}
+.cp-foot a {
+  font-size: 11px; color: #34e0ff; text-decoration: none; font-weight: 700;
+}
+
+/* Reasoning sections */
+.reasoning {
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-top: 16px;
+  font-size: 12px; line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+}
+.reasoning h3 { font-size: 12px; color: #34e0ff; margin-bottom: 8px; font-family: 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+.reasoning ul { padding-left: 18px; }
+.reasoning li { margin-bottom: 4px; }
+.reasoning .change-pair {
+  display: grid; grid-template-columns: 80px 1fr 1fr; gap: 8px;
+  padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.06);
+  font-size: 11px;
+}
+.reasoning .change-pair:last-child { border: 0; }
+.reasoning .change-pair .lbl { color: rgba(255,255,255,0.5); }
+.reasoning .change-pair .from { color: rgba(255,255,255,0.55); text-decoration: line-through; }
+.reasoning .change-pair .to { color: #34e0ff; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<div class="test-banner">
+  🧪 PROPOSAL / TEST VERSION — v1.1 mockには未反映
+</div>
+
+<main class="main">
+  <h1>P-03 サマリーパネル 提案</h1>
+  <p class="sub">「ポートフォリオを見る」「企業・選考を見る」 の2つのチップで展開されるサマリー内容を、ペルソナ視点で再設計しました。<br>夜疲れて学習する 26歳営業職が、<strong>30秒で「今日もやるか」と思える情報設計</strong>を目指します。</p>
+
+  <div class="mode-toggle">
+    <button class="active" onclick="switchMode('proposed')">提案版</button>
+    <button onclick="switchMode('current')">現状</button>
+    <button onclick="switchMode('compare')">並列比較</button>
+  </div>
+
+  <!-- ========== PORTFOLIO PANEL ========== -->
+  <div class="panel-section">
+    <h2>📊 ポートフォリオを見る — サマリー</h2>
+    <p class="panel-desc">AI が「ユニット完了後」「自信が下がっている時」「久々ログイン時」に提示。ペルソナが見たいのは <strong>過去（成長）→ 現在（強み）→ 未来（注目度）</strong> の流れ。</p>
+
+    <div class="panel-pair-wrap">
+      <!-- Proposed -->
+      <div class="panel-proposed show" id="ppPortfolio">
+        <span class="label-pill proposed">PROPOSED</span>
+        <div class="glass-panel">
+          <div class="pp-head">
+            <span class="pp-level">B1</span>
+            <span class="pp-rank">Rookie</span>
+            <span class="pp-next">B2 まで <strong>残48%</strong></span>
+          </div>
+          <div class="pp-bar"><div style="width:52%"></div></div>
+          <div class="pp-bar-meta">
+            <span>カリキュラム進捗 52%</span>
+            <span class="grow"><span class="material-symbols-outlined">trending_up</span>先週から +12%</span>
+          </div>
+
+          <div class="pp-section-h">あなたの強み Top 3</div>
+          <div class="strength-list">
+            <div class="strength-row"><span class="material-symbols-outlined ic">workspace_premium</span><span class="nm">IT基礎</span><span class="badge">B1 到達</span></div>
+            <div class="strength-row"><span class="material-symbols-outlined ic">workspace_premium</span><span class="nm">ハードウェア基礎</span><span class="badge">B1 到達</span></div>
+            <div class="strength-row partial"><span class="material-symbols-outlined ic" style="color:#f8ee1a;">trending_up</span><span class="nm">OS基礎</span><span class="badge">あと一歩 (85%)</span></div>
+          </div>
+
+          <div class="pp-attention">
+            <div class="left">
+              <span class="material-symbols-outlined ic">visibility</span>
+              <span>今週 <span class="num">3社</span> があなたを閲覧</span>
+            </div>
+            <span style="color:#7cbf00;font-size:10px;font-weight:700;">先週+1社</span>
+          </div>
+
+          <div class="pp-foot">
+            <a href="#">詳細を見る <span class="material-symbols-outlined" style="font-size:12px;">arrow_forward</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current -->
+      <div class="panel-current" id="cpPortfolio">
+        <span class="label-pill current">CURRENT</span>
+        <div class="glass-panel">
+          <div class="cur-title">スキルポートフォリオ</div>
+          <div class="cur-row"><span class="nm">IT基礎</span><span class="tr"><span class="fl full" style="width:100%"></span></span><span class="v">B1</span></div>
+          <div class="cur-row"><span class="nm">HW基礎</span><span class="tr"><span class="fl full" style="width:100%"></span></span><span class="v">B1</span></div>
+          <div class="cur-row"><span class="nm">OS基礎</span><span class="tr"><span class="fl partial" style="width:85%"></span></span><span class="v">85%</span></div>
+          <div class="cur-row"><span class="nm">ネットワーク</span><span class="tr"><span class="fl early" style="width:37%"></span></span><span class="v">37%</span></div>
+          <div class="cur-row"><span class="nm">セキュリティ</span><span class="tr"><span class="fl"></span></span><span class="v">—</span></div>
+          <div class="cur-row"><span class="nm">DB</span><span class="tr"><span class="fl"></span></span><span class="v">—</span></div>
+          <div class="cur-foot">
+            <span>正答率: 82% / 学習: 42h</span>
+            <a href="#">詳細を見る →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reasoning">
+      <h3>変更ポイント</h3>
+      <div class="change-pair"><span class="lbl">主役</span><span class="from">スキル6項目の進捗バー</span><span class="to">レベル + 次へ + 直近の伸び</span></div>
+      <div class="change-pair"><span class="lbl">数字</span><span class="from">正答率 82%（抽象）</span><span class="to">先週から +12%（成長実感）</span></div>
+      <div class="change-pair"><span class="lbl">強調</span><span class="from">全項目均等表示</span><span class="to">強み Top 3 で自己効力感↑</span></div>
+      <div class="change-pair"><span class="lbl">外部視点</span><span class="from">なし</span><span class="to">「今週 3社が閲覧」で動機UP</span></div>
+    </div>
+  </div>
+
+  <!-- ========== COMPANY PANEL ========== -->
+  <div class="panel-section">
+    <h2>💼 企業・選考を見る — サマリー</h2>
+    <p class="panel-desc">AI が「ゲート達成に近づいた時」「学習成果が伸びた時」に提示。ペルソナが見たいのは <strong>本命1社の進捗 + 達成日予測 + 次の一手</strong>。複数社を並べるより本命に集中させる。</p>
+
+    <div class="panel-pair-wrap">
+      <!-- Proposed -->
+      <div class="panel-proposed show" id="ppCompany">
+        <span class="label-pill proposed">PROPOSED</span>
+        <div class="glass-panel">
+          <div class="cp-target">
+            <span class="material-symbols-outlined target-ic">flag</span>
+            <div style="flex:1;">
+              <div class="target-name">本命: ◯◯株式会社</div>
+              <div class="target-role">情シス — 社内IT管理</div>
+            </div>
+            <span class="target-tag">受講中</span>
+          </div>
+
+          <div class="cp-bar-area">
+            <div class="cp-bar-row">
+              <span class="pct">52<span style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:700;">%</span></span>
+              <span class="remaining">ゲート達成まで <strong>残り 38時間</strong></span>
+            </div>
+            <div class="cp-bar"><div style="width:52%"></div></div>
+            <div class="cp-prediction">
+              <span class="material-symbols-outlined ic">schedule</span>
+              夜2h/日なら <strong>約19日</strong> で面接確約
+            </div>
+          </div>
+
+          <div class="pp-section-h">採用ロードマップ</div>
+          <div class="cp-roadmap">
+            <div class="cp-step active"><div class="d">▸</div><div class="l">学習中</div></div>
+            <div class="cp-step future"><div class="d">2</div><div class="l">達成</div></div>
+            <div class="cp-step future"><div class="d">3</div><div class="l">エントリー</div></div>
+            <div class="cp-step future"><div class="d">4</div><div class="l">書類</div></div>
+            <div class="cp-step future"><div class="d">5</div><div class="l">面接</div></div>
+            <div class="cp-step future"><div class="d">6</div><div class="l">内定</div></div>
+          </div>
+
+          <button class="cp-cta">
+            <span class="material-symbols-outlined">play_arrow</span>Unit 5 を続ける
+          </button>
+
+          <div class="cp-foot">
+            <a href="#">詳細を見る →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current -->
+      <div class="panel-current" id="cpCompany">
+        <span class="label-pill current">CURRENT</span>
+        <div class="glass-panel">
+          <div class="cur-title">企業・選考</div>
+          <div class="cur-comp-row">
+            <div class="av">A</div>
+            <div class="body"><strong>◯◯株式会社</strong><br><span>情シス — 社内IT</span></div>
+            <span class="st">ゲート未達</span>
+          </div>
+          <div class="cur-comp-row">
+            <div class="av">B</div>
+            <div class="body"><strong>△△株式会社</strong><br><span>情シス — DX推進</span></div>
+            <span class="st">ゲート未達</span>
+          </div>
+          <div class="cur-foot">
+            <span>100%完了でエントリー可能</span>
+            <a href="#">詳細を見る →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reasoning">
+      <h3>変更ポイント</h3>
+      <div class="change-pair"><span class="lbl">主役</span><span class="from">2社を並列リスト</span><span class="to">本命1社にフォーカス</span></div>
+      <div class="change-pair"><span class="lbl">時間表現</span><span class="from">残り 38時間（数値のみ）</span><span class="to">夜2h/日なら 約19日（生活に変換）</span></div>
+      <div class="change-pair"><span class="lbl">心理</span><span class="from">「ゲート未達」×2 で無力感</span><span class="to">本命の進捗で前進感</span></div>
+      <div class="change-pair"><span class="lbl">行動</span><span class="from">詳細リンクのみ</span><span class="to">「Unit 5 を続ける」CTA で即学習</span></div>
+      <div class="change-pair"><span class="lbl">全体像</span><span class="from">なし</span><span class="to">採用ロードマップで現在地可視化</span></div>
+    </div>
+  </div>
+
+  <!-- 設計原則 -->
+  <div class="panel-section">
+    <h2>共通の設計原則</h2>
+    <div class="reasoning" style="margin-top:0;">
+      <ul>
+        <li><strong>数字より「期間」</strong>: 38h より 19日。ペルソナの生活感覚と接続</li>
+        <li><strong>強みを言語化</strong>: 抽象的な「正答率82%」→「あなたの強み Top 3」</li>
+        <li><strong>サマリー内に "次の一手"</strong>: 詳細リンクだけでなく具体的アクション CTA を含む</li>
+        <li><strong>本命に集中</strong>: 複数より、最も近い1社に絞る方が動機↑</li>
+        <li><strong>外部視点を入れる</strong>: 「企業に見られている」実感は強い動機付け</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function switchMode(mode) {
+  document.querySelectorAll('.mode-toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.mode-toggle button[onclick*="${mode}"]`).classList.add('active');
+
+  const proposed = document.querySelectorAll('.panel-proposed');
+  const current = document.querySelectorAll('.panel-current');
+
+  if (mode === 'proposed') {
+    proposed.forEach(p => p.classList.add('show'));
+    current.forEach(p => p.classList.remove('show'));
+  } else if (mode === 'current') {
+    proposed.forEach(p => p.classList.remove('show'));
+    current.forEach(p => p.classList.add('show'));
+  } else { // compare
+    proposed.forEach(p => p.classList.add('show'));
+    current.forEach(p => p.classList.add('show'));
+  }
+}
+</script>
+
+</body>
+</html>
