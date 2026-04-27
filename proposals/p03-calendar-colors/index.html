@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-03 カレンダー カラー提案 — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; }
+
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.3; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+.test-banner { position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 100; display: flex; align-items: center; justify-content: center; gap: 14px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; font-size: 12px; font-weight: 700; }
+
+.main { position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; padding: 70px 24px 60px; }
+h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.7; }
+
+.section {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px; padding: 24px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15);
+  margin-bottom: 28px;
+}
+.section h2 {
+  font-size: 14px; color: #34e0ff; margin-bottom: 6px;
+  font-family: 'Lato', sans-serif; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.section .desc { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+
+/* Palette reference */
+.palette { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.swatch {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; font-size: 11px;
+}
+.swatch .dot { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); }
+.swatch .nm { font-weight: 700; }
+.swatch .hx { font-family: 'Lato', sans-serif; color: rgba(255,255,255,0.6); font-size: 10px; }
+
+/* Ring samples grid */
+.ring-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+}
+.ring-card {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.ring-card svg { flex-shrink: 0; }
+.ring-card .info { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+.ring-card .info .nm {
+  display: block; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.95); margin-bottom: 2px;
+}
+.ring-card .info .hx { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.45); }
+.ring-card .info .recommend {
+  display: inline-block; padding: 2px 6px; margin-top: 4px;
+  background: linear-gradient(135deg, #34e0ff, #0f4bab);
+  color: #fff; font-size: 9px; font-weight: 700; border-radius: 100px;
+}
+
+/* Done samples grid */
+.done-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.done-card {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+.done-card .head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.done-card .nm { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.95); }
+.done-card .hx { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.5); }
+.done-card .recommend {
+  display: inline-block; padding: 2px 6px; margin-top: 4px;
+  background: linear-gradient(135deg, #34e0ff, #0f4bab);
+  color: #fff; font-size: 9px; font-weight: 700; border-radius: 100px;
+}
+
+/* Mini calendar for done samples */
+.mini-cal {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+}
+.mini-cal-h { font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.mini-d {
+  aspect-ratio: 1; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-family: 'Lato', sans-serif; font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.04);
+}
+.mini-d.empty { background: transparent; }
+.mini-d.today { outline: 1.5px solid #34e0ff; outline-offset: -1.5px; color: #34e0ff; background: rgba(52,224,255,0.08); }
+
+/* The .done class will be customized inline per card */
+.mini-d.done {
+  color: #fff;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<div class="test-banner">
+  🧪 PROPOSAL — カレンダーカラー比較
+</div>
+
+<main class="main">
+  <h1>学習カレンダー カラー候補</h1>
+  <p class="sub">Today Ring の 2色グラデーション 12案 / 学習済日の単色 8案 を比較。<br>CTU パレット 7色から組み合わせ。</p>
+
+  <!-- Palette reference -->
+  <div class="section">
+    <h2>CTUカラーパレット (基準7色)</h2>
+    <div class="palette">
+      <div class="swatch"><div class="dot" style="background:#f7513b;"></div><span class="nm">橙赤</span><span class="hx">#f7513b</span></div>
+      <div class="swatch"><div class="dot" style="background:#f8ee1a;"></div><span class="nm">黄</span><span class="hx">#f8ee1a</span></div>
+      <div class="swatch"><div class="dot" style="background:#7cbf00;"></div><span class="nm">緑</span><span class="hx">#7cbf00</span></div>
+      <div class="swatch"><div class="dot" style="background:#34e0ff;"></div><span class="nm">シアン</span><span class="hx">#34e0ff</span></div>
+      <div class="swatch"><div class="dot" style="background:#0f4bab;"></div><span class="nm">青</span><span class="hx">#0f4bab</span></div>
+      <div class="swatch"><div class="dot" style="background:#953ec3;"></div><span class="nm">紫</span><span class="hx">#953ec3</span></div>
+      <div class="swatch"><div class="dot" style="background:#f13884;"></div><span class="nm">ピンク</span><span class="hx">#f13884</span></div>
+    </div>
+  </div>
+
+  <!-- ============ TODAY RING ============ -->
+  <div class="section">
+    <h2>① Today Ring の2色グラデーション</h2>
+    <p class="desc">12 案。すべて 60% 進捗で表示。</p>
+
+    <div class="ring-grid">
+      <!-- A1: シアン → 青 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g1)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#34e0ff"/><stop offset="100%" stop-color="#0f4bab"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A1: シアン → 青</span>
+          <span class="hx">#34e0ff → #0f4bab</span>
+          <span class="recommend">推奨</span>
+        </div>
+      </div>
+
+      <!-- A2: 紫 → 青 (KANAME) -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g2)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#953ec3"/><stop offset="100%" stop-color="#0f4bab"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A2: 紫 → 青 (KANAME)</span>
+          <span class="hx">#953ec3 → #0f4bab</span>
+        </div>
+      </div>
+
+      <!-- A3: 紫 → シアン -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g3)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#953ec3"/><stop offset="100%" stop-color="#34e0ff"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A3: 紫 → シアン</span>
+          <span class="hx">#953ec3 → #34e0ff</span>
+        </div>
+      </div>
+
+      <!-- A4: ピンク → 紫 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g4)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f13884"/><stop offset="100%" stop-color="#953ec3"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A4: ピンク → 紫</span>
+          <span class="hx">#f13884 → #953ec3</span>
+        </div>
+      </div>
+
+      <!-- A5: ピンク → シアン -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g5)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f13884"/><stop offset="100%" stop-color="#34e0ff"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A5: ピンク → シアン</span>
+          <span class="hx">#f13884 → #34e0ff</span>
+        </div>
+      </div>
+
+      <!-- A6: 橙 → ピンク (CTA) -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g6)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f7513b"/><stop offset="100%" stop-color="#f13884"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A6: 橙 → ピンク (CTA)</span>
+          <span class="hx">#f7513b → #f13884</span>
+        </div>
+      </div>
+
+      <!-- A7: 黄 → ピンク -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g7)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f8ee1a"/><stop offset="100%" stop-color="#f13884"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A7: 黄 → ピンク</span>
+          <span class="hx">#f8ee1a → #f13884</span>
+        </div>
+      </div>
+
+      <!-- A8: 黄 → 緑 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g8)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f8ee1a"/><stop offset="100%" stop-color="#7cbf00"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A8: 黄 → 緑</span>
+          <span class="hx">#f8ee1a → #7cbf00</span>
+        </div>
+      </div>
+
+      <!-- A9: 緑 → シアン -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g9)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7cbf00"/><stop offset="100%" stop-color="#34e0ff"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A9: 緑 → シアン</span>
+          <span class="hx">#7cbf00 → #34e0ff</span>
+        </div>
+      </div>
+
+      <!-- A10: 青 → 紫 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g10)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g10" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0f4bab"/><stop offset="100%" stop-color="#953ec3"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A10: 青 → 紫</span>
+          <span class="hx">#0f4bab → #953ec3</span>
+        </div>
+      </div>
+
+      <!-- A11: シアン → 緑 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g11)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#34e0ff"/><stop offset="100%" stop-color="#7cbf00"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A11: シアン → 緑</span>
+          <span class="hx">#34e0ff → #7cbf00</span>
+        </div>
+      </div>
+
+      <!-- A12: 橙 → 黄 -->
+      <div class="ring-card">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="url(#g12)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="55.3" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="g12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f7513b"/><stop offset="100%" stop-color="#f8ee1a"/></linearGradient></defs>
+          <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+        </svg>
+        <div class="info">
+          <span class="nm">A12: 橙 → 黄</span>
+          <span class="hx">#f7513b → #f8ee1a</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ DONE DAY ============ -->
+  <div class="section">
+    <h2>② 学習済日 単色（薄め）</h2>
+    <p class="desc">8 案。月カレンダーの「学習済」セルの色。alpha 透明度で薄く表示。</p>
+
+    <div class="done-grid">
+      <!-- B1: 紫 alpha 0.3 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B1: 紫</div>
+            <div class="hx">#953ec3, α=0.3</div>
+          </div>
+          <span class="recommend">推奨</span>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(149,62,195,0.3);">6</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">9</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(149,62,195,0.3);">13</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">14</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">15</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">16</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(149,62,195,0.3);">20</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">21</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">22</div><div class="mini-d done" style="background:rgba(149,62,195,0.3);">23</div><div class="mini-d today done" style="background:rgba(149,62,195,0.3);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B2: 青 alpha 0.4 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B2: 青</div>
+            <div class="hx">#0f4bab, α=0.4</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(15,75,171,0.4);">6</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">9</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(15,75,171,0.4);">13</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">14</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">15</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">16</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(15,75,171,0.4);">20</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">21</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">22</div><div class="mini-d done" style="background:rgba(15,75,171,0.4);">23</div><div class="mini-d today done" style="background:rgba(15,75,171,0.4);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B3: 緑 alpha 0.3 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B3: 緑</div>
+            <div class="hx">#7cbf00, α=0.3</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(124,191,0,0.3);">6</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">9</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(124,191,0,0.3);">13</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">14</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">15</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">16</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(124,191,0,0.3);">20</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">21</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">22</div><div class="mini-d done" style="background:rgba(124,191,0,0.3);">23</div><div class="mini-d today done" style="background:rgba(124,191,0,0.3);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B4: ピンク alpha 0.25 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B4: ピンク</div>
+            <div class="hx">#f13884, α=0.25</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(241,56,132,0.25);">6</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">9</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(241,56,132,0.25);">13</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">14</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">15</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">16</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(241,56,132,0.25);">20</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">21</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">22</div><div class="mini-d done" style="background:rgba(241,56,132,0.25);">23</div><div class="mini-d today done" style="background:rgba(241,56,132,0.25);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B5: 橙 alpha 0.25 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B5: 橙</div>
+            <div class="hx">#f7513b, α=0.25</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(247,81,59,0.25);">6</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">9</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(247,81,59,0.25);">13</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">14</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">15</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">16</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(247,81,59,0.25);">20</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">21</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">22</div><div class="mini-d done" style="background:rgba(247,81,59,0.25);">23</div><div class="mini-d today done" style="background:rgba(247,81,59,0.25);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B6: 黄 alpha 0.2 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B6: 黄</div>
+            <div class="hx">#f8ee1a, α=0.2</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(248,238,26,0.2);">6</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">9</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(248,238,26,0.2);">13</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">14</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">15</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">16</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(248,238,26,0.2);">20</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">21</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">22</div><div class="mini-d done" style="background:rgba(248,238,26,0.2);">23</div><div class="mini-d today done" style="background:rgba(248,238,26,0.2);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B7: シアン alpha 0.2 -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B7: シアン</div>
+            <div class="hx">#34e0ff, α=0.2 ⚠ 今日と同色</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(52,224,255,0.2);">6</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">9</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(52,224,255,0.2);">13</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">14</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">15</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">16</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(52,224,255,0.2);">20</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">21</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">22</div><div class="mini-d done" style="background:rgba(52,224,255,0.2);">23</div><div class="mini-d today done" style="background:rgba(52,224,255,0.2);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+      <!-- B8: 白 (ニュートラル) -->
+      <div class="done-card">
+        <div class="head">
+          <div>
+            <div class="nm">B8: 白（ニュートラル）</div>
+            <div class="hx">#ffffff, α=0.18</div>
+          </div>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-cal-h">月</div><div class="mini-cal-h">火</div><div class="mini-cal-h">水</div><div class="mini-cal-h">木</div><div class="mini-cal-h">金</div><div class="mini-cal-h">土</div><div class="mini-cal-h">日</div>
+          <div class="mini-d empty"></div><div class="mini-d empty"></div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">1</div><div class="mini-d">2</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">3</div><div class="mini-d">4</div><div class="mini-d">5</div>
+          <div class="mini-d done" style="background:rgba(255,255,255,0.18);">6</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">7</div><div class="mini-d">8</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">9</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">10</div><div class="mini-d">11</div><div class="mini-d">12</div>
+          <div class="mini-d done" style="background:rgba(255,255,255,0.18);">13</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">14</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">15</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">16</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">17</div><div class="mini-d">18</div><div class="mini-d">19</div>
+          <div class="mini-d done" style="background:rgba(255,255,255,0.18);">20</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">21</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">22</div><div class="mini-d done" style="background:rgba(255,255,255,0.18);">23</div><div class="mini-d today done" style="background:rgba(255,255,255,0.18);">24</div><div class="mini-d">25</div><div class="mini-d">26</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 推奨組み合わせ -->
+  <div class="section">
+    <h2>UI/UX デザイナーの推奨</h2>
+    <p style="font-size:13px;line-height:1.8;color:rgba(255,255,255,0.85);">
+      <strong>第一推奨</strong>: Ring = <strong>A1（シアン→青）</strong> + Done = <strong>B1（紫 α=0.3）</strong><br>
+      <span style="color:rgba(255,255,255,0.6);font-size:12px;">→ 派手すぎず CTU パレット内で揃う、Today枠（シアン）と明確に区別可能</span><br><br>
+      <strong>暖かみが欲しい場合</strong>: Ring = <strong>A4（ピンク→紫）</strong> + Done = <strong>B1（紫）</strong><br>
+      <strong>達成感を出したい場合</strong>: Ring = <strong>A2（紫→青 KANAME）</strong> + Done = <strong>B3（緑）</strong><br>
+      <strong>クールに統一</strong>: Ring = <strong>A1</strong> + Done = <strong>B2（青）</strong>
+    </p>
+  </div>
+
+  <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:11px;margin-top:32px;">
+    番号で指定してください（例: 「Ring A1 / Done B1 で」）。本番モックに反映します。
+  </p>
+
+</main>
+
+</body>
+</html>
