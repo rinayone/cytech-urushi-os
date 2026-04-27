@@ -50,6 +50,17 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .icon-24 { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .suggest-chip .material-symbols-outlined { font-size: 16px; margin-right: 4px; }
 
+/* 通知バッジ (赤丸): 未読ありを示す universal pattern */
+.notif-icon-wrap { position: relative; display: inline-flex; }
+.notif-badge {
+  position: absolute; top: -2px; right: -3px;
+  width: 8px; height: 8px;
+  background: #f7513b;
+  border-radius: 50%;
+  border: 2px solid #050508;
+  pointer-events: none;
+}
+
 /* B改善: クリック領域拡大 (Fitts) */
 .clickable-panel { cursor: pointer; transition: background 0.15s ease, transform 0.1s ease; }
 .clickable-panel:hover { background: rgba(255,255,255,0.04); }
@@ -462,7 +473,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <button class="suggest-chip" onclick="togglePanel('portfolio', this)"><span class="material-symbols-outlined">analytics</span>ポートフォリオを見る</button>
       <button class="suggest-chip" onclick="togglePanel('level', this)"><span class="material-symbols-outlined">emoji_events</span>学習レベルを見る</button>
       <button class="suggest-chip" onclick="togglePanel('company', this)"><span class="material-symbols-outlined">assignment</span>企業・選考を見る</button>
-      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="color:#fff;"><span class="material-symbols-outlined" style="color:#f8ee1a;">notifications</span>お知らせがあります</button>
+      <button class="suggest-chip" onclick="togglePanel('notif', this)"><span class="notif-icon-wrap"><span class="material-symbols-outlined">notifications</span><span class="notif-badge"></span></span>お知らせがあります</button>
       <div class="suggest-input">
         <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
         <button id="cSend">送信</button>
