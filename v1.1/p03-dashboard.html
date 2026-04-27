@@ -176,43 +176,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* Daily Mission */
 .mission-card { margin-top: 4px; position: relative; }
-.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; display: flex; align-items: center; }
-
-/* === A5: First-visit spotlight on mission card === */
-.mission-card.first-visit {
-  border-radius: 14px;
-  padding: 12px 16px;
-  margin: -12px -16px;
-  animation: missionSpotPulse 2.5s ease-in-out infinite;
-}
-@keyframes missionSpotPulse {
-  0%, 100% { box-shadow: 0 0 0 1.5px rgba(52,224,255,0.35), 0 0 18px rgba(52,224,255,0.18); }
-  50%      { box-shadow: 0 0 0 1.5px rgba(52,224,255,0.65), 0 0 28px rgba(52,224,255,0.32); }
-}
-
-.first-visit-tag {
-  display: none; align-items: center; gap: 4px;
-  margin-left: 10px; padding: 3px 4px 3px 10px; border-radius: 100px;
-  background: linear-gradient(135deg, #34e0ff, #0f4bab);
-  color: #fff; font-family: 'Noto Sans JP', sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
-  box-shadow: 0 2px 10px rgba(52,224,255,0.4);
-  animation: tagBounce 1.6s ease-in-out infinite;
-  text-transform: none;
-}
-.mission-card.first-visit .first-visit-tag { display: inline-flex; }
-@keyframes tagBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-2px); }
-}
-.first-visit-tag .close {
-  width: 16px; height: 16px; border-radius: 50%; cursor: pointer;
-  background: rgba(0,0,0,0.25);
-  display: inline-flex; align-items: center; justify-content: center;
-  transition: background 0.15s ease;
-}
-.first-visit-tag .close:hover { background: rgba(0,0,0,0.45); }
-.first-visit-tag .close .material-symbols-outlined { font-size: 11px; }
+.mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 .mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); transition: opacity 0.2s; }
 .mission-item:last-child { border-bottom: none; }
 .mi-box {
@@ -652,14 +616,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="sp-orb"><div class="og"></div><div class="ob"></div><div class="of"><div class="oe"></div><div class="oe"></div></div></div>
       <div class="sp-content">
         <div class="sp-bubble">おかえりなさい、<strong>佐藤さん</strong>。今日のミッションを用意しました。<span class="hl">あと38時間</span>で面接開放 — まず1つ目から片付けましょう。</div>
-        <div class="mission-card" id="missionCard">
-          <div class="mission-header">
-            TODAY'S MISSION
-            <span class="first-visit-tag">
-              ← まずはここから
-              <span class="close" onclick="dismissFirstVisit(event)" title="閉じる"><span class="material-symbols-outlined">close</span></span>
-            </span>
-          </div>
+        <div class="mission-card">
+          <div class="mission-header">TODAY'S MISSION</div>
           <div class="mission-item" onclick="toggleMission(this)">
             <div class="mi-box">✓</div>
             <div class="mi-text">Unit 5 STEP 3 を完了する</div>
@@ -1056,28 +1014,8 @@ document.addEventListener('click', function(e) {
 });
 
 // Mission: check → auto navigate
-/* === A5: First-visit guidance === */
-function dismissFirstVisit(e) {
-  if (e) { e.stopPropagation(); e.preventDefault(); }
-  var card = document.getElementById('missionCard');
-  if (card) card.classList.remove('first-visit');
-  try { localStorage.setItem('ctu_p03_first_visit_done', '1'); } catch(_) {}
-}
-(function() {
-  // URL ?reset=1 で初回表示を再現できる（デモ用）
-  if (location.search.indexOf('reset=1') >= 0) {
-    try { localStorage.removeItem('ctu_p03_first_visit_done'); } catch(_) {}
-  }
-  if (!(function(){ try { return localStorage.getItem('ctu_p03_first_visit_done'); } catch(_) { return null; } })()) {
-    var card = document.getElementById('missionCard');
-    if (card) card.classList.add('first-visit');
-  }
-})();
-
 function toggleMission(el) {
   if (el.classList.contains('done')) return;
-  // Auto-dismiss first-visit on first mission interaction
-  dismissFirstVisit();
   el.classList.add('done');
   el.querySelector('.mi-box').classList.add('checked');
 
