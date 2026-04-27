@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-04 / P-07 レイアウト提案 — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; }
+
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.4; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+.test-banner {
+  position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 100;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff; font-size: 11px; font-weight: 700;
+}
+
+.main { position: relative; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 70px 24px 60px; }
+
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.sub { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 32px; line-height: 1.7; }
+
+.intro {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px; padding: 22px 26px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15);
+  margin-bottom: 32px;
+}
+.intro h2 { font-size: 14px; margin-bottom: 12px; color: #34e0ff; }
+.intro ul { padding-left: 20px; font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.85); }
+
+.patterns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 40px; }
+@media (max-width: 900px) { .patterns { grid-template-columns: 1fr; } }
+
+.card {
+  background: rgba(0,0,0,0.22);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15), inset 1px 1px 2px rgba(255,255,255,0.2);
+  padding: 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-3px); box-shadow: inset 0px 0px 30px rgba(52,224,255,0.2), 0 8px 24px rgba(0,0,0,0.4); }
+
+.card .badge {
+  display: inline-block; padding: 4px 10px; border-radius: 100px;
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 12px; align-self: flex-start;
+}
+.card.a .badge { background: linear-gradient(135deg, #34e0ff, #0f4bab); color: #fff; }
+.card.b .badge { background: linear-gradient(135deg, #7cbf00, #34e0ff); color: #050508; }
+.card.c .badge { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+
+.card h3 { font-size: 16px; margin-bottom: 6px; }
+.card .desc { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 14px; }
+
+/* Mock thumbnail */
+.thumb {
+  height: 140px; border-radius: 10px; padding: 6px;
+  background: rgba(0,0,0,0.4);
+  display: grid; gap: 4px; margin-bottom: 14px;
+}
+.thumb-a { grid-template-columns: 1fr 1.4fr 1fr; }
+.thumb-a > div {
+  background: linear-gradient(135deg, rgba(52,224,255,0.12), rgba(15,75,171,0.12));
+  border: 1px solid rgba(52,224,255,0.18); border-radius: 6px;
+}
+.thumb-b { grid-template-rows: 24px 24px 1fr; }
+.thumb-b .head { background: linear-gradient(135deg, rgba(149,62,195,0.18), rgba(15,75,171,0.18)); border-radius: 6px; }
+.thumb-b .tabs { display: flex; gap: 3px; }
+.thumb-b .tabs .t { flex: 1; background: rgba(255,255,255,0.04); border-radius: 4px; }
+.thumb-b .tabs .t.active { background: linear-gradient(135deg, #34e0ff, #0f4bab); }
+.thumb-b .body { background: rgba(124,191,0,0.06); border: 1px solid rgba(124,191,0,0.18); border-radius: 6px; }
+.thumb-c { grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 4px; }
+.thumb-c .big { grid-column: 1; grid-row: 1 / span 2; background: linear-gradient(135deg, rgba(241,56,132,0.18), rgba(247,81,59,0.12)); border: 1px solid rgba(241,56,132,0.25); border-radius: 6px; }
+.thumb-c .m1 { grid-column: 2 / span 2; background: rgba(255,255,255,0.05); border-radius: 6px; }
+.thumb-c .m2 { background: rgba(255,255,255,0.05); border-radius: 6px; }
+.thumb-c .m3 { background: rgba(255,255,255,0.05); border-radius: 6px; }
+.thumb-c .m4 { grid-column: 1; background: rgba(255,255,255,0.05); border-radius: 6px; }
+.thumb-c .m5 { background: rgba(255,255,255,0.05); border-radius: 6px; }
+.thumb-c .m6 { background: rgba(255,255,255,0.05); border-radius: 6px; }
+
+.card .traits { display: flex; flex-direction: column; gap: 4px; font-size: 11px; margin-bottom: 14px; }
+.card .traits .row { display: flex; gap: 8px; }
+.card .traits .l { color: rgba(255,255,255,0.4); width: 70px; flex-shrink: 0; }
+.card .traits .v { color: rgba(255,255,255,0.85); flex: 1; }
+
+.card .open-btn {
+  margin-top: auto;
+  padding: 10px 16px; border-radius: 10px;
+  background: linear-gradient(135deg, #953ec3, #0f4bab);
+  color: #fff; font-size: 12px; font-weight: 700; text-align: center;
+}
+
+.compare-table {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px; padding: 22px 26px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15);
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+.compare-table h2 { font-size: 14px; margin-bottom: 14px; color: #34e0ff; }
+.compare-table table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.compare-table th, .compare-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.compare-table th { font-weight: 700; color: rgba(255,255,255,0.6); font-family: 'Lato', sans-serif; font-size: 11px; letter-spacing: 0.5px; }
+.compare-table td { color: rgba(255,255,255,0.85); line-height: 1.6; }
+.compare-table .yes { color: #34e0ff; font-weight: 700; }
+.compare-table .no { color: rgba(255,255,255,0.3); }
+.compare-table .partial { color: #f8ee1a; }
+
+.next-steps {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px; padding: 22px 26px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15);
+}
+.next-steps h2 { font-size: 14px; margin-bottom: 12px; color: #34e0ff; }
+.next-steps p { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<div class="test-banner">
+  🧪 PROPOSAL / TEST VERSION — v1.1 mockには未反映
+</div>
+
+<main class="main">
+  <h1>P-04 / P-07 レイアウト提案</h1>
+  <p class="sub">PC で 1画面内に収まる構成を 3 パターン用意しました。<br>各パターンとも P-04（企業・選考）と P-07（ポートフォリオ）の両方に同じ構造を適用しています。</p>
+
+  <div class="intro">
+    <h2>共通の制約</h2>
+    <ul>
+      <li>PC モーダル想定: <strong>90vw × 90vh</strong>（最小 1280 × 720 程度）でスクロールなし完結</li>
+      <li>既存 v1.1 のデザイントークン（漆ガラス・カラーパレット・フォント）を踏襲</li>
+      <li>P-07 は履歴書機能（基本情報・自己PR・学歴・職歴・資格・スキル・履歴・バッジ）を全て収める</li>
+      <li>P-04 はカリキュラム・ロードマップ・選考・受講中コース・ゲートを全て収める</li>
+    </ul>
+  </div>
+
+  <div class="patterns">
+
+    <a class="card a" href="pattern-a.html">
+      <span class="badge">PATTERN A</span>
+      <h3>3-Column Grid</h3>
+      <p class="desc">情報密度重視。3列で全情報を一覧表示。</p>
+      <div class="thumb thumb-a">
+        <div></div><div></div><div></div>
+      </div>
+      <div class="traits">
+        <div class="row"><span class="l">スタイル</span><span class="v">ダッシュボード型</span></div>
+        <div class="row"><span class="l">情報密度</span><span class="v">★★★ 高い</span></div>
+        <div class="row"><span class="l">操作</span><span class="v">スクロール（列内）</span></div>
+        <div class="row"><span class="l">向く用途</span><span class="v">全体把握・概況確認</span></div>
+      </div>
+      <div class="open-btn">Pattern A を開く →</div>
+    </a>
+
+    <a class="card b" href="pattern-b.html">
+      <span class="badge">PATTERN B</span>
+      <h3>Tab Navigation</h3>
+      <p class="desc">フォーカス重視。タブで切替、画面1つに集中。</p>
+      <div class="thumb thumb-b">
+        <div class="head"></div>
+        <div class="tabs"><div class="t active"></div><div class="t"></div><div class="t"></div></div>
+        <div class="body"></div>
+      </div>
+      <div class="traits">
+        <div class="row"><span class="l">スタイル</span><span class="v">タブナビ型</span></div>
+        <div class="row"><span class="l">情報密度</span><span class="v">★★ 中</span></div>
+        <div class="row"><span class="l">操作</span><span class="v">タブクリックで切替</span></div>
+        <div class="row"><span class="l">向く用途</span><span class="v">深掘り・編集</span></div>
+      </div>
+      <div class="open-btn">Pattern B を開く →</div>
+    </a>
+
+    <a class="card c" href="pattern-c.html">
+      <span class="badge">PATTERN C</span>
+      <h3>Bento Box</h3>
+      <p class="desc">メリハリ重視。重要情報を大きく、サブを小さく。</p>
+      <div class="thumb thumb-c">
+        <div class="big"></div>
+        <div class="m1"></div>
+        <div class="m2"></div>
+        <div class="m3"></div>
+        <div class="m4"></div>
+        <div class="m5"></div>
+        <div class="m6"></div>
+      </div>
+      <div class="traits">
+        <div class="row"><span class="l">スタイル</span><span class="v">マガジン型</span></div>
+        <div class="row"><span class="l">情報密度</span><span class="v">★★★ 高い（強弱あり）</span></div>
+        <div class="row"><span class="l">操作</span><span class="v">タイル内スクロール</span></div>
+        <div class="row"><span class="l">向く用途</span><span class="v">アピール・印象付け</span></div>
+      </div>
+      <div class="open-btn">Pattern C を開く →</div>
+    </a>
+
+  </div>
+
+  <div class="compare-table">
+    <h2>比較表</h2>
+    <table>
+      <tr>
+        <th></th>
+        <th>Pattern A<br>3-Column Grid</th>
+        <th>Pattern B<br>Tab Navigation</th>
+        <th>Pattern C<br>Bento Box</th>
+      </tr>
+      <tr>
+        <td>1画面完結性</td>
+        <td><span class="yes">◎</span> 全情報視認</td>
+        <td><span class="partial">○</span> タブ単位で完結</td>
+        <td><span class="yes">◎</span> 全情報視認（強弱あり）</td>
+      </tr>
+      <tr>
+        <td>情報の優先度表現</td>
+        <td><span class="partial">△</span> 列単位の重み</td>
+        <td><span class="yes">◎</span> タブ順で明確</td>
+        <td><span class="yes">◎</span> サイズで明示</td>
+      </tr>
+      <tr>
+        <td>新規ユーザーの理解</td>
+        <td><span class="partial">△</span> 情報量で圧倒</td>
+        <td><span class="yes">◎</span> 1タブずつ</td>
+        <td><span class="yes">◎</span> ヒーローで方向付け</td>
+      </tr>
+      <tr>
+        <td>編集UIとの相性</td>
+        <td><span class="partial">△</span> 列内だと窮屈</td>
+        <td><span class="yes">◎</span> タブ単位で編集</td>
+        <td><span class="partial">○</span> タイル内で編集</td>
+      </tr>
+      <tr>
+        <td>ペルソナ適合（夜疲れ時）</td>
+        <td><span class="partial">△</span> 情報多すぎ</td>
+        <td><span class="yes">◎</span> 集中しやすい</td>
+        <td><span class="yes">◎</span> 視線誘導◎</td>
+      </tr>
+      <tr>
+        <td>面接官の見やすさ（履歴書として）</td>
+        <td><span class="partial">○</span> 全情報すぐ見える</td>
+        <td><span class="partial">△</span> タブ切替必要</td>
+        <td><span class="yes">◎</span> 重要情報が大きい</td>
+      </tr>
+      <tr>
+        <td>モバイル対応の容易さ</td>
+        <td><span class="partial">△</span> 列がスタックする</td>
+        <td><span class="yes">◎</span> 自然にスタック</td>
+        <td><span class="partial">○</span> グリッド再構成必要</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="next-steps">
+    <h2>選定の観点</h2>
+    <p>Pattern B はモーダル内/モバイルで安定、ただし「全体を一目で見せる」用途には弱い。<br>
+    Pattern A と C は 1 画面で全情報を見せる構成だが、A は均等密度・C は強弱あり。<br>
+    P-07（ポートフォリオ＝履歴書）は <strong>面接官に印象を残す</strong> 観点で C が強く、P-04（企業・選考＝進捗確認）は <strong>状況把握</strong> 観点で A が強い、という分け方も検討余地あり。</p>
+    <p style="margin-top:10px;color:rgba(255,255,255,0.6);">フィードバックを元にどのパターン（または組み合わせ）で進めるか決定 → 本番モックに反映の流れになります。</p>
+  </div>
+
+</main>
+
+</body>
+</html>

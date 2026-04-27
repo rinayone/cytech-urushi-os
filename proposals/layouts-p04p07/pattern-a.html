@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-04/P-07 Pattern A: 3-Column Grid — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; overflow: hidden; }
+
+/* BG */
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.45; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+/* TEST BANNER */
+.test-banner {
+  position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 100;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  color: #fff; font-size: 11px; font-weight: 700; padding: 0 16px;
+}
+.test-banner .label { font-family: 'Lato', sans-serif; letter-spacing: 0.5px; }
+.test-banner .info-link { color: #fff; text-decoration: underline; opacity: 0.85; cursor: pointer; }
+.mode-toggle {
+  position: fixed; top: 50px; left: 50%; transform: translateX(-50%); z-index: 90;
+  display: flex; gap: 2px; padding: 3px; background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px; box-shadow: inset 1px 1px 12px rgba(255,255,255,0.15);
+}
+.mode-toggle button {
+  padding: 7px 22px; background: none; border: none; border-radius: 100px;
+  color: rgba(255,255,255,0.55); font-family: 'Lato', 'Noto Sans JP', sans-serif;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+}
+.mode-toggle button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+
+/* STAGE */
+.stage {
+  position: fixed; top: 96px; left: 16px; right: 16px; bottom: 16px; z-index: 10;
+  display: flex; gap: 12px;
+}
+.col {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.18), inset 1px 1px 2px rgba(255,255,255,0.25);
+  padding: 16px 18px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.col-l { width: 280px; flex-shrink: 0; }
+.col-c { flex: 1; min-width: 0; }
+.col-r { width: 280px; flex-shrink: 0; }
+
+/* Titles & general */
+.sec-ttl {
+  font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  margin-bottom: 6px;
+}
+.hl { color: #34e0ff; }
+
+/* Reusable cards */
+.mini-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 12px;
+}
+.mini-card.accent {
+  background: linear-gradient(135deg, rgba(241,56,132,0.1), rgba(247,81,59,0.06));
+  border-color: rgba(241,56,132,0.3);
+}
+
+/* Page panes */
+.page { display: none; flex: 1; gap: 12px; }
+.page.active { display: flex; min-height: 0; }
+
+/* ===================== P-04 ===================== */
+
+/* P-04 Left: 受講中・ゲート */
+.course-banner { padding: 14px; border-radius: 12px; background: linear-gradient(135deg, rgba(241,56,132,0.15), rgba(247,81,59,0.1)); border: 1px solid rgba(241,56,132,0.3); }
+.cb-tag { display: inline-block; padding: 3px 10px; background: linear-gradient(135deg, #f7513b, #f13884); border-radius: 100px; font-size: 9px; font-weight: 700; margin-bottom: 6px; }
+.cb-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; line-height: 1.4; }
+.cb-meta { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+.cb-pct { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.cb-bar { height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.cb-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+
+.gate-card { padding: 12px; background: rgba(0,0,0,0.25); border-radius: 12px; }
+.gate-card .gh { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; font-size: 11px; font-weight: 700; }
+.gate-card .gh .ic { font-size: 16px; }
+.gate-card .gd { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+
+/* P-04 Center: カリキュラム */
+.curriculum-list { display: flex; flex-direction: column; gap: 8px; }
+.cu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.cu-item:hover { background: rgba(255,255,255,0.06); }
+.cu-item .num { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.1); width: 32px; }
+.cu-item .body { flex: 1; min-width: 0; }
+.cu-item .name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+.cu-item .desc { font-size: 10px; color: rgba(255,255,255,0.5); }
+.cu-item .badge {
+  font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 100px; flex-shrink: 0;
+}
+.cu-item.done .badge { background: rgba(52,224,255,0.15); color: #34e0ff; }
+.cu-item.current .badge { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.cu-item.locked .badge { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+.cu-bar { height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+.cu-bar > div { height: 100%; background: #f13884; }
+
+/* P-04 Right: ロードマップ + 選考 */
+.roadmap-vert { display: flex; flex-direction: column; gap: 6px; }
+.rv-step { display: flex; gap: 10px; align-items: center; padding: 8px 0; font-size: 11px; }
+.rv-step .dot { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.rv-step.active .dot { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.rv-step.done .dot { background: rgba(52,224,255,0.2); color: #34e0ff; border: 1px solid #34e0ff; }
+.rv-step.future .dot { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+.rv-step .nm { flex: 1; }
+.rv-step.future .nm { color: rgba(255,255,255,0.4); }
+.rv-step .pct { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+.selection-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+}
+.selection-row .av { width: 28px; height: 28px; border-radius: 7px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); }
+.selection-row .body { flex: 1; min-width: 0; }
+.selection-row .name { font-size: 11px; font-weight: 700; }
+.selection-row .role { font-size: 10px; color: rgba(255,255,255,0.45); }
+.selection-row .st { font-size: 9px; padding: 3px 8px; border-radius: 100px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
+
+/* ===================== P-07 ===================== */
+
+/* P-07 Left: profile + stats + basic info */
+.profile-mini { display: flex; gap: 10px; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+.profile-mini .orb {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);
+  filter: blur(1.5px) saturate(1.2);
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+}
+.profile-mini .name { font-size: 14px; font-weight: 700; }
+.profile-mini .meta { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+.stats-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.stat-mini { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; text-align: center; }
+.stat-mini .v { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 700; }
+.stat-mini .l { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+.basic-list { font-size: 11px; line-height: 1.7; }
+.basic-list dt { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 700; margin-top: 6px; }
+.basic-list dt:first-child { margin-top: 0; }
+.basic-list dd { color: rgba(255,255,255,0.85); }
+
+.lvl-pill {
+  padding: 6px 12px; border-radius: 100px;
+  background: linear-gradient(135deg, rgba(52,224,255,0.18), rgba(15,75,171,0.18));
+  border: 1px solid rgba(52,224,255,0.3);
+  font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: #34e0ff;
+  display: inline-block;
+}
+
+/* P-07 Center: 履歴書情報 */
+.pr-card { padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
+.pr-card .text { font-size: 11.5px; line-height: 1.7; color: rgba(255,255,255,0.85); }
+
+.career-list, .edu-list { display: flex; flex-direction: column; gap: 6px; }
+.cl-item, .el-item { padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; }
+.cl-item .ttl, .el-item .ttl { font-size: 11.5px; font-weight: 700; margin-bottom: 2px; }
+.cl-item .sub, .el-item .sub { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.cl-item .pd { font-size: 10px; color: #34e0ff; font-family: 'Lato', sans-serif; }
+.cl-item .desc { font-size: 10.5px; color: rgba(255,255,255,0.65); margin-top: 4px; line-height: 1.6; }
+.cl-item .active-tag { display: inline-block; padding: 2px 6px; background: linear-gradient(135deg, #f7513b, #f13884); border-radius: 100px; font-size: 8px; font-weight: 700; margin-left: 4px; }
+
+.cert-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.cert-pill { padding: 5px 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; font-size: 10px; }
+
+/* P-07 Right: 学習成果 */
+.skill-row-mini { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 10px; }
+.skill-row-mini .nm { width: 60px; color: rgba(255,255,255,0.55); flex-shrink: 0; }
+.skill-row-mini .tr { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.skill-row-mini .fl { height: 100%; }
+.skill-row-mini .fl.full { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.skill-row-mini .fl.partial { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
+.skill-row-mini .fl.early { background: linear-gradient(to right, #0f4bab, #34e0ff); }
+.skill-row-mini .v { font-family: 'Lato', sans-serif; font-size: 9px; color: rgba(255,255,255,0.4); width: 30px; text-align: right; }
+
+.badge-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.badge-mini { padding: 4px 10px; border-radius: 100px; font-size: 9px; font-weight: 700; }
+.badge-earned { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.badge-locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.06); }
+
+.log-row { font-size: 10.5px; line-height: 1.6; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); display: flex; gap: 6px; align-items: flex-start; }
+.log-row:last-child { border: 0; }
+.log-row .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.log-row .body { flex: 1; }
+.log-row .nm { color: rgba(255,255,255,0.85); font-weight: 700; font-size: 10.5px; }
+.log-row .dt { font-family: 'Lato', sans-serif; font-size: 9px; color: rgba(255,255,255,0.3); }
+
+@media (max-width: 1100px) {
+  .col-l, .col-r { width: 240px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<div class="test-banner">
+  <span>🧪 PROPOSAL / TEST VERSION</span>
+  <span style="opacity:0.5;">|</span>
+  <span class="label">Pattern A: 3-Column Grid（情報密度重視）</span>
+  <span style="opacity:0.5;">|</span>
+  <a href="index.html" class="info-link">他のパターンを見る →</a>
+</div>
+
+<div class="mode-toggle">
+  <button class="active" onclick="switchPage('p04')">P-04 企業・選考</button>
+  <button onclick="switchPage('p07')">P-07 ポートフォリオ</button>
+</div>
+
+<!-- ============================ P-04 ============================ -->
+<div class="stage page active" id="pageP04">
+
+  <!-- LEFT: 受講中 + ゲート -->
+  <div class="col col-l">
+    <div class="sec-ttl">受講中コース</div>
+    <div class="course-banner">
+      <span class="cb-tag">受講中</span>
+      <div class="cb-name">情シス基礎コース<br>◯◯株式会社</div>
+      <div class="cb-meta">全8 Unit / 推定80時間</div>
+      <div class="cb-pct">52<span style="font-size:11px;color:rgba(255,255,255,0.5);">%</span></div>
+      <div class="cb-bar"><div style="width:52%"></div></div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:8px;">Skill Prime ゲート</div>
+    <div class="gate-card">
+      <div class="gh"><span class="ic">🔒</span>面接資格まで <span class="hl">残り 38h</span></div>
+      <div class="gd">カリキュラム100%完了でゲート解除。完了で◯◯株式会社の面接が確約されます。</div>
+    </div>
+  </div>
+
+  <!-- CENTER: カリキュラム一覧 -->
+  <div class="col col-c">
+    <div class="sec-ttl">カリキュラム（Unit 1〜5）</div>
+    <div class="curriculum-list">
+      <div class="cu-item done">
+        <span class="num">01</span>
+        <div class="body"><div class="name">IT基礎・ハードウェア</div><div class="desc">コンピューターの基本構造とハードウェア / 20h</div></div>
+        <span class="badge">完了 ✓</span>
+      </div>
+      <div class="cu-item done">
+        <span class="num">02</span>
+        <div class="body"><div class="name">OS・ソフトウェア基礎</div><div class="desc">OS構造、プロセス管理、ファイルシステム / 15h</div></div>
+        <span class="badge">完了 ✓</span>
+      </div>
+      <div class="cu-item current">
+        <span class="num">03</span>
+        <div class="body">
+          <div class="name">ネットワーク基礎</div>
+          <div class="desc">IP、DNS、ルーティング、セキュリティ / 20h</div>
+          <div class="cu-bar"><div style="width:37%"></div></div>
+        </div>
+        <span class="badge">受講中 37%</span>
+      </div>
+      <div class="cu-item locked">
+        <span class="num">04</span>
+        <div class="body"><div class="name">セキュリティ入門</div><div class="desc">脅威対策、認証、暗号化の基礎 / 15h</div></div>
+        <span class="badge">未開始</span>
+      </div>
+      <div class="cu-item locked">
+        <span class="num">05</span>
+        <div class="body"><div class="name">総合演習・実技課題</div><div class="desc">実務シミュレーション、総合力判定 / 10h</div></div>
+        <span class="badge">未開始</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: ロードマップ + 選考 -->
+  <div class="col col-r">
+    <div class="sec-ttl">採用ロードマップ</div>
+    <div class="roadmap-vert">
+      <div class="rv-step active"><span class="dot">▸</span><span class="nm">学習中</span><span class="pct">52%</span></div>
+      <div class="rv-step future"><span class="dot">2</span><span class="nm">達成</span><span class="pct">100%完了時</span></div>
+      <div class="rv-step future"><span class="dot">3</span><span class="nm">エントリー</span><span class="pct">ゲート解除後</span></div>
+      <div class="rv-step future"><span class="dot">4</span><span class="nm">書類選考</span></div>
+      <div class="rv-step future"><span class="dot">5</span><span class="nm">面接</span><span class="pct">確約</span></div>
+      <div class="rv-step future"><span class="dot">6</span><span class="nm">内定</span></div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:8px;">選考ステータス</div>
+    <div class="selection-row">
+      <div class="av">A</div>
+      <div class="body"><div class="name">◯◯株式会社</div><div class="role">情シス — 社内IT</div></div>
+      <span class="st">学習中</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================ P-07 ============================ -->
+<div class="stage page" id="pageP07">
+
+  <!-- LEFT: profile + stats + basic info -->
+  <div class="col col-l">
+    <div class="profile-mini">
+      <div class="orb">SK</div>
+      <div>
+        <div class="name">佐藤 健太</div>
+        <div class="meta">情シス志望 / 経過97日</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="lvl-pill">B1 Rookie</span>
+      <span style="font-size:10px;color:rgba(255,255,255,0.5);">Skill Primeまで残48%</span>
+    </div>
+
+    <div class="stats-2x2">
+      <div class="stat-mini"><div class="v">42<span style="font-size:10px;">h</span></div><div class="l">学習時間</div></div>
+      <div class="stat-mini"><div class="v">52<span style="font-size:10px;">%</span></div><div class="l">進捗</div></div>
+      <div class="stat-mini"><div class="v">82<span style="font-size:10px;">%</span></div><div class="l">正答率</div></div>
+      <div class="stat-mini"><div class="v">12</div><div class="l">閲覧数</div></div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:8px;">基本情報</div>
+    <dl class="basic-list mini-card">
+      <dt>ふりがな</dt><dd>さとう けんた</dd>
+      <dt>生年月日</dt><dd>1999.04.15（26歳）</dd>
+      <dt>居住地</dt><dd>東京都新宿区</dd>
+      <dt>連絡先</dt><dd>kenta.sato@example.com</dd>
+    </dl>
+  </div>
+
+  <!-- CENTER: 履歴書情報 -->
+  <div class="col col-c">
+    <div class="sec-ttl">自己PR</div>
+    <div class="pr-card">
+      <div class="text">営業職として5年間、IT企業を中心とした法人営業に従事。商談先のシステム部門との接点でITへの興味が深まり、未経験からのキャリアチェンジを決意。CTUで IT基礎・OS・ネットワークを体系的に学習中。営業で培った課題ヒアリング力 × 社内IT領域の学習意欲を強みとし、DX推進に貢献したい。</div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:6px;">職歴</div>
+    <div class="career-list">
+      <div class="cl-item">
+        <div class="ttl">◯◯商事株式会社<span class="active-tag">在職中</span></div>
+        <div class="sub">営業部 法人営業課 / 主任</div>
+        <div class="pd">2021.04 〜 現在</div>
+        <div class="desc">IT企業向け法人営業（年商3億円担当）。3年連続で年間目標110%以上達成。</div>
+      </div>
+      <div class="cl-item">
+        <div class="ttl">株式会社△△マーケティング</div>
+        <div class="sub">営業部 / 一般職</div>
+        <div class="pd">2021.04 〜 2022.12</div>
+      </div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:6px;">学歴</div>
+    <div class="edu-list">
+      <div class="el-item"><div class="ttl">◯◯大学 経済学部 経営学科</div><div class="pd" style="color:#34e0ff;">2017.04 〜 2021.03 卒業</div></div>
+      <div class="el-item"><div class="ttl">△△高等学校 普通科</div><div class="pd" style="color:#34e0ff;">2014.04 〜 2017.03 卒業</div></div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:6px;">資格・語学</div>
+    <div class="cert-row">
+      <span class="cert-pill">基本情報技術者試験 (2024)</span>
+      <span class="cert-pill">TOEIC 750 (2023)</span>
+      <span class="cert-pill">普通自動車免許</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: 学習成果 -->
+  <div class="col col-r">
+    <div class="sec-ttl">スキルグラフ B1〜B5</div>
+    <div class="mini-card" style="padding:10px 12px;">
+      <div class="skill-row-mini"><span class="nm">IT基礎</span><span class="tr"><span class="fl full" style="width:100%"></span></span><span class="v">B1</span></div>
+      <div class="skill-row-mini"><span class="nm">HW基礎</span><span class="tr"><span class="fl full" style="width:100%"></span></span><span class="v">B1</span></div>
+      <div class="skill-row-mini"><span class="nm">OS基礎</span><span class="tr"><span class="fl partial" style="width:85%"></span></span><span class="v">85%</span></div>
+      <div class="skill-row-mini"><span class="nm">NW</span><span class="tr"><span class="fl early" style="width:37%"></span></span><span class="v">37%</span></div>
+      <div class="skill-row-mini"><span class="nm">SC</span><span class="tr"><span class="fl"></span></span><span class="v">—</span></div>
+      <div class="skill-row-mini"><span class="nm">DB</span><span class="tr"><span class="fl"></span></span><span class="v">—</span></div>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:6px;">獲得バッジ</div>
+    <div class="badge-grid">
+      <span class="badge-mini badge-earned">IT</span>
+      <span class="badge-mini badge-earned">HW</span>
+      <span class="badge-mini badge-earned">OS</span>
+      <span class="badge-mini badge-locked">NW</span>
+      <span class="badge-mini badge-locked">SC</span>
+      <span class="badge-mini badge-locked">DB</span>
+      <span class="badge-mini badge-locked">EX</span>
+      <span class="badge-mini badge-locked">SP</span>
+    </div>
+
+    <div class="sec-ttl" style="margin-top:6px;">学習履歴 (直近)</div>
+    <div class="mini-card" style="padding:8px 12px;">
+      <div class="log-row"><span class="dot" style="background:#34e0ff;"></span><div class="body"><div class="nm">Unit 5 STEP 3 完了</div><span class="dt">2025.06.04</span></div></div>
+      <div class="log-row"><span class="dot" style="background:#34e0ff;"></span><div class="body"><div class="nm">Unit 5 STEP 2 完了</div><span class="dt">2025.06.03</span></div></div>
+      <div class="log-row"><span class="dot" style="background:#f13884;"></span><div class="body"><div class="nm">Unit 4 課題 B1判定</div><span class="dt">2025.06.01</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchPage(p) {
+  document.querySelectorAll('.mode-toggle button').forEach((b,i) => b.classList.toggle('active', (p==='p04' && i===0) || (p==='p07' && i===1)));
+  document.getElementById('pageP04').classList.toggle('active', p === 'p04');
+  document.getElementById('pageP07').classList.toggle('active', p === 'p07');
+}
+</script>
+
+</body>
+</html>
