@@ -19,11 +19,30 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 .header { position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50; display: flex; align-items: center; padding: 0 18px; gap: 10px; background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2); }
 .header img { height: 22px; }
-.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.55); }
 .header .hr { margin-left: auto; display: flex; gap: 8px; }
-.hb { padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.2s; border: none; color: #fff; }
+.hb { padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s ease; border: none; color: #fff; }
 .hb-blue { background: linear-gradient(135deg, #0f4bab, #34e0ff); }
 .hb-blue:hover { opacity: 0.9; }
+
+/* === Design Tokens (B-1 / B-3 / B-4 / B-5) === */
+:root {
+  --cta-grad: linear-gradient(135deg, #f7513b, #f13884);
+  --accent: #34e0ff;
+  --brand-grad: linear-gradient(135deg, #953ec3, #0f4bab);
+  --info: #f8ee1a;
+  --success: #7cbf00;
+  --warning: #f7513b;
+  --rainbow: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+  --text-1: rgba(255,255,255,0.95);
+  --text-2: rgba(255,255,255,0.75);
+  --text-3: rgba(255,255,255,0.6);
+  --text-4: rgba(255,255,255,0.4);
+  --fs-10: 10px; --fs-11: 11px; --fs-12: 12px; --fs-13: 13px;
+  --fs-14: 14px; --fs-16: 16px; --fs-20: 20px; --fs-28: 28px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+}
 
 /* Logo ↔ KANAME swap */
 .logo-swap { position: relative; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
@@ -65,7 +84,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 .sec-ttl {
   font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6);
 }
 .sec-ttl:first-child { margin-top: 0; }
 
@@ -106,7 +125,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   display: flex; align-items: center; gap: 14px;
   padding: 14px 16px; background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
-  cursor: pointer; transition: all 0.15s;
+  cursor: pointer; transition: all 0.15s ease;
 }
 .cu-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(52,224,255,0.2); }
 .cu-item .num { font-family: 'Lato', sans-serif; font-size: 26px; font-weight: 900; color: rgba(255,255,255,0.12); width: 36px; flex-shrink: 0; line-height: 1; }
@@ -121,7 +140,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .cu-item.done .badge { background: rgba(52,224,255,0.15); color: #34e0ff; }
 .cu-item.current { border-color: rgba(241,56,132,0.3); background: rgba(241,56,132,0.05); }
 .cu-item.current .badge { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
-.cu-item.locked .badge { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+.cu-item.locked .badge { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); }
 .cu-item .right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
 .cu-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 6px; overflow: hidden; }
 .cu-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f13884); }
@@ -141,11 +160,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .rv-step.active .dot { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
 .rv-step.done .dot { background: rgba(52,224,255,0.2); color: #34e0ff; border: 1px solid #34e0ff; }
-.rv-step.future .dot { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+.rv-step.future .dot { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.1); }
 .rv-step .nm { flex: 1; }
 .rv-step.future .nm { color: rgba(255,255,255,0.45); }
 .rv-step.active .nm { color: #fff; font-weight: 700; }
-.rv-step .pct { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); }
+.rv-step .pct { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.6); }
 
 .selection-card {
   padding: 12px; background: rgba(255,255,255,0.04);

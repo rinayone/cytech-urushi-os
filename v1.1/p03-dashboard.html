@@ -13,6 +13,32 @@ html, body { height: 100%; overflow: hidden; }
 body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; opacity: 0; animation: pageIn 0.8s ease 0.1s forwards; }
 @keyframes pageIn { to { opacity: 1; } }
 
+/* === Design Tokens (B-1 / B-3 / B-4) === */
+:root {
+  /* Color tokens */
+  --cta-grad: linear-gradient(135deg, #f7513b, #f13884);
+  --accent: #34e0ff;
+  --brand-grad: linear-gradient(135deg, #953ec3, #0f4bab);
+  --info: #f8ee1a;
+  --success: #7cbf00;
+  --warning: #f7513b;
+  --rainbow: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+
+  /* Text contrast (B-5) */
+  --text-1: rgba(255,255,255,0.95);  /* primary */
+  --text-2: rgba(255,255,255,0.75);  /* secondary */
+  --text-3: rgba(255,255,255,0.6);   /* tertiary (補助) */
+  --text-4: rgba(255,255,255,0.4);   /* disabled */
+
+  /* Typography (B-3) */
+  --fs-10: 10px; --fs-11: 11px; --fs-12: 12px; --fs-13: 13px;
+  --fs-14: 14px; --fs-16: 16px; --fs-20: 20px; --fs-28: 28px;
+
+  /* Spacing (B-4) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+}
+
 /* === Material Symbols Icons === */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -50,10 +76,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sb-level { padding: 5px 18px; border-radius: 100px; background: linear-gradient(135deg, rgba(52,224,255,0.15), rgba(15,75,171,0.15)); border: 1px solid rgba(52,224,255,0.3); color: #34e0ff; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; margin-bottom: 20px; }
 .sb-label { font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; width: 100%; text-align: left; margin-top: 20px; }
 .sb-badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.sb-badge { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: 'Lato', sans-serif; transition: all 0.2s; cursor: pointer; }
+.sb-badge { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: 'Lato', sans-serif; transition: all 0.15s ease; cursor: pointer; }
 .sb-badge.earned { color: #fff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.3); }
 .sb-badge.earned:hover { transform: scale(1.1); }
-.sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08); }
+.sb-badge.locked { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.08); }
 
 .sb-cal { width: 100%; padding: 0; margin-top: 6px; }
 .sb-cal-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
@@ -62,7 +88,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sb-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
 .sb-cal-h { font-size: 6px; color: rgba(255,255,255,0.5); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
 .sb-cal-d { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.2); }
-.sb-cal-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.4); }
+.sb-cal-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.6); }
 .sb-cal-d.l2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.55); }
 .sb-cal-d.l3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.5); }
 .sb-cal-d.l4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
@@ -80,7 +106,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 60;
 }
 .sb-account-menu.show { display: block; }
-.sb-menu-item { padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.7); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.sb-menu-item { padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.7); border-radius: 8px; cursor: pointer; transition: all 0.15s ease; }
 .sb-menu-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
 
 /* ===== RIGHT: Main ===== */
@@ -105,11 +131,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .mission-header { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 .mission-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); transition: opacity 0.2s; }
 .mission-item:last-child { border-bottom: none; }
-.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.35); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.25s; cursor: pointer; }
-.mi-box:hover { border-color: rgba(255,255,255,0.4); }
+.mi-box { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.35); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.15s ease; cursor: pointer; }
+.mi-box:hover { border-color: rgba(255,255,255,0.6); }
 .mi-box.checked { background: linear-gradient(135deg, #f7513b, #f13884); border-color: transparent; color: #fff; }
-.mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.25s; }
-.mission-item.done .mi-text { color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.mi-text { font-size: 13px; flex: 1; color: rgba(255,255,255,0.85); transition: all 0.15s ease; }
+.mission-item.done .mi-text { color: rgba(255,255,255,0.55); text-decoration: line-through; }
 .mi-time { font-size: 11px; color: rgba(255,255,255,0.5); font-family: 'Lato', sans-serif; font-weight: 700; flex-shrink: 0; }
 .mission-item.navigating .mi-box { transform: scale(1.15); }
 .mission-item.navigating { opacity: 0.6; }
@@ -123,14 +149,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .suggest-chip {
   padding: 8px 14px; background: transparent; border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 100px; color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 500;
-  cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; flex-shrink: 0;
+  cursor: pointer; transition: all 0.15s ease; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; flex-shrink: 0;
 }
-.suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); color: #fff; }
+.suggest-chip:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.55); color: #fff; }
 .suggest-chip.active { background: rgba(52,224,255,0.1); border-color: rgba(52,224,255,0.3); color: #34e0ff; }
 .suggest-input { display: flex; gap: 6px; flex: 1; min-width: 0; }
 .suggest-input input { flex: 1; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 100px; color: #fff; font-size: 11px; outline: none; font-family: inherit; min-width: 0; }
-.suggest-input input::placeholder { color: rgba(255,255,255,0.35); }
-.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.suggest-input input::placeholder { color: rgba(255,255,255,0.55); }
+.suggest-input button { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s ease; white-space: nowrap; }
 .suggest-input button.active { background: linear-gradient(135deg, #953ec3, #0f4bab); border-color: transparent; color: #fff; }
 
 /* Dynamic area */
@@ -166,7 +192,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ld-item.current { background: rgba(52,224,255,0.08); border: 1px solid rgba(52,224,255,0.2); }
 .ld-rank { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 900; width: 32px; }
 .ld-rank.active { color: #34e0ff; }
-.ld-rank.locked { color: rgba(255,255,255,0.35); }
+.ld-rank.locked { color: rgba(255,255,255,0.55); }
 .ld-name { font-weight: 700; width: 60px; }
 .ld-desc { color: rgba(255,255,255,0.5); flex: 1; }
 
@@ -195,7 +221,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.18);
   border-radius: 50%; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; font-family: inherit;
+  transition: all 0.15s ease; font-family: inherit;
 }
 .detail-modal-close:hover { background: rgba(247,81,59,0.85); border-color: rgba(247,81,59,1); }
 
@@ -246,7 +272,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 /* Hamburger (hidden on PC) */
 .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-shrink: 0; }
-.hamburger span { display: block; width: 18px; height: 2px; background: rgba(255,255,255,0.6); margin: 4px 0; border-radius: 1px; transition: all 0.25s; }
+.hamburger span { display: block; width: 18px; height: 2px; background: rgba(255,255,255,0.6); margin: 4px 0; border-radius: 1px; transition: all 0.15s ease; }
 .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 4px); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -4px); }
@@ -426,7 +452,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <button class="suggest-chip" onclick="togglePanel('portfolio', this)"><span class="material-symbols-outlined">analytics</span>ポートフォリオを見る</button>
       <button class="suggest-chip" onclick="togglePanel('level', this)"><span class="material-symbols-outlined">emoji_events</span>学習レベルを見る</button>
       <button class="suggest-chip" onclick="togglePanel('company', this)"><span class="material-symbols-outlined">assignment</span>企業・選考を見る</button>
-      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(247,81,59,0.3);color:#f7513b;"><span class="material-symbols-outlined">notifications</span>お知らせがあります</button>
+      <button class="suggest-chip" onclick="togglePanel('notif', this)" style="border-color:rgba(248,238,26,0.4);color:#f8ee1a;"><span class="material-symbols-outlined">notifications</span>お知らせがあります</button>
       <div class="suggest-input">
         <input type="text" placeholder="KANAMEに質問する..." oninput="document.getElementById('cSend').classList.toggle('active',this.value.trim().length>0)">
         <button id="cSend">送信</button>
@@ -546,7 +572,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <div class="avatar-opt" onclick="pickAvatar(this,'pink')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
           <div class="avatar-opt" onclick="pickAvatar(this,'purple')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#953ec3,#0f4bab);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
           <div class="avatar-opt" onclick="pickAvatar(this,'rainbow')" style="width:36px;height:36px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
-          <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.3);transition:all 0.2s;" title="画像をアップロード">📷<input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
+          <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.55);transition:all 0.2s;" title="画像をアップロード">📷<input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
         </div>
       </div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>
@@ -604,11 +630,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <!-- Curriculum list -->
     <div class="pp-label">カリキュラム一覧</div>
     <div style="margin-bottom:16px;">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;" onclick="location.href='p05-lesson.html'"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">01</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">IT基礎・ハードウェア</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">コンピューターの基本構造とハードウェア / 20h</div></div><span style="font-size:10px;color:#34e0ff;">完了済</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">02</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">OS・ソフトウェア基礎</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">OS構造、プロセス管理、ファイルシステム / 15h</div></div><span style="font-size:10px;color:#34e0ff;">完了済</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">03</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">ネットワーク基礎</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">IP、DNS、ルーティング、セキュリティ / 20h</div></div><span style="font-size:10px;color:#f13884;">受講中</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">04</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">セキュリティ入門</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">脅威対策、認証、暗号化の基礎 / 15h</div></div><span style="font-size:10px;color:rgba(255,255,255,0.2);">未開始</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">05</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">総合演習・実技課題</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">実務シミュレーション、総合力判定 / 10h</div></div><span style="font-size:10px;color:rgba(255,255,255,0.2);">未開始</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;" onclick="location.href='p05-lesson.html'"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">01</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">IT基礎・ハードウェア</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">コンピューターの基本構造とハードウェア / 20h</div></div><span style="font-size:10px;color:#34e0ff;">完了済</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">02</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">OS・ソフトウェア基礎</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">OS構造、プロセス管理、ファイルシステム / 15h</div></div><span style="font-size:10px;color:#34e0ff;">完了済</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">03</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">ネットワーク基礎</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">IP、DNS、ルーティング、セキュリティ / 20h</div></div><span style="font-size:10px;color:#f13884;">受講中</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">04</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">セキュリティ入門</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">脅威対策、認証、暗号化の基礎 / 15h</div></div><span style="font-size:10px;color:rgba(255,255,255,0.2);">未開始</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;"><span style="font-family:'Lato',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.08);width:28px;">05</span><div style="flex:1;"><div style="font-size:12px;font-weight:700;">総合演習・実技課題</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">実務シミュレーション、総合力判定 / 10h</div></div><span style="font-size:10px;color:rgba(255,255,255,0.2);">未開始</span></div>
     </div>
   </div>
 </div>
@@ -659,11 +685,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#f7513b;color:#fff;">IT基礎 修了</span>
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#f13884;color:#fff;">HW基礎 修了</span>
           <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:#953ec3;color:#fff;">OS基礎 修了</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">ネットワーク</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">セキュリティ</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">データベース</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">総合演習</span>
-          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);">Skill Prime</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);">ネットワーク</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);">セキュリティ</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);">データベース</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);">総合演習</span>
+          <span style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);">Skill Prime</span>
         </div>
       </div>
     </div>
@@ -697,7 +723,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
             <span style="font-size:12px;">ポートフォリオを企業に公開</span>
             <div style="width:40px;height:22px;background:linear-gradient(to right,#953ec3,#0f4bab);border-radius:11px;position:relative;cursor:pointer;" onclick="this.classList.toggle('off');this.style.background=this.classList.contains('off')?'rgba(255,255,255,0.15)':'linear-gradient(to right,#953ec3,#0f4bab)';"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:3px;left:21px;transition:left 0.2s;"></div></div>
           </div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:3px;">公開すると、企業があなたの学習ログを閲覧しスカウトを送れるようになります</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.55);margin-top:3px;">公開すると、企業があなたの学習ログを閲覧しスカウトを送れるようになります</div>
         </div>
         <button style="padding:8px 20px;background:linear-gradient(135deg,#953ec3,#0f4bab);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;flex-shrink:0;">PDF出力</button>
       </div>

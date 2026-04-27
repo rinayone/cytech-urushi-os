@@ -14,20 +14,39 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 @keyframes pageIn { to { opacity: 1; } }
 
 /* Material Symbols helper */
-.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-.icon-14 { font-size: 14px; }
-.icon-16 { font-size: 16px; }
-.icon-20 { font-size: 20px; }
-.icon-24 { font-size: 24px; }
+.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon-14 { font-size: 14px; width: 14px; height: 14px; }
+.icon-16 { font-size: 16px; width: 16px; height: 16px; }
+.icon-20 { font-size: 20px; width: 20px; height: 20px; }
+.icon-24 { font-size: 24px; width: 24px; height: 24px; }
 
 .bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.5; }
 .bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
 
+/* === Design Tokens (B-1 / B-3 / B-4 / B-5) === */
+:root {
+  --cta-grad: linear-gradient(135deg, #f7513b, #f13884);
+  --accent: #34e0ff;
+  --brand-grad: linear-gradient(135deg, #953ec3, #0f4bab);
+  --info: #f8ee1a;
+  --success: #7cbf00;
+  --warning: #f7513b;
+  --rainbow: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
+  --text-1: rgba(255,255,255,0.95);
+  --text-2: rgba(255,255,255,0.75);
+  --text-3: rgba(255,255,255,0.6);
+  --text-4: rgba(255,255,255,0.4);
+  --fs-10: 10px; --fs-11: 11px; --fs-12: 12px; --fs-13: 13px;
+  --fs-14: 14px; --fs-16: 16px; --fs-20: 20px; --fs-28: 28px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+}
+
 /* Header */
 .header { position: fixed; top: 16px; left: 16px; right: 16px; height: 52px; z-index: 50; display: flex; align-items: center; padding: 0 18px; gap: 10px; background: rgba(0,0,0,0.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 20px; box-shadow: inset 1px 1px 20px rgba(255,255,255,0.2); }
 .header img { height: 22px; }
-.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.35); }
+.header .ht { font-family: 'Lato', sans-serif; font-size: 12px; color: rgba(255,255,255,0.55); }
 .header .hr { margin-left: auto; display: flex; gap: 8px; }
 .hb { padding: 8px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
 .hb:hover { background: rgba(255,255,255,0.16); }
@@ -72,7 +91,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 
 .sec-ttl {
   font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6);
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
 .hl { color: #34e0ff; font-weight: 700; }
@@ -84,18 +103,27 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
   color: rgba(255,255,255,0.55); cursor: pointer; font-size: 10px;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; font-family: inherit;
+  transition: all 0.15s ease; font-family: inherit;
 }
 .icon-btn:hover { background: rgba(52,224,255,0.1); color: #34e0ff; border-color: rgba(52,224,255,0.3); }
 .icon-btn.danger:hover { background: rgba(247,81,59,0.1); color: #f7513b; border-color: rgba(247,81,59,0.3); }
+/* B-10: タップターゲット拡張 (タッチデバイスのみ視覚サイズ維持で 44x44 確保) */
+@media (pointer: coarse) {
+  .icon-btn, .cert-del, .mli-del, .add-btn {
+    position: relative;
+  }
+  .icon-btn::before, .cert-del::before, .mli-del::before, .add-btn::before {
+    content: ''; position: absolute; inset: -11px;
+  }
+}
 
 .add-btn {
   padding: 4px 10px; border-radius: 100px;
-  background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.18);
   color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700;
-  cursor: pointer; font-family: inherit; transition: all 0.15s;
+  cursor: pointer; font-family: inherit; transition: all 0.15s ease;
 }
-.add-btn:hover { background: rgba(52,224,255,0.06); color: #34e0ff; border-color: rgba(52,224,255,0.4); border-style: solid; }
+.add-btn:hover { background: rgba(52,224,255,0.08); color: #34e0ff; border-color: rgba(52,224,255,0.4); }
 
 /* ===== Left col: profile + stats + 基本情報 ===== */
 .profile-card {
@@ -110,7 +138,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;
 }
 .profile-card .name { font-size: 15px; font-weight: 700; }
-.profile-card .meta { font-size: 10.5px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.profile-card .meta { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
 .lvl-row { display: flex; align-items: center; gap: 8px; }
 .lvl-pill {
@@ -119,20 +147,20 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   border: 1px solid rgba(52,224,255,0.3);
   font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; color: #34e0ff;
 }
-.lvl-row .desc { font-size: 10.5px; color: rgba(255,255,255,0.55); flex: 1; line-height: 1.5; }
+.lvl-row .desc { font-size: 11px; color: rgba(255,255,255,0.55); flex: 1; line-height: 1.5; }
 
 .stats-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .stat-mini { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; text-align: center; }
 .stat-mini .v { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 700; }
 .stat-mini .v span { font-size: 10px; color: rgba(255,255,255,0.5); }
-.stat-mini .l { font-size: 9.5px; color: rgba(255,255,255,0.4); margin-top: 2px; letter-spacing: 0.3px; }
+.stat-mini .l { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; letter-spacing: 0.3px; }
 
 .basic-list-card {
   padding: 12px 14px; background: rgba(0,0,0,0.18);
   border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
 }
-.basic-list { font-size: 11.5px; line-height: 1.65; }
-.basic-list dt { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 700; margin-top: 6px; letter-spacing: 0.3px; }
+.basic-list { font-size: 12px; line-height: 1.65; }
+.basic-list dt { color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; margin-top: 6px; letter-spacing: 0.3px; }
 .basic-list dt:first-child { margin-top: 0; }
 .basic-list dd { color: rgba(255,255,255,0.92); }
 
@@ -140,14 +168,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .action-row .btn-outline {
   flex: 1; padding: 10px; border-radius: 10px;
   background: transparent; border: 1px solid rgba(255,255,255,0.15);
-  color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer;
-  font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s;
+  color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s ease;
 }
 .action-row .btn-outline:hover { background: rgba(255,255,255,0.06); }
 .action-row .btn-grad {
   flex: 1; padding: 10px; border-radius: 10px;
   background: linear-gradient(135deg, #f7513b, #f13884); border: none;
-  color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer;
+  color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
   font-family: 'Noto Sans JP', sans-serif;
 }
 .action-row .btn-grad:hover { opacity: 0.9; }
@@ -168,7 +196,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .pdf-opt:hover { background: rgba(52,224,255,0.06); }
 .pdf-opt .ic { font-size: 18px; flex-shrink: 0; }
-.pdf-opt .lbl { font-size: 12.5px; font-weight: 700; }
+.pdf-opt .lbl { font-size: 13px; font-weight: 700; }
 .pdf-opt .desc { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
 
 /* ===== Center col: 履歴書情報 ===== */
@@ -189,10 +217,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s;
 }
 .list-card:hover .lc-actions { opacity: 1; }
-.list-card .lc-title { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; padding-right: 60px; }
+.list-card .lc-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; padding-right: 60px; }
 .list-card .lc-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
 .list-card .lc-period {
-  display: inline-block; font-family: 'Lato', sans-serif; font-size: 10.5px;
+  display: inline-block; font-family: 'Lato', sans-serif; font-size: 11px;
   color: #34e0ff;
 }
 .list-card .lc-desc { font-size: 11px; line-height: 1.7; color: rgba(255,255,255,0.7); margin-top: 6px; }
@@ -201,6 +229,38 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   background: linear-gradient(135deg, #f7513b, #f13884); color: #fff;
   border-radius: 100px; margin-left: 6px;
 }
+
+/* B-8 Empty States */
+.empty-state {
+  text-align: center;
+  padding: 20px 16px;
+  background: rgba(52,224,255,0.04);
+  border: 1px dashed rgba(52,224,255,0.25);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.65);
+  font-size: 12px; line-height: 1.7;
+}
+.empty-state .ic { font-size: 28px; color: rgba(52,224,255,0.6); margin-bottom: 8px; display: block; }
+.empty-state .ttl { font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 4px; font-size: 13px; }
+.empty-state .desc { font-size: 11px; line-height: 1.6; margin-bottom: 10px; }
+.empty-state .empty-cta {
+  display: inline-block; padding: 7px 16px; border-radius: 100px;
+  background: var(--cta-grad); color: #fff; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: none; font-family: inherit; transition: opacity 0.15s;
+}
+.empty-state .empty-cta:hover { opacity: 0.9; }
+.empty-state .stat { font-size: 10px; color: var(--accent); margin-top: 6px; font-weight: 700; }
+
+/* 履歴書完成度 indicator */
+.completion-indicator {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; background: rgba(52,224,255,0.06);
+  border: 1px solid rgba(52,224,255,0.2); border-radius: 8px;
+  font-size: 11px; color: rgba(255,255,255,0.85); margin-bottom: 4px;
+}
+.completion-indicator .pct { font-family: 'Lato', sans-serif; font-weight: 900; color: var(--accent); font-size: 13px; }
+.completion-indicator .bar { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.completion-indicator .fill { height: 100%; background: var(--rainbow); }
 
 .cert-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
 .cert-item {
@@ -228,7 +288,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .skill-row-mini .fl.full { background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
 .skill-row-mini .fl.partial { background: linear-gradient(to right, #7cbf00, #f8ee1a, #f7513b, #f13884); }
 .skill-row-mini .fl.early { background: linear-gradient(to right, #0f4bab, #34e0ff); }
-.skill-row-mini .v { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); width: 32px; text-align: right; }
+.skill-row-mini .v { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.6); width: 32px; text-align: right; }
 
 .badge-grid { display: flex; flex-wrap: wrap; gap: 5px; }
 .badge-mini { padding: 4px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; }
@@ -242,11 +302,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .log-row .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 .log-row .body { flex: 1; line-height: 1.55; }
 .log-row .nm { font-weight: 700; color: rgba(255,255,255,0.85); display: block; }
-.log-row .dt { font-family: 'Lato', sans-serif; font-size: 9.5px; color: rgba(255,255,255,0.3); }
+.log-row .dt { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.55); }
 
 .public-toggle-card { padding: 12px 14px; background: rgba(0,0,0,0.25); border: 1px solid rgba(52,224,255,0.18); border-radius: 10px; display: flex; align-items: center; gap: 12px; }
 .public-toggle-card .body { flex: 1; }
-.public-toggle-card .lab { font-size: 11.5px; font-weight: 700; }
+.public-toggle-card .lab { font-size: 12px; font-weight: 700; }
 .public-toggle-card .sub { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; line-height: 1.5; }
 .toggle { width: 38px; height: 22px; background: rgba(255,255,255,0.15); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
 .toggle.on { background: linear-gradient(to right, #953ec3, #0f4bab); }
@@ -274,10 +334,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .modal-head .ttl { font-size: 16px; font-weight: 700; }
 .modal-close { margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; line-height: 1; }
 .modal-tabs { display: flex; gap: 2px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
-.modal-tab { padding: 12px 16px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.modal-tab { padding: 12px 16px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s ease; }
 .modal-tab:hover { color: rgba(255,255,255,0.85); }
 .modal-tab.active { color: #34e0ff; border-bottom-color: #34e0ff; }
-.modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+.modal-body { padding: 22px; overflow-y: auto; flex: 1; scrollbar-gutter: stable; }
 .modal-pane { display: none; }
 .modal-pane.active { display: block; }
 
@@ -291,14 +351,14 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .form-row input:focus, .form-row textarea:focus, .form-row select:focus { border-color: rgba(52,224,255,0.5); }
 .form-row textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
-.form-row .help { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.form-row .help { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; }
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form-radio-group { display: flex; gap: 14px; padding: 6px 0; }
 .form-radio-group label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.85); margin: 0; }
 .form-radio-group input { accent-color: #34e0ff; }
 
 .modal-foot { display: flex; gap: 10px; justify-content: flex-end; padding: 16px 22px; border-top: 1px solid rgba(255,255,255,0.06); }
-.modal-foot button { padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.modal-foot button { padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s ease; }
 .btn-cancel { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
 .btn-cancel:hover { background: rgba(255,255,255,0.06); }
 .btn-save { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; color: #fff; }
@@ -422,6 +482,13 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
 
   <!-- ============ CENTER: 履歴書情報 ============ -->
   <div class="col col-c">
+
+    <div class="completion-indicator">
+      <span class="material-symbols-outlined" style="font-size:14px;color:var(--accent);">trending_up</span>
+      履歴書完成度
+      <span class="pct">85%</span>
+      <span class="bar"><span class="fill" style="width:85%"></span></span>
+    </div>
 
     <div class="sec-ttl">
       <span>自己PR</span>
