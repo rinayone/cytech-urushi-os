@@ -105,6 +105,18 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .cb-remaining { font-size: 11px; color: rgba(255,255,255,0.55); }
 .cb-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
 .cb-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884); }
+.cb-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; padding: 10px 18px;
+  background: linear-gradient(135deg, #f7513b, #f13884); border: none;
+  border-radius: 10px; color: #fff;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+.cb-cta:hover { opacity: 0.92; }
+.cb-cta:active { transform: scale(0.98); }
+.cb-cta .material-symbols-outlined { font-size: 16px; }
 
 .gate-card {
   padding: 14px 16px; background: rgba(0,0,0,0.25);
@@ -218,6 +230,7 @@ if (new URLSearchParams(location.search).get('embed') === '1') {
         <div class="cb-remaining">残り <span class="hl">38時間</span></div>
       </div>
       <div class="cb-bar"><div style="width:52%"></div></div>
+      <button class="cb-cta" onclick="location.href='p05-lesson.html'"><span class="material-symbols-outlined">play_arrow</span>Unit 5 STEP 3 から再開</button>
     </div>
 
     <div class="sec-ttl">Skill Prime ゲート</div>

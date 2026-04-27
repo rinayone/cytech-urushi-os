@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P-03 学習カレンダー UIアイデア集 — CyTech Urushi OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; color: #fff; }
+
+.material-symbols-outlined { vertical-align: middle; line-height: 1; user-select: none; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.bg-volcano { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-volcano img { position: absolute; top: 0; right: -10%; height: 100%; width: auto; object-fit: cover; opacity: 0.35; }
+.bg-volcano::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,5,8,0.85) 30%, rgba(5,5,8,0.5) 55%, rgba(5,5,8,0.2) 100%); }
+
+.test-banner { position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 100; display: flex; align-items: center; justify-content: center; gap: 14px; background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; font-size: 12px; font-weight: 700; }
+
+.main { position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; padding: 70px 24px 60px; }
+h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 32px; line-height: 1.7; }
+
+.intro {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 14px; padding: 18px 22px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.15);
+  margin-bottom: 32px;
+}
+.intro h2 { font-size: 13px; margin-bottom: 8px; color: #34e0ff; font-family: 'Lato', sans-serif; letter-spacing: 1.5px; text-transform: uppercase; }
+.intro p { font-size: 12.5px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+.intro ul { padding-left: 20px; font-size: 12.5px; line-height: 1.9; color: rgba(255,255,255,0.85); margin-top: 8px; }
+
+/* Idea grid */
+.ideas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 720px) { .ideas { grid-template-columns: 1fr; } }
+
+.idea-card {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  box-shadow: inset 0px 0px 30px rgba(255,255,255,0.12), inset 1px 1px 2px rgba(255,255,255,0.18);
+  padding: 16px 18px 18px;
+  display: flex; flex-direction: column;
+}
+.idea-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.idea-tag {
+  display: inline-block; padding: 3px 10px; border-radius: 100px;
+  font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #34e0ff, #0f4bab); color: #fff;
+}
+.idea-title { font-size: 13px; font-weight: 700; }
+.idea-desc {
+  font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* Calendar widget shell - simulates sidebar width (~240px content) */
+.cal-widget {
+  width: 100%; max-width: 240px;
+  margin: 0 auto;
+  padding: 14px 12px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+.cal-widget-label {
+  font-family: 'Lato', sans-serif; font-size: 8px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); margin-bottom: 10px;
+}
+
+.pros-cons {
+  font-size: 11px; line-height: 1.8;
+  margin-top: auto;
+}
+.pros-cons .pros { color: rgba(124,191,0,0.95); }
+.pros-cons .cons { color: rgba(247,81,59,0.85); }
+
+/* ============================================
+   IDEA 0 — CURRENT (for comparison)
+   ============================================ */
+.cur-cal { width: 100%; padding: 0; }
+.cur-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.cur-month { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.cur-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.cur-h { font-size: 6px; color: rgba(255,255,255,0.5); text-align: center; padding: 1px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.cur-d { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; font-family: 'Lato', sans-serif; font-weight: 700; color: rgba(255,255,255,0.2); }
+.cur-d.l1 { background: rgba(149,62,195,0.15); color: rgba(255,255,255,0.6); }
+.cur-d.l2 { background: rgba(149,62,195,0.3); color: rgba(255,255,255,0.55); }
+.cur-d.l3 { background: rgba(15,75,171,0.4); color: rgba(255,255,255,0.5); }
+.cur-d.l4 { background: linear-gradient(135deg, #953ec3, #0f4bab); color: #fff; }
+.cur-d.today { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.4); }
+.cur-streak { text-align: center; margin-top: 8px; font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 700; }
+
+/* ============================================
+   IDEA A — GitHub-style Heatmap (4 weeks)
+   ============================================ */
+.heatmap-wrap { padding: 4px 0; }
+.heatmap-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.heatmap-title { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.6); }
+.heatmap-streak { font-size: 11px; font-weight: 700; color: #f7513b; display: inline-flex; align-items: center; gap: 3px; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.heatmap-cell {
+  aspect-ratio: 1; border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+}
+.heatmap-cell.h1 { background: rgba(52,224,255,0.18); }
+.heatmap-cell.h2 { background: rgba(52,224,255,0.4); }
+.heatmap-cell.h3 { background: rgba(52,224,255,0.7); }
+.heatmap-cell.h4 { background: linear-gradient(135deg, #34e0ff, #0f4bab); }
+.heatmap-cell.today { outline: 2px solid #fff; outline-offset: 1px; }
+.heatmap-legend { display: flex; align-items: center; gap: 4px; font-size: 9px; color: rgba(255,255,255,0.5); margin-top: 8px; justify-content: flex-end; }
+.heatmap-legend .swatch { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ============================================
+   IDEA B — Hero Streak + Week Dots
+   ============================================ */
+.hero-streak {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 4px;
+}
+.hero-flame {
+  font-size: 32px; line-height: 1;
+}
+.hero-num {
+  font-family: 'Lato', sans-serif;
+  font-size: 36px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #f7513b, #f13884);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-meta { font-size: 9.5px; color: rgba(255,255,255,0.6); font-family: 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.hero-meta strong { display: block; font-size: 11px; color: rgba(255,255,255,0.85); }
+.week-row { display: flex; gap: 4px; margin-top: 12px; }
+.week-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.week-day .lbl { font-size: 8px; color: rgba(255,255,255,0.4); font-family: 'Lato', sans-serif; font-weight: 700; }
+.week-day .dot { width: 100%; aspect-ratio: 1; max-width: 18px; border-radius: 50%; }
+.week-day.done .dot { background: linear-gradient(135deg, #f7513b, #f13884); }
+.week-day.today .dot { background: rgba(52,224,255,0.3); border: 1.5px solid #34e0ff; }
+.week-day.future .dot { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+
+/* ============================================
+   IDEA C — Improved Grid (current pattern)
+   ============================================ */
+.imp-cal-head { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+.imp-cal-month { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85); }
+.imp-cal-streak { font-size: 10.5px; font-weight: 700; color: #f7513b; }
+.imp-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+.imp-cal-h { font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; padding: 2px 0; font-family: 'Lato', sans-serif; font-weight: 700; }
+.imp-cal-d {
+  aspect-ratio: 1; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-family: 'Lato', sans-serif; font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.04);
+}
+.imp-cal-d.empty { background: transparent; }
+.imp-cal-d.done { background: linear-gradient(135deg, rgba(247,81,59,0.6), rgba(241,56,132,0.6)); color: #fff; }
+.imp-cal-d.today { outline: 1.5px solid #34e0ff; outline-offset: -1.5px; color: #34e0ff; }
+.imp-cal-legend { display: flex; gap: 6px; font-size: 9px; color: rgba(255,255,255,0.5); margin-top: 8px; align-items: center; justify-content: center; }
+.imp-cal-legend .sq { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ============================================
+   IDEA D — Layer Stack (urushi metaphor)
+   ============================================ */
+.layer-stack { padding: 4px 0; }
+.layer-stack-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
+.layer-stack-title { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+.layer-stack-num { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 900; color: #f7513b; }
+.layers { display: flex; flex-direction: column; gap: 2px; }
+.layer {
+  height: 10px; border-radius: 4px;
+  position: relative;
+  display: flex; align-items: center; padding: 0 8px;
+  font-size: 8px; font-family: 'Lato', sans-serif; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+}
+.layer.done { background: linear-gradient(to right, #f7513b, #f8ee1a); }
+.layer.l2 { background: linear-gradient(to right, #f8ee1a, #7cbf00); }
+.layer.l3 { background: linear-gradient(to right, #7cbf00, #34e0ff); }
+.layer.l4 { background: linear-gradient(to right, #34e0ff, #0f4bab); }
+.layer.l5 { background: linear-gradient(to right, #0f4bab, #953ec3); }
+.layer.today { background: linear-gradient(to right, #953ec3, #f13884); animation: shimmer 2s ease infinite; }
+@keyframes shimmer { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
+.layer.empty { background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.1); }
+.layer-stack-foot {
+  text-align: center; margin-top: 10px;
+  font-size: 10px; color: rgba(255,255,255,0.55);
+}
+
+/* ============================================
+   IDEA E — Volcano Climb (background metaphor)
+   ============================================ */
+.volcano-climb { padding: 4px 0; position: relative; height: 130px; }
+.volcano-bg-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.volcano-day {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+}
+.volcano-day.passed { background: linear-gradient(135deg, #f7513b, #f13884); box-shadow: 0 0 6px rgba(247,81,59,0.6); }
+.volcano-day.today { background: #34e0ff; box-shadow: 0 0 8px rgba(52,224,255,0.8); }
+.volcano-day.future { background: rgba(255,255,255,0.15); }
+.volcano-overlay {
+  position: absolute; bottom: 6px; left: 6px;
+  font-size: 10px; color: rgba(255,255,255,0.85);
+}
+.volcano-overlay strong { color: #f7513b; font-family: 'Lato', sans-serif; font-weight: 900; font-size: 16px; }
+
+/* ============================================
+   IDEA F — Plant Growth
+   ============================================ */
+.plant-wrap {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 4px;
+}
+.plant-svg {
+  flex-shrink: 0;
+}
+.plant-info { font-size: 10px; color: rgba(255,255,255,0.7); }
+.plant-info strong {
+  display: block; font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900;
+  color: #7cbf00; margin-bottom: 2px;
+}
+.plant-info .next { font-size: 9px; color: rgba(255,255,255,0.5); }
+.plant-week { display: flex; gap: 3px; margin-top: 10px; }
+.plant-week .pt { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.08); }
+.plant-week .pt.done { background: #7cbf00; }
+.plant-week .pt.today { background: #34e0ff; }
+
+/* ============================================
+   IDEA G — Progress to Milestone
+   ============================================ */
+.milestone-wrap { padding: 4px 0; }
+.milestone-head { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: baseline; }
+.milestone-current { font-family: 'Lato', sans-serif; font-size: 22px; font-weight: 900; color: #f7513b; }
+.milestone-current span { font-size: 11px; color: rgba(255,255,255,0.55); margin-left: 2px; }
+.milestone-target { font-size: 10px; color: rgba(255,255,255,0.55); }
+.milestone-target strong { color: #34e0ff; font-weight: 700; }
+.milestone-bar {
+  height: 6px; background: rgba(255,255,255,0.06);
+  border-radius: 3px; overflow: hidden; margin-bottom: 8px;
+  position: relative;
+}
+.milestone-bar > div { height: 100%; background: linear-gradient(to right, #f7513b, #f8ee1a, #7cbf00); }
+.milestone-marks { display: flex; justify-content: space-between; font-size: 8px; color: rgba(255,255,255,0.4); font-family: 'Lato', sans-serif; }
+.milestone-marks .reached { color: #7cbf00; }
+.milestone-rewards {
+  display: flex; gap: 4px; margin-top: 10px; align-items: center;
+}
+.milestone-rewards .ic { font-size: 14px; color: #f8ee1a; }
+.milestone-rewards .txt { font-size: 10px; color: rgba(255,255,255,0.7); }
+
+/* ============================================
+   IDEA H — Today Ring + Week
+   ============================================ */
+.ring-wrap {
+  display: flex; align-items: center; gap: 14px;
+}
+.ring-svg { flex-shrink: 0; }
+.ring-info { font-size: 9px; color: rgba(255,255,255,0.6); font-family: 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.ring-info .big { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; color: #fff; display: block; }
+.ring-info .grow { color: #7cbf00; font-size: 10px; margin-top: 2px; }
+.ring-week-row { display: flex; gap: 3px; margin-top: 12px; }
+.ring-week-row .day {
+  flex: 1; height: 16px; border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: rgba(255,255,255,0.4);
+  font-family: 'Lato', sans-serif; font-weight: 700;
+}
+.ring-week-row .day.done { background: linear-gradient(135deg, #f7513b, #f13884); color: #fff; }
+.ring-week-row .day.today { background: rgba(52,224,255,0.2); border: 1px solid #34e0ff; color: #34e0ff; }
+
+/* ============================================
+   IDEA I — Compact Bars (last 14 days)
+   ============================================ */
+.bars-wrap { padding: 4px 0; }
+.bars-head { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+.bars-title { font-family: 'Lato', sans-serif; font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+.bars-streak { font-size: 11px; color: #f7513b; font-weight: 700; }
+.bars-row { display: flex; align-items: flex-end; gap: 2px; height: 50px; }
+.bar {
+  flex: 1; min-height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.08);
+}
+.bar.b1 { height: 30%; background: rgba(52,224,255,0.4); }
+.bar.b2 { height: 55%; background: linear-gradient(to top, #34e0ff, rgba(52,224,255,0.5)); }
+.bar.b3 { height: 80%; background: linear-gradient(to top, #f7513b, #f8ee1a); }
+.bar.b4 { height: 100%; background: linear-gradient(to top, #f13884, #f8ee1a); }
+.bar.today { outline: 1px solid #fff; outline-offset: 1px; }
+.bars-meta { display: flex; justify-content: space-between; font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 6px; font-family: 'Lato', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="bg-volcano"><img src="../../v1.1/volcano-bg.png" alt=""></div>
+
+<div class="test-banner">
+  🧪 PROPOSAL / TEST VERSION — v1.1 mockには未反映
+</div>
+
+<main class="main">
+  <h1>P-03 学習カレンダー UI アイデア集</h1>
+  <p class="sub">サイドバー幅 240px 程度に収まる「学習継続」を可視化する 9 案。<br>ペルソナ（夜疲れ営業職・継続を最大の課題とする）が <strong>30秒で「自分は続いている」</strong>と確認できる構成を目指す。</p>
+
+  <div class="intro">
+    <h2>設計の観点</h2>
+    <ul>
+      <li><strong>ストリーク（連続日数）</strong>: 学習継続の最強モチベーター（途切れたくない心理）</li>
+      <li><strong>今日のステータス</strong>: 学習済 / 未学習 が一目で分かる</li>
+      <li><strong>視認性</strong>: 240px 幅で読める数字・色</li>
+      <li><strong>CTU世界観</strong>: 漆メタファー / 火山BG / レインボーカラーとの整合</li>
+    </ul>
+  </div>
+
+  <div class="ideas">
+
+    <!-- 0. CURRENT -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);">CURRENT</span>
+        <span class="idea-title">現状（比較用）</span>
+      </div>
+      <p class="idea-desc">月間カレンダーグリッド + 紫の濃淡4段階で活動量。</p>
+
+      <div class="cal-widget">
+        <div class="cal-widget-label">学習カレンダー</div>
+        <div class="cur-cal">
+          <div class="cur-top"><span class="cur-month">4月 2026</span></div>
+          <div class="cur-grid">
+            <div class="cur-h">M</div><div class="cur-h">T</div><div class="cur-h">W</div><div class="cur-h">T</div><div class="cur-h">F</div><div class="cur-h">S</div><div class="cur-h">S</div>
+            <div class="cur-d"></div><div class="cur-d l2">1</div><div class="cur-d l3">2</div><div class="cur-d">3</div><div class="cur-d l1">4</div><div class="cur-d">5</div><div class="cur-d">6</div>
+            <div class="cur-d l4">7</div><div class="cur-d l3">8</div><div class="cur-d l2">9</div><div class="cur-d l4">10</div><div class="cur-d l1">11</div><div class="cur-d">12</div><div class="cur-d l1">13</div>
+            <div class="cur-d l3">14</div><div class="cur-d l4">15</div><div class="cur-d l2">16</div><div class="cur-d l3">17</div><div class="cur-d l4">18</div><div class="cur-d l1">19</div><div class="cur-d">20</div>
+            <div class="cur-d l4">21</div><div class="cur-d l4">22</div><div class="cur-d l4">23</div><div class="cur-d l4 today">24</div><div class="cur-d">25</div><div class="cur-d">26</div><div class="cur-d">27</div>
+          </div>
+          <div class="cur-streak">🔥 5日間連続学習継続中</div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="cons">✗ 数字が読めない (6px) / 曜日ずれ / 凡例なし</div>
+      </div>
+    </div>
+
+    <!-- A. GitHub Heatmap -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag">A</span>
+        <span class="idea-title">GitHub風 Heatmap</span>
+      </div>
+      <p class="idea-desc">過去4週間を色濃淡で。standard pattern で迷わない。</p>
+
+      <div class="cal-widget">
+        <div class="heatmap-wrap">
+          <div class="heatmap-head">
+            <span class="heatmap-title">過去 4週間</span>
+            <span class="heatmap-streak">🔥 5日連続</span>
+          </div>
+          <div class="heatmap-grid">
+            <div class="heatmap-cell"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+            <div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell"></div><div class="heatmap-cell h1"></div>
+            <div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell"></div>
+            <div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4 today"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+          </div>
+          <div class="heatmap-legend">
+            少 <span class="swatch"></span><span class="swatch h1"></span><span class="swatch h2"></span><span class="swatch h3"></span><span class="swatch h4"></span> 多
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 標準パターン / 視覚的に密度UP感 / 凡例あり</div>
+        <div class="cons">✗ 個別日が小さい / 数字なし</div>
+      </div>
+    </div>
+
+    <!-- B. Hero Streak -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag">B</span>
+        <span class="idea-title">ヒーロー数字 + 今週ドット</span>
+      </div>
+      <p class="idea-desc">ストリークを大胆に主役に。最強の動機付け。</p>
+
+      <div class="cal-widget">
+        <div class="hero-streak">
+          <span class="hero-flame">🔥</span>
+          <div>
+            <div class="hero-num">5</div>
+          </div>
+          <div class="hero-meta" style="margin-left:auto;">DAYS<br><strong>連続学習</strong></div>
+        </div>
+        <div class="week-row">
+          <div class="week-day done"><span class="lbl">M</span><span class="dot"></span></div>
+          <div class="week-day done"><span class="lbl">T</span><span class="dot"></span></div>
+          <div class="week-day done"><span class="lbl">W</span><span class="dot"></span></div>
+          <div class="week-day done"><span class="lbl">T</span><span class="dot"></span></div>
+          <div class="week-day today"><span class="lbl">F</span><span class="dot"></span></div>
+          <div class="week-day future"><span class="lbl">S</span><span class="dot"></span></div>
+          <div class="week-day future"><span class="lbl">S</span><span class="dot"></span></div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 達成感最大 / 連続失う恐怖 / 視認性◎</div>
+        <div class="cons">✗ 過去履歴は見えない</div>
+      </div>
+    </div>
+
+    <!-- C. Improved Grid -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag">C</span>
+        <span class="idea-title">改良版グリッド</span>
+      </div>
+      <p class="idea-desc">現状を踏襲しつつ曜日整合・数字拡大・凡例追加。</p>
+
+      <div class="cal-widget">
+        <div class="imp-cal-head">
+          <span class="imp-cal-month">2026年4月</span>
+          <span class="imp-cal-streak">🔥 5日</span>
+        </div>
+        <div class="imp-cal-grid">
+          <div class="imp-cal-h">月</div><div class="imp-cal-h">火</div><div class="imp-cal-h">水</div><div class="imp-cal-h">木</div><div class="imp-cal-h">金</div><div class="imp-cal-h">土</div><div class="imp-cal-h">日</div>
+          <div class="imp-cal-d empty"></div><div class="imp-cal-d empty"></div><div class="imp-cal-d done">1</div><div class="imp-cal-d">2</div><div class="imp-cal-d done">3</div><div class="imp-cal-d">4</div><div class="imp-cal-d">5</div>
+          <div class="imp-cal-d done">6</div><div class="imp-cal-d done">7</div><div class="imp-cal-d">8</div><div class="imp-cal-d done">9</div><div class="imp-cal-d done">10</div><div class="imp-cal-d">11</div><div class="imp-cal-d">12</div>
+          <div class="imp-cal-d done">13</div><div class="imp-cal-d done">14</div><div class="imp-cal-d done">15</div><div class="imp-cal-d done">16</div><div class="imp-cal-d done">17</div><div class="imp-cal-d">18</div><div class="imp-cal-d">19</div>
+          <div class="imp-cal-d done">20</div><div class="imp-cal-d done">21</div><div class="imp-cal-d done">22</div><div class="imp-cal-d done">23</div><div class="imp-cal-d today">24</div><div class="imp-cal-d">25</div><div class="imp-cal-d">26</div>
+        </div>
+        <div class="imp-cal-legend">
+          <span class="sq" style="background:rgba(255,255,255,0.04);"></span> 未学習
+          <span class="sq" style="background:linear-gradient(135deg,#f7513b,#f13884);"></span> 学習済
+          <span class="sq" style="border:1.5px solid #34e0ff;"></span> 今日
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 慣れた月カレンダー / 凡例で意味明確</div>
+        <div class="cons">✗ ストリークが脇役</div>
+      </div>
+    </div>
+
+    <!-- D. Layer Stack -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#953ec3,#f13884);">D</span>
+        <span class="idea-title">Layer Stack（漆メタファー）</span>
+      </div>
+      <p class="idea-desc">各日を「塗り重ねた層」として可視化。CTU世界観に最適。</p>
+
+      <div class="cal-widget">
+        <div class="layer-stack">
+          <div class="layer-stack-head">
+            <span class="layer-stack-title">塗り重ねた日数</span>
+            <span class="layer-stack-num">🔥 5</span>
+          </div>
+          <div class="layers">
+            <div class="layer today">今日 4/24</div>
+            <div class="layer l5">4/23</div>
+            <div class="layer l4">4/22</div>
+            <div class="layer l3">4/21</div>
+            <div class="layer done">4/20</div>
+            <div class="layer empty"></div>
+          </div>
+          <div class="layer-stack-foot">明日も塗り重ねよう</div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 漆コンセプトと完全一致 / 独自性◎</div>
+        <div class="cons">✗ 慣れない / 月全体は見えない</div>
+      </div>
+    </div>
+
+    <!-- E. Volcano Climb -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#f7513b,#f8ee1a);">E</span>
+        <span class="idea-title">Volcano Climb（火山登攀）</span>
+      </div>
+      <p class="idea-desc">CTU の火山BG と統一。山を登っていく感覚で継続。</p>
+
+      <div class="cal-widget" style="background: linear-gradient(180deg, rgba(247,81,59,0.05), rgba(0,0,0,0.4));">
+        <div class="volcano-climb">
+          <svg class="volcano-bg-svg" viewBox="0 0 240 130" preserveAspectRatio="none">
+            <path d="M 0 130 L 60 90 L 90 60 L 120 30 L 150 60 L 180 90 L 240 130 Z" fill="rgba(247,81,59,0.15)" stroke="rgba(247,81,59,0.4)" stroke-width="1"/>
+            <path d="M 0 130 L 60 90 L 90 60 L 120 30 L 150 60 L 180 90 L 240 130" fill="none" stroke="rgba(247,81,59,0.4)" stroke-width="1.5" stroke-dasharray="2,2"/>
+          </svg>
+          <div class="volcano-day passed" style="left: 30px; top: 105px;"></div>
+          <div class="volcano-day passed" style="left: 60px; top: 84px;"></div>
+          <div class="volcano-day passed" style="left: 90px; top: 54px;"></div>
+          <div class="volcano-day passed" style="left: 105px; top: 39px;"></div>
+          <div class="volcano-day today" style="left: 120px; top: 24px;"></div>
+          <div class="volcano-day future" style="left: 150px; top: 54px;"></div>
+          <div class="volcano-day future" style="left: 180px; top: 84px;"></div>
+          <div class="volcano-overlay"><strong>5</strong> 日 連続登攀中</div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 火山BGと統一 / 物語性 / 独自性◎</div>
+        <div class="cons">✗ 数字や曜日は読み取りづらい</div>
+      </div>
+    </div>
+
+    <!-- F. Plant Growth -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#7cbf00,#34e0ff);">F</span>
+        <span class="idea-title">Plant Growth（植物成長）</span>
+      </div>
+      <p class="idea-desc">育成ゲーム要素。ストリークで植物が育つ視覚的喜び。</p>
+
+      <div class="cal-widget">
+        <div class="plant-wrap">
+          <svg class="plant-svg" width="50" height="60" viewBox="0 0 50 60">
+            <!-- pot -->
+            <path d="M 10 50 L 13 60 L 37 60 L 40 50 Z" fill="#5a3a1a" stroke="#3d2812" stroke-width="1"/>
+            <rect x="9" y="48" width="32" height="4" fill="#7d4f24"/>
+            <!-- stem -->
+            <path d="M 25 48 Q 22 38 25 30 Q 28 22 25 14 Q 23 10 25 6" stroke="#7cbf00" stroke-width="2" fill="none"/>
+            <!-- leaves -->
+            <ellipse cx="20" cy="35" rx="6" ry="3" fill="#7cbf00" opacity="0.9" transform="rotate(-30 20 35)"/>
+            <ellipse cx="30" cy="28" rx="6" ry="3" fill="#7cbf00" opacity="0.9" transform="rotate(30 30 28)"/>
+            <ellipse cx="20" cy="20" rx="5" ry="3" fill="#7cbf00" opacity="0.9" transform="rotate(-25 20 20)"/>
+            <!-- bud -->
+            <circle cx="25" cy="6" r="3" fill="#f13884"/>
+          </svg>
+          <div class="plant-info">
+            <strong>5日</strong>
+            <div>連続学習中</div>
+            <div class="next">あと2日で開花 🌸</div>
+          </div>
+        </div>
+        <div class="plant-week">
+          <div class="pt done"></div><div class="pt done"></div><div class="pt done"></div>
+          <div class="pt done"></div><div class="pt today"></div>
+          <div class="pt"></div><div class="pt"></div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ ゲーム性 / 「育てたい」動機 / 達成感</div>
+        <div class="cons">✗ 子供っぽく見えるリスク / 25歳営業職向きか?</div>
+      </div>
+    </div>
+
+    <!-- G. Milestone Progress -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#f8ee1a,#f7513b);">G</span>
+        <span class="idea-title">Milestone Progress（節目目標）</span>
+      </div>
+      <p class="idea-desc">次のマイルストーン（30日達成）への進捗を主役に。</p>
+
+      <div class="cal-widget">
+        <div class="milestone-wrap">
+          <div class="milestone-head">
+            <div>
+              <span class="milestone-current">5<span>日</span></span>
+            </div>
+            <span class="milestone-target">次: <strong>7日</strong> で記章獲得</span>
+          </div>
+          <div class="milestone-bar"><div style="width:71%"></div></div>
+          <div class="milestone-marks">
+            <span class="reached">3日 ✓</span>
+            <span class="reached">7日</span>
+            <span>14日</span>
+            <span>30日</span>
+          </div>
+          <div class="milestone-rewards">
+            <span class="material-symbols-outlined ic">workspace_premium</span>
+            <span class="txt">7日達成で <strong style="color:#f8ee1a;">継続バッジ</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ ロードマップ重視ペルソナに直撃 / 次が明確</div>
+        <div class="cons">✗ 過去全体は見えない</div>
+      </div>
+    </div>
+
+    <!-- H. Today Ring -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#34e0ff,#0f4bab);">H</span>
+        <span class="idea-title">Today Ring（今日重視）</span>
+      </div>
+      <p class="idea-desc">今日の学習時間をリングで。Apple Watch風アクティビティ。</p>
+
+      <div class="cal-widget">
+        <div class="ring-wrap">
+          <svg class="ring-svg" width="64" height="64" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round"
+                    stroke-dasharray="163.36" stroke-dashoffset="65" transform="rotate(-90 32 32)"/>
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#34e0ff"/>
+                <stop offset="100%" stop-color="#f13884"/>
+              </linearGradient>
+            </defs>
+            <text x="32" y="36" font-family="Lato" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">60</text>
+            <text x="32" y="46" font-size="6" fill="rgba(255,255,255,0.55)" text-anchor="middle">/100min</text>
+          </svg>
+          <div class="ring-info">
+            TODAY
+            <span class="big">60min</span>
+            目標 100min
+            <div class="grow">🔥 5日連続</div>
+          </div>
+        </div>
+        <div class="ring-week-row">
+          <div class="day done">M</div><div class="day done">T</div><div class="day done">W</div>
+          <div class="day done">T</div><div class="day today">F</div>
+          <div class="day">S</div><div class="day">S</div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ 今日重視 / 時間目標明確 / Apple Watch感</div>
+        <div class="cons">✗ ストリークが小さい</div>
+      </div>
+    </div>
+
+    <!-- I. Compact Bars -->
+    <div class="idea-card">
+      <div class="idea-head">
+        <span class="idea-tag" style="background:linear-gradient(135deg,#0f4bab,#34e0ff);">I</span>
+        <span class="idea-title">Compact Bars（学習量チャート）</span>
+      </div>
+      <p class="idea-desc">過去14日の学習時間を縦棒グラフで。トレンドが分かる。</p>
+
+      <div class="cal-widget">
+        <div class="bars-wrap">
+          <div class="bars-head">
+            <span class="bars-title">過去 14日</span>
+            <span class="bars-streak">🔥 5日</span>
+          </div>
+          <div class="bars-row">
+            <div class="bar"></div>
+            <div class="bar b1"></div>
+            <div class="bar b2"></div>
+            <div class="bar"></div>
+            <div class="bar b1"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar b3"></div>
+            <div class="bar b2"></div>
+            <div class="bar b3"></div>
+            <div class="bar b3"></div>
+            <div class="bar b4"></div>
+            <div class="bar b4"></div>
+            <div class="bar b4 today"></div>
+          </div>
+          <div class="bars-meta">
+            <span>14日前</span>
+            <span>今日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">✓ トレンド可視化 / 上昇感が動機に / コンパクト</div>
+        <div class="cons">✗ 個別日の詳細不明</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 推奨 -->
+  <div class="intro" style="margin-top:32px;">
+    <h2>UI/UX デザイナーの推奨</h2>
+    <p><strong>第一推奨: B（ヒーロー数字 + 今週ドット）</strong> ＋ <strong>D（Layer Stack）</strong> の hybrid。<br>大きな数字でストリーク表示 → 漆メタファーで CTU 独自性も担保。<br><br>
+    最小変更なら <strong>C（改良版グリッド）</strong>、ゲーム性重視なら <strong>F（Plant）</strong>、独自性 → <strong>D</strong> または <strong>E</strong>。<br><br>
+    最終決定したら本番モックの sidebar に反映します。</p>
+  </div>
+
+</main>
+
+</body>
+</html>
