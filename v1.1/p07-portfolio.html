@@ -32,7 +32,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .hb-primary { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; }
 
 /* Main */
-.main { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 84px 20px 40px; }
+.main { position: relative; z-index: 10; max-width: 920px; margin: 0 auto; padding: 84px 20px 40px; }
 
 /* Glass card (Figma ガラス_02) */
 .glass {
@@ -123,10 +123,243 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .stat-value { font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 700; }
 .stat-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
 
+/* ===== Resume sections ===== */
+.basic-grid {
+  display: grid; grid-template-columns: 140px 1fr; gap: 10px 18px;
+  font-size: 13px; line-height: 1.7;
+}
+.basic-grid dt { color: rgba(255,255,255,0.45); font-weight: 700; font-size: 12px; }
+.basic-grid dd { color: rgba(255,255,255,0.92); }
+.basic-grid .empty { color: rgba(255,255,255,0.3); font-style: italic; }
+
+.sec-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; margin-top: 28px;
+}
+.sec-head .sec-title { margin: 0; }
+.sec-head .sec-actions { display: flex; gap: 6px; align-items: center; }
+
+.icon-btn {
+  width: 26px; height: 26px; border-radius: 8px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.55); cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-family: inherit;
+}
+.icon-btn:hover { background: rgba(52,224,255,0.1); color: #34e0ff; border-color: rgba(52,224,255,0.3); }
+.icon-btn.danger:hover { background: rgba(247,81,59,0.1); color: #f7513b; border-color: rgba(247,81,59,0.3); }
+
+.add-btn {
+  padding: 6px 14px; border-radius: 100px;
+  background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.add-btn:hover { background: rgba(52,224,255,0.06); color: #34e0ff; border-color: rgba(52,224,255,0.4); border-style: solid; }
+
+/* List item card (for 学歴/職歴/資格) */
+.list-card {
+  position: relative;
+  background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;
+}
+.list-card:last-child { margin-bottom: 0; }
+.list-card .lc-actions {
+  position: absolute; top: 12px; right: 12px;
+  display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s;
+}
+.list-card:hover .lc-actions { opacity: 1; }
+.list-card .lc-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; padding-right: 70px; }
+.list-card .lc-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.list-card .lc-period {
+  display: inline-block; font-family: 'Lato', sans-serif; font-size: 11px;
+  color: rgba(52,224,255,0.85); background: rgba(52,224,255,0.08);
+  padding: 2px 10px; border-radius: 100px; margin-bottom: 6px;
+}
+.list-card .lc-desc { font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.7); }
+.list-card .lc-active {
+  display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px;
+  background: linear-gradient(135deg, #f7513b, #f13884); color: #fff;
+  border-radius: 100px; margin-left: 6px;
+}
+
+/* 自己PR */
+.pr-text {
+  font-size: 13px; line-height: 1.85; color: rgba(255,255,255,0.85);
+  white-space: pre-wrap;
+}
+.pr-empty {
+  text-align: center; padding: 24px 16px;
+  color: rgba(255,255,255,0.4); font-size: 13px;
+}
+.pr-empty .pr-cta {
+  display: inline-block; margin-top: 8px;
+  color: #34e0ff; font-weight: 700; cursor: pointer;
+}
+.pr-empty .pr-cta:hover { text-decoration: underline; }
+
+/* Cert item (compact) */
+.cert-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 100px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px; margin: 0 8px 8px 0; position: relative;
+}
+.cert-item .cert-del {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45);
+  border: none; cursor: pointer; font-size: 11px; line-height: 1;
+  display: none; align-items: center; justify-content: center;
+}
+.cert-item:hover .cert-del { display: flex; }
+.cert-item .cert-del:hover { background: rgba(247,81,59,0.2); color: #f7513b; }
+.cert-list { padding: 4px 0; }
+
+/* PDF dropdown */
+.pdf-wrap { position: relative; }
+.pdf-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
+  min-width: 240px; background: #0a0a14;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+  padding: 6px; display: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.pdf-menu.show { display: block; }
+.pdf-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
+  transition: background 0.15s;
+}
+.pdf-opt:hover { background: rgba(52,224,255,0.06); }
+.pdf-opt .ic { font-size: 18px; flex-shrink: 0; }
+.pdf-opt .lbl { font-size: 13px; font-weight: 700; }
+.pdf-opt .desc { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+/* ===== Edit Modal ===== */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200;
+  display: none; align-items: flex-start; justify-content: center;
+  padding: 40px 16px; overflow-y: auto;
+}
+.modal-bg.show { display: flex; }
+.modal-box {
+  width: 100%; max-width: 720px; background: #0a0a14;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
+  display: flex; flex-direction: column; max-height: calc(100vh - 80px);
+}
+.modal-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 22px; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.modal-head .ttl { font-size: 16px; font-weight: 700; }
+.modal-close {
+  margin-left: auto; background: none; border: none;
+  color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; line-height: 1;
+}
+.modal-tabs {
+  display: flex; gap: 2px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+}
+.modal-tab {
+  padding: 12px 16px; background: none; border: none;
+  color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: inherit; white-space: nowrap;
+  border-bottom: 2px solid transparent; transition: all 0.15s;
+}
+.modal-tab:hover { color: rgba(255,255,255,0.85); }
+.modal-tab.active { color: #34e0ff; border-bottom-color: #34e0ff; }
+.modal-body {
+  padding: 22px; overflow-y: auto; flex: 1;
+}
+.modal-pane { display: none; }
+.modal-pane.active { display: block; }
+
+.form-row { margin-bottom: 16px; }
+.form-row label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.7); margin-bottom: 6px;
+}
+.form-row label .req { color: #f7513b; margin-left: 4px; }
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="tel"],
+.form-row input[type="date"],
+.form-row select,
+.form-row textarea {
+  width: 100%; padding: 10px 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; color: #fff; font-size: 13px;
+  font-family: inherit; outline: none;
+}
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+  border-color: rgba(52,224,255,0.5);
+}
+.form-row textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
+.form-row .help {
+  font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px;
+}
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-radio-group { display: flex; gap: 14px; padding: 6px 0; }
+.form-radio-group label {
+  display: flex; align-items: center; gap: 6px; cursor: pointer;
+  font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.85); margin: 0;
+}
+.form-radio-group input { accent-color: #34e0ff; }
+
+.modal-foot {
+  display: flex; gap: 10px; justify-content: flex-end;
+  padding: 16px 22px; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.modal-foot button {
+  padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-cancel { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
+.btn-cancel:hover { background: rgba(255,255,255,0.06); }
+.btn-save { background: linear-gradient(135deg, #953ec3, #0f4bab); border: none; color: #fff; }
+.btn-save:hover { opacity: 0.92; }
+
+/* List edit panes (inside modal) */
+.modal-list-item {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 14px; margin-bottom: 12px; position: relative;
+}
+.modal-list-item .mli-del {
+  position: absolute; top: 10px; right: 10px;
+  width: 24px; height: 24px; background: rgba(247,81,59,0.1);
+  border: 1px solid rgba(247,81,59,0.3); border-radius: 50%;
+  color: #f7513b; cursor: pointer; font-size: 12px; line-height: 1;
+}
+.modal-list-item .mli-del:hover { background: rgba(247,81,59,0.2); }
+
+/* Confirm dialog */
+.confirm-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 300;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.confirm-bg.show { display: flex; }
+.confirm-box {
+  max-width: 360px; width: 100%; background: #0a0a14;
+  border: 1px solid rgba(247,81,59,0.3); border-radius: 14px;
+  padding: 22px;
+}
+.confirm-box h4 { font-size: 14px; margin-bottom: 8px; }
+.confirm-box p { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px; }
+.confirm-foot { display: flex; gap: 8px; justify-content: flex-end; }
+.confirm-foot button {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+}
+.btn-keep { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+.btn-delete { background: #f7513b; border: none; color: #fff; }
+
 @media (max-width: 600px) {
   .profile { flex-direction: column; text-align: center; }
   .profile-actions { margin-left: 0; }
   .stats-row { flex-direction: column; }
+  .basic-grid { grid-template-columns: 1fr; gap: 4px; }
+  .basic-grid dt { margin-top: 8px; }
+  .form-grid-2 { grid-template-columns: 1fr; }
 }
 /* Logo ↔ KANAME swap */
 .logo-swap { position: relative; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
@@ -161,8 +394,24 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="meta">情シス志望 / 学習開始: 2025.03.01 / 経過: 97日</div>
       </div>
       <div class="profile-actions">
-        <button class="btn-outline">プロフィール編集</button>
-        <button class="btn-grad">PDF出力</button>
+        <button class="btn-outline" onclick="openEditModal('basic')">プロフィール編集</button>
+        <div class="pdf-wrap">
+          <button class="btn-grad" onclick="togglePdfMenu(event)">PDF出力 ▾</button>
+          <div class="pdf-menu" id="pdfMenu">
+            <div class="pdf-opt" onclick="exportPdf('rireki')">
+              <span class="ic">📄</span>
+              <div><div class="lbl">履歴書</div><div class="desc">JIS規格相当の標準フォーマット</div></div>
+            </div>
+            <div class="pdf-opt" onclick="exportPdf('shokumu')">
+              <span class="ic">📝</span>
+              <div><div class="lbl">職務経歴書</div><div class="desc">業務経験＋CTU学習成果</div></div>
+            </div>
+            <div class="pdf-opt" onclick="exportPdf('portfolio')">
+              <span class="ic">🎨</span>
+              <div><div class="lbl">ポートフォリオ</div><div class="desc">CTUカラフル形式</div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -170,6 +419,16 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
       <div class="level-badge-lg">B1 Rookie</div>
       <div class="level-desc">手順があれば作業を完了できるレベル。<br>Skill Prime達成まで <span class="hl">あと48%</span></div>
     </div>
+
+    <!-- Basic info detail -->
+    <dl class="basic-grid">
+      <dt>氏名（ふりがな）</dt><dd>佐藤 健太（さとう けんた）</dd>
+      <dt>生年月日</dt><dd>1999年4月15日（26歳）</dd>
+      <dt>性別</dt><dd>男性</dd>
+      <dt>居住地</dt><dd>東京都新宿区</dd>
+      <dt>連絡先</dt><dd>kenta.sato@example.com</dd>
+      <dt>志望分野</dt><dd>情シス（社内IT・DX推進）</dd>
+    </dl>
   </div>
 
   <!-- Stats -->
@@ -189,6 +448,91 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
     <div class="glass stat-card">
       <div class="stat-value">12</div>
       <div class="stat-label">プロフィール閲覧数</div>
+    </div>
+  </div>
+
+  <!-- 自己PR -->
+  <div class="sec-head">
+    <div class="sec-title">自己PR</div>
+    <div class="sec-actions">
+      <button class="icon-btn" onclick="openEditModal('pr')" title="編集">✎</button>
+    </div>
+  </div>
+  <div class="glass">
+    <p class="pr-text">営業職として5年間、IT企業を中心とした法人営業に従事してまいりました。商談先のシステム部門と接する中でITそのものへの興味が深まり、未経験からのキャリアチェンジを決意。CyTech Urushi OS で IT基礎・OS・ネットワークを体系的に学習中で、現在 <strong>B1 Rookie</strong> レベルに到達しています。営業で培った課題ヒアリング力と、社内IT領域への学習意欲を強みとして、御社の DX 推進に貢献したいと考えております。</p>
+  </div>
+
+  <!-- 学歴 -->
+  <div class="sec-head">
+    <div class="sec-title">学歴</div>
+    <div class="sec-actions">
+      <button class="add-btn" onclick="openEditModal('education')">＋ 追加</button>
+      <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
+    </div>
+  </div>
+  <div class="glass" id="educationList">
+    <div class="list-card">
+      <div class="lc-actions">
+        <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
+        <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+      </div>
+      <div class="lc-title">◯◯大学 経済学部 経営学科</div>
+      <span class="lc-period">2017年4月 〜 2021年3月 卒業</span>
+    </div>
+    <div class="list-card">
+      <div class="lc-actions">
+        <button class="icon-btn" onclick="openEditModal('education')" title="編集">✎</button>
+        <button class="icon-btn danger" onclick="confirmDelete('この学歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+      </div>
+      <div class="lc-title">△△高等学校 普通科</div>
+      <span class="lc-period">2014年4月 〜 2017年3月 卒業</span>
+    </div>
+  </div>
+
+  <!-- 職歴 -->
+  <div class="sec-head">
+    <div class="sec-title">職歴</div>
+    <div class="sec-actions">
+      <button class="add-btn" onclick="openEditModal('career')">＋ 追加</button>
+      <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
+    </div>
+  </div>
+  <div class="glass" id="careerList">
+    <div class="list-card">
+      <div class="lc-actions">
+        <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
+        <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+      </div>
+      <div class="lc-title">◯◯商事株式会社<span class="lc-active">在職中</span></div>
+      <div class="lc-sub">営業部 法人営業課 / 主任</div>
+      <span class="lc-period">2021年4月 〜 現在</span>
+      <div class="lc-desc">IT企業向け法人営業（年商3億円担当）。新規開拓・既存深耕を両軸で推進し、3年連続で年間目標110%以上達成。商談時に顧客の情シス部門と接する機会が多く、社内IT領域への関心を深めた。</div>
+    </div>
+    <div class="list-card">
+      <div class="lc-actions">
+        <button class="icon-btn" onclick="openEditModal('career')" title="編集">✎</button>
+        <button class="icon-btn danger" onclick="confirmDelete('この職歴を削除しますか？', this.closest('.list-card'))" title="削除">🗑</button>
+      </div>
+      <div class="lc-title">株式会社△△マーケティング</div>
+      <div class="lc-sub">営業部 / 一般職</div>
+      <span class="lc-period">2021年4月 〜 2022年12月 退職</span>
+      <div class="lc-desc">中小企業向けマーケティング支援サービスの新規営業を担当。テレアポ・対面商談・提案資料作成を通じて、月間アポ獲得数 部内1位を半年継続。</div>
+    </div>
+  </div>
+
+  <!-- 資格・語学 -->
+  <div class="sec-head">
+    <div class="sec-title">資格・語学</div>
+    <div class="sec-actions">
+      <button class="add-btn" onclick="openEditModal('cert')">＋ 追加</button>
+      <button class="icon-btn" onclick="openEditModal('cert')" title="編集">✎</button>
+    </div>
+  </div>
+  <div class="glass">
+    <div class="cert-list" id="certList">
+      <span class="cert-item">基本情報技術者試験（2024年取得）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
+      <span class="cert-item">TOEIC L&amp;R 750点（2023年）<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
+      <span class="cert-item">普通自動車第一種運転免許<button class="cert-del" onclick="confirmDelete('この資格を削除しますか？', this.closest('.cert-item'))">×</button></span>
     </div>
   </div>
 
@@ -247,5 +591,240 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   </div>
 
 </main>
+
+<!-- ===== Edit Modal ===== -->
+<div class="modal-bg" id="editModal" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="ttl">プロフィール編集</span>
+      <button class="modal-close" onclick="closeEditModal()">×</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab" data-tab="basic" onclick="switchEditTab('basic')">基本情報</button>
+      <button class="modal-tab" data-tab="pr" onclick="switchEditTab('pr')">自己PR</button>
+      <button class="modal-tab" data-tab="education" onclick="switchEditTab('education')">学歴</button>
+      <button class="modal-tab" data-tab="career" onclick="switchEditTab('career')">職歴</button>
+      <button class="modal-tab" data-tab="cert" onclick="switchEditTab('cert')">資格・語学</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- 基本情報 -->
+      <div class="modal-pane" data-pane="basic">
+        <div class="form-grid-2">
+          <div class="form-row"><label>氏名（漢字）<span class="req">*</span></label><input type="text" value="佐藤 健太"></div>
+          <div class="form-row"><label>氏名（ふりがな）<span class="req">*</span></label><input type="text" value="さとう けんた"></div>
+        </div>
+        <div class="form-row"><label>生年月日<span class="req">*</span></label><input type="date" value="1999-04-15"><div class="help">登録時に入力済みの場合、自動反映されます（REG連携・将来対応）</div></div>
+        <div class="form-row"><label>性別</label>
+          <div class="form-radio-group">
+            <label><input type="radio" name="gender" checked> 男性</label>
+            <label><input type="radio" name="gender"> 女性</label>
+            <label><input type="radio" name="gender"> 回答しない</label>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-row"><label>都道府県</label>
+            <select><option>東京都</option><option>大阪府</option><option>その他</option></select>
+          </div>
+          <div class="form-row"><label>市区町村</label><input type="text" value="新宿区"></div>
+        </div>
+        <div class="form-row"><label>メール<span class="req">*</span></label><input type="email" value="kenta.sato@example.com"></div>
+        <div class="form-row"><label>電話番号</label><input type="tel" value="" placeholder="任意"></div>
+        <div class="form-row"><label>志望分野</label><input type="text" value="情シス（社内IT・DX推進）"></div>
+      </div>
+
+      <!-- 自己PR -->
+      <div class="modal-pane" data-pane="pr">
+        <div class="form-row"><label>自己PR（200〜400字程度推奨）</label>
+          <textarea rows="8">営業職として5年間、IT企業を中心とした法人営業に従事してまいりました。商談先のシステム部門と接する中でITそのものへの興味が深まり、未経験からのキャリアチェンジを決意。CyTech Urushi OS で IT基礎・OS・ネットワークを体系的に学習中で、現在 B1 Rookie レベルに到達しています。営業で培った課題ヒアリング力と、社内IT領域への学習意欲を強みとして、御社の DX 推進に貢献したいと考えております。</textarea>
+          <div class="help">空欄の場合、ポートフォリオには「自己PRを書く →」のCTAのみ表示されます。</div>
+        </div>
+      </div>
+
+      <!-- 学歴 -->
+      <div class="modal-pane" data-pane="education">
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>学校名</label><input type="text" value="◯◯大学"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>学部</label><input type="text" value="経済学部"></div>
+            <div class="form-row"><label>学科</label><input type="text" value="経営学科"></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>入学</label><input type="text" value="2017-04" placeholder="YYYY-MM"></div>
+            <div class="form-row"><label>卒業</label><input type="text" value="2021-03" placeholder="YYYY-MM / 在学中"></div>
+          </div>
+        </div>
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>学校名</label><input type="text" value="△△高等学校"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>学部</label><input type="text" value="普通科"></div>
+            <div class="form-row"><label>学科</label><input type="text" value=""></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>入学</label><input type="text" value="2014-04"></div>
+            <div class="form-row"><label>卒業</label><input type="text" value="2017-03"></div>
+          </div>
+        </div>
+        <button class="add-btn" onclick="addModalListItem('education')">＋ 学歴を追加</button>
+      </div>
+
+      <!-- 職歴 -->
+      <div class="modal-pane" data-pane="career">
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>会社名</label><input type="text" value="◯◯商事株式会社"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>部署</label><input type="text" value="営業部 法人営業課"></div>
+            <div class="form-row"><label>役職</label><input type="text" value="主任"></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>入社</label><input type="text" value="2021-04"></div>
+            <div class="form-row"><label>退社</label><input type="text" value="" placeholder="在職中なら空欄"></div>
+          </div>
+          <div class="form-row"><label>業務内容</label><textarea rows="3">IT企業向け法人営業（年商3億円担当）。新規開拓・既存深耕を両軸で推進し、3年連続で年間目標110%以上達成。</textarea></div>
+        </div>
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>会社名</label><input type="text" value="株式会社△△マーケティング"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>部署</label><input type="text" value="営業部"></div>
+            <div class="form-row"><label>役職</label><input type="text" value="一般職"></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label>入社</label><input type="text" value="2021-04"></div>
+            <div class="form-row"><label>退社</label><input type="text" value="2022-12"></div>
+          </div>
+          <div class="form-row"><label>業務内容</label><textarea rows="3">中小企業向けマーケティング支援サービスの新規営業を担当。</textarea></div>
+        </div>
+        <button class="add-btn" onclick="addModalListItem('career')">＋ 職歴を追加</button>
+      </div>
+
+      <!-- 資格・語学 -->
+      <div class="modal-pane" data-pane="cert">
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>資格・語学名</label><input type="text" value="基本情報技術者試験"></div>
+          <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2024-08" placeholder="YYYY-MM"></div>
+        </div>
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>資格・語学名</label><input type="text" value="TOEIC L&amp;R 750点"></div>
+          <div class="form-row"><label>取得年月（任意）</label><input type="text" value="2023-06"></div>
+        </div>
+        <div class="modal-list-item">
+          <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+          <div class="form-row"><label>資格・語学名</label><input type="text" value="普通自動車第一種運転免許"></div>
+          <div class="form-row"><label>取得年月（任意）</label><input type="text" value=""></div>
+        </div>
+        <button class="add-btn" onclick="addModalListItem('cert')">＋ 資格を追加</button>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn-save" onclick="closeEditModal()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Dialog -->
+<div class="confirm-bg" id="confirmDialog" onclick="if(event.target===this)cancelDelete()">
+  <div class="confirm-box">
+    <h4 id="confirmTitle">削除しますか？</h4>
+    <p>この操作は元に戻せません。本当に削除してよろしいですか？</p>
+    <div class="confirm-foot">
+      <button class="btn-keep" onclick="cancelDelete()">キャンセル</button>
+      <button class="btn-delete" onclick="executeDelete()">削除</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Edit Modal ===== */
+function openEditModal(tab) {
+  document.getElementById('editModal').classList.add('show');
+  switchEditTab(tab || 'basic');
+}
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('show');
+}
+function switchEditTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.modal-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === tab));
+}
+
+function addModalListItem(type) {
+  const pane = document.querySelector(`.modal-pane[data-pane="${type}"]`);
+  const addBtn = pane.querySelector('.add-btn');
+  const tpl = document.createElement('div');
+  tpl.className = 'modal-list-item';
+  if (type === 'education') {
+    tpl.innerHTML = `
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <div class="form-row"><label>学校名</label><input type="text" value=""></div>
+      <div class="form-grid-2">
+        <div class="form-row"><label>学部</label><input type="text" value=""></div>
+        <div class="form-row"><label>学科</label><input type="text" value=""></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-row"><label>入学</label><input type="text" value="" placeholder="YYYY-MM"></div>
+        <div class="form-row"><label>卒業</label><input type="text" value="" placeholder="YYYY-MM / 在学中"></div>
+      </div>`;
+  } else if (type === 'career') {
+    tpl.innerHTML = `
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <div class="form-row"><label>会社名</label><input type="text" value=""></div>
+      <div class="form-grid-2">
+        <div class="form-row"><label>部署</label><input type="text" value=""></div>
+        <div class="form-row"><label>役職</label><input type="text" value=""></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-row"><label>入社</label><input type="text" value="" placeholder="YYYY-MM"></div>
+        <div class="form-row"><label>退社</label><input type="text" value="" placeholder="在職中なら空欄"></div>
+      </div>
+      <div class="form-row"><label>業務内容</label><textarea rows="3"></textarea></div>`;
+  } else if (type === 'cert') {
+    tpl.innerHTML = `
+      <button class="mli-del" onclick="this.parentElement.remove()" title="削除">×</button>
+      <div class="form-row"><label>資格・語学名</label><input type="text" value=""></div>
+      <div class="form-row"><label>取得年月（任意）</label><input type="text" value="" placeholder="YYYY-MM"></div>`;
+  }
+  pane.insertBefore(tpl, addBtn);
+}
+
+/* ===== Delete Confirm ===== */
+let pendingDeleteTarget = null;
+function confirmDelete(title, target) {
+  document.getElementById('confirmTitle').textContent = title;
+  pendingDeleteTarget = target;
+  document.getElementById('confirmDialog').classList.add('show');
+}
+function cancelDelete() {
+  pendingDeleteTarget = null;
+  document.getElementById('confirmDialog').classList.remove('show');
+}
+function executeDelete() {
+  if (pendingDeleteTarget) pendingDeleteTarget.remove();
+  cancelDelete();
+}
+
+/* ===== PDF Dropdown ===== */
+function togglePdfMenu(e) {
+  e.stopPropagation();
+  document.getElementById('pdfMenu').classList.toggle('show');
+}
+function exportPdf(type) {
+  const labels = { rireki: '履歴書', shokumu: '職務経歴書', portfolio: 'ポートフォリオ' };
+  alert(`${labels[type]}のPDF出力（プロトタイプ版なので実際の出力は行いません）`);
+  document.getElementById('pdfMenu').classList.remove('show');
+}
+document.addEventListener('click', e => {
+  const wrap = e.target.closest('.pdf-wrap');
+  if (!wrap) document.getElementById('pdfMenu').classList.remove('show');
+});
+</script>
+
 </body>
 </html>
