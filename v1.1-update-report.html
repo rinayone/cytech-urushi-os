@@ -365,6 +365,26 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
   </div>
 </div>
 
+<!-- ===== 2026-04-28 P-05 確認フェーズ再設計＋共通スクロール修正 ===== -->
+<div class="section">
+  <div class="sec-overline">2026-04-28 — P-05 Polish</div>
+  <div class="sec-title">確認フェーズの再設計 と 全画面のスクロール修正</div>
+  <div class="sec-sub">「対話で答える」体験を1ページ1アクション原則に揃え、長文教材でも詰まらない土台を整備。</div>
+
+  <div class="other-item"><div class="other-icon">💬</div><div class="other-text"><strong>「確認」フェーズを 2ラリー化＋自動分岐</strong><span>従来3ラリーから2ラリーに短縮。最終ラリーで回答内容に応じて自動分岐 — 正解→次フェーズへ自動遷移 / 不正解→該当の「読む」へ戻して部分復習 / 「KANAMEに直接聞く」→ パネル誘導。対話の空ループを構造的に防止</span></div></div>
+  <div class="other-item"><div class="other-icon">🧩</div><div class="other-text"><strong>ダイアログエンジンを汎用化（教材作成規約付き）</strong><span>chip.next を 'next' / 'phase:&lt;key&gt;' / 'panel:&lt;id&gt;' に拡張、chip.say で遷移前のKANAME補足発話に対応。配列長＝ラリー数のデータ駆動構造で、教材ごとに 1〜N ラリー自由設定可能。<strong>推奨最大3ラリー、最終ラリーはAI主導で次アクションへ</strong>を規約として明記</span></div></div>
+  <div class="other-item"><div class="other-icon">🚫</div><div class="other-text"><strong>「次のフェーズへ」ボタンを確認フェーズ中グレーアウト</strong><span>ユーザーは対話チップで答えるのが正規ルート。スキップ防止＝1ページ1アクション原則の徹底。「← 戻る」は復習動線として残置</span></div></div>
+  <div class="other-item"><div class="other-icon">📜</div><div class="other-text"><strong>全フェーズでスクロール不能バグを修正</strong><span>flex column 配下の子要素 (.read-scene / .dlg-scene / .ex-scene / .wrap-scene) に min-height: 0 を付与。これまで内容が長くなると内側のスクロールが効かず、.panel.overflow:hidden で見切れだけ起きていた状態を解消</span></div></div>
+  <div class="other-item"><div class="other-icon">🛡️</div><div class="other-text"><strong>フッター被り対策＋スクロールUX強化</strong><span>.dlg-scroll に mask-image で下端36pxフェードアウト（スクロール可能のシグナル）/ 安全帯 64→80px / scrollIntoView({block:'end', behavior:'smooth'}) で新メッセージが必ず可視範囲に入るように強化</span></div></div>
+  <div class="other-item"><div class="other-icon">🎨</div><div class="other-text"><strong>絵文字を Material Symbols Outlined に統一</strong><span>p03/p05 の UI絵文字（📖💬✏️📁👋✨🔥📷）をアイコン化。OS依存レンダリング揺れ解消、漆メタファーとの相性向上、CSS変数による色制御を可能に。p01 リアクションボタン（👍🚀✨）は飛び散りアニメーションのため対象外として保持</span></div></div>
+  <div class="other-item"><div class="other-icon">📅</div><div class="other-text"><strong>P-03 学習カレンダー右カラム リデザイン</strong><span>「今日」(9px Lato uppercase) → 「今日の学習」(12px Noto Sans JP, weight 700) にタイトル昇格。「目標 100 min」を補足トーンに、ストリークを薄赤bgチップ化して達成バッジとして独立。3層の意味階層（タイトル / 補足 / バッジ）を明示</span></div></div>
+
+  <div style="margin-top:24px;text-align:center;">
+    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="link-btn">P-05 を開く →</a>
+    <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="link-btn" style="background:rgba(15,75,171,0.15);border:1px solid rgba(52,224,255,0.3);">P-03 を開く →</a>
+  </div>
+</div>
+
 <!-- ===== Coming Soon ===== -->
 <div class="section-accent">
   <div class="inner">
