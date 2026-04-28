@@ -115,6 +115,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .sb-cal-ring-info .lbl { display: block; text-transform: uppercase; }
 .sb-cal-ring-info .goal { color: rgba(255,255,255,0.65); font-size: 9px; }
 .sb-cal-ring-info .streak { display: inline-flex; align-items: center; gap: 3px; margin-top: 6px; color: #f7513b; font-weight: 700; font-size: 11px; font-family: 'Noto Sans JP','Lato',sans-serif; }
+.sb-cal-ring-info .streak .material-symbols-outlined,
+.mission-celebrate .ic.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
 
 .sb-cal-m-head { display: flex; justify-content: space-between; align-items: baseline; font-family: 'Lato', sans-serif; margin-bottom: 6px; }
 .sb-cal-m-head .month { font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 700; }
@@ -585,7 +589,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
         <div class="sb-cal-ring-info">
           <span class="lbl">今日</span>
           <span class="goal">60 / 100 min</span>
-          <span class="streak">🔥 5日連続</span>
+          <span class="streak"><span class="material-symbols-outlined">local_fire_department</span>5日連続</span>
         </div>
       </div>
 
@@ -650,7 +654,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
             <div class="mp-label" id="mpLabel">0 / 3</div>
           </div>
           <div class="mission-celebrate" id="missionCelebrate">
-            <div class="ic">✨</div>
+            <div class="ic material-symbols-outlined">auto_awesome</div>
             <div class="ttl">今日のミッション完了！</div>
             <div class="sub">お疲れさまでした。<br>明日もこの調子で塗り重ねましょう。</div>
           </div>
@@ -823,7 +827,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <div class="avatar-opt" onclick="pickAvatar(this,'pink')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f7513b,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
           <div class="avatar-opt" onclick="pickAvatar(this,'purple')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#953ec3,#0f4bab);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
           <div class="avatar-opt" onclick="pickAvatar(this,'rainbow')" style="width:36px;height:36px;border-radius:50%;background:conic-gradient(from 0deg,#f13884,#f7513b,#f8ee1a,#7cbf00,#34e0ff,#0f4bab,#953ec3,#f13884);cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;font-family:'Lato',sans-serif;">SK</div>
-          <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.55);transition:all 0.2s;" title="画像をアップロード">📷<input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
+          <label style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px dashed rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,0.55);transition:all 0.2s;" title="画像をアップロード"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;">add_a_photo</span><input type="file" accept="image/*" onchange="previewUpload(this)" style="display:none;"></label>
         </div>
       </div>
       <div style="margin-bottom:12px;"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">名前</div><input type="text" value="佐藤 健太" class="set-input" style="width:100%;text-align:left;"></div>

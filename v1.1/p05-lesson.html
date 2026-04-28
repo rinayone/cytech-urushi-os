@@ -93,6 +93,11 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .phase-step.active .meta { color: #fff; }
 .phase-step .icon { font-size: 11px; }
+.phase-step .icon.material-symbols-outlined,
+.ic.material-symbols-outlined,
+.streak .material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
 .phase-step.t-intro .icon { color: #f8ee1a; }
 .phase-step.t-read .icon { color: #34e0ff; }
 .phase-step.t-dialogue .icon { color: #f13884; }
@@ -569,11 +574,11 @@ body.panel-open .phase-indicator { right: 332px; }
         <div class="greet">おかえりなさい、佐藤さん</div>
         <div class="topic">今日は <span class="hl">「ネットワーク構成図の読み方」</span></div>
         <div class="plan">
-          <div class="plan-chip r"><span class="ic">📖</span>読む 3分</div>
-          <div class="plan-chip d"><span class="ic">💬</span>確認 1分</div>
-          <div class="plan-chip r"><span class="ic">📖</span>読む 2分</div>
-          <div class="plan-chip d"><span class="ic">💬</span>確認 1分</div>
-          <div class="plan-chip e"><span class="ic">✏️</span>演習 1分</div>
+          <div class="plan-chip r"><span class="ic material-symbols-outlined">menu_book</span>読む 3分</div>
+          <div class="plan-chip d"><span class="ic material-symbols-outlined">forum</span>確認 1分</div>
+          <div class="plan-chip r"><span class="ic material-symbols-outlined">menu_book</span>読む 2分</div>
+          <div class="plan-chip d"><span class="ic material-symbols-outlined">forum</span>確認 1分</div>
+          <div class="plan-chip e"><span class="ic material-symbols-outlined">edit</span>演習 1分</div>
         </div>
         <div class="total">合計 約8分</div>
       </div>
@@ -675,7 +680,7 @@ gateway = <span class="str">"192.168.1.1"</span>
     <div class="panel">
 <div class="ex-scene">
         <div class="ex-head">
-          <span class="ic">✏️</span>
+          <span class="ic material-symbols-outlined">edit</span>
           <span class="lab">ミニ演習 1分</span>
         </div>
         <div class="ex-question">営業先で「<span class="em">うちの社員のPC</span>」にあたるのは、ネットワーク図のどこ？</div>
@@ -708,7 +713,7 @@ gateway = <span class="str">"192.168.1.1"</span>
           <div class="oh">今日の気付きを1行で（任意）</div>
           <div class="osub">スキップしても大丈夫。書くと P-07 ポートフォリオに残ります。</div>
           <input type="text" id="outputInput" placeholder="例: サーバとルーターの違いがやっと整理できた...">
-          <div class="pf-hint"><span class="ic">📁</span>ポートフォリオに自動保存されます</div>
+          <div class="pf-hint"><span class="ic material-symbols-outlined">folder</span>ポートフォリオに自動保存されます</div>
         </div>
         <div class="layer-add-anim" id="layerAdd">
           <div class="gem"></div>
@@ -780,13 +785,13 @@ gateway = <span class="str">"192.168.1.1"</span>
 <script>
 /* ============ Phase definitions ============ */
 const PHASES = [
-  { key: 'intro',      label: 'イントロ', icon: '👋', type: 't-intro',    minutes: 0.5 },
-  { key: 'read1',      label: '読む',     icon: '📖', type: 't-read',     minutes: 3 },
-  { key: 'dialogue1',  label: '確認',     icon: '💬', type: 't-dialogue', minutes: 1 },
-  { key: 'read2',      label: '読む',     icon: '📖', type: 't-read',     minutes: 2 },
-  { key: 'dialogue2',  label: '確認',     icon: '💬', type: 't-dialogue', minutes: 1 },
-  { key: 'exercise',   label: '演習',     icon: '✏️', type: 't-exercise', minutes: 1 },
-  { key: 'wrap',       label: 'まとめ',   icon: '✨', type: 't-wrap',     minutes: 0.5 },
+  { key: 'intro',      label: 'イントロ', icon: 'waving_hand',  type: 't-intro',    minutes: 0.5 },
+  { key: 'read1',      label: '読む',     icon: 'menu_book',    type: 't-read',     minutes: 3 },
+  { key: 'dialogue1',  label: '確認',     icon: 'forum',        type: 't-dialogue', minutes: 1 },
+  { key: 'read2',      label: '読む',     icon: 'menu_book',    type: 't-read',     minutes: 2 },
+  { key: 'dialogue2',  label: '確認',     icon: 'forum',        type: 't-dialogue', minutes: 1 },
+  { key: 'exercise',   label: '演習',     icon: 'edit',         type: 't-exercise', minutes: 1 },
+  { key: 'wrap',       label: 'まとめ',   icon: 'auto_awesome', type: 't-wrap',     minutes: 0.5 },
 ];
 const TOTAL_MIN = PHASES.reduce((s, p) => s + p.minutes, 0);
 
@@ -796,7 +801,7 @@ PHASES.forEach((p, i) => {
   const el = document.createElement('div');
   el.className = `phase-step ${p.type}`;
   el.dataset.idx = i;
-  el.innerHTML = `<div class="bar"><div class="bar-fill"></div></div><div class="meta"><span class="icon">${p.icon}</span>${p.label}</div>`;
+  el.innerHTML = `<div class="bar"><div class="bar-fill"></div></div><div class="meta"><span class="icon material-symbols-outlined">${p.icon}</span>${p.label}</div>`;
   el.addEventListener('click', () => goPhase(i));
   phaseTrack.appendChild(el);
 });
