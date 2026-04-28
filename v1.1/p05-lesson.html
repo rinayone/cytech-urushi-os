@@ -802,31 +802,42 @@ PHASES.forEach((p, i) => {
 });
 
 /* ============ Dialogue scripts (per dialogue phase) ============ */
+/*
+ * Dialogue script schema (汎用):
+ *   配列の長さ = ラリー数。教材ごとに 1〜N で自由に決められる。
+ *   各 turn: { k: [KANAMEメッセージ...], chips: [...], close?: true }
+ *   各 chip: {
+ *     t: 'ボタン文言',
+ *     primary?: true,    // データ上の正解マーク（視覚効果なし）
+ *     skip?: true,       // ユーザー発言バブルをエコーしない
+ *     wrong?: true,      // KANAMEが「違うかも」と返し、同じラリーを繰り返す
+ *     say?: 'KANAMEが遷移前に喋る一言',
+ *     next: 数値 | 'next' | 'back' | 'done' | 'phase:<key>' | 'panel:<id>',
+ *   }
+ */
 const DLG1 = [
+  // ラリー1: サーバの確認
   {
     k: ['<span class="nm">KANAME</span>サーバって、営業に例えると<strong>何</strong>でしたっけ？'],
     chips: [
       { t: '本社', primary: true, next: 1 },
       { t: '支店', next: 1, wrong: true },
       { t: '部署', next: 1, wrong: true },
-      { t: '思い出せない', skip: true, next: 1 },
+      { t: '思い出せない', skip: true, next: 'phase:read1' },
     ],
   },
+  // ラリー2 (最終): ルーターの確認 + 回答に応じて自動分岐
   {
     k: ['<span class="nm">KANAME</span>本社、で合ってます。情報を <strong>出す側</strong> ですね。<br>じゃあ <strong>ルーター</strong>は？'],
+    close: true,
     chips: [
-      { t: '本社', next: 2, wrong: true },
-      { t: '支店', primary: true, next: 2 },
-      { t: '部署', next: 2, wrong: true },
-      { t: 'もう一度説明', next: 2 },
-    ],
-  },
-  {
-    k: ['<span class="nm">KANAME</span>支店、いいですね。情報を <span class="hl">振り分ける</span> 役割。<br>ここまでで困ったところはなさそうですか？'],
-    chips: [
-      { t: 'バッチリ', primary: true, next: 'done' },
-      { t: 'もう一度教材を見たい', next: 'back' },
-      { t: '次へ', skip: true, next: 'done' },
+      { t: '支店', primary: true, next: 'next',
+        say: 'バッチリ。情報を <span class="hl">振り分ける</span> 役割ですね。次の教材へ進みましょう。' },
+      { t: '本社', next: 'phase:read1',
+        say: '惜しい！ルーターは <strong>支店</strong> にあたります。もう一度教材で見直しましょう。' },
+      { t: '部署', next: 'phase:read1',
+        say: '惜しい！ルーターは <strong>支店</strong> にあたります。もう一度教材で見直しましょう。' },
+      { t: 'KANAMEに直接聞く', skip: true, next: 'panel:kaname' },
     ],
   },
 ];
@@ -918,6 +929,49 @@ function goPhase(i) {
 }
 
 /* ============ Dialogue rendering ============ */
+function findPhaseIdxByKey(key) {
+  return PHASES.findIndex(p => p.key === key);
+}
+
+function appendKBubble(dlgEl, html) {
+  const r = document.createElement('div');
+  r.className = 'k-row';
+  r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>${html}</div>`;
+  dlgEl.appendChild(r);
+  dlgEl.scrollTop = dlgEl.scrollHeight;
+}
+
+function resolveNext(next, ctx) {
+  // ctx: { scriptArr, dlgEl, onDone, onBack }
+  if (typeof next === 'number') {
+    setTimeout(() => renderDlg(ctx.scriptArr, next, ctx.dlgEl, ctx.onDone, ctx.onBack), 500);
+    return;
+  }
+  if (next === 'done') {
+    if (ctx.onDone) ctx.onDone();
+    return;
+  }
+  if (next === 'next') {
+    setTimeout(() => nextPhase(), 700);
+    return;
+  }
+  if (next === 'back') {
+    if (ctx.onBack) ctx.onBack();
+    return;
+  }
+  if (typeof next === 'string' && next.startsWith('phase:')) {
+    const key = next.slice(6);
+    const idx = findPhaseIdxByKey(key);
+    if (idx >= 0) setTimeout(() => goPhase(idx), 700);
+    return;
+  }
+  if (typeof next === 'string' && next.startsWith('panel:')) {
+    const tab = next.slice(6);
+    setTimeout(() => openPanel(tab), 400);
+    return;
+  }
+}
+
 function appendChipRow(scriptArr, idx, dlgEl, onDone, onBack) {
   const turn = scriptArr[idx];
   const chipRow = document.createElement('div');
@@ -937,18 +991,20 @@ function appendChipRow(scriptArr, idx, dlgEl, onDone, onBack) {
       }
       if (chip.wrong) {
         setTimeout(() => {
-          const r = document.createElement('div');
-          r.className = 'k-row';
-          r.innerHTML = `<div class="k-avatar">K</div><div class="k-bubble"><span class="nm">KANAME</span>あ、それは違うかも。もう一度考えてみて。</div>`;
-          dlgEl.appendChild(r);
-          dlgEl.scrollTop = dlgEl.scrollHeight;
+          appendKBubble(dlgEl, 'あ、それは違うかも。もう一度考えてみて。');
           appendChipRow(scriptArr, idx, dlgEl, onDone, onBack);
         }, 400);
         return;
       }
-      if (chip.next === 'done') { onDone(); return; }
-      if (chip.next === 'back') { onBack && onBack(); return; }
-      setTimeout(() => renderDlg(scriptArr, chip.next, dlgEl, onDone, onBack), 500);
+      const ctx = { scriptArr, dlgEl, onDone, onBack };
+      if (chip.say) {
+        setTimeout(() => {
+          appendKBubble(dlgEl, chip.say);
+          setTimeout(() => resolveNext(chip.next, ctx), 1200);
+        }, 400);
+      } else {
+        resolveNext(chip.next, ctx);
+      }
     };
     chipRow.appendChild(btn);
   });
