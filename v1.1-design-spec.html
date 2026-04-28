@@ -682,9 +682,8 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 <tr><td>2026-04-23 (AM)</td><td>社内MTG反映: P-04+P-08統合 / P-07ポップアップ化 / P-08隠し機能化 / P-01目標企業削除 / UI改善 / 用語修正</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-23 (PM)</td><td>P-03ダッシュボード全面刷新: ゲームUI＋漆テーマ「Your Layers」/ デイリーミッションカード（チェック→自動遷移）/ サジェストチップ＋展開パネル / ポートフォリオ・企業選考ポップアップのUI圧縮（2カラム・チップ化）/ 設定にアイコン変更機能追加 / サイドバー260px＋余白調整 / ストリーク表示改善 / action-ideas.html作成</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
 <tr><td>2026-04-27</td><td>P-05学習画面のUI/UX提案版を別公開（社長レビュー用）: 対話オンリー型(p05-dialogue) と フェーズ切替型(p05-phased) の2種。p05-phased が本命（読む→対話→演習→振り返りのフェーズ切替）/ P-03からエントリー可能企業セクション削除 / P-04・P-07コンテンツ幅 800→920px / P-07に履歴書機能搭載（基本情報拡張＋自己PR＋学歴＋職歴＋資格・語学＋編集モーダル＋PDF出力3形式）</td><td><a href="reports/2026-04-27-progress.html">レポート →</a></td></tr>
-<tr><td>2026-04-27 (Late)</td><td><strong>P-05 フェーズ切替型を本線に昇格</strong>: <a href="v1.1/p05-lesson.html">v1.1/p05-lesson.html</a> をフェーズ切替型に差し替え（PROPOSAL バナー除去・展開ヘッダー追加・p06遷移配線）。初回版（教科書型）は <a href="archive/v1.1/p05-lesson-original.html">archive/v1.1/p05-lesson-original.html</a> に保管。p03/p04 等からの既存リンクはそのまま新版に到達</td><td>—</td></tr>
 <tr><td>2026-04-27 (PM)</td><td>大規模ブラッシュアップ: <strong>B改善（デザイン品質）+ A改善（学習完遂率）+ UI細部</strong>。Material Symbols Outlined 全画面導入 / カラートークン化(--cta-grad/--accent/--brand-grad/--info/--rainbow) / タイポ・余白スケール統一 / コントラスト引き上げ / ホバー統一 / モーダル ✕ ボタン外側配置 / P-03 サマリーパネル再設計（ポートフォリオ=レベル+強み+閲覧数, 企業選考=本命+19日予測+CTA）/ サマリーカード全体クリッカブル化 / ミッションテキストもクリック可能 / 通知chip 白文字+赤丸バッジ / 学習カレンダー Today Ring + 月Grid hybrid（黄→ピンク Ring + 白α0.18 Done）/ ミッション完了演出（+1 LAYER chip + 全完了時祝福トースト） / P-04 受講中バナーに「Unit 5 STEP 3 から再開」CTA / P-03ポートフォリオサマリーに「Skill Prime達成でスカウト解禁」/ P-07完成度バー横に「自己PR充実で閲覧数+30%」ティップ / PDF出力2形式に縮小 / 編集モーダル削除ボタン ゴミ箱化</td><td>—</td></tr>
-<tr><td>2026-04-28</td><td><strong>P-05 確認フェーズ再設計＋共通スクロール修正</strong>: 「確認」フェーズを 2ラリー化＋自動分岐（正解→次フェーズ / 不正解→読む戻り / KANAME相談→パネル）。ダイアログエンジン汎用化（chip.next 拡張、chip.say 対応、配列長＝ラリー数のデータ駆動構造）。教材作成規約として「<strong>推奨最大3ラリー、最終ラリーはAI主導で次アクション</strong>」を明記。「次のフェーズへ」ボタンを確認フェーズ中グレーアウト＝スキップ防止。全フェーズの flex 子要素に min-height: 0 を付与し、内容が長い場合の縦スクロール不能バグを修正。フッター被り対策（mask-image / 安全帯拡大 / scrollIntoView）。残りの絵文字を Material Symbols Outlined に統一（p03/p05、p01リアクションは保持）。P-03 学習カレンダー右カラム リデザイン（タイトル昇格＋ストリークのチップ化）</td><td><a href="v1.1-update-report.html">レポート →</a></td></tr>
+<tr><td><strong>2026-04-28</strong></td><td><strong>P-05 本線昇格 + 確認フェーズ再設計 + 共通スクロール土台</strong>（4/27 Late 〜 4/28 の連続作業を統合）: <a href="v1.1/p05-lesson.html">v1.1/p05-lesson.html</a> をフェーズ切替型に本線昇格（PROPOSAL バナー除去・展開ヘッダー追加・p06遷移配線、初回版は <a href="archive/v1.1/p05-lesson-original.html">archive</a> に保管）/ サンプル企業データを実名化 / モバイル対応強化（p04/p07 980px再構築、p03トースト縮小）/ <strong>「確認」フェーズを 2ラリー化＋自動分岐</strong>（正解→次フェーズ / 不正解→読む戻り / KANAME相談→パネル）/ ダイアログエンジン汎用化（chip.next 拡張、chip.say 対応、配列長＝ラリー数のデータ駆動構造）/ 教材作成規約「<strong>推奨最大3ラリー、最終ラリーはAI主導で次アクション</strong>」を明記 / 「次のフェーズへ」ボタンを確認フェーズ中グレーアウト＝スキップ防止 / 全フェーズの flex 子要素に min-height: 0 を付与しスクロール不能バグを修正 / フッター被り対策（mask-image / 安全帯拡大 / scrollIntoView）/ 残りの絵文字を Material Symbols Outlined に統一（p03/p05、p01リアクションは保持）/ P-03 学習カレンダー右カラム リデザイン（タイトル昇格＋ストリークのチップ化）</td><td><a href="reports/2026-04-27-progress.html">レポート →</a></td></tr>
 </table>
 
 <h3>提案版（v1.1 mockには未反映）</h3>
@@ -695,7 +694,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 32px 0; }
 </table>
 
 <hr>
-<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-27 JST</p>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:40px;">CyTech Urushi OS v1.1 設計仕様書 / 最終更新: 2026-04-28 JST</p>
 
 </body>
 </html>

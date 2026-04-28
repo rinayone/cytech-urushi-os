@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026-04-27 進捗レポート — 昨日のブラッシュアップ</title>
+<title>進捗レポート — 4月27日 + 4月28日のブラッシュアップ</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -116,26 +116,26 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
 <!-- ===== HERO ===== -->
 <div class="hero">
   <a href="../v1.1-design-spec.html" class="back">← 設計仕様書</a>
-  <div class="date-tag">2026 / 04 / 27 — MONDAY</div>
-  <h1>昨日のブラッシュアップ</h1>
-  <p class="sub">先週の v1.1 全画面構築から、昨日は体験品質の磨き込みへ。</p>
+  <div class="date-tag">2026 / 04 / 27 → 04 / 28 — 2 DAYS</div>
+  <h1>2日間のブラッシュアップ</h1>
+  <p class="sub">先週の v1.1 全画面構築から、この2日間は体験品質の磨き込みへ。<br>4/27 は情報整理＋P-05 新UI採用＋デザイン品質、<br>4/28 は P-05「確認」フェーズの再設計＋学習体験の土台整備。</p>
 </div>
 
-<!-- ===== 昨日のフォーカス ===== -->
+<!-- ===== この2日間のフォーカス ===== -->
 <div class="section">
-  <div class="sec-overline">Yesterday's Focus</div>
-  <div class="sec-title">昨日の3つの仕事</div>
-  <div class="sec-sub">それぞれが独立した改善ですが、全て「佐藤くんが迷わず学習に戻れる」という1つの体験設計に紐付いています。</div>
+  <div class="sec-overline">2-Day Focus</div>
+  <div class="sec-title">この2日間の5つの仕事</div>
+  <div class="sec-sub">前半（4/27）は情報整理と P-05 新UIの確定。後半（4/28）は P-05「確認」フェーズの再設計と学習体験の土台整備。<br>すべて「佐藤くんが迷わず学習を完遂できる」体験設計に紐付いています。</div>
 
-  <!-- Focus 1: 情報整理 -->
+  <!-- Focus 1: 情報整理 (4/27) -->
   <div class="focus-item">
-    <span class="focus-num">FOCUS 01</span>
+    <span class="focus-num">4/27 — FOCUS 01</span>
     <div class="focus-title">P-03 / P-04 / P-07 の情報を整理した</div>
     <div class="focus-meta">
       <span class="focus-tag tag-page">P-03 / P-04 / P-07</span>
       <span class="focus-tag tag-ux">情報設計</span>
     </div>
-    <div class="focus-desc">ダッシュボード(モーダル統合は前回完了済み)の中身を整理し、必要な情報だけに絞り込みました。具体的には P-03 から「エントリー可能企業」セクションを削除、右側ウィジェットの表示順を見直し、P-04 / P-07 のレイアウトを 3パターン提案 → Pattern A（3-Column Grid）で本番再構築。コンテンツ幅は 800px → 920px に拡張し、CTU 世界観の余白バランスを保ちつつ情報密度を確保しました。</div>
+    <div class="focus-desc">ダッシュボード（モーダル統合は前回完了済み）の中身を整理し、必要な情報だけに絞り込みました。具体的には P-03 から「エントリー可能企業」セクションを削除、右側ウィジェットの表示順を見直し、P-04 / P-07 のレイアウトを 3パターン提案 → Pattern A（3-Column Grid）で本番再構築。コンテンツ幅は 800px → 920px に拡張し、CTU 世界観の余白バランスを保ちつつ情報密度を確保しました。</div>
     <div class="ba-mini">
       <div class="ba-mini-side ba-mini-before">
         <span class="ba-mini-tag">BEFORE</span>
@@ -151,23 +151,23 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
     </div>
   </div>
 
-  <!-- Focus 2: P-05 proposal -->
+  <!-- Focus 2: P-05 新UI採用 (4/27) -->
   <div class="focus-item">
-    <span class="focus-num">FOCUS 02</span>
-    <div class="focus-title">P-05 学習画面の新UI提案 — 社長レビュー用</div>
+    <span class="focus-num">4/27 — FOCUS 02</span>
+    <div class="focus-title">P-05 学習画面の新UIを本線採用</div>
     <div class="focus-meta">
       <span class="focus-tag tag-page">P-05</span>
-      <span class="focus-tag tag-proposal">提案</span>
+      <span class="focus-tag tag-proposal">提案 → 採用</span>
     </div>
-    <div class="focus-desc">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型（読む → 対話 → 演習 → 振り返り）の新UIを提案版として作成。v1.1 mock には未反映、proposals/ 配下に直URLでアクセス可能。社長レビューを経て採用可否を判断します。</div>
+    <div class="focus-desc">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型（読む → 対話 → 演習 → 振り返り）の新UIを提案。同日中に v1.1 本線へ昇格しました。約8分／7フェーズで完結する構成、上部にフェーズインジケーター、完了時に Layer +1 演出 → P-06 へ自動遷移。家庭教師コンセプトの本質を1画面で表現できる構造になりました。</div>
     <div style="margin-top:12px;">
-      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/proposals/p05-phased/" target="_blank" class="link-btn link-btn-light">提案版（本命）を見る →</a>
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="link-btn link-btn-light">P-05 現行版を見る →</a>
     </div>
   </div>
 
-  <!-- Focus 3: Design quality -->
+  <!-- Focus 3: Design quality (4/27) -->
   <div class="focus-item">
-    <span class="focus-num">FOCUS 03</span>
+    <span class="focus-num">4/27 — FOCUS 03</span>
     <div class="focus-title">デザイン品質の底上げ — アイコン統一 + レビュー指摘の一括修正</div>
     <div class="focus-meta">
       <span class="focus-tag tag-design">全画面</span>
@@ -175,12 +175,51 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
     </div>
     <div class="focus-desc">アイコンを Material Symbols Outlined に統一し、プロダクトトーンの一貫性を確保。続けてレビューで挙がった改善ポイント 7 項目を一括で修正し、残っていた細かい違和感を一斉に潰しました。</div>
   </div>
+
+  <!-- Focus 4: P-05 「確認」フェーズ再設計 (4/28) -->
+  <div class="focus-item">
+    <span class="focus-num">4/28 — FOCUS 04</span>
+    <div class="focus-title">P-05「確認」フェーズの再設計 — 対話の質を上げた</div>
+    <div class="focus-meta">
+      <span class="focus-tag tag-page">P-05</span>
+      <span class="focus-tag tag-ux">対話設計</span>
+    </div>
+    <div class="focus-desc">「確認」フェーズを 3ラリー → 2ラリー に短縮し、最終ラリーで回答内容に応じて自動分岐するエンジンを実装しました。正解なら次フェーズへ自動遷移、不正解なら該当の「読む」へ戻して部分復習、「KANAMEに直接聞く」を選べばパネルへ誘導。対話の空ループを構造的に防止しています。エンジンは汎用化したので、教材作成側はラリー数 1〜N を自由に決められ、教材作成規約として「推奨最大3ラリー、最終ラリーは AI 主導で次アクションへ」を明記しました。</div>
+    <div class="ba-mini">
+      <div class="ba-mini-side ba-mini-before">
+        <span class="ba-mini-tag">BEFORE</span>
+        <div class="ba-mini-text">3ラリー固定 + 進行は手動ボタン頼み</div>
+        <div class="ba-mini-desc">対話が長引きやすく、答えなくても「次へ」で素通りできた</div>
+      </div>
+      <div class="ba-mini-mid">→</div>
+      <div class="ba-mini-side ba-mini-after">
+        <span class="ba-mini-tag">AFTER</span>
+        <div class="ba-mini-text">2ラリー + 回答に応じて AI が次を促す</div>
+        <div class="ba-mini-desc">対話で答えれば自動的に次のフェーズへ。間違えれば自動で復習に戻る</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Focus 5: 学習体験の土台整備 (4/28) -->
+  <div class="focus-item">
+    <span class="focus-num">4/28 — FOCUS 05</span>
+    <div class="focus-title">学習体験の土台を整備した — 1ページ1アクション原則の徹底</div>
+    <div class="focus-meta">
+      <span class="focus-tag tag-page">P-05 / P-03</span>
+      <span class="focus-tag tag-ux">体験設計</span>
+      <span class="focus-tag tag-quality">品質向上</span>
+    </div>
+    <div class="focus-desc">P-05 の全フェーズに渡って、内容が長くなった時の縦スクロール不能バグを修正（flex column の落とし穴）。フッター被り対策として安全帯を拡大、下端のフェードアウト表現でスクロール可能なことを視覚化、新メッセージは scrollIntoView で必ず可視範囲に追従するように。「次のフェーズへ」ボタンは確認フェーズ中グレーアウトしてスキップを防止し、ユーザーが対話で答えるのが正規ルートになるよう構造を直しました。あわせて P-03 学習カレンダーの右カラムもリデザイン（タイトル昇格＋ストリークのチップ化）し、3層の意味階層を明示しています。</div>
+    <div style="margin-top:12px;">
+      <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="link-btn link-btn-light">P-03 ダッシュボードを見る →</a>
+    </div>
+  </div>
 </div>
 
 <!-- ===== ハイライト ===== -->
 <div class="section">
-  <div class="sec-overline">Yesterday's Highlights</div>
-  <div class="sec-title">昨日、何が良くなったか</div>
+  <div class="sec-overline">Highlights</div>
+  <div class="sec-title">この2日間で何が良くなったか</div>
   <div class="sec-sub">細部の積み重ねが、社長・上司に見せられる完成度を作ります。</div>
 
   <div class="highlights-grid">
@@ -201,13 +240,28 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
     </div>
     <div class="hl-card">
       <span class="hl-num">04</span>
-      <div class="hl-title">細部の違和感が一斉に消えた</div>
-      <div class="hl-desc">レビューで挙がった改善ポイントを 7 項目まとめて一括修正。残っていた小さな違和感を解消しました。</div>
+      <div class="hl-title">P-05 学習画面の新UIが本線採用された</div>
+      <div class="hl-desc">「家庭教師の本来の流れ」を反映したフェーズ切替型を提案 → 同日中に本線昇格。約8分・7フェーズの構成。</div>
     </div>
     <div class="hl-card">
       <span class="hl-num">05</span>
-      <div class="hl-title">P-05 学習画面の新提案が完成</div>
-      <div class="hl-desc">「家庭教師の本来の流れは対話だけではない」という気付きから、フェーズ切替型を社長レビュー用に作成。</div>
+      <div class="hl-title">「確認」フェーズが対話で答える体験になった</div>
+      <div class="hl-desc">2ラリー化＋自動分岐で、答えれば自動で次へ・間違えれば自動で復習へ。空ループを構造的に防止。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">06</span>
+      <div class="hl-title">スキップで素通りできない構造になった</div>
+      <div class="hl-desc">確認フェーズ中は「次へ」ボタンをグレーアウト。対話で答えるのが正規ルート＝1ページ1アクションを徹底。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">07</span>
+      <div class="hl-title">長文教材でもスクロールが効くようになった</div>
+      <div class="hl-desc">flex column の落とし穴（min-height）を全フェーズで解消。下端フェードアウトでスクロール可能を視覚化。</div>
+    </div>
+    <div class="hl-card">
+      <span class="hl-num">08</span>
+      <div class="hl-title">学習カレンダーの情報階層が整った</div>
+      <div class="hl-desc">タイトル「今日の学習」を昇格、ストリークをチップ化。3層の意味階層（タイトル / 補足 / バッジ）を明示。</div>
     </div>
   </div>
 </div>
@@ -215,8 +269,8 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
 <!-- ===== サマリー ===== -->
 <div class="section">
   <div class="sec-overline">Summary</div>
-  <div class="sec-title">先週 → 昨日の流れ</div>
-  <div class="sec-sub">構築フェーズから磨き込みフェーズへ。昨日は「画面の完成」ではなく「体験の完成」に時間を使いました。</div>
+  <div class="sec-title">先週 → この2日間の流れ</div>
+  <div class="sec-sub">構築フェーズから磨き込みフェーズへ。この2日間は「画面の完成」ではなく「体験の完成」に時間を使いました。</div>
 
   <div class="summary-grid">
     <div class="summary-card last-week">
@@ -225,26 +279,26 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
       <div class="sum-desc">v1.1 設計仕様書の策定、P-01〜P-08 の全画面実装、P-03 ダッシュボードを RPG ×漆 デザインに全面刷新、P-03 のモバイル対応 + WCAG アクセシビリティ対応。</div>
     </div>
     <div class="summary-card today">
-      <div class="sum-label">YESTERDAY (4/27)</div>
-      <div class="sum-title">磨き込み — 体験の統合と品質向上</div>
-      <div class="sum-desc">P-03 / P-04 / P-07 の情報を整理（不要セクション削除・表示順整理・3-Column Grid で並べ直し）、P-05 学習画面の新UI提案、アイコン統一 (Material Symbols) とレビュー指摘の一括修正による品質底上げ。</div>
+      <div class="sum-label">PAST 2 DAYS (4/27 → 4/28)</div>
+      <div class="sum-title">磨き込み — 体験の統合と土台整備</div>
+      <div class="sum-desc">4/27: P-03 / P-04 / P-07 の情報整理、P-05 新UI採用、Material Symbols 統一による品質底上げ。<br>4/28: P-05「確認」フェーズの再設計（2ラリー化＋自動分岐＋汎用エンジン化）、全フェーズのスクロール基盤修正、スキップ防止のグレーアウト、P-03 学習カレンダー右カラムリデザイン。</div>
     </div>
   </div>
 </div>
 
-<!-- ===== 数字で見る昨日 ===== -->
+<!-- ===== 数字で見るこの2日間 ===== -->
 <div class="section-accent">
   <div class="inner">
     <div class="sec-overline">By the Numbers</div>
-    <div class="sec-title">昨日1日の動き</div>
-    <div class="sec-sub">朝から夕方までの実作業を数字で。</div>
+    <div class="sec-title">この2日間の動き</div>
+    <div class="sec-sub">4/27 と 4/28 の合計 実作業を数字で。</div>
     <div class="stats-row">
       <div class="stat-box">
-        <div class="stat-num">12</div>
-        <div class="stat-label">COMMITS</div>
+        <div class="stat-num">23</div>
+        <div class="stat-label">COMMITS (2 DAYS)</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">3</div>
+        <div class="stat-num">5</div>
         <div class="stat-label">FOCUS AREAS</div>
       </div>
       <div class="stat-box">
@@ -257,9 +311,9 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; color: #1a1a1a; backgrou
 
 <!-- ===== CTA ===== -->
 <div class="cta-section">
-  <h2>昨日の成果を実機で確認する</h2>
-  <p>P-03 ダッシュボードから P-04 / P-07 のモーダル統合を体験できます。</p>
-  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p03-dashboard.html" target="_blank" class="cta-btn">P-03 ダッシュボードを開く →</a>
+  <h2>この2日間の成果を実機で確認する</h2>
+  <p>P-05 学習画面で「確認」フェーズの新しい対話体験、P-03 でカレンダー右カラムの整理を体感できます。</p>
+  <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p05-lesson.html" target="_blank" class="cta-btn">P-05 学習画面を開く →</a>
   <a href="https://thenewgate-inc.github.io/cytech-urushi-os-mockup/v1.1/p01-diagnosis.html" target="_blank" class="cta-btn cta-btn-ghost">P-01 から通しで確認</a>
 </div>
 
