@@ -111,11 +111,35 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
   padding-bottom: 12px; margin-bottom: 12px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.sb-cal-ring-info { font-size: 9px; color: rgba(255,255,255,0.55); font-family: 'Lato', sans-serif; letter-spacing: 0.5px; line-height: 1.5; flex: 1; min-width: 0; }
-.sb-cal-ring-info .lbl { display: block; text-transform: uppercase; }
-.sb-cal-ring-info .goal { color: rgba(255,255,255,0.65); font-size: 9px; }
-.sb-cal-ring-info .streak { display: inline-flex; align-items: center; gap: 3px; margin-top: 6px; color: #f7513b; font-weight: 700; font-size: 11px; font-family: 'Noto Sans JP','Lato',sans-serif; }
-.sb-cal-ring-info .streak .material-symbols-outlined,
+.sb-cal-ring-info {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.sb-cal-ring-info .title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.92);
+  letter-spacing: 0;
+}
+.sb-cal-ring-info .goal {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.3px;
+}
+.sb-cal-ring-info .streak {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 6px;
+  padding: 3px 9px;
+  background: rgba(247,81,59,0.12);
+  border: 1px solid rgba(247,81,59,0.3);
+  border-radius: 100px;
+  color: #f7513b; font-weight: 700; font-size: 10px;
+  font-family: 'Noto Sans JP', 'Lato', sans-serif;
+  width: fit-content;
+}
+.sb-cal-ring-info .streak .material-symbols-outlined {
+  font-size: 12px;
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+}
 .mission-celebrate .ic.material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
 }
@@ -587,7 +611,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
           <text x="28" y="32" font-family="Lato" font-size="13" font-weight="900" fill="#fff" text-anchor="middle">60</text>
         </svg>
         <div class="sb-cal-ring-info">
-          <span class="lbl">今日</span>
+          <span class="title">今日の学習</span>
           <span class="goal">目標 100 min</span>
           <span class="streak"><span class="material-symbols-outlined">local_fire_department</span>5日連続</span>
         </div>
