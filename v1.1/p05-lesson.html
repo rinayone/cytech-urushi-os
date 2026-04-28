@@ -843,20 +843,25 @@ const DLG1 = [
 ];
 
 const DLG2 = [
+  // ラリー1: create_connection の確認
   {
     k: ['<span class="nm">KANAME</span>さっきのコードの <span class="hl">create_connection</span> って何してました？'],
     chips: [
       { t: '接続を試している', primary: true, next: 1 },
       { t: '計算している', next: 1, wrong: true },
-      { t: 'もう一度コードを見る', next: 'back' },
-      { t: '思い出せない', skip: true, next: 1 },
+      { t: 'データを保存している', next: 1, wrong: true },
+      { t: '思い出せない', skip: true, next: 'phase:read2' },
     ],
   },
+  // ラリー2 (最終): 補足 + 演習へ自動遷移 / 復習に戻る / 自由対話
   {
-    k: ['<span class="nm">KANAME</span>ピンポンです。営業で言う「<span class="meta">この支店に電話繋がる？</span>」を試している部分ですね。'],
+    k: ['<span class="nm">KANAME</span>ピンポンです。営業で言う「<span class="meta">この支店に電話繋がる？</span>」を試している部分ですね。<br>ここまで、コードの読み方は掴めましたか？'],
+    close: true,
     chips: [
-      { t: '完璧', primary: true, next: 'done' },
-      { t: 'もう一度復習', next: 0 },
+      { t: 'バッチリ', primary: true, next: 'next',
+        say: 'いいですね。では演習で実際に使えるか確かめましょう。' },
+      { t: 'もう一度コードを見たい', skip: true, next: 'phase:read2' },
+      { t: 'KANAMEに直接聞く', skip: true, next: 'panel:kaname' },
     ],
   },
 ];
