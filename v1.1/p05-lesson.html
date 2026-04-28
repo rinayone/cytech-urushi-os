@@ -164,7 +164,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 
 /* ===== READING SCENE ===== */
-.read-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; }
+.read-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; min-height: 0; }
 .read-head {
   padding: 14px 22px 0; display: flex; align-items: center; gap: 10px;
 }
@@ -214,7 +214,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .code-block .num { color: #fab387; }
 
 /* ===== DIALOGUE SCENE ===== */
-.dlg-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; }
+.dlg-scene { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 920px; align-self: center; min-height: 0; }
 .dlg-head {
   padding: 14px 22px; display: flex; align-items: center; gap: 10px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -285,7 +285,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .chip.skip:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
 
 /* ===== EXERCISE SCENE ===== */
-.ex-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; width: 100%; max-width: 920px; align-self: center; }
+.ex-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; width: 100%; max-width: 920px; align-self: center; min-height: 0; overflow-y: auto; }
 .ex-head {
   display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
 }
@@ -330,7 +330,7 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 .ex-feedback.wrong strong { color: #f7513b; }
 
 /* ===== WRAP SCENE ===== */
-.wrap-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; gap: 16px; overflow-y: auto; width: 100%; max-width: 920px; align-self: center; }
+.wrap-scene { flex: 1; display: flex; flex-direction: column; padding: 24px 28px; gap: 16px; overflow-y: auto; width: 100%; max-width: 920px; align-self: center; min-height: 0; }
 .wrap-greet {
   display: flex; gap: 12px; align-items: center;
 }
