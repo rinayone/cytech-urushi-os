@@ -1072,9 +1072,9 @@ function renderDlg(scriptArr, idx, dlgEl, onDone, onBack) {
 }
 
 function initDlg1() {
+  // 確認フェーズに入るたびに毎回フレッシュ初期化
+  // (「戻る」で再訪した時に chips が消えて回答できなくなるバグの対策)
   const dlgEl = document.getElementById('dlg1');
-  if (dlgEl.dataset.inited) return;
-  dlgEl.dataset.inited = '1';
   dlgEl.innerHTML = '';
   renderDlg(DLG1, 0, dlgEl,
     () => {
@@ -1089,9 +1089,8 @@ function initDlg1() {
 }
 
 function initDlg2() {
+  // 確認フェーズに入るたびに毎回フレッシュ初期化（initDlg1 と同じ理由）
   const dlgEl = document.getElementById('dlg2');
-  if (dlgEl.dataset.inited) return;
-  dlgEl.dataset.inited = '1';
   dlgEl.innerHTML = '';
   renderDlg(DLG2, 0, dlgEl,
     () => {
