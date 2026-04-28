@@ -225,9 +225,10 @@ body { font-family: 'Noto Sans JP', 'Lato', sans-serif; background: #050508; col
 }
 .dlg-head .ttl { font-size: 14px; font-weight: 700; }
 .dlg-scroll {
-  flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px;
-  scroll-behavior: smooth;
+  flex: 1; overflow-y: auto; padding: 22px 24px 60px; display: flex; flex-direction: column; gap: 14px;
+  scroll-behavior: smooth; scroll-padding-bottom: 60px;
 }
+.dlg-scroll > .chip-row:last-child { margin-bottom: 8px; }
 .dlg-scroll::-webkit-scrollbar { width: 4px; }
 .dlg-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
 .k-row { display: flex; gap: 12px; align-items: flex-start; opacity: 0; transform: translateY(8px); animation: msgIn 0.5s ease forwards; }
@@ -810,6 +811,14 @@ PHASES.forEach((p, i) => {
 /*
  * Dialogue script schema (汎用):
  *   配列の長さ = ラリー数。教材ごとに 1〜N で自由に決められる。
+ *
+ * コンテンツ作成規約 (ベストプラクティス):
+ *   - 推奨最大 3ラリー（One Thing at a Time / 学習者の集中力配慮）
+ *   - 最終ラリーは close: true を立て、AI主導で必ず次アクションへ誘導する
+ *     (next: 'next' / 'phase:<key>' / 'panel:<id>')
+ *   - 同じラリー内のループ (wrong: true) は最終ラリーでは使わない
+ *   - 3ラリーで完結しない確認は、教材設計を見直す（細かく分けるサイン）
+ *
  *   各 turn: { k: [KANAMEメッセージ...], chips: [...], close?: true }
  *   各 chip: {
  *     t: 'ボタン文言',
