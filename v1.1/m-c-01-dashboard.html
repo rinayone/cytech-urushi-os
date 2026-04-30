@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyTech Urushi OS — 企業ダッシュボード (M-C-01)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link rel="stylesheet" href="admin-shared.css">
+</head>
+<body data-persona="hr">
+
+<!-- BG -->
+<div class="bg-volcano"><img src="volcano-bg.png" alt=""></div>
+
+<!-- Header -->
+<header class="adm-header">
+  <img src="logo.png" alt="CyTech" class="logo">
+  <span class="portal-label">企業管理ポータル</span>
+  <span class="h-divider"></span>
+  <span class="page-title">M-C-01 ダッシュボード</span>
+  <div class="h-right">
+    <button class="h-icon-btn" title="通知"><span class="material-symbols-outlined icon-20">notifications</span></button>
+    <button class="h-icon-btn" title="設定"><span class="material-symbols-outlined icon-20">settings</span></button>
+    <div class="h-user">
+      <div class="h-avatar">MT</div>
+      <span>田中 美咲</span>
+    </div>
+  </div>
+</header>
+
+<!-- Layout -->
+<div class="adm-layout">
+
+  <!-- Sidebar -->
+  <aside class="adm-sidebar">
+    <div class="adm-nav-section">採用業務</div>
+    <a class="adm-nav-item active">
+      <span class="material-symbols-outlined ic">dashboard</span>
+      <span>ダッシュボード</span>
+    </a>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-02 カリキュラム管理は Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">menu_book</span>
+      <span>カリキュラム管理</span>
+    </a>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-03 採用試験ゲートは Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">vpn_key</span>
+      <span>採用試験ゲート</span>
+    </a>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-04 人材管理は Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">groups</span>
+      <span>人材管理</span>
+      <span class="badge-num">3</span>
+    </a>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-05 分析レポートは Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">analytics</span>
+      <span>分析レポート</span>
+    </a>
+
+    <div class="adm-nav-section">別ビュー</div>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-06 経営者サマリは Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">trending_up</span>
+      <span>経営者サマリ</span>
+    </a>
+    <a class="adm-nav-item" onclick="alert('準備中：M-C-07 面接官ビューは Phase 2 で実装予定')">
+      <span class="material-symbols-outlined ic">supervised_user_circle</span>
+      <span>面接官ビュー</span>
+    </a>
+
+    <div class="adm-persona">
+      <div class="adm-persona-card">
+        <div class="adm-persona-av">MT</div>
+        <div class="adm-persona-info">
+          <div class="nm">田中 美咲</div>
+          <div class="ro">人事部 採用・育成課 主任</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="adm-main">
+    <div class="adm-page-title">
+      ダッシュボード
+      <span class="sub">2026年4月30日（木）— 田中さんおはようございます</span>
+    </div>
+
+    <!-- Alert banner -->
+    <div class="adm-alert" data-ai-target="alert-banner">
+      <div class="ic"><span class="material-symbols-outlined icon-20">warning</span></div>
+      <div class="body">
+        <div class="title">フォローアップアラート — 学習停滞 3名を検知</div>
+        <div class="desc">KANAMEが学習ログから離脱の兆しを検知。優先フォロー対象を選定しました。</div>
+      </div>
+      <button class="action" onclick="alert('準備中：人材管理画面は Phase 2 で実装予定')">対象者を確認 →</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="adm-stat-grid" data-ai-target="stats">
+      <div class="adm-stat-card">
+        <div class="adm-stat-label">全体学習進捗（平均）</div>
+        <div class="adm-stat-value">64<span class="unit">%</span></div>
+        <div class="adm-stat-trend up">
+          <span class="material-symbols-outlined">trending_up</span>前月比 +5%
+        </div>
+      </div>
+      <div class="adm-stat-card">
+        <div class="adm-stat-label">月内テストスコア（平均）</div>
+        <div class="adm-stat-value">78<span class="unit">点</span></div>
+        <div class="adm-stat-trend neutral">2026年4月実績</div>
+      </div>
+      <div class="adm-stat-card warn">
+        <div class="adm-stat-label">離脱／スキル不足判定</div>
+        <div class="adm-stat-value">3<span class="unit">名</span></div>
+        <div class="adm-stat-trend down">
+          <span class="material-symbols-outlined">priority_high</span>要フォロー
+        </div>
+      </div>
+      <div class="adm-stat-card cta">
+        <div class="adm-stat-label">スカウト送信済（今月）</div>
+        <div class="adm-stat-value">12<span class="unit">件</span></div>
+        <div class="adm-stat-trend up">
+          <span class="material-symbols-outlined">trending_up</span>返信率 67%
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-col: Employees + Sprint -->
+    <div class="adm-two-col">
+      <div class="adm-card" data-ai-target="employee-list">
+        <div class="adm-card-title">
+          社員一覧（学習状況）
+          <a class="more">人材管理<span class="material-symbols-outlined">arrow_forward</span></a>
+        </div>
+        <table class="adm-table">
+          <thead><tr><th>氏名</th><th>進捗</th><th>ステータス</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="name">佐藤 一郎</span></td>
+              <td><span class="adm-pbar"><span class="fill" style="width:82%"></span></span><span class="num">82%</span></td>
+              <td><span class="adm-dot success"></span>順調</td>
+              <td><button class="adm-btn outline sm">詳細</button></td>
+            </tr>
+            <tr>
+              <td><span class="name">鈴木 花子</span></td>
+              <td><span class="adm-pbar"><span class="fill" style="width:64%"></span></span><span class="num">64%</span></td>
+              <td><span class="adm-dot success"></span>進行中</td>
+              <td><button class="adm-btn outline sm">詳細</button></td>
+            </tr>
+            <tr>
+              <td><span class="name">田中 美穂</span></td>
+              <td><span class="adm-pbar warn"><span class="fill" style="width:38%"></span></span><span class="num">38%</span></td>
+              <td><span class="adm-dot warning"></span>要注意</td>
+              <td><button class="adm-btn outline sm">詳細</button></td>
+            </tr>
+            <tr>
+              <td><span class="name">中田 真美</span></td>
+              <td><span class="adm-pbar"><span class="fill" style="width:55%"></span></span><span class="num">55%</span></td>
+              <td><span class="adm-dot success"></span>進行中</td>
+              <td><button class="adm-btn outline sm">詳細</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title">Sprint 業務状況</div>
+        <div class="adm-sprint-chips">
+          <div class="adm-sprint-chip warning">
+            <div class="num">12</div>
+            <div class="lbl">未対応</div>
+          </div>
+          <div class="adm-sprint-chip success">
+            <div class="num">3</div>
+            <div class="lbl">完了</div>
+          </div>
+        </div>
+        <ul class="adm-history">
+          <li>
+            <span class="lead-dot danger"></span>
+            <div class="body">佐藤 一郎 — 要フォロー</div>
+            <span class="time">対応待ち</span>
+          </li>
+          <li>
+            <span class="lead-dot warn"></span>
+            <div class="body">田中 美穂 — 20日更新なし</div>
+            <span class="time">要確認</span>
+          </li>
+          <li>
+            <span class="lead-dot success"></span>
+            <div class="body">鈴木 花子 — テスト合格</div>
+            <span class="time">本日</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Two-col: News + Permissions -->
+    <div class="adm-two-col even">
+      <div class="adm-card">
+        <div class="adm-card-title">
+          Newsアップデート
+          <a class="more">すべて見る<span class="material-symbols-outlined">arrow_forward</span></a>
+        </div>
+        <div class="adm-news-item">
+          <span class="adm-badge green">UPDATE</span>
+          <div class="adm-news-body"><div class="adm-news-title">React入門コースが追加されました</div></div>
+          <div class="adm-news-date">2026.04.28</div>
+        </div>
+        <div class="adm-news-item">
+          <span class="adm-badge orange">合格</span>
+          <div class="adm-news-body"><div class="adm-news-title">DX基礎コースの受講者が30名を突破</div></div>
+          <div class="adm-news-date">2026.04.25</div>
+        </div>
+        <div class="adm-news-item">
+          <span class="adm-badge blue">UPDATE</span>
+          <div class="adm-news-body"><div class="adm-news-title">KANAMEエンジン v3.2 がリリースされました</div></div>
+          <div class="adm-news-date">2026.04.20</div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title">
+          権限設定
+          <a class="more">編集<span class="material-symbols-outlined">arrow_forward</span></a>
+        </div>
+        <table class="adm-table">
+          <thead><tr><th>氏名</th><th>役割</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="name">田中 太郎</span></td>
+              <td><span class="adm-badge purple">管理者</span></td>
+            </tr>
+            <tr>
+              <td><span class="name">佐藤 花子</span></td>
+              <td><span class="adm-badge blue">マネージャー</span></td>
+            </tr>
+            <tr>
+              <td><span class="name">山田 花子</span></td>
+              <td><span class="adm-badge blue">推薦者</span></td>
+            </tr>
+            <tr>
+              <td><span class="name">山本 大輔</span></td>
+              <td><span class="adm-badge green">面接官</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- AI Assistant Popup -->
+<script src="ai-assistant.js"></script>
+
+</body>
+</html>
