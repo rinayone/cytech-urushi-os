@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="kn-mini" title="KANAMEに聞く">
-        <div class="kn-mini-orb"></div>
+        <div class="kn-mini-orb"><span class="material-symbols-outlined">chat</span></div>
       </div>
     `;
 
