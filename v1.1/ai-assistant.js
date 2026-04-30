@@ -71,7 +71,7 @@
 
     popup.innerHTML = `
       <div class="kn-head" id="kn-head">
-        <div class="kn-orb"><div class="og"></div><div class="ob"></div><div class="of"></div></div>
+        <div class="kn-orb"></div>
         <div class="kn-title">
           <div class="nm">KANAME 業務アシスタント</div>
           <div class="sub">${persona.role}向けモード</div>
@@ -95,9 +95,8 @@
           <button class="kn-send" id="kn-send" title="送信"><span class="material-symbols-outlined">arrow_upward</span></button>
         </div>
       </div>
-      <div class="kn-mini">
-        <div class="kn-mini-orb"><div class="og"></div><div class="ob"></div><div class="of"></div></div>
-        <div class="kn-mini-badge">AI</div>
+      <div class="kn-mini" title="KANAMEに聞く">
+        <div class="kn-mini-orb"></div>
       </div>
     `;
 
