@@ -35,11 +35,11 @@
         },
         'scout-top': {
           reply: '条件達成済みの候補者は現在<strong>3名</strong>。<strong>N.Sさん</strong>（マッチスコア92）が最有力です。',
-          action: { label: '人材検索へ', target: '__nav-mc-04', icon: 'open_in_new' },
+          action: { label: '選考タブで見る', target: '__nav-selection', icon: 'open_in_new' },
         },
         'monthly-summary': {
           reply: '全体学習進捗 <strong>64%</strong>（前月比+5%）／テスト平均 <strong>78点</strong>／離脱判定 <strong>3名</strong>／Score出力 <strong>12件</strong>です。',
-          action: { label: '分析レポートへ', target: '__nav-mc-05', icon: 'open_in_new' },
+          action: { label: '分析タブで見る', target: '__nav-analytics', icon: 'open_in_new' },
         },
       },
       fallback: '少々お待ちください。「今日の重要な3名」「離脱しそうな人」「スカウト候補TOP3」「今月の数字まとめて」のような質問がよく聞かれます。',
@@ -301,8 +301,10 @@
     if (target && target.startsWith('__nav-')) {
       // navigation hook (not in scope for Phase 1; just notify)
       const id = target.replace('__nav-', '');
+      const tabNames = { selection: '選考', analytics: '分析', curriculum: 'カリキュラム' };
+      const label = tabNames[id] || id;
       console.info('[KANAME] navigate to', id);
-      alert('Phase 1 デモ：' + id + ' 画面は今後実装予定です');
+      alert('準備中：' + label + ' タブは Phase 2 で実装予定');
       return;
     }
     const el = document.querySelector('[data-ai-target="' + target + '"]');
