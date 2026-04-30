@@ -391,7 +391,7 @@ body {
 }
 .kn-popup.dragging { opacity: 0.96; transition: none; cursor: grabbing; }
 .kn-popup.minimized {
-  width: 56px !important; height: 56px !important;
+  width: 44px !important; height: 44px !important;
   border-radius: 50%; resize: none; cursor: pointer;
   background: transparent; border: none;
   box-shadow: none;
@@ -537,29 +537,29 @@ body {
   position: relative;
 }
 .kn-mini-orb {
-  width: 56px; height: 56px; border-radius: 50%; position: relative;
+  width: 44px; height: 44px; border-radius: 50%; position: relative;
   background: conic-gradient(from 220deg, #f13884, #f7513b, #f8ee1a, #7cbf00, #34e0ff, #0f4bab, #953ec3, #f13884);
   animation: kn-spin 16s linear infinite;
   box-shadow:
-    0 8px 22px rgba(0,0,0,0.5),
-    0 0 28px rgba(241,56,132,0.32),
+    0 4px 12px rgba(0,0,0,0.45),
+    0 0 14px rgba(241,56,132,0.22),
     0 0 0 1px rgba(255,255,255,0.08),
-    inset 0 2px 0 rgba(255,255,255,0.18);
+    inset 0 1px 0 rgba(255,255,255,0.16);
   transition: transform 0.2s ease;
 }
-.kn-popup.minimized:hover .kn-mini-orb { transform: scale(1.06); }
+.kn-popup.minimized:hover .kn-mini-orb { transform: scale(1.05); }
 .kn-mini-orb::before {
-  content: ''; position: absolute; inset: 7px;
+  content: ''; position: absolute; inset: 5px;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 35%, #1f1f3a, #060616);
 }
 .kn-mini-orb::after {
   content: ''; position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 10px; height: 10px;
+  width: 7px; height: 7px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(241,56,132,0.5);
+  box-shadow: 0 0 7px rgba(255,255,255,0.9), 0 0 14px rgba(241,56,132,0.45);
   animation: kn-pulse-dot 2.6s ease-in-out infinite;
 }
 @keyframes kn-pulse-dot {
